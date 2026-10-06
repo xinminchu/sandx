@@ -25,9 +25,45 @@ except ImportError:  # local dev fallback
     from engine.rcode import r_script  # type: ignore
 
 MAX_ROWS = 3000
-MAX_PAIRS = 500_000
+MAX_PAIRS = 2_000_000
 DISPLAY_ROWS = 300
 SAMPLE_SEED = 42
+
+
+def _truth_from_file(rows, body):
+    """Build a truth vector aligned with rows from a separate truth CSV.
+
+    Returns (truth_list, n_matched, error). truth_list entries are ints or
+    None (record not found in the truth file).
+    """
+    ttext = body.get("truth_csv_text") or ""
+    if len(ttext.encode("utf-8")) > 2 * 1024 * 1024:
+        return None, 0, "Truth file too large (2 MB cap)."
+    tid_col = body.get("truth_id_col") or ""
+    tcl_col = body.get("truth_cluster_col") or ""
+    did_col = body.get("data_id_col") or ""
+    if not (tid_col and tcl_col and did_col):
+        return None, 0, "Pick the id/cluster columns for the truth file."
+    try:
+        trows = list(csv.DictReader(io.StringIO(ttext)))
+    except Exception:
+        return None, 0, "Could not parse the truth CSV."
+    tmap = {}
+    for r in trows:
+        tid = (r.get(tid_col) or "").strip()
+        if tid:
+            tmap[tid] = (r.get(tcl_col) or "").strip()
+    cmap, truth, matched = {}, [], 0
+    for r in rows:
+        c = tmap.get((r.get(did_col) or "").strip())
+        if c is None:
+            truth.append(None)
+        else:
+            if c not in cmap:
+                cmap[c] = len(cmap)
+            truth.append(cmap[c])
+            matched += 1
+    return truth, matched, None
 
 
 class handler(BaseHTTPRequestHandler):
@@ -88,9 +124,17 @@ class handler(BaseHTTPRequestHandler):
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
             cluster_method = cfg.get("cluster_method", "threshold_cc")
+
+            # Gold truth: none | a column in the data | a separate truth file.
+            truth_source = cfg.get("truth_source") or "none"
             truth_col = cfg.get("truth_col") or None
-            if truth_col not in cols:
+            if truth_source != "column" or truth_col not in cols:
                 truth_col = None
+            truth, n_truth_matched = None, 0
+            if truth_source == "file":
+                truth, n_truth_matched, terr = _truth_from_file(rows, body)
+                if terr:
+                    return self._send({"ok": False, "error": terr})
 
             res = run(
                 rows,
@@ -100,6 +144,7 @@ class handler(BaseHTTPRequestHandler):
                 threshold=threshold,
                 cluster_method=cluster_method,
                 truth_col=truth_col,
+                truth=truth,
             )
             if res.get("n_pairs", 0) > MAX_PAIRS:
                 return self._send(
@@ -132,6 +177,9 @@ class handler(BaseHTTPRequestHandler):
                     "block_key": block_key,
                     "threshold": threshold,
                     "cluster_method": cluster_method,
+                    "truth_source": truth_source,
+                    "truth_col": truth_col,
+                    "truth_filename": body.get("truth_filename") or "truth.csv",
                 }
             )
 
@@ -154,6 +202,8 @@ class handler(BaseHTTPRequestHandler):
                     "result_csv_b64": csv_b64,
                     "r_code": r_code,
                     "sampled": sampled,
+                    "truth_source": truth_source,
+                    "n_truth_matched": n_truth_matched,
                     "warnings": warnings,
                 }
             )

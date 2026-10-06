@@ -96,6 +96,17 @@ class handler(BaseHTTPRequestHandler):
             self._send({"ok": False, "error": str(e)})
             return
 
+        # If a separate truth file was attached, report its columns so the
+        # UI can offer id/cluster column pickers.
+        truth_columns = []
+        ttext = body.get("truth_csv_text") or ""
+        if ttext:
+            try:
+                rdr = csv.DictReader(io.StringIO(ttext))
+                truth_columns = [c for c in (rdr.fieldnames or []) if c]
+            except Exception:
+                truth_columns = []
+
         self._send(
             {
                 "ok": True,
@@ -104,5 +115,6 @@ class handler(BaseHTTPRequestHandler):
                 "n_pairs": len(pairs),
                 "sampled": sampled,
                 "filename": filename,
+                "truth_columns": truth_columns,
             }
         )

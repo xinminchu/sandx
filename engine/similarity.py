@@ -23,13 +23,23 @@ def sim_value(a, b, method):
     sa, sb = _clean(a), _clean(b)
     if sa is None or sb is None:
         return float("nan")
+    return sim_cleaned(sa, sb, method)
+
+
+def sim_cleaned(sa, sb, method):
+    """Similarity in [0, 1] for already-cleaned (non-None) strings.
+
+    The hot path pre-cleans each column once, so per-pair work skips
+    the cleaning step.
+    """
     if method == "jw":
         return _norm01(JaroWinkler.normalized_similarity(sa, sb))
     if method == "lv":
         return _norm01(Levenshtein.normalized_similarity(sa, sb))
     if method == "jaccard":
         ta, tb = set(sa.lower().split()), set(sb.lower().split())
-        return len(ta & tb) / len(ta | tb)
+        u = len(ta | tb)
+        return len(ta & tb) / u if u else 0.0
     raise ValueError(f"unknown similarity method: {method}")
 
 

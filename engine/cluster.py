@@ -32,14 +32,36 @@ def threshold_cc(pairs, scores, threshold, n):
 
 def louvain(pairs, scores, n):
     """Greedy-modularity communities on score-weighted edges; singletons alone."""
+    return louvain_edges(
+        [(i, j, s) for (i, j), s in zip(pairs, scores) if s > 0], n
+    )
+
+
+def threshold_cc_edges(edges, n):
+    """Union-find over an edge list [(i, j)]; singletons stay alone."""
+    parent = list(range(n))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for i, j in edges:
+        ri, rj = find(i), find(j)
+        if ri != rj:
+            parent[rj] = ri
+    return _compact([find(i) for i in range(n)])
+
+
+def louvain_edges(edges, n):
+    """Greedy-modularity communities over [(i, j, weight)] edges."""
     import networkx as nx
     from networkx.algorithms.community import greedy_modularity_communities
 
     g = nx.Graph()
     g.add_nodes_from(range(n))
-    for (i, j), s in zip(pairs, scores):
-        if s > 0:
-            g.add_edge(i, j, weight=s)
+    g.add_weighted_edges_from(edges)
     lab = [0] * n
     for cid, comm in enumerate(greedy_modularity_communities(g, weight="weight")):
         for i in comm:

@@ -10,7 +10,7 @@ def _key_str(rec, key):
     return s if s else None
 
 
-def block(df, method, key=None, prefix_len=3, window=20, max_pairs=500000):
+def block(df, method, key=None, prefix_len=3, window=20, max_pairs=2000000):
     """Return sorted [(i, j)] with i < j. methods: standard/prefix/sn/none."""
     n = len(df)
     if method == "none":

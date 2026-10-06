@@ -11,9 +11,10 @@ const SAMPLE_OPTIONS = [
   { n: 1000, label: "Random 1,000" },
   { n: 500, label: "Random 500" },
 ];
-const PAIR_BUDGET = 500000;
+const PAIR_BUDGET = 2000000;
 
 type SourceKind = "sample" | "upload" | "url";
+type TruthKind = "none" | "column" | "file";
 
 type Plan = {
   ok: boolean;
@@ -23,6 +24,7 @@ type Plan = {
   n_pairs?: number;
   sampled?: boolean;
   filename?: string;
+  truth_columns?: string[];
 };
 
 type RunResult = {
@@ -38,6 +40,8 @@ type RunResult = {
   result_csv_b64?: string;
   r_code?: string;
   sampled?: boolean;
+  truth_source?: string;
+  n_truth_matched?: number;
   warnings?: string[];
 };
 
@@ -63,7 +67,14 @@ export default function Studio() {
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
   const [clusterMethod, setClusterMethod] = useState("threshold_cc");
+  const [truthSource, setTruthSource] = useState<TruthKind>("none");
   const [truthCol, setTruthCol] = useState("");
+  const [truthText, setTruthText] = useState("");
+  const [truthFileName, setTruthFileName] = useState("");
+  const [truthColumns, setTruthColumns] = useState<string[]>([]);
+  const [dataIdCol, setDataIdCol] = useState("");
+  const [truthIdCol, setTruthIdCol] = useState("");
+  const [truthClusterCol, setTruthClusterCol] = useState("");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
   const [error, setError] = useState("");
@@ -75,7 +86,8 @@ export default function Studio() {
     bm = blockMethod,
     bk = blockKey,
     sn = sampleN,
-    firstLoad = false
+    firstLoad = false,
+    tt = truthText
   ) {
     if (!p) return;
     setPlanning(true);
@@ -90,6 +102,7 @@ export default function Studio() {
           block_method: bm,
           block_key: bk || undefined,
           sample_n: sn || undefined,
+          truth_csv_text: tt || undefined,
         }),
       });
       const j = (await r.json()) as Plan;
@@ -98,17 +111,26 @@ export default function Studio() {
         setColumns(j.columns);
         setResult(null);
         setShowR(false);
+        if (j.truth_columns) {
+          setTruthColumns(j.truth_columns);
+          if (j.truth_columns.length && !truthIdCol) {
+            setTruthIdCol(j.truth_columns[0]);
+            setTruthClusterCol(j.truth_columns[1] ?? j.truth_columns[0]);
+            setDataIdCol((prev) => prev || j.columns![0] || "");
+          }
+        }
         if (firstLoad) {
           // Set field/blocking defaults from the new schema, then
           // re-plan once with the smart blocking key.
           const init: Record<string, string> = {};
           j.columns.slice(0, 2).forEach((c) => (init[c] = "jw"));
           setFields(init);
+          setTruthSource("none");
           setTruthCol("");
           const key = smartBlockKey(j.columns);
           setBlockKey(key);
           setPlanning(false);
-          refreshPlan(p, bm, key, sn, false);
+          refreshPlan(p, bm, key, sn, false, tt);
           return;
         }
       } else if (!j.ok) {
@@ -166,6 +188,26 @@ export default function Studio() {
     loadPayload({ url: u });
   }
 
+  function onTruthFile(f: File | undefined) {
+    if (!f) return;
+    if (f.size > 2 * 1024 * 1024) {
+      setError("Truth file too large: 2 MB cap.");
+      return;
+    }
+    const rd = new FileReader();
+    rd.onload = () => {
+      const t = String(rd.result ?? "");
+      setTruthText(t);
+      setTruthFileName(f.name);
+      setTruthIdCol("");
+      setTruthClusterCol("");
+      setError("");
+      // Re-plan to pick up the truth file's columns.
+      refreshPlan(payload, blockMethod, blockKey, sampleN, false, t);
+    };
+    rd.readAsText(f);
+  }
+
   // Load the sample on first visit.
   useEffect(() => {
     useSample();
@@ -210,13 +252,19 @@ export default function Studio() {
           url: payload.url,
           filename: payload.filename,
           sample_n: sampleN || undefined,
+          truth_csv_text: truthSource === "file" ? truthText || undefined : undefined,
+          truth_filename: truthFileName || undefined,
+          truth_id_col: truthIdCol || undefined,
+          truth_cluster_col: truthClusterCol || undefined,
+          data_id_col: dataIdCol || undefined,
           config: {
             fields,
             block_method: blockMethod,
             block_key: blockMethod === "none" ? null : blockKey || null,
             threshold,
             cluster_method: clusterMethod,
-            truth_col: truthCol || null,
+            truth_source: truthSource,
+            truth_col: truthSource === "column" ? truthCol || null : null,
           },
         }),
       });
@@ -461,26 +509,115 @@ export default function Studio() {
                 className="w-full accent-teal-600"
               />
             </div>
-            <label className="block">
+            <div>
               <span className="font-medium text-slate-700">
-                Truth column <span className="text-slate-400">(optional, for ARI)</span>
+                Gold truth <span className="text-slate-400">(optional, for ARI)</span>
               </span>
-              <select
-                value={truthCol}
-                onChange={(e) => setTruthCol(e.target.value)}
-                className="mt-1 w-full border border-slate-300 rounded-lg px-2 py-2 font-mono2"
-              >
-                <option value="">— none —</option>
-                {columns.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
+              <div className="mt-1 flex flex-wrap gap-2 text-sm">
+                {(
+                  [
+                    ["none", "No truth"],
+                    ["column", "Column in my data"],
+                    ["file", "Separate truth file"],
+                  ] as [TruthKind, string][]
+                ).map(([t, label]) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setTruthSource(t)}
+                    className={`px-3 py-1.5 rounded-lg border text-sm ${
+                      truthSource === t
+                        ? "border-teal-600 bg-teal-600 text-white"
+                        : "border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    {label}
+                  </button>
                 ))}
-              </select>
-            </label>
+              </div>
+              {truthSource === "column" && (
+                <select
+                  value={truthCol}
+                  onChange={(e) => setTruthCol(e.target.value)}
+                  className="mt-2 w-full border border-slate-300 rounded-lg px-2 py-2 font-mono2 text-sm"
+                >
+                  <option value="">— pick a column —</option>
+                  {columns.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              )}
+              {truthSource === "file" && (
+                <div className="mt-2 space-y-2 text-sm">
+                  <label className="inline-block px-3 py-1.5 rounded-lg border border-slate-300 text-sm hover:bg-slate-50 cursor-pointer">
+                    {truthFileName || "Choose truth CSV…"}
+                    <input
+                      type="file"
+                      accept=".csv,text/csv"
+                      className="hidden"
+                      onChange={(e) => onTruthFile(e.target.files?.[0])}
+                    />
+                  </label>
+                  {truthColumns.length > 0 && (
+                    <div className="grid grid-cols-1 gap-2">
+                      <label className="block">
+                        <span className="text-xs text-slate-500">
+                          Join on: my data column
+                        </span>
+                        <select
+                          value={dataIdCol}
+                          onChange={(e) => setDataIdCol(e.target.value)}
+                          className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                        >
+                          {columns.map((c) => (
+                            <option key={c} value={c}>
+                              {c}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <label className="block">
+                          <span className="text-xs text-slate-500">
+                            Truth id column
+                          </span>
+                          <select
+                            value={truthIdCol}
+                            onChange={(e) => setTruthIdCol(e.target.value)}
+                            className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                          >
+                            {truthColumns.map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="block">
+                          <span className="text-xs text-slate-500">
+                            Truth cluster column
+                          </span>
+                          <select
+                            value={truthClusterCol}
+                            onChange={(e) => setTruthClusterCol(e.target.value)}
+                            className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                          >
+                            {truthColumns.map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* pair budget preview */}
           {plan?.ok && (
             <div
               className={`mt-5 text-sm rounded-lg px-3 py-2 border ${
@@ -519,9 +656,14 @@ export default function Studio() {
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               ["Records", String(result.n_records)],
-              ["Candidate pairs", String(result.n_pairs)],
+              ["Candidate pairs", Number(result.n_pairs).toLocaleString()],
               ["Clusters", String(result.n_clusters)],
-              ["ARI", result.ari == null ? "—" : result.ari.toFixed(3)],
+              result.ari == null
+                ? [
+                    "Largest cluster",
+                    `${result.cluster_sizes?.[0] ?? "—"} records`,
+                  ]
+                : ["ARI", result.ari.toFixed(3)],
             ].map(([k, v]) => (
               <div key={k} className="border border-slate-200 rounded-lg p-3 text-center">
                 <div className="text-2xl font-extrabold text-teal-700">{v}</div>
@@ -529,6 +671,19 @@ export default function Studio() {
               </div>
             ))}
           </div>
+          {result.truth_source === "file" && (
+            <div className="mt-3 text-sm text-slate-600">
+              Gold truth matched {(result.n_truth_matched ?? 0).toLocaleString()}{" "}
+              of {Number(result.n_records).toLocaleString()} records
+              {result.ari == null ? " — too few matches for ARI." : "."}
+            </div>
+          )}
+          {result.truth_source !== "file" && result.ari == null && (
+            <div className="mt-3 text-sm text-slate-500">
+              No gold truth — ARI unavailable. Download the CSV to evaluate
+              externally, or attach truth above and re-run.
+            </div>
+          )}
 
           {result.warnings?.length ? (
             <div className="mt-3 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
