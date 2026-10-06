@@ -1,0 +1,1 @@
+{"functions":{"api/run.py":{"maxDuration":60},"api/segment.py":{"maxDuration":60}}}

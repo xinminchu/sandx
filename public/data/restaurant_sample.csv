@@ -1,0 +1,36 @@
+name,address,city,phone,truth
+Blue Fin Sushi,1200 Main St,Austin,512-555-0142,1
+Blue Fin Sushi Bar,1200 Main Street,Austin,5125550142,1
+Blue Fin Sushi,1200 Main St.,Austin,,1
+blue fin sushi,1200 main st,austin,512-555-0142,1
+Taco Libre,88 E 6th St,Austin,512-555-8810,2
+Taco Libre Taqueria,88 East 6th Street,Austin,512-555-8810,2
+Taco Libre,88 E 6th St,Austin,512-555-8819,2
+Mama Rosa Pizzeria,45 N Lamar Blvd,Austin,512-555-3301,3
+Mama Rosa's Pizza,45 North Lamar Boulevard,Austin,5125553301,3
+Mama Rosa Pizzeria,45 N Lamar Blvd,Austin,,3
+Golden Dragon,777 W Anderson Ln,Austin,512-555-7700,4
+Golden Dragon Chinese,777 West Anderson Lane,Austin,512-555-7700,4
+Golden Dragn,777 W Anderson Ln,Austin,512-555-7700,4
+The Salty Dog,12 Harbor View Dr,Houston,713-555-2211,5
+Salty Dog Seafood,12 Harbour View Drive,Houston,7135552211,5
+The Salty Dog,12 Harbor View Dr,Houston,,5
+Cafe Lumiere,300 Congress Ave,Austin,512-555-9090,6
+Café Lumière,300 Congress Avenue,Austin,512-555-9090,6
+Cafe Lumiere,300 Congress Ave,Austin,512-555-9091,6
+Big Tex BBQ,9000 N IH 35,Austin,512-555-4545,7
+Big Tex Barbecue,9000 N Interstate 35,Austin,5125554545,7
+Big Tex BBQ,9000 N IH-35,Austin,,7
+Noodle House 88,55 W Oltorf St,Austin,512-555-1212,8
+Noodle House,55 West Oltorf Street,Austin,512-555-1212,8
+Noodle House 88,55 W Oltorf St,Austin,512-555-1213,8
+El Camino Real,400 S Congress Ave,Austin,512-555-6767,9
+El Camino Real Mexican,400 South Congress Avenue,Austin,5125556767,9
+El Camino Real,400 S Congress Ave,Austin,,9
+Poke Bros,25 E Riverside Dr,Austin,512-555-3030,10
+Poke Brothers,25 East Riverside Drive,Austin,512-555-3030,10
+Poke Bros,25 E Riverside Dr,Austin,512-555-3031,10
+Red Lantern,600 E 7th St,Austin,512-555-6060,11
+Red Lantern Thai,600 East 7th Street,Austin,5125556060,11
+Green Papaya,71 San Jacinto Blvd,Austin,512-555-7171,12
+Green Papaya Cafe,71 San Jacinto Boulevard,Austin,512-555-7171,12

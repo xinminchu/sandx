@@ -1,8 +1,5 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.Rdata
-.httr-oauth
+node_modules/
+.next/
+__pycache__/
+*.pyc
 .DS_Store
-.quarto
