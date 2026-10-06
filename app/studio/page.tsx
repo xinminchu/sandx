@@ -117,6 +117,18 @@ export default function Studio() {
   const [error, setError] = useState("");
   const [showR, setShowR] = useState(false);
   const planTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+  // When an error appears (e.g. after clicking Run at the bottom of the
+  // page), scroll it into view so it isn't missed.
+  useEffect(() => {
+    if (error) {
+      const t = setTimeout(
+        () => errorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }),
+        80
+      );
+      return () => clearTimeout(t);
+    }
+  }, [error]);
   // Truth preset applied after the plan's firstLoad defaults settle.
   // (firstLoad runs async and would otherwise wipe a truth set by useDataset.)
   const pendingTruth = useRef<{ source: TruthKind; col: string } | null>(null);
@@ -390,7 +402,10 @@ export default function Studio() {
       <section className="mt-8 border border-slate-200 rounded-xl p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="font-bold">1 · Data — pick one source</h2>
-          <a href="/studio/profile" className="text-sm text-teal-700 hover:underline">
+          <a
+            href="/studio/profile"
+            className="text-sm px-3 py-1.5 rounded-lg border border-teal-600 text-teal-700 font-medium hover:bg-teal-50"
+          >
             Full data profile →
           </a>
         </div>
@@ -479,7 +494,10 @@ export default function Studio() {
         </div>
 
         {error && (
-          <div className="mt-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <div
+            ref={errorRef}
+            className="mt-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2"
+          >
             {error}
           </div>
         )}

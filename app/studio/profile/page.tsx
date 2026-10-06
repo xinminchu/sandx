@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { DATASETS, type Dataset } from "../datasets";
@@ -53,6 +53,14 @@ export default function DataProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  function scrollToResults() {
+    setTimeout(
+      () => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      120
+    );
+  }
 
   async function fetchProfile(text: string, name: string, tcol: string) {
     setLoading(true);
@@ -66,6 +74,7 @@ export default function DataProfile() {
       const j = (await r.json()) as Profile;
       if (!j.ok) setError(j.error || "Profiling failed.");
       setProfile(j.ok ? j : null);
+      if (j.ok) scrollToResults();
     } catch {
       setError("Could not reach the profiling service.");
       setProfile(null);
@@ -125,6 +134,7 @@ export default function DataProfile() {
       } else {
         // re-fetch the raw text for the Studio handoff via the same endpoint
         setProfile(j);
+        scrollToResults();
         setFilename(j.filename || "link.csv");
         setDatasetSource(u);
         setCsvText(null); // URL mode: Studio will re-fetch from the link
@@ -267,7 +277,7 @@ export default function DataProfile() {
       {p?.ok && (
         <>
           {/* overview */}
-          <section className="mt-4 border border-slate-200 rounded-xl p-5">
+          <section ref={resultsRef} className="mt-4 border border-slate-200 rounded-xl p-5 scroll-mt-4">
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
               <h2 className="font-bold text-lg">{p.filename}</h2>
               {datasetSource && (
