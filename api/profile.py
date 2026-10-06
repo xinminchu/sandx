@@ -1,14 +1,17 @@
 """Vercel serverless: profile a dataset for the Studio data-profile page.
 
-POST {"csv_text"|"url", "filename", "truth_col"} ->
+POST {"csv_text"|"url", "filename", "truth_col", "fields": [...]} ->
 {
-  "ok": True, "filename", "n_records", "n_columns",
+  "ok": True, "filename", "n_records", "n_columns", "n_complete",
   "columns": [{"name", "dtype": "numeric"|"text"|"id", "n_missing",
-               "missing_pct", "n_unique", "min"|"max"|"mean",
+               "missing_pct", "n_unique", "role": "id"|"truth"|"feature"|"exclude",
+               "role_reason", "min"|"max"|"mean",
                "avg_len", "top_values": [[v, n]...], "samples": [...]}],
+  "selection": {"fields", "n_complete", "complete_pct"} | null,
   "truth": {"n_entities", "n_labeled", "size_min", "size_max",
             "size_mean", "n_singletons", "hist": [[size, n_entities]...]}
-  (truth only when a valid truth_col is supplied)
+  (truth only when a valid truth_col is supplied),
+  "truth_guess": <auto-detected truth column> | null
 }
 """
 import json
@@ -27,6 +30,9 @@ except ImportError:  # local dev fallback
 
 MAX_ROWS = 3000
 
+TRUTH_NAMES = {"truth", "gold", "gold_truth", "true_label", "true_labels",
+               "label", "labels", "target"}
+
 
 def _is_num(v):
     try:
@@ -43,7 +49,24 @@ def _round(x, nd=4):
     return int(r) if isinstance(r, float) and r.is_integer() else r
 
 
-def profile_column(name, vals, n):
+def detect_role(name, dtype, n_unique, n, n_missing, truth_col):
+    """id = identifier, truth = gold labels, exclude = unsuitable for ER."""
+    if truth_col and name == truth_col:
+        return "truth", "gold truth column — evaluation only"
+    if name.strip().lower() in TRUTH_NAMES:
+        return "truth", "looks like a truth label column"
+    if n_missing == n:
+        return "exclude", "column is empty"
+    if n_unique == n and n > 1:
+        if ID_LIKE.search(name.strip()):
+            return "id", "identifier — not a match field"
+        return "exclude", "all values distinct — nothing to match on"
+    if ID_LIKE.search(name.strip()):
+        return "id", "identifier — not a match field"
+    return "feature", ""
+
+
+def profile_column(name, vals, n, truth_col):
     non_missing = [v for v in vals if v is not None and str(v).strip() != ""]
     n_missing = n - len(non_missing)
     stripped = [str(v).strip() for v in non_missing]
@@ -67,6 +90,10 @@ def profile_column(name, vals, n):
         col["dtype"] = "text"
         col["avg_len"] = _round(sum(len(v) for v in stripped) / len(stripped), 1) if stripped else 0
         col["top_values"] = [[v[:60], c] for v, c in Counter(stripped).most_common(5)]
+    role, role_reason = detect_role(name, col["dtype"], col["n_unique"], n,
+                                    n_missing, truth_col)
+    col["role"] = role
+    col["role_reason"] = role_reason
     return col
 
 
@@ -119,16 +146,40 @@ class handler(BaseHTTPRequestHandler):
                 )
 
             n = len(rows)
-            columns = [profile_column(c, [r.get(c) for r in rows], n) for c in cols]
+            truth_col = body.get("truth_col") or None
+            if truth_col not in cols:
+                truth_col = None
+            columns = [profile_column(c, [r.get(c) for r in rows], n, truth_col)
+                       for c in cols]
             n_complete = sum(
                 1 for r in rows
                 if all((r.get(c) or "").strip() != "" for c in cols)
             )
 
-            truth_col = body.get("truth_col") or None
+            # Field-subset missing/complete analysis.
+            selection = None
+            req_fields = body.get("fields") or []
+            sel = [c for c in cols if c in req_fields]
+            if sel:
+                s_complete = sum(
+                    1 for r in rows
+                    if all((r.get(c) or "").strip() != "" for c in sel)
+                )
+                selection = {
+                    "fields": sel,
+                    "n_complete": s_complete,
+                    "complete_pct": round(100.0 * s_complete / n, 1) if n else 0,
+                }
+
             truth = None
-            if truth_col and truth_col in cols:
+            if truth_col:
                 truth = truth_summary(rows, truth_col)
+            truth_guess = None
+            if not truth_col:
+                for c in cols:
+                    if c.strip().lower() in TRUTH_NAMES:
+                        truth_guess = c
+                        break
 
             return self._send(
                 {
@@ -138,8 +189,10 @@ class handler(BaseHTTPRequestHandler):
                     "n_columns": len(cols),
                     "n_complete": n_complete,
                     "columns": columns,
+                    "selection": selection,
                     "truth": truth,
                     "truth_col": truth_col if truth else None,
+                    "truth_guess": truth_guess,
                 }
             )
         except Exception as e:  # never leak a stack trace to the client

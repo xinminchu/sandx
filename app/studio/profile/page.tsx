@@ -13,6 +13,8 @@ type ColProfile = {
   n_missing: number;
   missing_pct: number;
   n_unique: number;
+  role: string;
+  role_reason: string;
   min?: number | string;
   max?: number | string;
   mean?: number | string;
@@ -39,8 +41,14 @@ type Profile = {
   n_columns?: number;
   n_complete?: number;
   columns?: ColProfile[];
+  selection?: {
+    fields: string[];
+    n_complete: number;
+    complete_pct: number;
+  } | null;
   truth?: TruthProfile | null;
   truth_col?: string | null;
+  truth_guess?: string | null;
 };
 
 export default function DataProfile() {
@@ -63,19 +71,44 @@ export default function DataProfile() {
     );
   }
 
-  async function fetchProfile(text: string, name: string, tcol: string) {
+  const [selFields, setSelFields] = useState<string[] | null>(null);
+  const truthTouched = useRef(false);
+
+  function profileBody(extra: Record<string, unknown> = {}) {
+    const base =
+      source === "url" ? { url: urlInput.trim() } : { csv_text: csvText, filename };
+    return { ...base, ...extra };
+  }
+
+  async function postProfile(body: Record<string, unknown>): Promise<Profile | null> {
+    const r = await fetch("/api/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return (await r.json()) as Profile;
+  }
+
+  async function runProfile(extra: Record<string, unknown> = {}) {
     setLoading(true);
     setError("");
     try {
-      const r = await fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ csv_text: text, filename: name, truth_col: tcol || undefined }),
-      });
-      const j = (await r.json()) as Profile;
-      if (!j.ok) setError(j.error || "Profiling failed.");
-      setProfile(j.ok ? j : null);
-      if (j.ok) scrollToResults();
+      let j = await postProfile(profileBody(extra));
+      // Auto-apply a detected truth column (once — user choice wins after).
+      if (j && j.ok && !j.truth && j.truth_guess && !truthTouched.current) {
+        truthTouched.current = true;
+        setTruthCol(j.truth_guess);
+        j = await postProfile(profileBody({ ...extra, truth_col: j.truth_guess }));
+      }
+      if (!j || !j.ok) {
+        setError(j?.error || "Profiling failed.");
+        setProfile(null);
+      } else {
+        setProfile(j);
+        setSelFields((prev) => prev ?? (j!.columns ?? []).map((c) => c.name));
+        if (j.filename) setFilename(j.filename);
+        scrollToResults();
+      }
     } catch {
       setError("Could not reach the profiling service.");
       setProfile(null);
@@ -89,7 +122,9 @@ export default function DataProfile() {
     setFilename(name);
     setDatasetSource(src);
     setTruthCol(tcol);
-    fetchProfile(text, name, tcol);
+    setSelFields(null);
+    truthTouched.current = false;
+    runProfile({ truth_col: tcol || undefined });
   }
 
   async function useDataset(ds: Dataset) {
@@ -120,32 +155,13 @@ export default function DataProfile() {
       setError("Paste a link to a CSV file first.");
       return;
     }
-    setError("");
-    setLoading(true);
-    try {
-      const r = await fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: u }),
-      });
-      const j = (await r.json()) as Profile;
-      if (!j.ok) {
-        setError(j.error || "Could not fetch that link.");
-        setProfile(null);
-      } else {
-        // re-fetch the raw text for the Studio handoff via the same endpoint
-        setProfile(j);
-        scrollToResults();
-        setFilename(j.filename || "link.csv");
-        setDatasetSource(u);
-        setCsvText(null); // URL mode: Studio will re-fetch from the link
-        setTruthCol("");
-      }
-    } catch {
-      setError("Could not reach the profiling service.");
-    } finally {
-      setLoading(false);
-    }
+    setFilename("link.csv");
+    setDatasetSource(u);
+    setCsvText(null); // URL mode: Studio will re-fetch from the link
+    setTruthCol("");
+    setSelFields(null);
+    truthTouched.current = false;
+    await runProfile();
   }
 
   function pickSource(s: SourceKind) {
@@ -154,7 +170,22 @@ export default function DataProfile() {
     setProfile(null);
     setCsvText(null);
     setTruthCol("");
+    setSelFields(null);
+    truthTouched.current = false;
     if (s === "sample") useDataset(DATASETS[0]);
+  }
+
+  function toggleField(name: string) {
+    const cur = selFields ?? [];
+    const next = cur.includes(name) ? cur.filter((f) => f !== name) : [...cur, name];
+    setSelFields(next);
+    runProfile({ truth_col: truthCol || undefined, fields: next });
+  }
+
+  function onTruthSelect(tc: string) {
+    truthTouched.current = true;
+    setTruthCol(tc);
+    runProfile({ truth_col: tc || undefined, fields: selFields ?? undefined });
   }
 
   // Load the first dataset on first visit.
@@ -329,17 +360,14 @@ export default function DataProfile() {
                 </span>
                 <select
                   value={truthCol}
-                  onChange={(e) => {
-                    const tc = e.target.value;
-                    setTruthCol(tc);
-                    if (csvText) fetchProfile(csvText, filename, tc);
-                  }}
+                  onChange={(e) => onTruthSelect(e.target.value)}
                   className="border border-slate-300 rounded-lg px-2 py-1.5 text-sm"
                 >
                   <option value="">No truth</option>
                   {(p.columns ?? []).map((c) => (
                     <option key={c.name} value={c.name}>
                       {c.name}
+                      {p.truth_guess === c.name ? " (detected)" : ""}
                     </option>
                   ))}
                 </select>
@@ -391,10 +419,59 @@ export default function DataProfile() {
           {/* columns */}
           <section className="mt-4 border border-slate-200 rounded-xl p-5 overflow-x-auto">
             <h2 className="font-bold">Columns</h2>
+            {(() => {
+              const cols = p.columns ?? [];
+              const ids = cols.filter((c) => c.role === "id").map((c) => c.name);
+              const truths = cols.filter((c) => c.role === "truth").map((c) => c.name);
+              const excluded = cols.filter((c) => c.role === "exclude");
+              const features = cols.filter((c) => c.role === "feature").map((c) => c.name);
+              return (
+                <div className="mt-2 text-xs text-slate-500 space-y-1">
+                  {ids.length > 0 && (
+                    <div>
+                      <span className="font-medium text-violet-700">id:</span> {ids.join(", ")}
+                    </div>
+                  )}
+                  {truths.length > 0 && (
+                    <div>
+                      <span className="font-medium text-teal-700">truth:</span> {truths.join(", ")}
+                    </div>
+                  )}
+                  {features.length > 0 && (
+                    <div>
+                      <span className="font-medium text-slate-700">match fields:</span>{" "}
+                      {features.join(", ")}
+                    </div>
+                  )}
+                  {excluded.length > 0 && (
+                    <div>
+                      <span className="font-medium text-amber-700">excluded from ER:</span>{" "}
+                      {excluded.map((c) => `${c.name} (${c.role_reason})`).join(" · ")}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+            {p.selection && (
+              <div className="mt-3 text-sm bg-teal-50/60 border border-teal-200 rounded-lg px-3 py-2">
+                <span className="font-medium">{p.selection.fields.length} fields selected</span>
+                {" → "}
+                <span className="font-bold text-teal-700">
+                  {p.selection.n_complete.toLocaleString()}
+                </span>{" "}
+                complete records ({p.selection.complete_pct}%)
+              </div>
+            )}
             <table className="mt-3 w-full text-sm">
               <thead>
                 <tr className="text-left text-xs text-slate-400 border-b">
+                  <th className="py-2 pr-2">
+                    <span title="Select fields to analyze missing / complete on the subset">
+                      use
+                    </span>
+                  </th>
                   <th className="py-2 pr-3">column</th>
+                  <th className="py-2 pr-3">role</th>
                   <th className="py-2 pr-3">type</th>
                   <th className="py-2 pr-3">missing</th>
                   <th className="py-2 pr-3">unique</th>
@@ -405,7 +482,43 @@ export default function DataProfile() {
               <tbody>
                 {(p.columns ?? []).map((c) => (
                   <tr key={c.name} className="border-b border-slate-100 align-top">
+                    <td className="py-2 pr-2">
+                      <input
+                        type="checkbox"
+                        checked={(selFields ?? []).includes(c.name)}
+                        onChange={() => toggleField(c.name)}
+                        className="accent-teal-600 w-4 h-4"
+                        aria-label={`select ${c.name}`}
+                      />
+                    </td>
                     <td className="py-2 pr-3 font-mono text-xs font-medium">{c.name}</td>
+                    <td className="py-2 pr-3">
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${
+                          c.role === "id"
+                            ? "bg-violet-50 text-violet-700"
+                            : c.role === "truth"
+                            ? "bg-teal-50 text-teal-700"
+                            : c.role === "exclude"
+                            ? "bg-amber-50 text-amber-700"
+                            : "bg-slate-100 text-slate-500"
+                        }`}
+                        title={c.role_reason || undefined}
+                      >
+                        {c.role === "id"
+                          ? "id"
+                          : c.role === "truth"
+                          ? "truth"
+                          : c.role === "exclude"
+                          ? "excluded"
+                          : "field"}
+                      </span>
+                      {c.role_reason && (
+                        <div className="text-[11px] text-slate-400 mt-0.5 max-w-[180px]">
+                          {c.role_reason}
+                        </div>
+                      )}
+                    </td>
                     <td className="py-2 pr-3">
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full ${
