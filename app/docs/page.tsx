@@ -92,11 +92,14 @@ export default function Docs() {
         <p>
           The <a href="/studio" className="text-teal-700 font-medium">Studio</a>{" "}
           runs <span className="font-mono2">engine/</span> — a pure-Python port
-          of ERBOT&apos;s core stages (blocking, NA-aware similarity,
-          threshold connected-components, Louvain) on a serverless function.
-          It covers the interactive-dedup path; the full R package adds
-          weight learning, consensus merging, multiplex fusion, baselines,
-          and the complete evaluation suite.
+          of ERBOT&apos;s core stages on a serverless function: blocking,
+          NA-aware similarity, <em>classification</em> (score ≥ threshold, or
+          top-k links per record), clustering (threshold connected-components,
+          Louvain), and evaluation (ARI, pairwise precision/recall/F1, B-cubed
+          when gold truth is attached). Pairs stream through the pipeline, so
+          million-pair runs stay in budget. It covers the interactive-dedup
+          path; the full R package adds weight learning, consensus merging,
+          multiplex fusion, baselines, and the complete evaluation suite.
         </p>
         <p>
           Every Studio run shows its equivalent R code — the exact{" "}

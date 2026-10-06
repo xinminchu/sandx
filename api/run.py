@@ -172,6 +172,11 @@ class handler(BaseHTTPRequestHandler):
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
             cluster_method = cfg.get("cluster_method", "threshold_cc")
+            classify_method = cfg.get("classify_method") or "threshold"
+            try:
+                top_k = max(1, int(cfg.get("top_k", 3)))
+            except (TypeError, ValueError):
+                top_k = 3
 
             # Gold truth: none | a column in the data | a separate truth file.
             truth_source = cfg.get("truth_source") or "none"
@@ -193,6 +198,8 @@ class handler(BaseHTTPRequestHandler):
                 cluster_method=cluster_method,
                 truth_col=truth_col,
                 truth=truth,
+                classify_method=classify_method,
+                top_k=top_k,
             )
             if res.get("n_pairs", 0) > MAX_PAIRS:
                 return self._send(
@@ -225,6 +232,8 @@ class handler(BaseHTTPRequestHandler):
                     "block_key": block_key,
                     "threshold": threshold,
                     "cluster_method": cluster_method,
+                    "classify_method": classify_method,
+                    "top_k": top_k,
                     "truth_source": truth_source,
                     "truth_col": truth_col,
                     "truth_filename": body.get("truth_filename") or "truth.csv",
@@ -252,8 +261,10 @@ class handler(BaseHTTPRequestHandler):
                     "ok": True,
                     "n_records": res["n_records"],
                     "n_pairs": res["n_pairs"],
+                    "n_links": res["n_links"],
                     "n_clusters": res["n_clusters"],
                     "ari": res.get("ari"),
+                    "metrics": res.get("metrics"),
                     "cluster_sizes": res.get("cluster_sizes", []),
                     "columns": cols,
                     "display_rows": display,

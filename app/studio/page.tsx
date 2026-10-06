@@ -33,8 +33,16 @@ type RunResult = {
   error?: string;
   n_records?: number;
   n_pairs?: number;
+  n_links?: number;
   n_clusters?: number;
   ari?: number | null;
+  metrics?: {
+    ari: number;
+    pairwise: { precision: number; recall: number; f1: number };
+    b3: { precision: number; recall: number; f1: number };
+    n_truth: number;
+    n_true_clusters: number;
+  } | null;
   cluster_sizes?: number[];
   columns?: string[];
   display_rows?: Record<string, string>[];
@@ -67,7 +75,12 @@ export default function Studio() {
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
+  const [classifyMethod, setClassifyMethod] = useState<"threshold" | "topk">(
+    "threshold"
+  );
+  const [topK, setTopK] = useState(3);
   const [clusterMethod, setClusterMethod] = useState("threshold_cc");
+  const [clusterFilter, setClusterFilter] = useState<string>("all");
   const [truthSource, setTruthSource] = useState<TruthKind>("none");
   const [truthCol, setTruthCol] = useState("");
   const [truthText, setTruthText] = useState("");
@@ -252,6 +265,7 @@ export default function Studio() {
     setRunning(true);
     setError("");
     setResult(null);
+    setClusterFilter("all");
     try {
       const r = await fetch("/api/run", {
         method: "POST",
@@ -273,6 +287,8 @@ export default function Studio() {
             block_method: blockMethod,
             block_key: blockMethod === "none" ? null : blockKey || null,
             threshold,
+            classify_method: classifyMethod,
+            top_k: topK,
             cluster_method: clusterMethod,
             truth_source: truthSource,
             truth_col: truthSource === "column" ? truthCol || null : null,
@@ -504,22 +520,7 @@ export default function Studio() {
             </label>
           </div>
 
-          <div className="mt-5 grid sm:grid-cols-2 gap-4 text-sm">
-            <div>
-              <label className="font-medium text-slate-700">
-                Similarity threshold:{" "}
-                <span className="font-mono2">{threshold.toFixed(2)}</span>
-              </label>
-              <input
-                type="range"
-                min={0.1}
-                max={0.95}
-                step={0.05}
-                value={threshold}
-                onChange={(e) => setThreshold(parseFloat(e.target.value))}
-                className="w-full accent-teal-600"
-              />
-            </div>
+          <div className="mt-5 text-sm">
             <div>
               <span className="font-medium text-slate-700">
                 Gold truth <span className="text-slate-400">(optional, for ARI)</span>
@@ -718,21 +719,91 @@ export default function Studio() {
         </section>
       )}
 
-      {/* 3 · Results */}
+      {/* 3 · Classify */}
+      {columns.length > 0 && (
+        <section className="mt-4 border border-slate-200 rounded-xl p-5">
+          <h2 className="font-bold">3 · Classify</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Turn pair scores into match / non-match links. These links are what
+            clustering runs on.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(
+              [
+                ["threshold", "Score ≥ threshold"],
+                ["topk", "Top-k per record"],
+              ] as ["threshold" | "topk", string][]
+            ).map(([m, label]) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setClassifyMethod(m)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                  classifyMethod === m
+                    ? "border-teal-600 bg-teal-600 text-white"
+                    : "border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {classifyMethod === "threshold" ? (
+            <div className="mt-4 max-w-md">
+              <label className="text-sm font-medium text-slate-700">
+                Similarity threshold:{" "}
+                <span className="font-mono2">{threshold.toFixed(2)}</span>
+              </label>
+              <input
+                type="range"
+                min={0.1}
+                max={0.95}
+                step={0.05}
+                value={threshold}
+                onChange={(e) => setThreshold(parseFloat(e.target.value))}
+                className="w-full accent-teal-600"
+              />
+              <p className="text-xs text-slate-400 mt-1">
+                Pairs scoring at or above this become links. Lower = more
+                links, higher chaining risk.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-4 max-w-md">
+              <label className="text-sm font-medium text-slate-700">
+                k:{" "}
+                <input
+                  type="number"
+                  min={1}
+                  max={20}
+                  value={topK}
+                  onChange={(e) =>
+                    setTopK(
+                      Math.min(20, Math.max(1, parseInt(e.target.value, 10) || 1))
+                    )
+                  }
+                  className="w-20 border border-slate-300 rounded-lg px-2 py-1 font-mono2"
+                />
+              </label>
+              <p className="text-xs text-slate-400 mt-1">
+                Each record links to its k most similar records (symmetric).
+                Conservative and chaining-resistant — good for messy data.
+              </p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* 4 · Results */}
       {result?.ok && (
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">3 · Results</h2>
+          <h2 className="font-bold">4 · Results</h2>
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               ["Records", String(result.n_records)],
               ["Candidate pairs", Number(result.n_pairs).toLocaleString()],
+              ["Links", Number(result.n_links ?? 0).toLocaleString()],
               ["Clusters", String(result.n_clusters)],
-              result.ari == null
-                ? [
-                    "Largest cluster",
-                    `${result.cluster_sizes?.[0] ?? "—"} records`,
-                  ]
-                : ["ARI", result.ari.toFixed(3)],
             ].map(([k, v]) => (
               <div key={k} className="border border-slate-200 rounded-lg p-3 text-center">
                 <div className="text-2xl font-extrabold text-teal-700">{v}</div>
@@ -740,17 +811,113 @@ export default function Studio() {
               </div>
             ))}
           </div>
+
+          {/* Performance panel */}
+          {result.metrics ? (
+            <div className="mt-4 border border-slate-200 rounded-lg p-4">
+              <div className="text-sm font-bold">
+                Performance{" "}
+                <span className="font-normal text-slate-400">
+                  (on {result.metrics.n_truth} records with truth ·{" "}
+                  {result.metrics.n_true_clusters} true clusters)
+                </span>
+              </div>
+              <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                {[
+                  ["ARI", result.metrics.ari],
+                  ["Pairwise F1", result.metrics.pairwise.f1],
+                  ["B³ F1", result.metrics.b3.f1],
+                ].map(([k, v]) => (
+                  <div key={k as string} className="bg-slate-50 rounded-lg p-3">
+                    <div className="text-xl font-extrabold text-teal-700">
+                      {(v as number).toFixed(3)}
+                    </div>
+                    <div className="text-xs text-slate-500 mt-1">{k}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                {(
+                  [
+                    ["Pairwise", result.metrics.pairwise],
+                    ["B³", result.metrics.b3],
+                  ] as const
+                ).map(([k, m]) => (
+                  <div key={k} className="border border-slate-100 rounded-lg p-3">
+                    <div className="text-xs font-bold text-slate-500 mb-2">{k}</div>
+                    {(
+                      [
+                        ["Precision", m.precision],
+                        ["Recall", m.recall],
+                      ] as const
+                    ).map(([pk, pv]) => (
+                      <div key={pk} className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xs text-slate-500 w-16">{pk}</span>
+                        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-teal-500 rounded-full"
+                            style={{ width: `${Math.round(pv * 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-xs font-mono2 w-10 text-right">
+                          {pv.toFixed(2)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 border border-slate-200 rounded-lg p-4">
+              <div className="text-sm font-bold">
+                Performance{" "}
+                <span className="font-normal text-slate-400">
+                  (no gold truth — attach truth in step 2 and re-run for metrics)
+                </span>
+              </div>
+              <div className="mt-2 text-sm text-slate-600">
+                Largest cluster:{" "}
+                <span className="font-bold text-teal-700">
+                  {result.cluster_sizes?.[0] ?? "—"} records
+                </span>
+              </div>
+              {/* cluster size distribution */}
+              <div className="mt-3 space-y-1">
+                {(result.cluster_sizes ?? []).slice(0, 12).map((s, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400 w-14 font-mono2">
+                      #{i}
+                    </span>
+                    <div className="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-teal-500/70 rounded-full"
+                        style={{
+                          width: `${Math.max(
+                            2,
+                            Math.round(
+                              (s / (result.cluster_sizes?.[0] ?? 1)) * 100
+                            )
+                          )}%`,
+                        }}
+                      />
+                    </div>
+                    <span className="text-xs font-mono2 w-12 text-right">{s}</span>
+                  </div>
+                ))}
+                {(result.cluster_sizes?.length ?? 0) > 12 && (
+                  <div className="text-xs text-slate-400">
+                    + {(result.cluster_sizes?.length ?? 0) - 12} more clusters
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
           {result.truth_source === "file" && (
             <div className="mt-3 text-sm text-slate-600">
               Gold truth matched {(result.n_truth_matched ?? 0).toLocaleString()}{" "}
               of {Number(result.n_records).toLocaleString()} records
               {result.ari == null ? " — too few matches for ARI." : "."}
-            </div>
-          )}
-          {result.truth_source !== "file" && result.ari == null && (
-            <div className="mt-3 text-sm text-slate-500">
-              No gold truth — ARI unavailable. Download the CSV to evaluate
-              externally, or attach truth above and re-run.
             </div>
           )}
 
@@ -782,7 +949,37 @@ export default function Studio() {
           )}
 
           {result.display_rows?.length ? (
-            <div className="mt-5 overflow-x-auto">
+            <div className="mt-5">
+              <div className="flex items-center gap-2 mb-2 text-sm">
+                <span className="font-medium text-slate-700">Show cluster:</span>
+                <select
+                  value={clusterFilter}
+                  onChange={(e) => setClusterFilter(e.target.value)}
+                  className="border border-slate-300 rounded-lg px-2 py-1 font-mono2 text-sm"
+                >
+                  <option value="all">all</option>
+                  {Array.from(
+                    new Set(result.display_rows.map((r) => String(r.__cluster)))
+                  )
+                    .sort((a, b) => Number(a) - Number(b))
+                    .map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                </select>
+                <span className="text-xs text-slate-400">
+                  {
+                    result.display_rows.filter(
+                      (r) =>
+                        clusterFilter === "all" ||
+                        String(r.__cluster) === clusterFilter
+                    ).length
+                  }{" "}
+                  rows
+                </span>
+              </div>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm table-auto">
                 <thead>
                   <tr className="text-left text-slate-500 border-b">
@@ -795,7 +992,13 @@ export default function Studio() {
                   </tr>
                 </thead>
                 <tbody>
-                  {result.display_rows.map((r, i) => (
+                  {result.display_rows
+                    .filter(
+                      (r) =>
+                        clusterFilter === "all" ||
+                        String(r.__cluster) === clusterFilter
+                    )
+                    .map((r, i) => (
                     <tr key={i} className="border-b border-slate-100">
                       <td className="py-1.5 pr-3 font-mono2 text-teal-700 font-bold whitespace-nowrap">
                         {r.__cluster}
@@ -817,6 +1020,7 @@ export default function Studio() {
                   ))}
                 </tbody>
               </table>
+              </div>
               <div className="text-xs text-slate-400 mt-2">
                 Showing first {result.display_rows.length} rows — download the CSV
                 for the full result.

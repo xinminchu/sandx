@@ -23,6 +23,17 @@ def r_script(cfg):
         f'list(name="{_q(col)}", type="{_q(m)}")' for col, m in fields.items()
     )
     block_arg = f', block_key="{_q(block_key)}"' if block_key else ""
+    cm = _CLUSTER_MAP.get(cfg["cluster_method"], cfg["cluster_method"])
+    classify = cfg.get("classify_method") or "threshold"
+    class_lines = []
+    if classify == "topk":
+        k = cfg.get("top_k", 3)
+        class_lines = [
+            "",
+            "# 3b. Classification: keep top-k links per record (symmetric)",
+            f"# links <- er_topk_links(pairs, er_combine(sim), k = {k})",
+            "# S <- er_pairs_to_sparse(links, er_combine(sim)[links], n = nrow(df))",
+        ]
     tail = ["# 5. Inspect", "print(table(labels))"]
     ts = cfg.get("truth_source") or "none"
     if ts == "column" and cfg.get("truth_col"):
@@ -59,6 +70,7 @@ def r_script(cfg):
         "",
         "# 3. Combine into one sparse similarity matrix",
         "S <- er_pairs_to_sparse(pairs, er_combine(sim), n = nrow(df))",
+        *class_lines,
         "",
         "# 4. Cluster",
         f'labels <- er_cluster(S, method="{cm}", threshold = {threshold})',
