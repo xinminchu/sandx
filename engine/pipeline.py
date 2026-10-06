@@ -4,7 +4,7 @@ Classify (advisor's trio, from er_modular.R cluster_scores):
   tc:     connected components of pairs with score >= threshold
           (transitive closure)
   hc:     average-linkage agglomerative on 1 - score, cut at height h
-  dbscan: classic DBSCAN on 1 - score; noise -> singletons
+  hdbscan: HDBSCAN on 1 - score (no eps); noise -> singletons
 
 Cluster (final labeling):
   same:          keep classify labels
@@ -20,7 +20,7 @@ from array import array
 
 from .blocking import block
 from .cluster import (
-    dbscan,
+    _hdbscan_matrix,
     hierarchical,
     louvain_edges,
     threshold_cc_edges,
@@ -32,7 +32,7 @@ from .supervised import train as train_classifier
 LOUVAIN_PAIR_CAP = 300_000  # networkx greedy modularity gets slow past this
 HC_N_CAP = 2500
 
-CLASSIFY_METHODS = ("tc", "hc", "dbscan")
+CLASSIFY_METHODS = ("tc", "hc", "hdbscan")
 CLUSTER_METHODS = (
     "same",
     "threshold_cc",
@@ -61,7 +61,7 @@ def _union_find_labels(links, n):
 
 def run(df, fields, block_method="standard", block_key=None,
         classify_method="tc", threshold=0.5,
-        hc_h=0.5, dbscan_eps=0.3, dbscan_min_pts=3,
+        hc_h=0.5, hdbscan_min_pts=3,
         cluster_method="same",
         truth_col=None, max_pairs=2000000,
         prefix_len=3, window=20, truth=None):
@@ -85,7 +85,7 @@ def run(df, fields, block_method="standard", block_key=None,
     if classify_method == "hc" and n > HC_N_CAP:
         raise ValueError(
             f"hierarchical clustering needs n <= {HC_N_CAP} for the demo "
-            f"(got {n}); use transitive closure or DBSCAN."
+            f"(got {n}); use transitive closure or HDBSCAN."
         )
 
     if block_method == "none":
@@ -113,12 +113,12 @@ def run(df, fields, block_method="standard", block_key=None,
         )
 
     # ---- Score pairs (single streaming pass) ----
+    import numpy as np
     tc_links = []
     hc_triples = [] if classify_method == "hc" else None
-    db_adj = None
-    if classify_method == "dbscan":
-        db_cutoff = 1.0 - dbscan_eps
-        db_adj = [set() for _ in range(n)]
+    hdb_D = None
+    if classify_method == "hdbscan":
+        hdb_D = np.full((n, n), 1.0, dtype=np.float64)
     t_pi, t_pj, t_ps = array("i"), array("i"), array("d")
     feat_flat = array("d") if need_features else None
 
@@ -143,10 +143,11 @@ def run(df, fields, block_method="standard", block_key=None,
                 tc_links.append((i, j))
         elif classify_method == "hc":
             hc_triples.append((i, j, score))
-        else:  # dbscan
-            if score >= db_cutoff:
-                db_adj[i].add(j)
-                db_adj[j].add(i)
+        else:  # hdbscan
+            d = 1.0 - score
+            if d < hdb_D[i, j]:
+                hdb_D[i, j] = d
+                hdb_D[j, i] = d
 
         if need_pairs and score > 0:
             t_pi.append(i)
@@ -162,14 +163,8 @@ def run(df, fields, block_method="standard", block_key=None,
     elif classify_method == "hc":
         labels = hierarchical(n, hc_triples, h=hc_h)
         labels0 = labels
-    else:
-        # rebuild triple list for dbscan from adjacency
-        triples = []
-        for i in range(n):
-            for j in db_adj[i]:
-                if j > i:
-                    triples.append((i, j, 1.0))  # score unused; adjacency only
-        labels0 = dbscan(n, triples, eps=dbscan_eps, min_pts=dbscan_min_pts)
+    else:  # hdbscan
+        labels0 = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
 
     # ---- Cluster -> final labels ----
     warnings = []
@@ -283,7 +278,7 @@ if __name__ == "__main__":
         {"name": "banana limited", "city": "austin", "truth": 2},
         {"name": "cherry co", "city": "denver", "truth": 3},
     ]
-    for cm in ("tc", "hc", "dbscan"):
+    for cm in ("tc", "hc", "hdbscan"):
         res = run(toy, {"name": "jw", "city": "jw"}, block_method="none",
                   classify_method=cm, threshold=0.5, truth_col="truth")
         print(cm, {k: v for k, v in res.items() if k != "labels"})

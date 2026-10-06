@@ -178,13 +178,10 @@ class handler(BaseHTTPRequestHandler):
             except (TypeError, ValueError):
                 hc_h = 0.5
             try:
-                dbscan_eps = float(cfg.get("dbscan_eps", 0.3))
+                hdbscan_min_pts = max(2, int(cfg.get("hdbscan_min_pts",
+                                                    cfg.get("dbscan_min_pts", 2))))
             except (TypeError, ValueError):
-                dbscan_eps = 0.3
-            try:
-                dbscan_min_pts = max(2, int(cfg.get("dbscan_min_pts", 3)))
-            except (TypeError, ValueError):
-                dbscan_min_pts = 3
+                hdbscan_min_pts = 2
 
             # Gold truth: none | a column in the data | a separate truth file.
             truth_source = cfg.get("truth_source") or "none"
@@ -205,8 +202,7 @@ class handler(BaseHTTPRequestHandler):
                 classify_method=classify_method,
                 threshold=threshold,
                 hc_h=hc_h,
-                dbscan_eps=dbscan_eps,
-                dbscan_min_pts=dbscan_min_pts,
+                hdbscan_min_pts=hdbscan_min_pts,
                 cluster_method=cluster_method,
                 truth_col=truth_col,
                 truth=truth,
@@ -244,8 +240,7 @@ class handler(BaseHTTPRequestHandler):
                     "cluster_method": cluster_method,
                     "classify_method": classify_method,
                     "hc_h": hc_h,
-                    "dbscan_eps": dbscan_eps,
-                    "dbscan_min_pts": dbscan_min_pts,
+                    "hdbscan_min_pts": hdbscan_min_pts,
                     "truth_source": truth_source,
                     "truth_col": truth_col,
                     "truth_filename": body.get("truth_filename") or "truth.csv",

@@ -7,7 +7,7 @@ const BLOCK_METHODS = ["prefix", "standard", "sn", "none"];
 const CLASSIFY_METHODS = [
   ["tc", "Transitive closure"],
   ["hc", "Hierarchical"],
-  ["dbscan", "DBSCAN"],
+  ["hdbscan", "HDBSCAN"],
 ] as const;
 const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
   { label: "Keep classify labels", methods: [["same", "Same as classify (default)"]] },
@@ -93,12 +93,11 @@ export default function Studio() {
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
-  const [classifyMethod, setClassifyMethod] = useState<"tc" | "hc" | "dbscan">(
+  const [classifyMethod, setClassifyMethod] = useState<"tc" | "hc" | "hdbscan">(
     "tc"
   );
   const [hcH, setHcH] = useState(0.5);
-  const [dbscanEps, setDbscanEps] = useState(0.3);
-  const [dbscanMinPts, setDbscanMinPts] = useState(3);
+  const [hdbscanMinPts, setHdbscanMinPts] = useState(2);
   const [clusterMethod, setClusterMethod] = useState("same");
   const [clusterFilter, setClusterFilter] = useState<string>("all");
   const [truthSource, setTruthSource] = useState<TruthKind>("none");
@@ -309,8 +308,7 @@ export default function Studio() {
             threshold,
             classify_method: classifyMethod,
             hc_h: hcH,
-            dbscan_eps: dbscanEps,
-            dbscan_min_pts: dbscanMinPts,
+            hdbscan_min_pts: hdbscanMinPts,
             cluster_method: clusterMethod,
             truth_source: truthSource,
             truth_col: truthSource === "column" ? truthCol || null : null,
@@ -505,31 +503,6 @@ export default function Studio() {
                 </select>
               </label>
             )}
-            <label className="block">
-              <span className="font-medium text-slate-700">Clustering</span>
-              <select
-                value={clusterMethod}
-                onChange={(e) => setClusterMethod(e.target.value)}
-                className="mt-1 w-full border border-slate-300 rounded-lg px-2 py-2"
-              >
-                {CLUSTER_GROUPS.map((g) => (
-                  <optgroup key={g.label} label={g.label}>
-                    {g.methods.map(([v, label]) => (
-                      <option key={v} value={v}>
-                        {label}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-              {["logistic", "lda", "qda", "knn", "fellegi_sunter"].includes(
-                clusterMethod
-              ) && (
-                <span className="text-xs text-slate-400">
-                  trains on gold-truth pairs, then transitive-closure
-                </span>
-              )}
-            </label>
             <label className="block">
               <span className="font-medium text-slate-700">Sampling</span>
               <select
@@ -818,52 +791,83 @@ export default function Studio() {
               </p>
             </div>
           )}
-          {classifyMethod === "dbscan" && (
-            <div className="mt-4 max-w-md space-y-3">
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  eps: <span className="font-mono2">{dbscanEps.toFixed(2)}</span>
-                </label>
+          {classifyMethod === "hdbscan" && (
+            <div className="mt-4 max-w-md">
+              <label className="text-sm font-medium text-slate-700">
+                min_pts:{" "}
                 <input
-                  type="range"
-                  min={0.05}
-                  max={0.9}
-                  step={0.05}
-                  value={dbscanEps}
-                  onChange={(e) => setDbscanEps(parseFloat(e.target.value))}
-                  className="w-full accent-teal-600"
+                  type="number"
+                  min={2}
+                  max={20}
+                  value={hdbscanMinPts}
+                  onChange={(e) =>
+                    setHdbscanMinPts(
+                      Math.min(20, Math.max(2, parseInt(e.target.value, 10) || 2))
+                    )
+                  }
+                  className="w-20 border border-slate-300 rounded-lg px-2 py-1 font-mono2"
                 />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-700">
-                  min_pts:{" "}
-                  <input
-                    type="number"
-                    min={2}
-                    max={20}
-                    value={dbscanMinPts}
-                    onChange={(e) =>
-                      setDbscanMinPts(
-                        Math.min(20, Math.max(2, parseInt(e.target.value, 10) || 2))
-                      )
-                    }
-                    className="w-20 border border-slate-300 rounded-lg px-2 py-1 font-mono2"
-                  />
-                </label>
-              </div>
-              <p className="text-xs text-slate-400">
-                Density clustering on 1 − score. Noise points become
-                singletons — never one giant noise cluster.
+              </label>
+              <p className="text-xs text-slate-400 mt-1">
+                Density clustering on 1 − score, no eps to tune. Noise points
+                become singletons. Needs ≥3 mutually close records to form a
+                cluster — pairs stay singletons (use transitive closure for
+                pair-heavy data).
               </p>
             </div>
           )}
         </section>
       )}
 
-      {/* 4 · Results */}
+      {/* 4 · Clustering */}
+      {columns.length > 0 && (
+        <section className="mt-4 border border-slate-200 rounded-xl p-5">
+          <h2 className="font-bold">4 · Clustering</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Final cluster labels. Keep the classify output, re-cluster the
+            pair graph, or train a supervised pair classifier on gold truth.
+          </p>
+          <div className="mt-3 space-y-3">
+            {CLUSTER_GROUPS.map((g) => (
+              <div key={g.label}>
+                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                  {g.label}
+                </div>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {g.methods.map(([v, label]) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setClusterMethod(v)}
+                      className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                        clusterMethod === v
+                          ? "border-teal-600 bg-teal-600 text-white"
+                          : "border-slate-300 hover:bg-slate-50"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {["logistic", "lda", "qda", "knn", "fellegi_sunter"].includes(
+            clusterMethod
+          ) && (
+            <p className="text-xs text-slate-400 mt-2">
+              Supervised: trains on truth-labeled pairs, predicts all pairs,
+              then transitive closure over predicted links. Needs gold truth
+              in step 2.
+            </p>
+          )}
+        </section>
+      )}
+
+      {/* 5 · Results */}
       {result?.ok && (
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">4 · Results</h2>
+          <h2 className="font-bold">5 · Results</h2>
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               ["Records", String(result.n_records)],

@@ -64,13 +64,15 @@ def r_script(cfg):
             f"{labvar} <- cutree(hclust(as.dist(1 - as.matrix(S)),",
             f'               method = "average"), h = {cfg.get("hc_h", 0.5)})',
         ]
-    elif classify == "dbscan":
+    elif classify == "hdbscan":
         class_lines = [
             "",
-            "# 3b. Classification: DBSCAN on 1 - similarity",
-            f"{labvar} <- dbscan::dbscan(as.dist(1 - as.matrix(S)), "
-            f"eps = {cfg.get('dbscan_eps', 0.3)}, "
-            f"minPts = {cfg.get('dbscan_min_pts', 3)})$cluster",
+            "# 3b. Classification: HDBSCAN on 1 - similarity",
+            f"{labvar} <- dbscan::hdbscan(as.dist(1 - as.matrix(S)),",
+            f"               minPts = {cfg.get('hdbscan_min_pts', 3)})$cluster",
+            "# noise (0) -> singletons, never one giant noise cluster",
+            f"{labvar}[{labvar} == 0] <- max({labvar}) + "
+            f"seq_len(sum({labvar} == 0))",
         ]
     else:
         class_lines = [
