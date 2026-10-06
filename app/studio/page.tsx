@@ -771,14 +771,6 @@ export default function Studio() {
               )}
             </div>
           )}
-
-          <button
-            onClick={run}
-            disabled={running || planning || !fieldCols.length || !!overBudget}
-            className="mt-5 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 disabled:opacity-50"
-          >
-            {running ? "Running…" : "Run entity resolution"}
-          </button>
         </section>
       )}
 
@@ -918,6 +910,44 @@ export default function Studio() {
               in step 2.
             </p>
           )}
+        </section>
+      )}
+
+      {/* Run — after all methods are configured */}
+      {columns.length > 0 && (
+        <section className="mt-4 border border-slate-200 rounded-xl p-5">
+          <h2 className="font-bold">Run</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Everything above is configured. Run the pipeline and see the
+            results below.
+          </p>
+          {plan?.ok && (
+            <div
+              className={`mt-3 text-sm rounded-lg px-3 py-2 border ${
+                overBudget
+                  ? "text-amber-800 bg-amber-50 border-amber-200"
+                  : "text-slate-600 bg-slate-50 border-slate-200"
+              }`}
+            >
+              {(plan.n_records ?? 0).toLocaleString()} records →{" "}
+              {(plan.n_pairs ?? 0).toLocaleString()} candidate pairs
+              {plan.sampled ? " (on the sample)" : ""} · budget{" "}
+              {PAIR_BUDGET.toLocaleString()}
+              {overBudget && (
+                <span>
+                  {" "}— over budget. Pick a blocking key (not “none”) or turn
+                  on sampling in step 2.
+                </span>
+              )}
+            </div>
+          )}
+          <button
+            onClick={run}
+            disabled={running || planning || !fieldCols.length || !!overBudget}
+            className="mt-4 px-6 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 disabled:opacity-50"
+          >
+            {running ? "Running…" : "Run entity resolution"}
+          </button>
         </section>
       )}
 
