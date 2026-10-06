@@ -876,22 +876,18 @@ export default function Studio() {
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {CLASSIFY_METHODS.map(([m, label]) => (
-              <span key={m} className="inline-flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => setClassifyMethod(m)}
-                  className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                    classifyMethod === m
-                      ? "border-teal-600 bg-teal-600 text-white"
-                      : "border-slate-300 hover:bg-slate-50"
-                  }`}
-                >
-                  {label}
-                </button>
-                <Term id={GLOSSARY_ID[m]}>
-                  <span className="text-xs text-slate-400 hover:text-teal-700 px-0.5" title={`What is ${label}?`}>?</span>
-                </Term>
-              </span>
+              <button
+                key={m}
+                type="button"
+                onClick={() => setClassifyMethod(m)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                  classifyMethod === m
+                    ? "border-teal-600 bg-teal-600 text-white"
+                    : "border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                <Term id={GLOSSARY_ID[m]}>{label}</Term>
+              </button>
             ))}
           </div>
           {classifyMethod === "tc" && (
@@ -980,22 +976,18 @@ export default function Studio() {
                 </div>
                 <div className="mt-1 flex flex-wrap gap-2">
                   {g.methods.map(([v, label]) => (
-                    <span key={v} className="inline-flex items-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setClusterMethod(v)}
-                        className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                          clusterMethod === v
-                            ? "border-teal-600 bg-teal-600 text-white"
-                            : "border-slate-300 hover:bg-slate-50"
-                        }`}
-                      >
-                        {label}
-                      </button>
-                      <Term id={GLOSSARY_ID[v]}>
-                        <span className="text-xs text-slate-400 hover:text-teal-700 px-0.5" title={`What is ${label}?`}>?</span>
-                      </Term>
-                    </span>
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setClusterMethod(v)}
+                      className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                        clusterMethod === v
+                          ? "border-teal-600 bg-teal-600 text-white"
+                          : "border-slate-300 hover:bg-slate-50"
+                      }`}
+                    >
+                      <Term id={GLOSSARY_ID[v]}>{label}</Term>
+                    </button>
                   ))}
                 </div>
               </div>
