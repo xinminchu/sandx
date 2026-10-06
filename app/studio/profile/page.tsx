@@ -74,12 +74,6 @@ export default function DataProfile() {
   const [selFields, setSelFields] = useState<string[] | null>(null);
   const truthTouched = useRef(false);
 
-  function profileBody(extra: Record<string, unknown> = {}) {
-    const base =
-      source === "url" ? { url: urlInput.trim() } : { csv_text: csvText, filename };
-    return { ...base, ...extra };
-  }
-
   async function postProfile(body: Record<string, unknown>): Promise<Profile | null> {
     const r = await fetch("/api/profile", {
       method: "POST",
@@ -89,16 +83,29 @@ export default function DataProfile() {
     return (await r.json()) as Profile;
   }
 
-  async function runProfile(extra: Record<string, unknown> = {}) {
+  async function runProfile(o: {
+    text?: string | null;
+    url?: string;
+    name: string;
+    tcol?: string;
+    fields?: string[];
+    scroll?: boolean;
+  }) {
     setLoading(true);
     setError("");
     try {
-      let j = await postProfile(profileBody(extra));
+      const post = (extra: Record<string, unknown>) =>
+        postProfile({
+          ...(o.url ? { url: o.url } : { csv_text: o.text, filename: o.name }),
+          ...extra,
+        });
+      let j = await post({ truth_col: o.tcol || undefined, fields: o.fields });
       // Auto-apply a detected truth column (once — user choice wins after).
       if (j && j.ok && !j.truth && j.truth_guess && !truthTouched.current) {
         truthTouched.current = true;
-        setTruthCol(j.truth_guess);
-        j = await postProfile(profileBody({ ...extra, truth_col: j.truth_guess }));
+        const tc = j.truth_guess;
+        setTruthCol(tc);
+        j = await post({ truth_col: tc, fields: o.fields });
       }
       if (!j || !j.ok) {
         setError(j?.error || "Profiling failed.");
@@ -106,8 +113,8 @@ export default function DataProfile() {
       } else {
         setProfile(j);
         setSelFields((prev) => prev ?? (j!.columns ?? []).map((c) => c.name));
-        if (j.filename) setFilename(j.filename);
-        scrollToResults();
+        if (o.url && j.filename) setFilename(j.filename);
+        if (o.scroll !== false) scrollToResults();
       }
     } catch {
       setError("Could not reach the profiling service.");
@@ -124,7 +131,7 @@ export default function DataProfile() {
     setTruthCol(tcol);
     setSelFields(null);
     truthTouched.current = false;
-    runProfile({ truth_col: tcol || undefined });
+    runProfile({ text, name, tcol, scroll: true });
   }
 
   async function useDataset(ds: Dataset) {
@@ -161,7 +168,7 @@ export default function DataProfile() {
     setTruthCol("");
     setSelFields(null);
     truthTouched.current = false;
-    await runProfile();
+    await runProfile({ url: u, name: "link.csv", scroll: true });
   }
 
   function pickSource(s: SourceKind) {
@@ -179,13 +186,23 @@ export default function DataProfile() {
     const cur = selFields ?? [];
     const next = cur.includes(name) ? cur.filter((f) => f !== name) : [...cur, name];
     setSelFields(next);
-    runProfile({ truth_col: truthCol || undefined, fields: next });
+    // State is settled here (user interaction after render), so reading
+    // csvText/filename/truthCol is safe; do NOT scroll — keep the user's place.
+    if (source === "url") {
+      runProfile({ url: urlInput.trim(), name: filename, tcol: truthCol, fields: next, scroll: false });
+    } else {
+      runProfile({ text: csvText, name: filename, tcol: truthCol, fields: next, scroll: false });
+    }
   }
 
   function onTruthSelect(tc: string) {
     truthTouched.current = true;
     setTruthCol(tc);
-    runProfile({ truth_col: tc || undefined, fields: selFields ?? undefined });
+    if (source === "url") {
+      runProfile({ url: urlInput.trim(), name: filename, tcol: tc, fields: selFields ?? undefined, scroll: false });
+    } else {
+      runProfile({ text: csvText, name: filename, tcol: tc, fields: selFields ?? undefined, scroll: false });
+    }
   }
 
   // Load the first dataset on first visit.
