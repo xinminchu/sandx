@@ -120,6 +120,143 @@ function smartBlockKey(cols: string[]): string {
   return named ?? cols[0] ?? "";
 }
 
+interface SavedRun {
+  id: string;
+  ts: number;
+  label: string;
+  dataset: string;
+  config: {
+    fields: string[];
+    block_method: string;
+    block_key: string | null;
+    threshold: number;
+    classify_method: string;
+    cluster_method: string;
+    held_out: boolean;
+  };
+  result: {
+    n_clusters: number;
+    classify_n_clusters: number;
+    ari: number | null;
+    classify_ari: number | null;
+    pairwise_f1: number | null;
+    b3_f1: number | null;
+    n_pairs: number;
+  };
+}
+
+const HISTORY_KEY = "sandx-run-history-v1";
+const HISTORY_MAX = 20;
+
+function loadHistory(): SavedRun[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
+function fmt3(v: number | null | undefined): string {
+  return v == null ? "—" : v.toFixed(3);
+}
+
+function CompareTable({ runs }: { runs: SavedRun[] }) {
+  // chronological: oldest first, so the first column is the baseline
+  const ordered = [...runs].reverse();
+  const first = ordered[0];
+  const cfgRows: [string, (r: SavedRun) => string][] = [
+    ["Dataset", (r) => r.dataset],
+    ["Classify", (r) => r.config.classify_method],
+    ["Clustering", (r) => r.config.cluster_method],
+    ["Threshold", (r) => String(r.config.threshold)],
+    [
+      "Blocking",
+      (r) =>
+        r.config.block_method +
+        (r.config.block_key ? ` · ${r.config.block_key}` : ""),
+    ],
+    ["Fields", (r) => r.config.fields.join(", ")],
+    ["Held-out", (r) => (r.config.held_out ? "yes" : "no")],
+  ];
+  const metRows: [string, (r: SavedRun) => number | null, boolean][] = [
+    ["ARI (classify step)", (r) => r.result.classify_ari, true],
+    ["ARI (final)", (r) => r.result.ari, true],
+    ["Pairwise F1", (r) => r.result.pairwise_f1, true],
+    ["B³ F1", (r) => r.result.b3_f1, true],
+    ["Clusters (classify step)", (r) => r.result.classify_n_clusters, false],
+    ["Clusters (final)", (r) => r.result.n_clusters, false],
+    ["Candidate pairs", (r) => r.result.n_pairs, false],
+  ];
+  return (
+    <div className="mt-4 overflow-x-auto border border-teal-200 rounded-xl bg-white">
+      <table className="w-full text-sm whitespace-nowrap">
+        <thead>
+          <tr className="border-b border-slate-100">
+            <th className="p-2 text-left text-xs text-slate-400 w-44"></th>
+            {ordered.map((r) => (
+              <th key={r.id} className="p-2 text-left font-medium">
+                {r.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {cfgRows.map(([label, get]) => (
+            <tr key={label} className="border-b border-slate-50">
+              <td className="p-2 text-xs text-slate-400">{label}</td>
+              {ordered.map((r) => {
+                const changed = get(r) !== get(first);
+                return (
+                  <td
+                    key={r.id}
+                    className={`p-2 text-xs ${
+                      changed ? "bg-amber-50 font-semibold text-amber-900" : ""
+                    }`}
+                  >
+                    {get(r)}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+          {metRows.map(([label, get, isScore]) => {
+            const vals = ordered
+              .map(get)
+              .filter((v): v is number => v != null);
+            const best = vals.length > 1 ? Math.max(...vals) : null;
+            return (
+              <tr key={label} className="border-b border-slate-50 last:border-0">
+                <td className="p-2 text-xs text-slate-400">{label}</td>
+                {ordered.map((r) => {
+                  const v = get(r);
+                  const isBest = v != null && best != null && v === best;
+                  return (
+                    <td
+                      key={r.id}
+                      className={`p-2 text-xs ${
+                        isBest ? "font-bold text-teal-700" : ""
+                      }`}
+                    >
+                      {v == null ? "—" : isScore ? v.toFixed(3) : v.toLocaleString()}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="px-3 py-2 text-xs text-slate-400 border-t border-slate-100">
+        Amber = parameter differs from the earliest run. Bold teal = best
+        score.
+      </div>
+    </div>
+  );
+}
+
 export default function Studio() {
   const [source, setSource] = useState<SourceKind>("sample");
   const [payload, setPayload] = useState<{
@@ -143,6 +280,21 @@ export default function Studio() {
   const [hdbscanMinPts, setHdbscanMinPts] = useState(2);
   const [clusterMethod, setClusterMethod] = useState("same");
   const [heldOut, setHeldOut] = useState(true);
+  const [history, setHistory] = useState<SavedRun[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_MAX)));
+    } catch {
+      /* storage full or unavailable — history just won't persist */
+    }
+  }, [history]);
   const [clusterFilter, setClusterFilter] = useState<string>("all");
   const [truthSource, setTruthSource] = useState<TruthKind>("none");
   const [truthCol, setTruthCol] = useState("");
@@ -418,7 +570,37 @@ export default function Studio() {
       });
       const j = (await r.json()) as RunResult;
       if (!j.ok) setError(j.error || "Run failed.");
-      else setResult(j);
+      else {
+        setResult(j);
+        const dsName =
+          payload.filename || (source === "url" ? "url" : "data");
+        const entry: SavedRun = {
+          id: `${Date.now()}-${Math.floor(Math.random() * 1e6)}`,
+          ts: Date.now(),
+          label: `${classifyMethod} → ${clusterMethod} · thr ${threshold}`,
+          dataset: dsName,
+          config: {
+            fields: Object.keys(fields),
+            block_method: blockMethod,
+            block_key: blockMethod === "none" ? null : blockKey || null,
+            threshold,
+            classify_method: classifyMethod,
+            cluster_method: clusterMethod,
+            held_out: heldOut,
+          },
+          result: {
+            n_clusters: j.n_clusters ?? 0,
+            classify_n_clusters: j.classify_n_clusters ?? 0,
+            ari: j.ari ?? null,
+            classify_ari: j.classify_metrics?.ari ?? null,
+            pairwise_f1: j.metrics?.pairwise?.f1 ?? null,
+            b3_f1: j.metrics?.b3?.f1 ?? null,
+            n_pairs: j.n_pairs ?? 0,
+          },
+        };
+        setHistory((h) => [entry, ...h].slice(0, HISTORY_MAX));
+        setCompareIds([]);
+      }
     } catch {
       setError("Request failed. The service may be cold-starting — try again.");
     } finally {
@@ -1327,6 +1509,160 @@ export default function Studio() {
               </div>
             </div>
           ) : null}
+        </section>
+      )}
+
+      {/* Run history */}
+      {history.length > 0 && (
+        <section className="max-w-6xl mx-auto px-5 pb-16">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-bold">Run history</h2>
+            <button
+              onClick={() => {
+                setHistory([]);
+                setCompareIds([]);
+              }}
+              className="text-xs text-slate-400 hover:text-slate-600"
+            >
+              Clear all
+            </button>
+          </div>
+          <p className="text-xs text-slate-400 mt-1">
+            Every run is saved automatically (latest {HISTORY_MAX}, this
+            browser only). Click a label to rename. Tick two or more to
+            compare — changed parameters are highlighted.
+          </p>
+          <div className="mt-3 overflow-x-auto border border-slate-200 rounded-xl bg-white">
+            <table className="w-full text-sm whitespace-nowrap">
+              <thead>
+                <tr className="text-left text-xs text-slate-400 border-b border-slate-100">
+                  <th className="p-2 w-8"></th>
+                  <th className="p-2">Run</th>
+                  <th className="p-2">Dataset</th>
+                  <th className="p-2">Classify → Cluster</th>
+                  <th className="p-2">Thr</th>
+                  <th className="p-2">ARI</th>
+                  <th className="p-2">Δ ARI</th>
+                  <th className="p-2">Clusters</th>
+                  <th className="p-2">Time</th>
+                  <th className="p-2 w-8"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((run, i) => {
+                  const prev = history[i + 1];
+                  const d =
+                    run.result.ari != null && prev?.result.ari != null
+                      ? run.result.ari - prev.result.ari
+                      : null;
+                  const checked = compareIds.includes(run.id);
+                  return (
+                    <tr
+                      key={run.id}
+                      className="border-b border-slate-50 last:border-0"
+                    >
+                      <td className="p-2">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() =>
+                            setCompareIds((ids) =>
+                              checked
+                                ? ids.filter((x) => x !== run.id)
+                                : [...ids, run.id]
+                            )
+                          }
+                          className="accent-teal-600"
+                        />
+                      </td>
+                      <td className="p-2">
+                        {editingId === run.id ? (
+                          <input
+                            autoFocus
+                            defaultValue={run.label}
+                            onBlur={(e) => {
+                              const v = e.target.value.trim();
+                              if (v)
+                                setHistory((h) =>
+                                  h.map((x) =>
+                                    x.id === run.id ? { ...x, label: v } : x
+                                  )
+                                );
+                              setEditingId(null);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter")
+                                (e.target as HTMLInputElement).blur();
+                            }}
+                            className="border border-teal-300 rounded px-1 text-sm w-44"
+                          />
+                        ) : (
+                          <button
+                            onClick={() => setEditingId(run.id)}
+                            className="font-medium hover:text-teal-700"
+                            title="Click to rename"
+                          >
+                            {run.label}
+                          </button>
+                        )}
+                      </td>
+                      <td className="p-2 text-slate-500 text-xs">
+                        {run.dataset}
+                      </td>
+                      <td className="p-2 text-xs">
+                        {run.config.classify_method} → {run.config.cluster_method}
+                      </td>
+                      <td className="p-2 text-xs">{run.config.threshold}</td>
+                      <td className="p-2 font-semibold">
+                        {fmt3(run.result.ari)}
+                      </td>
+                      <td
+                        className={`p-2 text-xs ${
+                          d == null
+                            ? "text-slate-300"
+                            : d > 0.001
+                              ? "text-emerald-600"
+                              : d < -0.001
+                                ? "text-rose-600"
+                                : "text-slate-400"
+                        }`}
+                      >
+                        {d == null ? "—" : `${d > 0 ? "+" : ""}${d.toFixed(3)}`}
+                      </td>
+                      <td className="p-2 text-xs">{run.result.n_clusters}</td>
+                      <td className="p-2 text-xs text-slate-400">
+                        {new Date(run.ts).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                      <td className="p-2">
+                        <button
+                          onClick={() => {
+                            setHistory((h) =>
+                              h.filter((x) => x.id !== run.id)
+                            );
+                            setCompareIds((ids) =>
+                              ids.filter((x) => x !== run.id)
+                            );
+                          }}
+                          className="text-slate-300 hover:text-rose-500"
+                          title="Delete"
+                        >
+                          ×
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {compareIds.length >= 2 && (
+            <CompareTable
+              runs={history.filter((r) => compareIds.includes(r.id))}
+            />
+          )}
         </section>
       )}
     </div>
