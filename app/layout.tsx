@@ -40,14 +40,12 @@ function Nav() {
           >
             Docs
           </Link>
-          <a
-            href="https://github.com/xinminchu/erbot"
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            href="/glossary"
             className="px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100"
           >
-            GitHub
-          </a>
+            Glossary
+          </Link>
         </nav>
       </div>
     </header>
@@ -74,14 +72,9 @@ function Footer() {
           <Link href="/docs" className="hover:text-teal-700">
             Docs
           </Link>
-          <a
-            href="https://github.com/xinminchu/erbot"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-teal-700"
-          >
-            GitHub
-          </a>
+          <Link href="/glossary" className="hover:text-teal-700">
+            Glossary
+          </Link>
         </div>
       </div>
     </footer>

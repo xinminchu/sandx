@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { DATASETS, type Dataset } from "../datasets";
+import Term from "../../components/Term";
 
 type SourceKind = "sample" | "upload" | "url";
 
@@ -334,37 +335,44 @@ export default function DataProfile() {
               )}
             </div>
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-5 gap-3">
-              {[
-                ["Records", (p.n_records ?? 0).toLocaleString()],
-                ["Columns", String(p.n_columns ?? 0)],
+              {(
                 [
-                  "True entities",
-                  p.truth ? p.truth.n_entities.toLocaleString() : "—",
-                ],
-                [
-                  "Complete records",
-                  (() => {
-                    const nc = p.n_complete ?? 0;
-                    const nr = p.n_records ?? 0;
-                    const pct = nr ? ((100 * nc) / nr).toFixed(1) : "—";
-                    return `${nc.toLocaleString()} (${pct}%)`;
-                  })(),
-                ],
-                [
-                  "Cells missing",
-                  (() => {
-                    const miss = (p.columns ?? []).reduce((a, c) => a + c.n_missing, 0);
-                    const total = (p.n_records ?? 0) * (p.n_columns ?? 0);
-                    return total ? `${((100 * miss) / total).toFixed(1)}%` : "—";
-                  })(),
-                ],
-              ].map(([k, v]) => (
+                  [null, "Records", (p.n_records ?? 0).toLocaleString()],
+                  [null, "Columns", String(p.n_columns ?? 0)],
+                  [
+                    "truth-entities",
+                    "True entities",
+                    p.truth ? p.truth.n_entities.toLocaleString() : "—",
+                  ],
+                  [
+                    "complete-records",
+                    "Complete records",
+                    (() => {
+                      const nc = p.n_complete ?? 0;
+                      const nr = p.n_records ?? 0;
+                      const pct = nr ? ((100 * nc) / nr).toFixed(1) : "—";
+                      return `${nc.toLocaleString()} (${pct}%)`;
+                    })(),
+                  ],
+                  [
+                    null,
+                    "Cells missing",
+                    (() => {
+                      const miss = (p.columns ?? []).reduce((a, c) => a + c.n_missing, 0);
+                      const total = (p.n_records ?? 0) * (p.n_columns ?? 0);
+                      return total ? `${((100 * miss) / total).toFixed(1)}%` : "—";
+                    })(),
+                  ],
+                ] as [string | null, string, string][]
+              ).map(([gid, k, v]) => (
                 <div
                   key={k}
                   className="border border-slate-200 rounded-lg p-3 text-center"
                 >
                   <div className="text-2xl font-extrabold text-teal-700">{v}</div>
-                  <div className="text-xs text-slate-500 mt-1">{k}</div>
+                  <div className="text-xs text-slate-500 mt-1">
+                    {gid ? <Term id={gid}>{k}</Term> : k}
+                  </div>
                 </div>
               ))}
             </div>
@@ -435,7 +443,7 @@ export default function DataProfile() {
 
           {/* columns */}
           <section className="mt-4 border border-slate-200 rounded-xl p-5 overflow-x-auto">
-            <h2 className="font-bold">Columns</h2>
+            <h2 className="font-bold">Columns <span className="font-normal text-xs text-slate-400">(<Term id="column-roles">roles</Term>)</span></h2>
             {(() => {
               const cols = p.columns ?? [];
               const ids = cols.filter((c) => c.role === "id").map((c) => c.name);

@@ -1,9 +1,41 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Term from "../components/Term";
 
 const SIM_METHODS = ["jw", "lv", "jaccard"];
+const SIM_LABELS: Record<string, string> = {
+  jw: "jw — Jaro-Winkler",
+  lv: "lv — Levenshtein",
+  jaccard: "jaccard — word overlap",
+};
 const BLOCK_METHODS = ["prefix", "standard", "sn", "none"];
+const BLOCK_LABELS: Record<string, string> = {
+  prefix: "prefix — first 3 chars",
+  standard: "standard — exact key",
+  sn: "sn — sorted neighborhood",
+  none: "none — all pairs",
+};
+const GLOSSARY_ID: Record<string, string> = {
+  jw: "jw",
+  lv: "lv",
+  jaccard: "jaccard",
+  prefix: "blocking-prefix",
+  standard: "blocking-standard",
+  sn: "blocking-sn",
+  none: "blocking-none",
+  tc: "tc",
+  hc: "hc",
+  hdbscan: "hdbscan",
+  same: "same",
+  threshold_cc: "threshold-cc",
+  louvain: "louvain",
+  logistic: "supervised-classifiers",
+  lda: "supervised-classifiers",
+  qda: "supervised-classifiers",
+  knn: "supervised-classifiers",
+  fellegi_sunter: "supervised-classifiers",
+};
 const CLASSIFY_METHODS = [
   ["tc", "Transitive closure"],
   ["hc", "Hierarchical"],
@@ -536,7 +568,7 @@ export default function Studio() {
 
           <div className="mt-4">
             <div className="text-sm font-medium text-slate-700 mb-2">
-              Match fields <span className="text-slate-400">(similarity per field)</span>
+              Match fields <span className="text-slate-400">(<Term id="similarity">similarity</Term> per field)</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {columns
@@ -564,7 +596,7 @@ export default function Studio() {
                     >
                       {SIM_METHODS.map((m) => (
                         <option key={m} value={m}>
-                          {m}
+                          {SIM_LABELS[m]}
                         </option>
                       ))}
                     </select>
@@ -576,7 +608,7 @@ export default function Studio() {
 
           <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             <label className="block">
-              <span className="font-medium text-slate-700">Blocking</span>
+              <span className="font-medium text-slate-700"><Term id="blocking">Blocking</Term></span>
               <select
                 value={blockMethod}
                 onChange={(e) => {
@@ -587,7 +619,7 @@ export default function Studio() {
               >
                 {BLOCK_METHODS.map((m) => (
                   <option key={m} value={m}>
-                    {m}
+                    {BLOCK_LABELS[m]}
                   </option>
                 ))}
               </select>
@@ -597,7 +629,7 @@ export default function Studio() {
             </label>
             {blockMethod !== "none" && (
               <label className="block">
-                <span className="font-medium text-slate-700">Blocking key</span>
+                <span className="font-medium text-slate-700"><Term id="blocking-key">Blocking key</Term></span>
                 <select
                   value={blockKey}
                   onChange={(e) => {
@@ -617,7 +649,7 @@ export default function Studio() {
               </label>
             )}
             <label className="block">
-              <span className="font-medium text-slate-700">Sampling</span>
+              <span className="font-medium text-slate-700"><Term id="sampling">Sampling</Term></span>
               <select
                 value={sampleN}
                 onChange={(e) => {
@@ -642,7 +674,7 @@ export default function Studio() {
           <div className="mt-5 text-sm">
             <div>
               <span className="font-medium text-slate-700">
-                Gold truth <span className="text-slate-400">(optional, for ARI)</span>
+                <Term id="gold-truth">Gold truth</Term> <span className="text-slate-400">(optional, for ARI)</span>
               </span>
               <div className="mt-1 flex flex-wrap gap-2 text-sm">
                 {(
@@ -821,7 +853,7 @@ export default function Studio() {
             >
               {(plan.n_records ?? 0).toLocaleString()} records →{" "}
               {(plan.n_pairs ?? 0).toLocaleString()} candidate pairs
-              {plan.sampled ? " (on the sample)" : ""} · budget{" "}
+              {plan.sampled ? " (on the sample)" : ""} · <Term id="pair-budget">budget</Term>{" "}
               {PAIR_BUDGET.toLocaleString()}
               {overBudget && (
                 <span>
@@ -844,18 +876,22 @@ export default function Studio() {
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {CLASSIFY_METHODS.map(([m, label]) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => setClassifyMethod(m)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                  classifyMethod === m
-                    ? "border-teal-600 bg-teal-600 text-white"
-                    : "border-slate-300 hover:bg-slate-50"
-                }`}
-              >
-                {label}
-              </button>
+              <span key={m} className="inline-flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setClassifyMethod(m)}
+                  className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                    classifyMethod === m
+                      ? "border-teal-600 bg-teal-600 text-white"
+                      : "border-slate-300 hover:bg-slate-50"
+                  }`}
+                >
+                  {label}
+                </button>
+                <Term id={GLOSSARY_ID[m]}>
+                  <span className="text-xs text-slate-400 hover:text-teal-700 px-0.5" title={`What is ${label}?`}>?</span>
+                </Term>
+              </span>
             ))}
           </div>
           {classifyMethod === "tc" && (
@@ -944,18 +980,22 @@ export default function Studio() {
                 </div>
                 <div className="mt-1 flex flex-wrap gap-2">
                   {g.methods.map(([v, label]) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setClusterMethod(v)}
-                      className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                        clusterMethod === v
-                          ? "border-teal-600 bg-teal-600 text-white"
-                          : "border-slate-300 hover:bg-slate-50"
-                      }`}
-                    >
-                      {label}
-                    </button>
+                    <span key={v} className="inline-flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setClusterMethod(v)}
+                        className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                          clusterMethod === v
+                            ? "border-teal-600 bg-teal-600 text-white"
+                            : "border-slate-300 hover:bg-slate-50"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                      <Term id={GLOSSARY_ID[v]}>
+                        <span className="text-xs text-slate-400 hover:text-teal-700 px-0.5" title={`What is ${label}?`}>?</span>
+                      </Term>
+                    </span>
                   ))}
                 </div>
               </div>
@@ -991,7 +1031,7 @@ export default function Studio() {
             >
               {(plan.n_records ?? 0).toLocaleString()} records →{" "}
               {(plan.n_pairs ?? 0).toLocaleString()} candidate pairs
-              {plan.sampled ? " (on the sample)" : ""} · budget{" "}
+              {plan.sampled ? " (on the sample)" : ""} · <Term id="pair-budget">budget</Term>{" "}
               {PAIR_BUDGET.toLocaleString()}
               {overBudget && (
                 <span>
@@ -1041,32 +1081,32 @@ export default function Studio() {
                 Performance{" "}
                 <span className="font-normal text-slate-400">
                   (on {result.metrics.n_truth} records with truth ·{" "}
-                  {result.metrics.n_true_clusters} true clusters)
+                  {result.metrics.n_true_clusters} <Term id="truth-entities">true clusters</Term>)
                 </span>
               </div>
               <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                 {[
-                  ["ARI", result.metrics.ari],
-                  ["Pairwise F1", result.metrics.pairwise.f1],
-                  ["B³ F1", result.metrics.b3.f1],
-                ].map(([k, v]) => (
+                  ["ari", "ARI", result.metrics.ari],
+                  ["pairwise-prf", "Pairwise F1", result.metrics.pairwise.f1],
+                  ["b3", "B³ F1", result.metrics.b3.f1],
+                ].map(([gid, k, v]) => (
                   <div key={k as string} className="bg-slate-50 rounded-lg p-3">
                     <div className="text-xl font-extrabold text-teal-700">
                       {(v as number).toFixed(3)}
                     </div>
-                    <div className="text-xs text-slate-500 mt-1">{k}</div>
+                    <div className="text-xs text-slate-500 mt-1"><Term id={gid as string}>{k}</Term></div>
                   </div>
                 ))}
               </div>
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 {(
                   [
-                    ["Pairwise", result.metrics.pairwise],
-                    ["B³", result.metrics.b3],
+                    ["pairwise-prf", "Pairwise", result.metrics.pairwise],
+                    ["b3", "B³", result.metrics.b3],
                   ] as const
-                ).map(([k, m]) => (
+                ).map(([gid, k, m]) => (
                   <div key={k} className="border border-slate-100 rounded-lg p-3">
-                    <div className="text-xs font-bold text-slate-500 mb-2">{k}</div>
+                    <div className="text-xs font-bold text-slate-500 mb-2"><Term id={gid}>{k}</Term></div>
                     {(
                       [
                         ["Precision", m.precision],
