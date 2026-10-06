@@ -6,7 +6,7 @@ from .similarity import combine, pair_sims
 
 
 def run(df, fields, block_method="standard", block_key=None, threshold=0.5,
-        cluster_method="threshold_cc", truth_col=None, max_pairs=200000,
+        cluster_method="threshold_cc", truth_col=None, max_pairs=500000,
         prefix_len=3, window=20):
     """Run the full pipeline; return a result dict."""
     n = len(df)
