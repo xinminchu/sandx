@@ -1,0 +1,78 @@
+Package: erbot
+Title: ERBOT: A Unified Entity Resolution Pipeline
+Version: 0.3.0
+Authors@R: 
+    c(person("Xinmin", "Chu", , "Xinmin.Chu001@umb.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5140-3852")),
+    person("David", "Degras-Valabregue", , "david.degras@umb.edu", role = "aut",
+           comment = c(ORCID = "0000-0002-7221-584X")),
+    person(given = "Forest", family = "Fang", role = "aut",
+           email = "forest.fang@outlook.com",
+           comment = c(ORCID = "0000-0002-9180-1270")),
+    person("Brian", "Crites", role = c("aut", "cph"),
+      comment = "Author of included GraphColoring code")
+    )
+Description: End-to-end entity resolution (deduplication and record linkage) via a
+    nine-stage pipeline: loading, field diagnosis, blocking, per-field NA-aware
+    similarity, adaptive weighted combination (Fellegi-Sunter or ARI weights),
+    multiple clustering methods (HC, PAM, Louvain, Leiden, Graph Coloring),
+    consensus merging, and evaluation by ARI and B-cubed F-score.
+    Includes a full ablation framework comparing weight conditions
+    (uniform, Fellegi-Sunter EM, full-data ARI, CV-learned ARI) and blocking
+    conditions (no-block vs blocked), plus wrappers for external deep learning
+    baselines (DeepMatcher, Ditto/BERT) and probabilistic baselines (Splink)
+    via Python system calls.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: R (>= 4.1)
+Imports:
+    data.table,
+    dplyr,
+    tibble,
+    stringr,
+    stringi,
+    tidyr,
+    purrr,
+    readr,
+    readxl,
+    text2vec,
+    Matrix,
+    irlba,
+    stringdist,
+    igraph,
+    FNN,
+    cluster,
+    stats,
+    utils,
+    grid,
+    grDevices,
+    gridExtra,
+    scales,
+    magrittr,
+    jsonlite
+Suggests:
+    mclust,
+    aricode,
+    GCMER,
+    ggplot2,
+    gridExtra,
+    text,
+    e1071,
+    xgboost,
+    leidenbase,
+    RANN,
+    proxy,
+    peakRAM,
+    dbscan,
+    textreuse,
+    knitr,
+    rmarkdown,
+    brglm2,
+    randomForest,
+    MASS,
+    rpart,
+    nnet
+Remotes:
+    ddegras/GCMER
