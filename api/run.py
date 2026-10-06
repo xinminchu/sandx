@@ -171,12 +171,20 @@ class handler(BaseHTTPRequestHandler):
             block_method = cfg.get("block_method", "prefix")
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
-            cluster_method = cfg.get("cluster_method", "threshold_cc")
-            classify_method = cfg.get("classify_method") or "threshold"
+            classify_method = cfg.get("classify_method") or "tc"
+            cluster_method = cfg.get("cluster_method") or "same"
             try:
-                top_k = max(1, int(cfg.get("top_k", 3)))
+                hc_h = float(cfg.get("hc_h", 0.5))
             except (TypeError, ValueError):
-                top_k = 3
+                hc_h = 0.5
+            try:
+                dbscan_eps = float(cfg.get("dbscan_eps", 0.3))
+            except (TypeError, ValueError):
+                dbscan_eps = 0.3
+            try:
+                dbscan_min_pts = max(2, int(cfg.get("dbscan_min_pts", 3)))
+            except (TypeError, ValueError):
+                dbscan_min_pts = 3
 
             # Gold truth: none | a column in the data | a separate truth file.
             truth_source = cfg.get("truth_source") or "none"
@@ -194,12 +202,14 @@ class handler(BaseHTTPRequestHandler):
                 fields=fields,
                 block_method=block_method,
                 block_key=block_key,
+                classify_method=classify_method,
                 threshold=threshold,
+                hc_h=hc_h,
+                dbscan_eps=dbscan_eps,
+                dbscan_min_pts=dbscan_min_pts,
                 cluster_method=cluster_method,
                 truth_col=truth_col,
                 truth=truth,
-                classify_method=classify_method,
-                top_k=top_k,
             )
             if res.get("n_pairs", 0) > MAX_PAIRS:
                 return self._send(
@@ -233,7 +243,9 @@ class handler(BaseHTTPRequestHandler):
                     "threshold": threshold,
                     "cluster_method": cluster_method,
                     "classify_method": classify_method,
-                    "top_k": top_k,
+                    "hc_h": hc_h,
+                    "dbscan_eps": dbscan_eps,
+                    "dbscan_min_pts": dbscan_min_pts,
                     "truth_source": truth_source,
                     "truth_col": truth_col,
                     "truth_filename": body.get("truth_filename") or "truth.csv",
@@ -245,6 +257,7 @@ class handler(BaseHTTPRequestHandler):
                 warnings.append(
                     f"Results are on a random sample of {len(rows)} records (seed {SAMPLE_SEED})."
                 )
+            warnings.extend(res.get("warnings", []))
             cluster_sizes = res.get("cluster_sizes", [])
             if cluster_sizes and res["n_records"] > 1:
                 share = cluster_sizes[0] / res["n_records"]

@@ -4,7 +4,25 @@ import { useEffect, useRef, useState } from "react";
 
 const SIM_METHODS = ["jw", "lv", "jaccard"];
 const BLOCK_METHODS = ["prefix", "standard", "sn", "none"];
-const CLUSTER_METHODS = ["threshold_cc", "louvain"];
+const CLASSIFY_METHODS = [
+  ["tc", "Transitive closure"],
+  ["hc", "Hierarchical"],
+  ["dbscan", "DBSCAN"],
+] as const;
+const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
+  { label: "Keep classify labels", methods: [["same", "Same as classify (default)"]] },
+  { label: "Unsupervised", methods: [["threshold_cc", "threshold_cc"], ["louvain", "louvain"]] },
+  {
+    label: "Supervised (needs truth)",
+    methods: [
+      ["logistic", "logistic"],
+      ["lda", "lda"],
+      ["qda", "qda"],
+      ["knn", "knn"],
+      ["fellegi_sunter", "fellegi_sunter"],
+    ],
+  },
+];
 const SAMPLE_OPTIONS = [
   { n: 0, label: "All records" },
   { n: 2000, label: "Random 2,000" },
@@ -75,11 +93,13 @@ export default function Studio() {
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
-  const [classifyMethod, setClassifyMethod] = useState<"threshold" | "topk">(
-    "threshold"
+  const [classifyMethod, setClassifyMethod] = useState<"tc" | "hc" | "dbscan">(
+    "tc"
   );
-  const [topK, setTopK] = useState(3);
-  const [clusterMethod, setClusterMethod] = useState("threshold_cc");
+  const [hcH, setHcH] = useState(0.5);
+  const [dbscanEps, setDbscanEps] = useState(0.3);
+  const [dbscanMinPts, setDbscanMinPts] = useState(3);
+  const [clusterMethod, setClusterMethod] = useState("same");
   const [clusterFilter, setClusterFilter] = useState<string>("all");
   const [truthSource, setTruthSource] = useState<TruthKind>("none");
   const [truthCol, setTruthCol] = useState("");
@@ -288,7 +308,9 @@ export default function Studio() {
             block_key: blockMethod === "none" ? null : blockKey || null,
             threshold,
             classify_method: classifyMethod,
-            top_k: topK,
+            hc_h: hcH,
+            dbscan_eps: dbscanEps,
+            dbscan_min_pts: dbscanMinPts,
             cluster_method: clusterMethod,
             truth_source: truthSource,
             truth_col: truthSource === "column" ? truthCol || null : null,
@@ -490,12 +512,23 @@ export default function Studio() {
                 onChange={(e) => setClusterMethod(e.target.value)}
                 className="mt-1 w-full border border-slate-300 rounded-lg px-2 py-2"
               >
-                {CLUSTER_METHODS.map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
+                {CLUSTER_GROUPS.map((g) => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.methods.map(([v, label]) => (
+                      <option key={v} value={v}>
+                        {label}
+                      </option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
+              {["logistic", "lda", "qda", "knn", "fellegi_sunter"].includes(
+                clusterMethod
+              ) && (
+                <span className="text-xs text-slate-400">
+                  trains on gold-truth pairs, then transitive-closure
+                </span>
+              )}
             </label>
             <label className="block">
               <span className="font-medium text-slate-700">Sampling</span>
@@ -724,16 +757,11 @@ export default function Studio() {
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
           <h2 className="font-bold">3 · Classify</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Turn pair scores into match / non-match links. These links are what
-            clustering runs on.
+            Group pairs into entities — the advisor&apos;s three grouping
+            methods, run on the pair scores.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {(
-              [
-                ["threshold", "Score ≥ threshold"],
-                ["topk", "Top-k per record"],
-              ] as ["threshold" | "topk", string][]
-            ).map(([m, label]) => (
+            {CLASSIFY_METHODS.map(([m, label]) => (
               <button
                 key={m}
                 type="button"
@@ -748,10 +776,10 @@ export default function Studio() {
               </button>
             ))}
           </div>
-          {classifyMethod === "threshold" ? (
+          {classifyMethod === "tc" && (
             <div className="mt-4 max-w-md">
               <label className="text-sm font-medium text-slate-700">
-                Similarity threshold:{" "}
+                Similarity threshold τ:{" "}
                 <span className="font-mono2">{threshold.toFixed(2)}</span>
               </label>
               <input
@@ -764,30 +792,68 @@ export default function Studio() {
                 className="w-full accent-teal-600"
               />
               <p className="text-xs text-slate-400 mt-1">
-                Pairs scoring at or above this become links. Lower = more
-                links, higher chaining risk.
+                Pairs with score ≥ τ become links; connected components are
+                the entities. Lower τ = more links, higher chaining risk.
               </p>
             </div>
-          ) : (
+          )}
+          {classifyMethod === "hc" && (
             <div className="mt-4 max-w-md">
               <label className="text-sm font-medium text-slate-700">
-                k:{" "}
-                <input
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={topK}
-                  onChange={(e) =>
-                    setTopK(
-                      Math.min(20, Math.max(1, parseInt(e.target.value, 10) || 1))
-                    )
-                  }
-                  className="w-20 border border-slate-300 rounded-lg px-2 py-1 font-mono2"
-                />
+                Cut height h:{" "}
+                <span className="font-mono2">{hcH.toFixed(2)}</span>
               </label>
+              <input
+                type="range"
+                min={0.05}
+                max={1}
+                step={0.05}
+                value={hcH}
+                onChange={(e) => setHcH(parseFloat(e.target.value))}
+                className="w-full accent-teal-600"
+              />
               <p className="text-xs text-slate-400 mt-1">
-                Each record links to its k most similar records (symmetric).
-                Conservative and chaining-resistant — good for messy data.
+                Average-linkage agglomerative clustering on 1 − score, cut at
+                distance h. Smaller h = more, tighter clusters.
+              </p>
+            </div>
+          )}
+          {classifyMethod === "dbscan" && (
+            <div className="mt-4 max-w-md space-y-3">
+              <div>
+                <label className="text-sm font-medium text-slate-700">
+                  eps: <span className="font-mono2">{dbscanEps.toFixed(2)}</span>
+                </label>
+                <input
+                  type="range"
+                  min={0.05}
+                  max={0.9}
+                  step={0.05}
+                  value={dbscanEps}
+                  onChange={(e) => setDbscanEps(parseFloat(e.target.value))}
+                  className="w-full accent-teal-600"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700">
+                  min_pts:{" "}
+                  <input
+                    type="number"
+                    min={2}
+                    max={20}
+                    value={dbscanMinPts}
+                    onChange={(e) =>
+                      setDbscanMinPts(
+                        Math.min(20, Math.max(2, parseInt(e.target.value, 10) || 2))
+                      )
+                    }
+                    className="w-20 border border-slate-300 rounded-lg px-2 py-1 font-mono2"
+                  />
+                </label>
+              </div>
+              <p className="text-xs text-slate-400">
+                Density clustering on 1 − score. Noise points become
+                singletons — never one giant noise cluster.
               </p>
             </div>
           )}
@@ -802,7 +868,7 @@ export default function Studio() {
             {[
               ["Records", String(result.n_records)],
               ["Candidate pairs", Number(result.n_pairs).toLocaleString()],
-              ["Links", Number(result.n_links ?? 0).toLocaleString()],
+              ["Links", result.n_links == null ? "—" : Number(result.n_links).toLocaleString()],
               ["Clusters", String(result.n_clusters)],
             ].map(([k, v]) => (
               <div key={k} className="border border-slate-200 rounded-lg p-3 text-center">

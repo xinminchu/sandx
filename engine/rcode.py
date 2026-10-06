@@ -6,7 +6,8 @@ def _q(s):
     return str(s).replace("\\", "\\\\").replace('"', '\\"')
 
 
-_CLUSTER_MAP = {"threshold_cc": "threshold_cc", "louvain": "louvain"}
+_CLUSTER_MAP = {"threshold_cc": "threshold_cc", "louvain": "louvain",
+                "same": "same (keep classify labels)"}
 
 
 def r_script(cfg):
@@ -18,21 +19,66 @@ def r_script(cfg):
     block_method = _q(cfg["block_method"])
     block_key = cfg.get("block_key")
     threshold = cfg["threshold"]
+    block_arg = f', block_key="{_q(block_key)}"' if block_key else ""
     cm = _CLUSTER_MAP.get(cfg["cluster_method"], cfg["cluster_method"])
     spec = ",\n  ".join(
         f'list(name="{_q(col)}", type="{_q(m)}")' for col, m in fields.items()
     )
-    block_arg = f', block_key="{_q(block_key)}"' if block_key else ""
-    cm = _CLUSTER_MAP.get(cfg["cluster_method"], cfg["cluster_method"])
-    classify = cfg.get("classify_method") or "threshold"
+    supervised = cfg.get("cluster_method") in (
+        "logistic", "lda", "qda", "knn", "fellegi_sunter")
+    if cfg.get("cluster_method") == "same":
+        tail_cluster = [
+            "",
+            "# 4. Cluster: same labels as classification (no separate step)",
+        ]
+    elif supervised:
+        ts = cfg.get("truth_source") or "none"
+        if ts == "column" and cfg.get("truth_col"):
+            tv_line = f'truth_vec <- df[["{_q(cfg["truth_col"])}"]]'
+        else:
+            tv_line = ("truth_vec <- truth$cluster[match(df$id, truth$id)]"
+                       "  # from gold-truth file")
+        tail_cluster = [
+            "",
+            "# 4. Cluster: supervised pair classifier trained on gold truth,",
+            "#    then transitive closure over predicted links",
+            tv_line,
+            f'labels <- er_cluster(S, method="{cm}", sim_list = sim, '
+            f"pairs = pairs,",
+            f'                     truth_vec = truth_vec, threshold = {threshold})',
+        ]
+    else:
+        tail_cluster = [
+            "",
+            "# 4. Cluster",
+            f'labels <- er_cluster(S, method="{cm}", threshold = {threshold})',
+        ]
+    classify = cfg.get("classify_method") or "tc"
+    same = cfg.get("cluster_method") == "same"
+    labvar = "labels" if same else "labs"
     class_lines = []
-    if classify == "topk":
-        k = cfg.get("top_k", 3)
+    if classify == "hc":
         class_lines = [
             "",
-            "# 3b. Classification: keep top-k links per record (symmetric)",
-            f"# links <- er_topk_links(pairs, er_combine(sim), k = {k})",
-            "# S <- er_pairs_to_sparse(links, er_combine(sim)[links], n = nrow(df))",
+            "# 3b. Classification: hierarchical clustering (average linkage)",
+            f"{labvar} <- cutree(hclust(as.dist(1 - as.matrix(S)),",
+            f'               method = "average"), h = {cfg.get("hc_h", 0.5)})',
+        ]
+    elif classify == "dbscan":
+        class_lines = [
+            "",
+            "# 3b. Classification: DBSCAN on 1 - similarity",
+            f"{labvar} <- dbscan::dbscan(as.dist(1 - as.matrix(S)), "
+            f"eps = {cfg.get('dbscan_eps', 0.3)}, "
+            f"minPts = {cfg.get('dbscan_min_pts', 3)})$cluster",
+        ]
+    else:
+        class_lines = [
+            "",
+            "# 3b. Classification: transitive closure over thresholded links",
+            f"M <- er_classify(S, method = \"threshold\", threshold = {threshold})",
+            f"{labvar} <- er_cluster(M, method = \"threshold_cc\", "
+            f"threshold = {threshold})",
         ]
     tail = ["# 5. Inspect", "print(table(labels))"]
     ts = cfg.get("truth_source") or "none"
@@ -71,9 +117,7 @@ def r_script(cfg):
         "# 3. Combine into one sparse similarity matrix",
         "S <- er_pairs_to_sparse(pairs, er_combine(sim), n = nrow(df))",
         *class_lines,
-        "",
-        "# 4. Cluster",
-        f'labels <- er_cluster(S, method="{cm}", threshold = {threshold})',
+        *tail_cluster,
         "",
         *tail,
     ]) + "\n"
