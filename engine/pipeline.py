@@ -233,6 +233,25 @@ def run(df, fields, block_method="standard", block_key=None,
     counts = {}
     for lab in labels:
         counts[lab] = counts.get(lab, 0) + 1
+
+    # ---- Classify-stage snapshot (so users can judge "same as classify") ----
+    classify_n_clusters = len(set(labels0))
+    classify_metrics = None
+    if tvec is not None and cluster_method != "same":
+        if held_out_active:
+            csub = [(t, p) for t, p in zip(tvec, labels0)
+                    if t is not None and t in test_entities]
+        else:
+            csub = [(t, p) for t, p in zip(tvec, labels0) if t is not None]
+        if len(csub) >= 2:
+            ctt = [t for t, _ in csub]
+            cpp = [p for _, p in csub]
+            classify_metrics = {
+                "ari": adjusted_rand(ctt, cpp),
+                "pairwise": pairwise_prf(ctt, cpp),
+                "b3": b3_prf(ctt, cpp),
+            }
+
     return {
         "labels": labels,
         "n_records": n,
@@ -241,6 +260,8 @@ def run(df, fields, block_method="standard", block_key=None,
         "n_clusters": len(counts),
         "ari": ari,
         "metrics": metrics,
+        "classify_n_clusters": classify_n_clusters,
+        "classify_metrics": classify_metrics,
         "cluster_sizes": sorted(counts.values(), reverse=True),
         "warnings": warnings,
     }

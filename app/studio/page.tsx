@@ -98,6 +98,12 @@ type RunResult = {
     n_train_entities?: number;
     n_test_entities?: number;
   } | null;
+  classify_n_clusters?: number;
+  classify_metrics?: {
+    ari: number;
+    pairwise: { precision: number; recall: number; f1: number };
+    b3: { precision: number; recall: number; f1: number };
+  } | null;
   cluster_sizes?: number[];
   columns?: string[];
   display_rows?: Record<string, string>[];
@@ -1102,6 +1108,18 @@ export default function Studio() {
                 <div className="mt-2 text-xs text-teal-800 bg-teal-50 border border-teal-200 rounded-lg px-3 py-2">
                   Held-out validation: classifier trained on {result.metrics.n_train_entities}{" "}
                   entities, ARI scored on {result.metrics.n_test_entities} unseen entities.
+                </div>
+              )}
+              {clusterMethod !== "same" && result.classify_n_clusters != null && result.n_clusters != null && (
+                <div className="mt-2 text-xs text-slate-500">
+                  Step 3 (classify): {result.classify_n_clusters} clusters
+                  {result.classify_metrics && (
+                    <>, ARI {result.classify_metrics.ari.toFixed(3)}</>
+                  )}{" "}
+                  → Step 4 ({clusterMethod}): {result.n_clusters} clusters
+                  {result.metrics && (
+                    <>, ARI {result.metrics.ari.toFixed(3)}</>
+                  )}
                 </div>
               )}
               <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
