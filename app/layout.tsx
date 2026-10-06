@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Logo from "./components/Logo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,10 +14,7 @@ function Nav() {
     <header className="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-lg bg-teal-600 text-white grid place-items-center font-bold text-sm">
-            ER
-          </span>
-          <span className="font-bold text-lg tracking-tight">ERBOT</span>
+          <Logo markSize={30} wordmarkSize={11} />
           <span className="hidden sm:inline text-xs text-slate-400 border border-slate-200 rounded-full px-2 py-0.5 ml-1">
             sandx.io
           </span>
