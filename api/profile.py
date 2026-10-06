@@ -120,6 +120,10 @@ class handler(BaseHTTPRequestHandler):
 
             n = len(rows)
             columns = [profile_column(c, [r.get(c) for r in rows], n) for c in cols]
+            n_complete = sum(
+                1 for r in rows
+                if all((r.get(c) or "").strip() != "" for c in cols)
+            )
 
             truth_col = body.get("truth_col") or None
             truth = None
@@ -132,6 +136,7 @@ class handler(BaseHTTPRequestHandler):
                     "filename": filename,
                     "n_records": n,
                     "n_columns": len(cols),
+                    "n_complete": n_complete,
                     "columns": columns,
                     "truth": truth,
                     "truth_col": truth_col if truth else None,

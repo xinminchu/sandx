@@ -37,6 +37,7 @@ type Profile = {
   filename?: string;
   n_records?: number;
   n_columns?: number;
+  n_complete?: number;
   columns?: ColProfile[];
   truth?: TruthProfile | null;
   truth_col?: string | null;
@@ -284,13 +285,22 @@ export default function DataProfile() {
                 <span className="text-xs text-slate-400">Source: {datasetSource}</span>
               )}
             </div>
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-5 gap-3">
               {[
                 ["Records", (p.n_records ?? 0).toLocaleString()],
                 ["Columns", String(p.n_columns ?? 0)],
                 [
                   "True entities",
                   p.truth ? p.truth.n_entities.toLocaleString() : "—",
+                ],
+                [
+                  "Complete records",
+                  (() => {
+                    const nc = p.n_complete ?? 0;
+                    const nr = p.n_records ?? 0;
+                    const pct = nr ? ((100 * nc) / nr).toFixed(1) : "—";
+                    return `${nc.toLocaleString()} (${pct}%)`;
+                  })(),
                 ],
                 [
                   "Cells missing",
@@ -409,10 +419,22 @@ export default function DataProfile() {
                         {c.dtype}
                       </span>
                     </td>
-                    <td className="py-2 pr-3 text-xs text-slate-500">
-                      {c.n_missing > 0
-                        ? `${c.n_missing.toLocaleString()} (${c.missing_pct}%)`
-                        : "—"}
+                    <td className="py-2 pr-3 text-xs text-slate-500 min-w-[110px]">
+                      {c.n_missing > 0 ? (
+                        <div>
+                          <div>
+                            {c.n_missing.toLocaleString()} ({c.missing_pct}%)
+                          </div>
+                          <div className="mt-1 h-1.5 w-20 bg-slate-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-amber-400 rounded-full"
+                              style={{ width: `${Math.min(100, c.missing_pct)}%` }}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        "—"
+                      )}
                     </td>
                     <td className="py-2 pr-3 text-xs text-slate-500">
                       {c.n_unique.toLocaleString()}
