@@ -23,6 +23,36 @@ const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
     ],
   },
 ];
+const DATASETS = [
+  {
+    file: "restaurant_sample.csv",
+    label: "Restaurant",
+    desc: "35 records · toy dedup demo",
+    source: "built-in toy data",
+    truthCol: "truth",
+  },
+  {
+    file: "abt_buy.csv",
+    label: "Abt-Buy",
+    desc: "2,173 products · 1,076 entities · e-commerce",
+    source: "Leipzig DB Group benchmark (CC), dbs.uni-leipzig.de",
+    truthCol: "truth",
+  },
+  {
+    file: "affiliations.csv",
+    label: "Affiliations",
+    desc: "2,260 affiliation strings · 330 clusters",
+    source: "Leipzig DB Group benchmark (CC), dbs.uni-leipzig.de",
+    truthCol: "truth",
+  },
+  {
+    file: "cora.csv",
+    label: "Cora",
+    desc: "1,879 citations · 182 clusters · bibliography",
+    source: "Cora benchmark (public), gold pairs supplied by Sam",
+    truthCol: "truth",
+  },
+];
 const SAMPLE_OPTIONS = [
   { n: 0, label: "All records" },
   { n: 2000, label: "Random 2,000" },
@@ -196,14 +226,18 @@ export default function Studio() {
     refreshPlan(p, blockMethod, blockKey, sampleN, true);
   }
 
-  async function useSample() {
+  async function useDataset(ds: (typeof DATASETS)[number]) {
     setError("");
     try {
-      const r = await fetch("/data/restaurant_sample.csv");
+      const r = await fetch(`/data/${ds.file}`);
       const t = await r.text();
-      loadPayload({ csv_text: t, filename: "restaurant_sample.csv" });
+      loadPayload({ csv_text: t, filename: ds.file });
+      if (ds.truthCol) {
+        setTruthSource("column");
+        setTruthCol(ds.truthCol);
+      }
     } catch {
-      setError("Failed to load the sample dataset.");
+      setError("Failed to load the dataset.");
     }
   }
 
@@ -249,16 +283,16 @@ export default function Studio() {
     rd.readAsText(f);
   }
 
-  // Load the sample on first visit.
+  // Load the first dataset on first visit.
   useEffect(() => {
-    useSample();
+    useDataset(DATASETS[0]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function pickSource(s: SourceKind) {
     setSource(s);
     setError("");
-    if (s === "sample") useSample();
+    if (s === "sample") useDataset(DATASETS[0]);
     else {
       setPayload(null);
       setPlan(null);
@@ -355,7 +389,7 @@ export default function Studio() {
         <div className="mt-3 flex flex-wrap gap-2">
           {(
             [
-              ["sample", "Sample dataset"],
+              ["sample", "Sample datasets"],
               ["upload", "Upload CSV"],
               ["url", "Link to CSV"],
             ] as [SourceKind, string][]
@@ -373,6 +407,29 @@ export default function Studio() {
             </button>
           ))}
         </div>
+
+        {source === "sample" && (
+          <div className="mt-3 grid gap-2 max-w-2xl">
+            {DATASETS.map((ds) => (
+              <button
+                key={ds.file}
+                type="button"
+                onClick={() => useDataset(ds)}
+                className={`text-left px-4 py-3 rounded-lg border ${
+                  payload?.filename === ds.file
+                    ? "border-teal-600 bg-teal-50"
+                    : "border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                <div className="text-sm font-medium">{ds.label}</div>
+                <div className="text-xs text-slate-500">{ds.desc}</div>
+                <div className="text-xs text-slate-400 mt-0.5">
+                  Source: {ds.source}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
 
         {source === "upload" && (
           <label className="mt-3 inline-block px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium hover:bg-slate-50 cursor-pointer">
