@@ -168,14 +168,7 @@ class handler(BaseHTTPRequestHandler):
             fields = cfg.get("fields") or {}
             if not fields:
                 return self._send({"ok": False, "error": "Select at least one match field."})
-            # Defensive: the truth column must never be a match field
-            # (leaking the answer into the features).
-            if truth_col and truth_col in fields:
-                fields = {k: v for k, v in fields.items() if k != truth_col}
-                if not fields:
-                    return self._send(
-                        {"ok": False, "error": "Select at least one match field (not the truth column)."}
-                    )            block_method = cfg.get("block_method", "prefix")
+            block_method = cfg.get("block_method", "prefix")
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
             classify_method = cfg.get("classify_method") or "tc"
@@ -195,6 +188,14 @@ class handler(BaseHTTPRequestHandler):
             truth_col = cfg.get("truth_col") or None
             if truth_source != "column" or truth_col not in cols:
                 truth_col = None
+            # Defensive: the truth column must never be a match field
+            # (leaking the answer into the features).
+            if truth_col and truth_col in fields:
+                fields = {k: v for k, v in fields.items() if k != truth_col}
+                if not fields:
+                    return self._send(
+                        {"ok": False, "error": "Select at least one match field (not the truth column)."}
+                    )
             truth, n_truth_matched = None, 0
             if truth_source == "file":
                 truth, n_truth_matched, terr = _truth_from_file(rows, body)
