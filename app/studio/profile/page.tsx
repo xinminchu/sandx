@@ -161,7 +161,7 @@ export default function DataProfile() {
     } else if (csvText) {
       localStorage.setItem(
         "sandx_profile_handoff",
-        JSON.stringify({ csv_text: csvText, filename })
+        JSON.stringify({ csv_text: csvText, filename, truthCol: truthCol || undefined })
       );
     } else {
       return;

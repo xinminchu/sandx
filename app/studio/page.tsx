@@ -117,6 +117,9 @@ export default function Studio() {
   const [error, setError] = useState("");
   const [showR, setShowR] = useState(false);
   const planTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Truth preset applied after the plan's firstLoad defaults settle.
+  // (firstLoad runs async and would otherwise wipe a truth set by useDataset.)
+  const pendingTruth = useRef<{ source: TruthKind; col: string } | null>(null);
 
   async function refreshPlan(
     p = payload,
@@ -166,8 +169,15 @@ export default function Studio() {
           const init: Record<string, string> = {};
           sugg.forEach((c) => (init[c] = "jw"));
           setFields(init);
-          setTruthSource("none");
-          setTruthCol("");
+          const pt = pendingTruth.current;
+          pendingTruth.current = null;
+          if (pt) {
+            setTruthSource(pt.source);
+            setTruthCol(pt.col);
+          } else {
+            setTruthSource("none");
+            setTruthCol("");
+          }
           const key = smartBlockKey(j.columns);
           setBlockKey(key);
           setPlanning(false);
@@ -203,11 +213,10 @@ export default function Studio() {
     try {
       const r = await fetch(`/data/${ds.file}`);
       const t = await r.text();
+      pendingTruth.current = ds.truthCol
+        ? { source: "column", col: ds.truthCol }
+        : null;
       loadPayload({ csv_text: t, filename: ds.file });
-      if (ds.truthCol) {
-        setTruthSource("column");
-        setTruthCol(ds.truthCol);
-      }
     } catch {
       setError("Failed to load the dataset.");
     }
@@ -263,6 +272,9 @@ export default function Studio() {
         localStorage.removeItem("sandx_profile_handoff");
         const h = JSON.parse(raw);
         if (h.csv_text) {
+          if (h.truthCol) {
+            pendingTruth.current = { source: "column", col: h.truthCol };
+          }
           loadPayload({ csv_text: h.csv_text, filename: h.filename || "dataset.csv" });
           return;
         }
