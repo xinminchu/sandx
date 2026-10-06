@@ -16,11 +16,11 @@ from http.server import BaseHTTPRequestHandler
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 try:
-    from csvsource import resolve_source
+    from csvsource import resolve_source, read_table
     from engine.pipeline import run
     from engine.rcode import r_script
 except ImportError:  # local dev fallback
-    from csvsource import resolve_source  # type: ignore
+    from csvsource import resolve_source, read_table  # type: ignore
     from engine.pipeline import run  # type: ignore
     from engine.rcode import r_script  # type: ignore
 
@@ -33,21 +33,32 @@ SAMPLE_SEED = 42
 def _truth_from_file(rows, body):
     """Build a truth vector aligned with rows from a separate truth CSV.
 
-    Returns (truth_list, n_matched, error). truth_list entries are ints or
-    None (record not found in the truth file).
+    Two formats:
+      labels: one row per record; truth_id_col -> truth_cluster_col.
+      pairs:  duplicate pairs (id1_col, id2_col); components become clusters.
+    Returns (truth_list, n_matched, error). Entries are ints or None.
     """
     ttext = body.get("truth_csv_text") or ""
     if len(ttext.encode("utf-8")) > 2 * 1024 * 1024:
         return None, 0, "Truth file too large (2 MB cap)."
-    tid_col = body.get("truth_id_col") or ""
-    tcl_col = body.get("truth_cluster_col") or ""
     did_col = body.get("data_id_col") or ""
-    if not (tid_col and tcl_col and did_col):
-        return None, 0, "Pick the id/cluster columns for the truth file."
+    fmt = body.get("truth_format") or "labels"
+    if not did_col:
+        return None, 0, "Pick the data column to join on."
     try:
-        trows = list(csv.DictReader(io.StringIO(ttext)))
+        _, trows = read_table(ttext)
     except Exception:
         return None, 0, "Could not parse the truth CSV."
+    if not trows:
+        return None, 0, "Truth file has no data rows."
+
+    if fmt == "pairs":
+        return _truth_from_pairs(rows, trows, body, did_col)
+
+    tid_col = body.get("truth_id_col") or ""
+    tcl_col = body.get("truth_cluster_col") or ""
+    if not (tid_col and tcl_col):
+        return None, 0, "Pick the id/cluster columns for the truth file."
     tmap = {}
     for r in trows:
         tid = (r.get(tid_col) or "").strip()
@@ -63,6 +74,49 @@ def _truth_from_file(rows, body):
                 cmap[c] = len(cmap)
             truth.append(cmap[c])
             matched += 1
+    return truth, matched, None
+
+
+def _truth_from_pairs(rows, trows, body, did_col):
+    """Pairwise gold truth: connected components of duplicate pairs."""
+    id1_col = body.get("truth_id_col") or ""
+    id2_col = body.get("truth_id2_col") or ""
+    if not (id1_col and id2_col):
+        return None, 0, "Pick both id columns of the pair file."
+    parent = {}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    data_ids = []
+    for r in rows:
+        did = (r.get(did_col) or "").strip()
+        data_ids.append(did)
+        if did and did not in parent:
+            parent[did] = did
+    mentioned = set()
+    for r in trows:
+        a = (r.get(id1_col) or "").strip()
+        b = (r.get(id2_col) or "").strip()
+        if a in parent and b in parent:
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[rb] = ra
+            mentioned.add(a)
+            mentioned.add(b)
+    cmap, truth, matched = {}, [], 0
+    for did in data_ids:
+        if did in mentioned:
+            root = find(did)
+            if root not in cmap:
+                cmap[root] = len(cmap)
+            truth.append(cmap[root])
+            matched += 1
+        else:
+            truth.append(None)
     return truth, matched, None
 
 
@@ -94,15 +148,9 @@ class handler(BaseHTTPRequestHandler):
                 return self._send({"ok": False, "error": src_err})
             cfg = body.get("config", {}) or {}
 
-            reader = csv.DictReader(io.StringIO(csv_text))
-            cols = [c for c in (reader.fieldnames or []) if c]
+            cols, rows = read_table(csv_text)
             if not cols:
                 return self._send({"ok": False, "error": "No header row found in CSV."})
-            rows = []
-            for r in reader:
-                d = {c: (r.get(c) or "") for c in cols}
-                if any(v.strip() for v in d.values()):
-                    rows.append(d)
             if not rows:
                 return self._send({"ok": False, "error": "CSV has no data rows."})
             if len(rows) > MAX_ROWS:
@@ -188,6 +236,16 @@ class handler(BaseHTTPRequestHandler):
                 warnings.append(
                     f"Results are on a random sample of {len(rows)} records (seed {SAMPLE_SEED})."
                 )
+            cluster_sizes = res.get("cluster_sizes", [])
+            if cluster_sizes and res["n_records"] > 1:
+                share = cluster_sizes[0] / res["n_records"]
+                if share > 0.5:
+                    warnings.append(
+                        f"One cluster absorbed {share:.0%} of records — likely chaining "
+                        "through a too-generic field (e.g. an id column) or too low a "
+                        "threshold. Try raising the similarity threshold or dropping "
+                        "id-like match fields."
+                    )
 
             return self._send(
                 {

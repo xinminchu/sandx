@@ -2,12 +2,56 @@
 
 A request body may carry the data inline ("csv_text") or as a remote link
 ("url"). This keeps the choice in one place so /api/plan and /api/run
-behave identically.
+behave identically. Delimiters are sniffed (comma/semicolon/tab/pipe),
+so European-style `;`-separated files just work.
 """
 
+import csv
+import io
+import re
 import urllib.request
 
 MAX_BYTES = 2 * 1024 * 1024  # 2 MB cap, matches the studio upload limit
+
+ID_LIKE = re.compile(r"(^|_)id$", re.IGNORECASE)
+
+
+def sniff_dialect(text):
+    """Guess the CSV dialect; fall back to plain comma."""
+    try:
+        d = csv.Sniffer().sniff(text[:8192], delimiters=[",", ";", "\t", "|"])
+        if d.delimiter not in (",", ";", "\t", "|"):
+            raise csv.Error("odd delimiter")
+        return d
+    except Exception:
+        return csv.excel
+
+
+def read_table(text):
+    """(columns, rows) with delimiter sniffing; drops fully-blank rows."""
+    rdr = csv.DictReader(io.StringIO(text), dialect=sniff_dialect(text))
+    cols = [c for c in (rdr.fieldnames or []) if c and c.strip()]
+    rows = []
+    for r in rdr:
+        d = {c: (r.get(c) or "") for c in cols}
+        if any(v.strip() for v in d.values()):
+            rows.append(d)
+    return cols, rows
+
+
+def suggested_fields(cols, rows, k=2):
+    """Default match fields: skip id-like and unique-key columns."""
+    out = []
+    for c in cols:
+        if ID_LIKE.search(c.strip()):
+            continue
+        vals = [r[c].strip() for r in rows]
+        if len(rows) > 1 and len(set(vals)) == len(rows):
+            continue  # unique per record: a key, not a feature
+        out.append(c)
+        if len(out) >= k:
+            break
+    return out or cols[:k]
 
 
 def resolve_source(body):

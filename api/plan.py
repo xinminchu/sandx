@@ -19,7 +19,7 @@ import sys
 from http.server import BaseHTTPRequestHandler
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from csvsource import resolve_source  # noqa: E402
+from csvsource import resolve_source, read_table, suggested_fields  # noqa: E402
 from engine.blocking import block  # noqa: E402
 
 MAX_ROWS = 3000
@@ -67,7 +67,7 @@ class handler(BaseHTTPRequestHandler):
             self._send({"ok": False, "error": err})
             return
         try:
-            rows = list(csv.DictReader(io.StringIO(csv_text)))
+            columns, rows = read_table(csv_text)
         except Exception:
             self._send({"ok": False, "error": "Could not parse CSV."})
             return
@@ -79,7 +79,6 @@ class handler(BaseHTTPRequestHandler):
                 {"ok": False, "error": f"Too many rows ({len(rows)} > {MAX_ROWS}). Use sampling."}
             )
             return
-        columns = list(rows[0].keys())
 
         # Optional random sampling (seeded, reproducible).
         sampled = False
@@ -116,5 +115,6 @@ class handler(BaseHTTPRequestHandler):
                 "sampled": sampled,
                 "filename": filename,
                 "truth_columns": truth_columns,
+                "suggested_fields": suggested_fields(columns, rows),
             }
         )

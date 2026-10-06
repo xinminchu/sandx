@@ -25,6 +25,7 @@ type Plan = {
   sampled?: boolean;
   filename?: string;
   truth_columns?: string[];
+  suggested_fields?: string[];
 };
 
 type RunResult = {
@@ -74,7 +75,9 @@ export default function Studio() {
   const [truthColumns, setTruthColumns] = useState<string[]>([]);
   const [dataIdCol, setDataIdCol] = useState("");
   const [truthIdCol, setTruthIdCol] = useState("");
+  const [truthId2Col, setTruthId2Col] = useState("");
   const [truthClusterCol, setTruthClusterCol] = useState("");
+  const [truthFormat, setTruthFormat] = useState<"labels" | "pairs">("labels");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
   const [error, setError] = useState("");
@@ -115,6 +118,7 @@ export default function Studio() {
           setTruthColumns(j.truth_columns);
           if (j.truth_columns.length && !truthIdCol) {
             setTruthIdCol(j.truth_columns[0]);
+            setTruthId2Col(j.truth_columns[1] ?? j.truth_columns[0]);
             setTruthClusterCol(j.truth_columns[1] ?? j.truth_columns[0]);
             setDataIdCol((prev) => prev || j.columns![0] || "");
           }
@@ -122,8 +126,11 @@ export default function Studio() {
         if (firstLoad) {
           // Set field/blocking defaults from the new schema, then
           // re-plan once with the smart blocking key.
+          const sugg = j.suggested_fields?.length
+            ? j.suggested_fields
+            : j.columns.slice(0, 2);
           const init: Record<string, string> = {};
-          j.columns.slice(0, 2).forEach((c) => (init[c] = "jw"));
+          sugg.forEach((c) => (init[c] = "jw"));
           setFields(init);
           setTruthSource("none");
           setTruthCol("");
@@ -200,7 +207,9 @@ export default function Studio() {
       setTruthText(t);
       setTruthFileName(f.name);
       setTruthIdCol("");
+      setTruthId2Col("");
       setTruthClusterCol("");
+      setTruthFormat("labels");
       setError("");
       // Re-plan to pick up the truth file's columns.
       refreshPlan(payload, blockMethod, blockKey, sampleN, false, t);
@@ -254,7 +263,9 @@ export default function Studio() {
           sample_n: sampleN || undefined,
           truth_csv_text: truthSource === "file" ? truthText || undefined : undefined,
           truth_filename: truthFileName || undefined,
+          truth_format: truthFormat,
           truth_id_col: truthIdCol || undefined,
+          truth_id2_col: truthId2Col || undefined,
           truth_cluster_col: truthClusterCol || undefined,
           data_id_col: dataIdCol || undefined,
           config: {
@@ -578,40 +589,98 @@ export default function Studio() {
                           ))}
                         </select>
                       </label>
-                      <div className="grid grid-cols-2 gap-2">
-                        <label className="block">
-                          <span className="text-xs text-slate-500">
-                            Truth id column
-                          </span>
-                          <select
-                            value={truthIdCol}
-                            onChange={(e) => setTruthIdCol(e.target.value)}
-                            className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                      <div className="flex gap-2 text-sm">
+                        {(
+                          [
+                            ["labels", "id → cluster"],
+                            ["pairs", "duplicate pairs"],
+                          ] as ["labels" | "pairs", string][]
+                        ).map(([f, label]) => (
+                          <button
+                            key={f}
+                            type="button"
+                            onClick={() => setTruthFormat(f)}
+                            className={`px-3 py-1 rounded-lg border text-xs ${
+                              truthFormat === f
+                                ? "border-teal-600 bg-teal-600 text-white"
+                                : "border-slate-300 hover:bg-slate-50"
+                            }`}
                           >
-                            {truthColumns.map((c) => (
-                              <option key={c} value={c}>
-                                {c}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
-                        <label className="block">
-                          <span className="text-xs text-slate-500">
-                            Truth cluster column
-                          </span>
-                          <select
-                            value={truthClusterCol}
-                            onChange={(e) => setTruthClusterCol(e.target.value)}
-                            className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
-                          >
-                            {truthColumns.map((c) => (
-                              <option key={c} value={c}>
-                                {c}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
+                            {label}
+                          </button>
+                        ))}
                       </div>
+                      {truthFormat === "labels" ? (
+                        <div className="grid grid-cols-2 gap-2">
+                          <label className="block">
+                            <span className="text-xs text-slate-500">
+                              Truth id column
+                            </span>
+                            <select
+                              value={truthIdCol}
+                              onChange={(e) => setTruthIdCol(e.target.value)}
+                              className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                            >
+                              {truthColumns.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <label className="block">
+                            <span className="text-xs text-slate-500">
+                              Truth cluster column
+                            </span>
+                            <select
+                              value={truthClusterCol}
+                              onChange={(e) => setTruthClusterCol(e.target.value)}
+                              className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                            >
+                              {truthColumns.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                          <label className="block">
+                            <span className="text-xs text-slate-500">
+                              Truth id column A
+                            </span>
+                            <select
+                              value={truthIdCol}
+                              onChange={(e) => setTruthIdCol(e.target.value)}
+                              className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                            >
+                              {truthColumns.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <label className="block">
+                            <span className="text-xs text-slate-500">
+                              Truth id column B
+                            </span>
+                            <select
+                              value={truthId2Col}
+                              onChange={(e) => setTruthId2Col(e.target.value)}
+                              className="mt-0.5 w-full border border-slate-300 rounded-lg px-2 py-1.5 font-mono2"
+                            >
+                              {truthColumns.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -714,12 +783,12 @@ export default function Studio() {
 
           {result.display_rows?.length ? (
             <div className="mt-5 overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm table-auto">
                 <thead>
                   <tr className="text-left text-slate-500 border-b">
-                    <th className="py-2 pr-3 font-mono2">cluster</th>
+                    <th className="py-2 pr-3 font-mono2 whitespace-nowrap">cluster</th>
                     {result.columns?.map((c) => (
-                      <th key={c} className="py-2 pr-3 font-medium">
+                      <th key={c} className="py-2 pr-3 font-medium whitespace-nowrap">
                         {c}
                       </th>
                     ))}
@@ -728,14 +797,22 @@ export default function Studio() {
                 <tbody>
                   {result.display_rows.map((r, i) => (
                     <tr key={i} className="border-b border-slate-100">
-                      <td className="py-1.5 pr-3 font-mono2 text-teal-700 font-bold">
+                      <td className="py-1.5 pr-3 font-mono2 text-teal-700 font-bold whitespace-nowrap">
                         {r.__cluster}
                       </td>
-                      {result.columns?.map((c) => (
-                        <td key={c} className="py-1.5 pr-3 text-slate-700">
-                          {r[c]}
-                        </td>
-                      ))}
+                      {result.columns?.map((c) => {
+                        const v = String(r[c] ?? "");
+                        const short = v.length > 42 ? v.slice(0, 42) + "…" : v;
+                        return (
+                          <td
+                            key={c}
+                            className="py-1.5 pr-3 text-slate-700 max-w-[220px] truncate"
+                            title={v.length > 42 ? v : undefined}
+                          >
+                            {short}
+                          </td>
+                        );
+                      })}
                     </tr>
                   ))}
                 </tbody>
