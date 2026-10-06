@@ -30,7 +30,7 @@ export default function Home() {
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
           Entity resolution,
           <br />
-          <span className="text-teal-600">forged honest.</span>
+          <span className="text-teal-600">sand in, gold out.</span>
         </h1>
         <p className="mt-5 text-lg text-slate-600 max-w-2xl mx-auto">
           ERBOT is a unified R pipeline for deduplication and record linkage —
