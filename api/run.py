@@ -214,6 +214,7 @@ class handler(BaseHTTPRequestHandler):
                 cluster_method=cluster_method,
                 truth_col=truth_col,
                 truth=truth,
+                held_out=bool(cfg.get("held_out", False)),
             )
             if res.get("n_pairs", 0) > MAX_PAIRS:
                 return self._send(

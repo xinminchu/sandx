@@ -94,6 +94,9 @@ type RunResult = {
     b3: { precision: number; recall: number; f1: number };
     n_truth: number;
     n_true_clusters: number;
+    held_out?: boolean;
+    n_train_entities?: number;
+    n_test_entities?: number;
   } | null;
   cluster_sizes?: number[];
   columns?: string[];
@@ -133,6 +136,7 @@ export default function Studio() {
   const [hcH, setHcH] = useState(0.5);
   const [hdbscanMinPts, setHdbscanMinPts] = useState(2);
   const [clusterMethod, setClusterMethod] = useState("same");
+  const [heldOut, setHeldOut] = useState(true);
   const [clusterFilter, setClusterFilter] = useState<string>("all");
   const [truthSource, setTruthSource] = useState<TruthKind>("none");
   const [truthCol, setTruthCol] = useState("");
@@ -400,6 +404,7 @@ export default function Studio() {
             hc_h: hcH,
             hdbscan_min_pts: hdbscanMinPts,
             cluster_method: clusterMethod,
+            held_out: heldOut,
             truth_source: truthSource,
             truth_col: truthSource === "column" ? truthCol || null : null,
           },
@@ -996,11 +1001,28 @@ export default function Studio() {
           {["logistic", "lda", "qda", "knn", "fellegi_sunter"].includes(
             clusterMethod
           ) && (
-            <p className="text-xs text-slate-400 mt-2">
-              Supervised: trains on truth-labeled pairs, predicts all pairs,
-              then transitive closure over predicted links. Needs gold truth
-              in step 2.
-            </p>
+            <div className="mt-2 space-y-2">
+              <p className="text-xs text-slate-400">
+                Supervised: trains on truth-labeled pairs, predicts all pairs,
+                then transitive closure over predicted links. Needs gold truth
+                in step 2.
+              </p>
+              <label className="flex items-start gap-2 text-xs text-slate-600 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={heldOut}
+                  onChange={(e) => setHeldOut(e.target.checked)}
+                  className="accent-teal-600 mt-0.5"
+                />
+                <span>
+                  <span className="font-medium">Held-out validation</span> — train on
+                  70% of entities, report ARI on the other 30%{" "}
+                  <span className="text-slate-400">
+                    (honest; without this the score is in-sample and optimistic)
+                  </span>
+                </span>
+              </label>
+            </div>
           )}
         </section>
       )}
@@ -1076,6 +1098,12 @@ export default function Studio() {
                   {result.metrics.n_true_clusters} <Term id="truth-entities">true clusters</Term>)
                 </span>
               </div>
+              {result.metrics.held_out && (
+                <div className="mt-2 text-xs text-teal-800 bg-teal-50 border border-teal-200 rounded-lg px-3 py-2">
+                  Held-out validation: classifier trained on {result.metrics.n_train_entities}{" "}
+                  entities, ARI scored on {result.metrics.n_test_entities} unseen entities.
+                </div>
+              )}
               <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                 {[
                   ["ari", "ARI", result.metrics.ari],

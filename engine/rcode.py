@@ -42,6 +42,13 @@ def r_script(cfg):
             "",
             "# 4. Cluster: supervised pair classifier trained on gold truth,",
             "#    then transitive closure over predicted links",
+        ]
+        if cfg.get("held_out"):
+            tail_cluster += [
+                "#    Held-out: train on 70% of entities (er_split), evaluate on",
+                "#    the other 30% — see er_protocol_b() for the honest protocol",
+            ]
+        tail_cluster += [
             tv_line,
             f'labels <- er_cluster(S, method="{cm}", sim_list = sim, '
             f"pairs = pairs,",

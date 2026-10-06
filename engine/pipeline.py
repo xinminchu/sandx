@@ -64,7 +64,7 @@ def run(df, fields, block_method="standard", block_key=None,
         hc_h=0.5, hdbscan_min_pts=3,
         cluster_method="same",
         truth_col=None, max_pairs=2000000,
-        prefix_len=3, window=20, truth=None):
+        prefix_len=3, window=20, truth=None, held_out=False):
     """Run the full pipeline; return a result dict.
 
     `truth` is an optional list aligned with df (None = unknown record);
@@ -168,6 +168,9 @@ def run(df, fields, block_method="standard", block_key=None,
 
     # ---- Cluster -> final labels ----
     warnings = []
+    train_entities = None
+    test_entities = None
+    held_out_active = False
     if cluster_method == "same":
         labels = labels0
     elif cluster_method == "threshold_cc":
@@ -178,11 +181,22 @@ def run(df, fields, block_method="standard", block_key=None,
         edges = [(int(t_pi[t]), int(t_pj[t]), t_ps[t]) for t in range(len(t_pi))]
         labels = louvain_edges(edges, n)
     else:  # supervised: warn and keep classify labels when untrainable
+        tvec_sup = truth if truth is not None else _truth_from_col(df, truth_col)
+        if held_out and tvec_sup is not None:
+            train_entities, test_entities = _entity_split(tvec_sup)
+            if train_entities is not None:
+                held_out_active = True
+            else:
+                warnings.append(
+                    "Held-out requested but too few truth entities "
+                    "(need >= 10); evaluated in-sample instead."
+                )
         try:
             labels = _supervised_labels(
                 n, k_fields, feat_flat, t_pi, t_pj,
-                truth if truth is not None else _truth_from_col(df, truth_col),
+                tvec_sup,
                 cluster_method, threshold,
+                train_entities=train_entities,
             )
         except ValueError as e:
             warnings.append(str(e) + " Keeping classify labels.")
@@ -195,7 +209,11 @@ def run(df, fields, block_method="standard", block_key=None,
     metrics = None
     ari = None
     if tvec is not None:
-        sub = [(t, p) for t, p in zip(tvec, labels) if t is not None]
+        if held_out_active:
+            sub = [(t, p) for t, p in zip(tvec, labels)
+                   if t is not None and t in test_entities]
+        else:
+            sub = [(t, p) for t, p in zip(tvec, labels) if t is not None]
         if len(sub) >= 2:
             tt = [t for t, _ in sub]
             pp = [p for _, p in sub]
@@ -206,7 +224,11 @@ def run(df, fields, block_method="standard", block_key=None,
                 "b3": b3_prf(tt, pp),
                 "n_truth": len(sub),
                 "n_true_clusters": len(set(tt)),
+                "held_out": held_out_active,
             }
+            if held_out_active:
+                metrics["n_train_entities"] = len(train_entities)
+                metrics["n_test_entities"] = len(test_entities)
 
     counts = {}
     for lab in labels:
@@ -234,8 +256,14 @@ def _truth_from_col(df, truth_col):
     return tvec
 
 
-def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, threshold):
-    """Train on truth-labeled pairs, predict all, transitive closure."""
+def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, threshold,
+                      train_entities=None):
+    """Train on truth-labeled pairs, predict all, transitive closure.
+
+    train_entities: optional set of truth-entity ids to train on (held-out).
+    When given, only pairs with both endpoints in train_entities are used
+    for training; prediction still covers all pairs.
+    """
     n_pairs = len(t_pi)
     # pair labels: 1 if same true cluster (both endpoints labeled)
     y = []
@@ -252,9 +280,15 @@ def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, thresho
     X_train = []
     y_train = []
     for t in range(n_pairs):
-        if lab_mask[t]:
-            X_train.append([feat_flat[t * k_fields + f] for f in range(k_fields)])
-            y_train.append(y[t])
+        if not lab_mask[t]:
+            continue
+        if train_entities is not None:
+            ti = tvec[t_pi[t]]
+            tj = tvec[t_pj[t]]
+            if ti not in train_entities or tj not in train_entities:
+                continue
+        X_train.append([feat_flat[t * k_fields + f] for f in range(k_fields)])
+        y_train.append(y[t])
     if len(X_train) < 10 or len(set(y_train)) < 2:
         raise ValueError(
             f"{method}: too few truth-labeled pairs to train "
@@ -267,6 +301,27 @@ def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, thresho
     links = [(int(t_pi[t]), int(t_pj[t])) for t in range(n_pairs)
              if probs[t] >= threshold]
     return _union_find_labels(links, n)
+
+
+def _entity_split(tvec, train_frac=0.7, seed=42):
+    """Split truth entities into train/test sets (entity-disjoint).
+
+    Returns (train_entities, test_entities) as sets of entity ids, or
+    (None, None) when there are too few entities for a meaningful split.
+    """
+    import random
+    entities = sorted({t for t in tvec if t is not None})
+    if len(entities) < 10:
+        return None, None
+    rng = random.Random(seed)
+    shuffled = entities[:]
+    rng.shuffle(shuffled)
+    n_train = max(1, int(len(shuffled) * train_frac))
+    train = set(shuffled[:n_train])
+    test = set(shuffled[n_train:])
+    if not test:
+        return None, None
+    return train, test
 
 
 if __name__ == "__main__":
