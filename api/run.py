@@ -168,7 +168,14 @@ class handler(BaseHTTPRequestHandler):
             fields = cfg.get("fields") or {}
             if not fields:
                 return self._send({"ok": False, "error": "Select at least one match field."})
-            block_method = cfg.get("block_method", "prefix")
+            # Defensive: the truth column must never be a match field
+            # (leaking the answer into the features).
+            if truth_col and truth_col in fields:
+                fields = {k: v for k, v in fields.items() if k != truth_col}
+                if not fields:
+                    return self._send(
+                        {"ok": False, "error": "Select at least one match field (not the truth column)."}
+                    )            block_method = cfg.get("block_method", "prefix")
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
             classify_method = cfg.get("classify_method") or "tc"

@@ -175,14 +175,11 @@ export default function Studio() {
         if (firstLoad) {
           // Set field/blocking defaults from the new schema, then
           // re-plan once with the smart blocking key.
-          const sugg = j.suggested_fields?.length
-            ? j.suggested_fields
-            : j.columns.slice(0, 2);
-          const init: Record<string, string> = {};
-          sugg.forEach((c) => (init[c] = "jw"));
-          setFields(init);
+          // The truth column (if any) never becomes a match field or
+          // blocking key — that would leak the answer into the features.
           const pt = pendingTruth.current;
           pendingTruth.current = null;
+          const tcol = pt && pt.source === "column" ? pt.col : "";
           if (pt) {
             setTruthSource(pt.source);
             setTruthCol(pt.col);
@@ -190,7 +187,17 @@ export default function Studio() {
             setTruthSource("none");
             setTruthCol("");
           }
-          const key = smartBlockKey(j.columns);
+          const usable = j.columns.filter((c) => c !== tcol);
+          const sugg = (j.suggested_fields?.length
+            ? j.suggested_fields
+            : j.columns.slice(0, 2)
+          ).filter(
+            (c) => c !== tcol && !/^(truth|gold|label|cluster|cluster_id)$/i.test(c)
+          );
+          const init: Record<string, string> = {};
+          sugg.forEach((c) => (init[c] = "jw"));
+          setFields(init);
+          const key = smartBlockKey(usable);
           setBlockKey(key);
           setPlanning(false);
           refreshPlan(p, bm, key, sn, false, tt);
@@ -313,6 +320,8 @@ export default function Studio() {
       setPlan(null);
       setColumns([]);
       setResult(null);
+      setTruthSource("none");
+      setTruthCol("");
     }
   }
 
@@ -388,6 +397,23 @@ export default function Studio() {
 
   const fieldCols = Object.keys(fields);
   const overBudget = plan?.ok && (plan.n_pairs ?? 0) > PAIR_BUDGET;
+  // The active truth column lives only in Gold truth — never as a match
+  // field or blocking key (that would leak the answer into the features).
+  const truthColActive = truthSource === "column" && truthCol ? truthCol : null;
+
+  function dropColumnFromConfig(col: string) {
+    setFields((prev) => {
+      if (!prev[col]) return prev;
+      const next = { ...prev };
+      delete next[col];
+      return next;
+    });
+    if (blockKey === col) {
+      const key = smartBlockKey(columns.filter((c) => c !== col));
+      setBlockKey(key);
+      debouncePlan(payload, blockMethod, key, sampleN);
+    }
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-10">
@@ -513,7 +539,9 @@ export default function Studio() {
               Match fields <span className="text-slate-400">(similarity per field)</span>
             </div>
             <div className="flex flex-wrap gap-2">
-              {columns.map((c) => (
+              {columns
+                .filter((c) => c !== truthColActive)
+                .map((c) => (
                 <label
                   key={c}
                   className={`flex items-center gap-2 text-sm border rounded-lg px-3 py-2 cursor-pointer ${
@@ -578,11 +606,13 @@ export default function Studio() {
                   }}
                   className="mt-1 w-full border border-slate-300 rounded-lg px-2 py-2 font-mono2"
                 >
-                  {columns.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
+                  {columns
+                    .filter((c) => c !== truthColActive)
+                    .map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
                 </select>
               </label>
             )}
@@ -639,7 +669,11 @@ export default function Studio() {
               {truthSource === "column" && (
                 <select
                   value={truthCol}
-                  onChange={(e) => setTruthCol(e.target.value)}
+                  onChange={(e) => {
+                    const tc = e.target.value;
+                    setTruthCol(tc);
+                    if (tc) dropColumnFromConfig(tc);
+                  }}
                   className="mt-2 w-full border border-slate-300 rounded-lg px-2 py-2 font-mono2 text-sm"
                 >
                   <option value="">— pick a column —</option>
