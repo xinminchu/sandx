@@ -23,36 +23,8 @@ const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
     ],
   },
 ];
-const DATASETS = [
-  {
-    file: "restaurant_sample.csv",
-    label: "Restaurant",
-    desc: "35 records · toy dedup demo",
-    source: "built-in toy data",
-    truthCol: "truth",
-  },
-  {
-    file: "abt_buy.csv",
-    label: "Abt-Buy",
-    desc: "2,173 products · 1,076 entities · e-commerce",
-    source: "Leipzig DB Group benchmark (CC), dbs.uni-leipzig.de",
-    truthCol: "truth",
-  },
-  {
-    file: "affiliations.csv",
-    label: "Affiliations",
-    desc: "2,260 affiliation strings · 330 clusters",
-    source: "Leipzig DB Group benchmark (CC), dbs.uni-leipzig.de",
-    truthCol: "truth",
-  },
-  {
-    file: "cora.csv",
-    label: "Cora",
-    desc: "1,879 citations · 182 clusters · bibliography",
-    source: "Cora benchmark (public), gold pairs supplied by Sam",
-    truthCol: "truth",
-  },
-];
+import { DATASETS } from "./datasets";
+
 const SAMPLE_OPTIONS = [
   { n: 0, label: "All records" },
   { n: 2000, label: "Random 2,000" },
@@ -252,13 +224,13 @@ export default function Studio() {
     rd.readAsText(f);
   }
 
-  function loadUrl() {
-    const u = urlInput.trim();
-    if (!u) {
+  function loadUrl(u?: string) {
+    const url = (u ?? urlInput).trim();
+    if (!url) {
       setError("Paste a link to a CSV file first.");
       return;
     }
-    loadPayload({ url: u });
+    loadPayload({ url });
   }
 
   function onTruthFile(f: File | undefined) {
@@ -283,8 +255,27 @@ export default function Studio() {
     rd.readAsText(f);
   }
 
-  // Load the first dataset on first visit.
+  // Load the first dataset on first visit, or a handoff from the profile page.
   useEffect(() => {
+    try {
+      const raw = localStorage.getItem("sandx_profile_handoff");
+      if (raw) {
+        localStorage.removeItem("sandx_profile_handoff");
+        const h = JSON.parse(raw);
+        if (h.csv_text) {
+          loadPayload({ csv_text: h.csv_text, filename: h.filename || "dataset.csv" });
+          return;
+        }
+        if (h.url) {
+          setSource("url");
+          setUrlInput(h.url);
+          loadUrl(h.url);
+          return;
+        }
+      }
+    } catch {
+      /* ignore */
+    }
     useDataset(DATASETS[0]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -385,7 +376,12 @@ export default function Studio() {
 
       {/* 1 · Data source (pick exactly one) */}
       <section className="mt-8 border border-slate-200 rounded-xl p-5">
-        <h2 className="font-bold">1 · Data — pick one source</h2>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-bold">1 · Data — pick one source</h2>
+          <a href="/studio/profile" className="text-sm text-teal-700 hover:underline">
+            Full data profile →
+          </a>
+        </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {(
             [
@@ -452,7 +448,7 @@ export default function Studio() {
               className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono2"
             />
             <button
-              onClick={loadUrl}
+              onClick={() => loadUrl()}
               className="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700"
             >
               Load
@@ -957,14 +953,19 @@ export default function Studio() {
           <h2 className="font-bold">5 · Results</h2>
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              ["Records", String(result.n_records)],
-              ["Candidate pairs", Number(result.n_pairs).toLocaleString()],
-              ["Links", result.n_links == null ? "—" : Number(result.n_links).toLocaleString()],
-              ["Clusters", String(result.n_clusters)],
-            ].map(([k, v]) => (
+              ["Records", String(result.n_records), ""],
+              ["Candidate pairs", Number(result.n_pairs).toLocaleString(), ""],
+              ["Links", result.n_links == null ? "—" : Number(result.n_links).toLocaleString(), ""],
+              [
+                "Clusters",
+                String(result.n_clusters),
+                result.metrics ? `${result.metrics.n_true_clusters} true entities` : "",
+              ],
+            ].map(([k, v, sub]) => (
               <div key={k} className="border border-slate-200 rounded-lg p-3 text-center">
                 <div className="text-2xl font-extrabold text-teal-700">{v}</div>
                 <div className="text-xs text-slate-500 mt-1">{k}</div>
+                {sub ? <div className="text-xs text-slate-400">{sub}</div> : null}
               </div>
             ))}
           </div>

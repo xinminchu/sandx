@@ -17,12 +17,20 @@ ID_LIKE = re.compile(r"(^|_)id$", re.IGNORECASE)
 
 
 def sniff_dialect(text):
-    """Guess the CSV dialect; fall back to plain comma."""
+    """Guess the delimiter; keep standard quoting.
+
+    The sniffer's quoting guesses (e.g. doublequote=False) break on fields
+    with embedded quotes, silently misaligning columns. Only the delimiter
+    is taken from the sniffer.
+    """
     try:
         d = csv.Sniffer().sniff(text[:8192], delimiters=[",", ";", "\t", "|"])
         if d.delimiter not in (",", ";", "\t", "|"):
             raise csv.Error("odd delimiter")
-        return d
+        class _Sniffed(csv.excel):
+            pass
+        _Sniffed.delimiter = d.delimiter
+        return _Sniffed
     except Exception:
         return csv.excel
 
