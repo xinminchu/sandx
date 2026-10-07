@@ -206,12 +206,29 @@ class QDA(_GaussianBase):
 class KNN:
     """k-nearest neighbors classifier (k=5); proba = neighbor match rate."""
 
+    #: max reference points; beyond this we stratified-subsample (k-NN in
+    #: low-dim feature space needs coverage, not all 67k pairs)
+    MAX_REF = 2000
+
     def __init__(self, k=5):
         self.k = k
 
     def fit(self, X, y):
+        if len(X) > self.MAX_REF:
+            import random
+            idx1 = [i for i, yi in enumerate(y) if yi == 1]
+            idx0 = [i for i, yi in enumerate(y) if yi == 0]
+            n1 = max(1, int(self.MAX_REF * len(idx1) / len(X)))
+            n0 = self.MAX_REF - n1
+            rng = random.Random(42)
+            keep = rng.sample(idx1, min(n1, len(idx1))) + rng.sample(
+                idx0, min(n0, len(idx0))
+            )
+            X = [X[i] for i in keep]
+            y = [y[i] for i in keep]
         self.X_ = X
         self.y_ = y
+        self.n_ref_ = len(X)
         return self
 
     def predict_proba(self, X):
