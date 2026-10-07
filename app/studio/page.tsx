@@ -1546,15 +1546,74 @@ export default function Studio() {
         <section className="max-w-6xl mx-auto px-5 pb-16">
           <div className="flex items-baseline justify-between">
             <h2 className="font-bold">Run history</h2>
-            <button
-              onClick={() => {
-                setHistory([]);
-                setCompareIds([]);
-              }}
-              className="text-xs text-slate-400 hover:text-slate-600"
-            >
-              Clear all
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  const blob = new Blob([JSON.stringify(history, null, 2)], {
+                    type: "application/json",
+                  });
+                  const a = document.createElement("a");
+                  a.href = URL.createObjectURL(blob);
+                  a.download = `sandx-run-history-${new Date().toISOString().slice(0, 10)}.json`;
+                  a.click();
+                  URL.revokeObjectURL(a.href);
+                }}
+                className="text-xs text-teal-700 hover:text-teal-900 font-medium"
+              >
+                Export
+              </button>
+              <label className="text-xs text-teal-700 hover:text-teal-900 font-medium cursor-pointer">
+                Import
+                <input
+                  type="file"
+                  accept=".json,application/json"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (!f) return;
+                    const rd = new FileReader();
+                    rd.onload = () => {
+                      try {
+                        const arr = JSON.parse(String(rd.result ?? "[]"));
+                        if (!Array.isArray(arr)) throw new Error("bad file");
+                        const valid = arr.filter(
+                          (r: unknown) =>
+                            r &&
+                            typeof r === "object" &&
+                            typeof (r as SavedRun).id === "string" &&
+                            (r as SavedRun).config &&
+                            (r as SavedRun).result
+                        ) as SavedRun[];
+                        setHistory((h) => {
+                          const seen = new Set(h.map((x) => x.id));
+                          const merged = [
+                            ...valid.filter((r) => !seen.has(r.id)),
+                            ...h,
+                          ]
+                            .sort((a, b) => b.ts - a.ts)
+                            .slice(0, HISTORY_MAX);
+                          return merged;
+                        });
+                        setCompareIds([]);
+                      } catch {
+                        alert("Could not import: not a valid history file.");
+                      }
+                    };
+                    rd.readAsText(f);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              <button
+                onClick={() => {
+                  setHistory([]);
+                  setCompareIds([]);
+                }}
+                className="text-xs text-slate-400 hover:text-slate-600"
+              >
+                Clear all
+              </button>
+            </div>
           </div>
           <p className="text-xs text-slate-400 mt-1">
             Every run is saved automatically (latest {HISTORY_MAX}, this
