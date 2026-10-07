@@ -295,5 +295,7 @@ class handler(BaseHTTPRequestHandler):
             )
         except ValueError as e:
             return self._send({"ok": False, "error": str(e)})
+        except TimeoutError as e:
+            return self._send({"ok": False, "error": str(e)})
         except Exception as e:  # never leak a stack trace to the client
             return self._send({"ok": False, "error": f"Engine error: {type(e).__name__}"})

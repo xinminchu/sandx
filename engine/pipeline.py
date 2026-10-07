@@ -64,12 +64,15 @@ def run(df, fields, block_method="standard", block_key=None,
         hc_h=0.5, hdbscan_min_pts=3,
         cluster_method="same",
         truth_col=None, max_pairs=2000000,
-        prefix_len=3, window=20, truth=None, held_out=False):
+        prefix_len=3, window=20, truth=None, held_out=False,
+        time_budget=45):
     """Run the full pipeline; return a result dict.
 
     `truth` is an optional list aligned with df (None = unknown record);
     it takes precedence over `truth_col`. Metrics are computed over the
     subset of records that have truth.
+    `time_budget` caps wall-clock seconds; exceeding it raises TimeoutError
+    with a user-actionable message instead of being killed silently.
     """
     n = len(df)
     cols = list(fields)
@@ -114,6 +117,18 @@ def run(df, fields, block_method="standard", block_key=None,
 
     # ---- Score pairs (single streaming pass) ----
     import numpy as np
+    import time as _time
+    _t0 = _time.monotonic()
+    _next_check = 50000
+
+    def _check_budget(where):
+        if _time.monotonic() - _t0 > time_budget:
+            raise TimeoutError(
+                f"run timed out after {time_budget}s during {where} "
+                f"({n_pairs:,} pairs scored). Try: blocking instead of "
+                "'none', fewer match fields, or run a sample first."
+            )
+
     tc_links = []
     hc_triples = [] if classify_method == "hc" else None
     hdb_D = None
@@ -125,6 +140,9 @@ def run(df, fields, block_method="standard", block_key=None,
     n_pairs = 0
     for i, j in pair_iter:
         n_pairs += 1
+        if n_pairs >= _next_check:
+            _next_check += 50000
+            _check_budget("pair scoring")
         feats = []
         tot, cnt = 0.0, 0
         for cv, m in zip(cvecs, meths):
@@ -158,6 +176,7 @@ def run(df, fields, block_method="standard", block_key=None,
                 feat_flat.append(0.0 if f != f else f)  # nan -> 0.0
 
     # ---- Classify -> labels0 ----
+    _check_budget("classification")
     if classify_method == "tc":
         labels0 = _union_find_labels(tc_links, n)
     elif classify_method == "hc":
