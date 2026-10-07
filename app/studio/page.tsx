@@ -283,6 +283,7 @@ export default function Studio() {
   const [history, setHistory] = useState<SavedRun[]>([]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [tableOpen, setTableOpen] = useState(false);
 
   useEffect(() => {
     setHistory(loadHistory());
@@ -537,6 +538,7 @@ export default function Studio() {
     setError("");
     setResult(null);
     setClusterFilter("all");
+    setTableOpen(false);
     try {
       const r = await fetch("/api/run", {
         method: "POST",
@@ -1432,6 +1434,22 @@ export default function Studio() {
 
           {result.display_rows?.length ? (
             <div className="mt-5">
+              <button
+                onClick={() => setTableOpen((o) => !o)}
+                className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-teal-700"
+              >
+                <span
+                  className={`inline-block transition-transform ${tableOpen ? "rotate-90" : ""}`}
+                >
+                  ▸
+                </span>
+                Show cluster table
+                <span className="text-xs font-normal text-slate-400">
+                  ({result.display_rows.length} rows)
+                </span>
+              </button>
+              {tableOpen && (
+              <div className="mt-2">
               <div className="flex items-center gap-2 mb-2 text-sm">
                 <span className="font-medium text-slate-700">Show cluster:</span>
                 <select
@@ -1507,6 +1525,8 @@ export default function Studio() {
                 Showing first {result.display_rows.length} rows — download the CSV
                 for the full result.
               </div>
+              </div>
+              )}
             </div>
           ) : null}
         </section>
