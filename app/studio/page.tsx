@@ -570,7 +570,16 @@ export default function Studio() {
           },
         }),
       });
-      const j = (await r.json()) as RunResult;
+      const j = await (async () => {
+        const text = await r.text();
+        try {
+          return JSON.parse(text) as RunResult;
+        } catch {
+          throw new Error(
+            `Server returned HTTP ${r.status} (not JSON) — the service may have been redeploying. Try again.`
+          );
+        }
+      })();
       if (!j.ok) setError(j.error || "Run failed.");
       else {
         setResult(j);
