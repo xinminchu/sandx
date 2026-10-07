@@ -216,6 +216,7 @@ def run(df, fields, block_method="standard", block_key=None,
                 tvec_sup,
                 cluster_method, threshold,
                 train_entities=train_entities,
+                deadline=_t0 + time_budget,
             )
         except ValueError as e:
             warnings.append(str(e) + " Keeping classify labels.")
@@ -297,13 +298,22 @@ def _truth_from_col(df, truth_col):
 
 
 def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, threshold,
-                      train_entities=None):
+                      train_entities=None, deadline=None):
     """Train on truth-labeled pairs, predict all, transitive closure.
 
     train_entities: optional set of truth-entity ids to train on (held-out).
     When given, only pairs with both endpoints in train_entities are used
     for training; prediction still covers all pairs.
+    deadline: optional monotonic timestamp; exceeding it raises TimeoutError.
     """
+    import time as _time
+
+    def _check(where):
+        if deadline is not None and _time.monotonic() > deadline:
+            raise TimeoutError(
+                f"run timed out during supervised {method} {where}. Try: "
+                "blocking instead of 'none', fewer match fields, or a sample."
+            )
     n_pairs = len(t_pi)
     # pair labels: 1 if same true cluster (both endpoints labeled)
     y = []
@@ -334,9 +344,11 @@ def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, thresho
             f"{method}: too few truth-labeled pairs to train "
             f"({len(X_train)} usable, need >= 10 with both classes)."
         )
+    _check("training")
     clf = train_classifier(method, X_train, y_train)
     X_all = [[feat_flat[t * k_fields + f] for f in range(k_fields)]
              for t in range(n_pairs)]
+    _check("prediction")
     probs = clf.predict_proba(X_all)
     links = [(int(t_pi[t]), int(t_pj[t])) for t in range(n_pairs)
              if probs[t] >= threshold]

@@ -215,14 +215,26 @@ class KNN:
         return self
 
     def predict_proba(self, X):
-        out = []
-        for x in X:
-            dists = sorted(
-                (sum((a - b) ** 2 for a, b in zip(x, xi)), yi)
-                for xi, yi in zip(self.X_, self.y_)
-            )[: self.k]
-            out.append(sum(yi for _, yi in dists) / len(dists))
-        return out
+        import numpy as np
+        Xa = np.asarray(X, dtype=np.float64)
+        Xtr = np.asarray(self.X_, dtype=np.float64)
+        ytr = np.asarray(self.y_, dtype=np.float64)
+        n_tr = len(Xtr)
+        if n_tr == 0 or len(Xa) == 0:
+            return [0.0] * len(Xa)
+        k = min(self.k, n_tr)
+        tr_norm = (Xtr ** 2).sum(axis=1)
+        out = np.empty(len(Xa))
+        # batched: ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b (BLAS matmul)
+        B = max(50, min(2000, 12_500_000 // n_tr))
+        for s in range(0, len(Xa), B):
+            e = min(s + B, len(Xa))
+            Xb = Xa[s:e]
+            d2 = (Xb ** 2).sum(axis=1)[:, None] + tr_norm[None, :] - 2.0 * (Xb @ Xtr.T)
+            np.maximum(d2, 0, out=d2)
+            idx = np.argpartition(d2, k - 1, axis=1)[:, :k]
+            out[s:e] = ytr[idx].mean(axis=1)
+        return out.tolist()
 
 
 class FellegiSunter:
