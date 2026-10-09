@@ -460,7 +460,9 @@ export default function Studio() {
       setError("Paste a link to a CSV file first.");
       return;
     }
-    loadPayload({ url });
+    // 从 URL 末尾取文件名（如 .../10Kfull_sample1k.csv），去掉 query 参数
+    const fname = url.split("?")[0].replace(/\/$/, "").split("/").pop() || "link.csv";
+    loadPayload({ url, filename: fname });
   }
 
   function onTruthFile(f: File | undefined) {
