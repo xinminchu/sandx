@@ -30,6 +30,23 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         aka: "Token Jaccard",
         body: "Splits each value into words and measures overlap: shared words ÷ all distinct words. Word order doesn't matter, so “Bank of America” vs “America Bank” scores high. Best for longer text where words may shuffle.",
       },
+      {
+        id: "cosine-distance",
+        term: "cosine distance",
+        body: "1 − (u·v)/(‖u‖‖v‖): one minus the cosine of the angle between two vectors. 0 means pointing the same way (identical direction), 1 means orthogonal, 2 means opposite. Used for average-linkage clustering on embedding vectors, where direction matters more than magnitude.",
+      },
+      {
+        id: "idf",
+        term: "IDF",
+        aka: "Inverse document frequency",
+        body: "IDF(t) = log((N+1)/(df(t)+1)) + 1, where df(t) is how many records contain term t. Common words (“the”, “inc”) get tiny weights; rare discriminative words (“Zynga”, “quinoa”) get large ones. Turns bag-of-words into a weighted cosine where the unusual words decide.",
+      },
+      {
+        id: "nfkc",
+        term: "NFKC",
+        aka: "Unicode normalization",
+        body: "Canonical decomposition followed by composition: resolves the many byte-sequences that look like the same character into one canonical form. “Müller” written with a combining umlaut (u + ¨) becomes identical to the precomposed “ü” before blocking or comparison, so visually identical keys actually match.",
+      },
     ],
   },
   {
@@ -66,6 +83,28 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         body: "No blocking: every pair is compared. Only feasible for small data — the pair budget will stop you before it melts the server.",
       },
       {
+        id: "blocking-general",
+        term: "blocking",
+        body: "Restricting pairwise comparison to a candidate set instead of all n(n−1)/2 pairs. With n = 10,000 that's ~50M pairs; blocking keeps the thousands likely to match. The eternal trade-off: skip too aggressively and true matches are lost forever (low pair completeness); block too loosely and you pay for it in compute (low reduction ratio).",
+      },
+      {
+        id: "candidate-pair",
+        term: "candidate pair",
+        body: "A pair (i, j) that survived blocking and will actually be compared at the similarity stage. Everything downstream — similarity, classification, clustering — only ever sees candidate pairs, so a true match that blocking discards can never be recovered.",
+      },
+      {
+        id: "pair-completeness",
+        term: "pair completeness",
+        aka: "PC · blocking recall",
+        body: "PC = (true matches among candidates) / (all true matches). The recall of the blocking step: what fraction of real duplicates made it into the candidate set. If PC < 1, some true matches are gone before comparison even starts. Good blocking keeps PC near 1.0 while still cutting pairs.",
+      },
+      {
+        id: "reduction-ratio",
+        term: "reduction ratio",
+        aka: "RR",
+        body: "RR = 1 − (candidate pairs) / (all n(n−1)/2 pairs). The fraction of comparisons blocking saved you. RR = 0.99 means 99% of pairs were skipped. The art of blocking is maximizing RR and PC together — usually in tension.",
+      },
+      {
         id: "blocking-key",
         term: "blocking key",
         body: "The field used to form blocks. Pick something discriminating (postal code, name prefix). A unique id is useless as a key (every record gets its own bucket, zero pairs), and the truth column must never be one (that leaks the answer).",
@@ -100,6 +139,21 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         term: "hdbscan",
         aka: "HDBSCAN",
         body: "Density-based hierarchical clustering. Finds clusters of varying density, needs no similarity threshold, and labels sparse points as noise (shown as singletons here). min_pts (default 2) sets the smallest neighborhood that counts as dense.",
+      },
+      {
+        id: "transitivity",
+        term: "transitivity",
+        body: "If A = B and B = C then A = C: the logical rule that turns pairwise “match” links into entity clusters via connected components. Its dark side is chaining — one false link (A≈B, B≈C, but A≠C) fuses two real entities. Raising the similarity threshold is the usual antidote.",
+      },
+      {
+        id: "consensus-clustering",
+        term: "consensus clustering",
+        body: "Merging several clustering results by majority vote on co-membership: a pair is co-clustered only if at least a fraction α of methods agree (α = 0.5 is majority vote; α = 1.0 demands unanimity). Trades the quirks of any single method for the wisdom of the crowd.",
+      },
+      {
+        id: "co-membership",
+        term: "co-membership",
+        body: "Two records landing in the same cluster. Many ER metrics and merging rules are defined purely in terms of co-membership — which pairs are together — rather than cluster labels, because labels are arbitrary but “together or not” is not.",
       },
     ],
   },
@@ -154,6 +208,66 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         id: "pam",
         term: "pam",
         body: "Partitioning Around Medoids (k-medoids): picks k real records as centers and assigns every record to its nearest center. Robust to outliers; k picked by silhouette.",
+      },
+      {
+        id: "medoid",
+        term: "medoid",
+        body: "The actual record minimizing the sum of distances to all other members of its cluster — the “most central” real data point. Unlike a centroid (a mean that may correspond to no real record), a medoid is always one of the records, which makes PAM's clusters explainable: “this cluster is represented by this record.”",
+      },
+      {
+        id: "modularity",
+        term: "modularity",
+        aka: "Q",
+        body: "Q = Σᵢⱼ [Aᵢⱼ − kᵢkⱼ/2m] δ(cᵢ,cⱼ) / 2m: edge density inside communities minus what you'd expect by chance. Louvain greedily maximizes it. Its known flaw is the resolution limit — communities smaller than ~√(2m) nodes tend to get merged — which is why Leiden and CPM exist.",
+      },
+      {
+        id: "silhouette",
+        term: "silhouette width",
+        body: "s(i) = (b(i) − a(i)) / max(a(i), b(i)), where a(i) is the mean distance to its own cluster and b(i) the mean distance to the nearest other cluster. Ranges [−1, 1]: near 1 means well-placed, near 0 means on a boundary, negative means probably misassigned. Averaged over records to pick k without truth.",
+      },
+      {
+        id: "cpm",
+        term: "CPM",
+        aka: "Constant Potts Model",
+        body: "CPM = Σc [ec − γ·nc(nc−1)/2]: like modularity, but compares each community's internal edges against an absolute density threshold γ instead of a chance model. Because the threshold doesn't scale with graph size, CPM has no resolution limit — tiny dense communities survive. Used by the gc (graph coloring) method.",
+      },
+      {
+        id: "chromatic-number",
+        term: "chromatic number",
+        aka: "χ",
+        body: "The minimum colors needed so no two adjacent graph vertices share a color. ER-as-graph-coloring flips the problem: build a conflict graph (edges where similarity is LOW), and a proper coloring assigns entity labels — records that must differ get different colors.",
+      },
+      {
+        id: "resolution-limit",
+        term: "resolution limit",
+        body: "Modularity's blind spot (Fortunato & Barthélemy, 2007): communities smaller than ~√(2m) nodes tend to be merged with neighbors even when they're perfectly dense. For ER data with many tiny entities (2–3 records each), this silently fuses real entities. Mitigations: raise γ, use threshold_cc, or use CPM-based gc.",
+      },
+      {
+        id: "resolution-parameter",
+        term: "resolution parameter",
+        aka: "γ",
+        body: "The granularity knob in Louvain/Leiden/CPM: higher γ favors smaller, tighter communities; lower γ favors larger ones. There is no universally right value — it encodes how fine-grained you believe the true entities are.",
+      },
+      {
+        id: "cluster-ensemble",
+        term: "cluster ensemble",
+        body: "Combining multiple clustering results into one final partition — e.g. by consensus voting on co-membership. Different methods make different mistakes; the ensemble keeps only the agreements. See consensus clustering.",
+      },
+      {
+        id: "spectral-embedding",
+        term: "spectral embedding",
+        body: "A low-dimensional representation from the leading singular vectors of the similarity matrix S ≈ UΣVᵀ, taking X = UΣ (default 50 dims via irlba). Centroidal methods (hclust, PAM) can't work on a sparse graph directly, so they work on X instead — geometry recovered from the graph.",
+      },
+      {
+        id: "svd",
+        term: "SVD",
+        aka: "Singular value decomposition",
+        body: "S ≈ UΣVᵀ: factors any matrix into orthogonal U, V and a diagonal Σ of singular values. Truncating to the top-d components gives the best rank-d approximation — the engine behind spectral embeddings and dimensionality reduction throughout ER.",
+      },
+      {
+        id: "irlba",
+        term: "irlba",
+        body: "Implicitly Restarted Lanczos Bidiagonalization Algorithm: computes only the top-d singular vectors of a large sparse matrix without ever forming the dense matrix. What makes spectral embedding feasible at n = 10,000+.",
       },
       {
         id: "clf-logistic",
@@ -260,6 +374,33 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         term: "clusters",
         body: "The predicted entities: groups of records the pipeline decided refer to the same real-world thing.",
       },
+      {
+        id: "nmi",
+        term: "NMI",
+        aka: "Normalized mutual information",
+        body: "NMI = 2·I(C;K) / (H(C)+H(K)): shared information between predicted and true clusters, normalized to [0, 1]. 1 is perfect, 0 is no shared information. More stable than ARI when comparing clusterings with very different numbers of clusters.",
+      },
+      {
+        id: "vi",
+        term: "VI",
+        aka: "Variation of information",
+        body: "VI(C,K) = H(C|K) + H(K|C): the bits of information lost between two clusterings. 0 is perfect. Unlike ARI/NMI it is a true metric (triangle inequality holds), which makes it suitable for theoretical analysis.",
+      },
+      {
+        id: "v-measure",
+        term: "V-measure",
+        body: "The harmonic mean of homogeneity and completeness: V = 2·H·C/(H+C). Like an F-score, but for cluster structure instead of pairs — it rewards clusters that are both pure and complete.",
+      },
+      {
+        id: "homogeneity",
+        term: "homogeneity",
+        body: "Each cluster contains only records from a single true entity: H = 1 − H(C|K)/H(C). 1 means perfectly pure clusters. Its twin is completeness (each entity's records all land in one cluster); V-measure is their harmonic mean.",
+      },
+      {
+        id: "entity-disjoint-split",
+        term: "entity-disjoint split",
+        body: "Train/test split by entity, not by record: all records of test entities are withheld from training, mimicking deployment on unseen entities. Conceptually cleaner than record-disjoint splits (which leak entity-specific patterns and inflate scores ~5–15%), but circular in practice — defining the split requires the entity labels ER is trying to discover.",
+      },
     ],
   },
   {
@@ -291,6 +432,77 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         id: "column-roles",
         term: "column roles",
         body: "The Data Profile guesses each column's role: id (identifier, skipped for matching), truth (answer key, evaluation only), field (usable for matching), excluded (unsuitable for ER, e.g. all-unique values).",
+      },
+    ],
+  },
+  {
+    id: "foundations",
+    title: "Foundations",
+    intro: "The ideas underneath the pipeline: what an entity is, how missing data behaves, and the learning theory behind the methods.",
+    entries: [
+      {
+        id: "entity",
+        term: "entity",
+        body: "A real-world object — a person, company, publication — that may appear as multiple records. ER's whole job is to recover entities from records. Not to be confused with a cluster (the pipeline's guess at an entity) or a record (one row).",
+      },
+      {
+        id: "deduplication",
+        term: "deduplication",
+        body: "ER within a single dataset: which records refer to the same entity? The Studio's main mode. Its sibling is record linkage — matching across two or more datasets.",
+      },
+      {
+        id: "record-linkage",
+        term: "record linkage",
+        body: "ER across two or more datasets: which record in A matches which in B? The classic Fellegi–Sunter (1969) problem. Deduplication is the single-dataset special case.",
+      },
+      {
+        id: "both-null-artifact",
+        term: "both-null artifact",
+        body: "The trap of scoring two missing values as identical: sim(“”, “”) = 1 is mathematically tidy but semantically wrong — two records that both lack a field provide no evidence of being the same entity. ERBOT scores missing as NA instead, so the field is ignored for that pair rather than injecting false match signal.",
+      },
+      {
+        id: "missing-mechanisms",
+        term: "MCAR / MAR / MNAR",
+        aka: "Missing-data mechanisms",
+        body: "Rubin's taxonomy: MCAR (missingness independent of everything — benign), MAR (missingness depends only on observed data, e.g. source — imputable), MNAR (missingness depends on the missing value itself — the hard case). In ER, systematic missingness (a whole source lacking a field) is the dangerous pattern; per-pair NA handling absorbs it without imputation.",
+      },
+      {
+        id: "em-algorithm",
+        term: "EM algorithm",
+        aka: "Expectation–Maximization",
+        body: "Alternates an E-step (compute expected class memberships given current parameters) and an M-step (re-estimate parameters from those memberships) until convergence. ERBOT's Fellegi–Sunter weighting fits a 2-component Beta mixture this way — no labels needed — then sets field weights ∝ log(mk/uk).",
+      },
+      {
+        id: "bimodality",
+        term: "bimodality coefficient",
+        aka: "Sarle's BC",
+        body: "BC = (skewness² + 1) / (kurtosis + 3(n−1)²/((n−2)(n−3))). BC > 0.555 suggests a two-peaked distribution. A field whose pair-similarities split into “clearly match” and “clearly not” humps is discriminative — hence a weight-learning signal that needs no truth.",
+      },
+      {
+        id: "contrastive-loss",
+        term: "contrastive loss",
+        body: "Pushes match-pair embeddings together and non-match embeddings apart on the unit sphere. The learned-retriever blocking trains an MLP encoder with this objective — optimized for recall@K (don't miss duplicates), not classification accuracy.",
+      },
+      {
+        id: "infonce",
+        term: "InfoNCE",
+        body: "L = −log[ exp(zᵢ·zⱼ/τ) / Σₖ exp(zᵢ·zₖ/τ) ]: the contrastive loss as a softmax — the positive pair must out-score all in-batch negatives. All non-positive pairs in the batch serve as negatives, so batch size implicitly controls the negative ratio.",
+      },
+      {
+        id: "temperature",
+        term: "temperature",
+        aka: "τ",
+        body: "The softmax sharpness in InfoNCE. Low τ (0.1 is standard) makes the distribution peaked: the model must separate even the hardest negatives. High τ makes training easier but embeddings less discriminative.",
+      },
+      {
+        id: "covariate-shift",
+        term: "covariate shift",
+        body: "When feature distributions drift between training and deployment — e.g. a retriever trained on restaurant names applied to person names. The honest held-out protocol (entity-disjoint split) is the standard guard: it measures generalization to unseen entities, not memorization of seen ones.",
+      },
+      {
+        id: "sparse-matrix",
+        term: "sparse matrix",
+        body: "A matrix that stores only non-zero entries. The n×n similarity matrix is almost entirely empty (only candidate pairs have scores) — at n = 10,000 with 200,000 pairs, ~5 MB sparse vs ~800 MB dense. What makes large-n clustering feasible at all.",
       },
     ],
   },
