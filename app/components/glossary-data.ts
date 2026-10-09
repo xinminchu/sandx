@@ -45,7 +45,7 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         id: "nfkc",
         term: "NFKC",
         aka: "Unicode normalization",
-        body: "Canonical decomposition followed by composition: resolves the many byte-sequences that look like the same character into one canonical form. “Müller” written with a combining umlaut (u + ¨) becomes identical to the precomposed “ü” before blocking or comparison, so visually identical keys actually match.",
+        body: "Normalization Form Kompatibility Composition: resolves the many byte-sequences that look like the same character into one canonical form. “Müller” written with a combining umlaut (u + ¨) becomes identical to the precomposed “ü” before blocking or comparison, so visually identical keys actually match. Unicode defines four forms: NFC (canonical composition), NFD (canonical decomposition), NFKC (compatibility composition), NFKD (compatibility decomposition) — the K forms additionally map compatibility variants like fullwidth characters to their plain equivalents.",
       },
     ],
   },
