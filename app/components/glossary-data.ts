@@ -401,6 +401,53 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         term: "entity-disjoint split",
         body: "Train/test split by entity, not by record: all records of test entities are withheld from training, mimicking deployment on unseen entities. Conceptually cleaner than record-disjoint splits (which leak entity-specific patterns and inflate scores ~5–15%), but circular in practice — defining the split requires the entity labels ER is trying to discover.",
       },
+      {
+        id: "confusion-matrix",
+        term: "confusion matrix",
+        aka: "contingency table",
+        body: "The k×ℓ table with mij = |Ci ∩ C′ⱼ|: how many records the predicted cluster i and the true cluster j share. Almost every clustering-comparison metric — Rand, ARI, Fowlkes–Mallows, NMI, VI — is computed from this table (or equivalently from pair counts n₁₁, n₀₀, n₁₀, n₀₁).",
+      },
+      {
+        id: "rand-index",
+        term: "Rand index",
+        body: "R = 2(n₁₁+n₀₀) / n(n−1): the fraction of record pairs classified the same way by both clusterings (together or apart in both). Ranges [0, 1]. Simple but optimistic — even random clusterings score high when there are many clusters — which is why the adjusted version (ARI) corrects for chance.",
+      },
+      {
+        id: "fowlkes-mallows",
+        term: "Fowlkes–Mallows index",
+        body: "FM = √(n₁₁/(n₁₁+n₁₀) · n₁₁/(n₁₁+n₀₁)): the geometric mean of pairwise precision and recall. Rewards clusterings that agree on which pairs belong together, ignoring the vast n₀₀ background of pairs apart in both. Like ARI it is usually reported against a chance-corrected baseline.",
+      },
+      {
+        id: "mirkin-metric",
+        term: "Mirkin metric",
+        aka: "equivalence mismatch distance",
+        body: "M = Σᵢ|Ci|² + Σⱼ|C′ⱼ|² − 2Σᵢⱼmᵢⱼ² = n(n−1)(1−R): a true metric on the space of clusterings, directly tied to the Rand index. Counts the pairs on which the two clusterings disagree — an edit distance for partitions.",
+      },
+      {
+        id: "clustering-jaccard",
+        term: "clustering Jaccard",
+        body: "J = n₁₁ / (n₁₁+n₁₀+n₀₁): like the Rand index but disregards n₀₀, the pairs apart in both clusterings. Harsher than Rand when most pairs are trivially apart (the usual ER case). Not to be confused with token Jaccard, which compares word sets of two strings.",
+      },
+      {
+        id: "van-dongen",
+        term: "van Dongen measure",
+        body: "D = 2n − Σᵢ maxⱼ mᵢⱼ − Σⱼ maxᵢ mᵢⱼ: for each cluster, take its largest overlap with the other clustering and sum. A metric on clusterings — but it only sees the overlaps and ignores everything outside them.",
+      },
+      {
+        id: "maximum-match",
+        term: "maximum-match measure",
+        body: "Greedily match cluster pairs with the largest confusion-matrix overlap, cross them out, repeat; MM = (matched records)/n. Symmetric and intuitive (“how much of each clustering can be aligned”), but completely ignores the |k−ℓ| leftover clusters when the counts differ.",
+      },
+      {
+        id: "clustering-entropy",
+        term: "clustering entropy",
+        body: "H(C) = −Σᵢ P(i) log₂ P(i), with P(i) = |Ci|/n: the uncertainty about a random record's cluster. 0 for trivial clusterings (one cluster, or all singletons — you already know the answer). The building block of all information-theoretic comparison measures.",
+      },
+      {
+        id: "mutual-information",
+        term: "mutual information",
+        body: "I(C;C′) = Σᵢⱼ P(i,j) log₂(P(i,j)/(P(i)P(j))): how much knowing a record's cluster in C′ reduces uncertainty about its cluster in C. Unbounded, so it's normalized into NMI (Strehl–Ghosh: ÷√(H(C)H(C′)); Fred–Jain: ÷(H(C)+H(C′))/2) or turned into the VI distance.",
+      },
     ],
   },
   {
