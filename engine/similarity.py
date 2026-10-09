@@ -11,10 +11,14 @@ def _norm01(x):
 
 
 def _clean(v):
-    """None / blank -> None, else the stripped string."""
+    """None / blank -> None, else the stripped lower-cased string.
+
+    Record linkage is case-insensitive: "Blue Fin Sushi" and
+    "blue fin sushi" are the same entity.
+    """
     if v is None:
         return None
-    s = str(v).strip()
+    s = str(v).strip().lower()
     return s if s else None
 
 

@@ -2,11 +2,15 @@
 
 
 def _key_str(rec, key):
-    """Stripped key value, or None when missing/blank (never paired)."""
+    """Stripped lower-cased key value, or None when missing/blank.
+
+    Never paired when missing; case-insensitive so "Blu" and "blu"
+    share a bucket.
+    """
     v = rec.get(key)
     if v is None:
         return None
-    s = str(v).strip()
+    s = str(v).strip().lower()
     return s if s else None
 
 
@@ -38,7 +42,7 @@ def block(df, method, key=None, prefix_len=3, window=20, max_pairs=2000000):
             raise ValueError("key is required for sn blocking")
         order = sorted(
             range(n),
-            key=lambda i: "" if df[i].get(key) is None else str(df[i].get(key)),
+            key=lambda i: "" if df[i].get(key) is None else str(df[i].get(key)).lower(),
         )
         pairs = set()
         for pos, i in enumerate(order):
