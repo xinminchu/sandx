@@ -63,6 +63,20 @@ def suggested_fields(cols, rows, k=2):
     return out or cols[:k]
 
 
+def _normalize_csv_url(url: str) -> str:
+    """把常见"网页地址"转成文件直链，省得用户手动找 raw 链接。"""
+    # GitHub blob 页面 -> raw.githubusercontent.com 直链
+    m = re.match(r'https?://github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)', url)
+    if m:
+        owner, repo, branch, path = m.groups()
+        return f'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}'
+    # gist 网页 -> raw 直链
+    m = re.match(r'https?://gist\.github\.com/([^/]+)/([0-9a-f]+)$', url)
+    if m:
+        return url + '/raw'
+    return url
+
+
 def resolve_source(body):
     """Return (csv_text, filename, error). Exactly one of csv_text / url."""
     if body.get("csv_text"):
@@ -78,6 +92,7 @@ def resolve_source(body):
         url = "https://" + url
     if not url.startswith(("http://", "https://")):
         return None, None, "Only http(s) links are supported."
+    url = _normalize_csv_url(url)
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "sandx-studio/1.0"})
         with urllib.request.urlopen(req, timeout=15) as r:
