@@ -7,7 +7,12 @@ def _q(s):
 
 
 _CLUSTER_MAP = {"threshold_cc": "threshold_cc", "louvain": "louvain",
+                "leiden": "leiden", "label_prop": "label_prop", "gc": "gc",
+                "hclust_avg": "hclust_avg", "hclust_ward": "hclust_ward",
+                "pam": "pam",
                 "same": "same (keep classify labels)"}
+_SUPERVISED_R = ("logistic", "lda", "qda", "knn", "wknn", "tree", "rf",
+                 "xgboost", "nnet", "fellegi_sunter", "svm_radial")
 
 
 def r_script(cfg):
@@ -24,8 +29,7 @@ def r_script(cfg):
     spec = ",\n  ".join(
         f'list(name="{_q(col)}", type="{_q(m)}")' for col, m in fields.items()
     )
-    supervised = cfg.get("cluster_method") in (
-        "logistic", "lda", "qda", "knn", "fellegi_sunter")
+    supervised = cfg.get("cluster_method") in _SUPERVISED_R
     if cfg.get("cluster_method") == "same":
         tail_cluster = [
             "",

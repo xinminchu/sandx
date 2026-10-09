@@ -115,9 +115,39 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         body: "Community detection on the pair graph, optimizing modularity. Handles large, messy graphs well; tends to split the giant chains that transitive closure sometimes produces.",
       },
       {
+        id: "leiden",
+        term: "leiden",
+        body: "Community detection like louvain, plus a refinement step that guarantees well-connected communities. Often cleaner clusters than louvain on noisy graphs.",
+      },
+      {
+        id: "label-prop",
+        term: "label_prop",
+        body: "Label propagation: every record repeatedly adopts the most common label among its similar neighbors until nothing changes. Fast and simple; can be unstable on ambiguous graphs.",
+      },
+      {
+        id: "gc",
+        term: "gc",
+        body: "Graph coloring (GCMER style): records similar above the threshold form cliques, and each clique becomes one entity — so every pair inside an entity is guaranteed similar. Strict, conservative grouping.",
+      },
+      {
+        id: "hclust-avg",
+        term: "hclust_avg",
+        body: "Hierarchical clustering with average linkage on 1 − similarity. The number of clusters k is picked automatically by silhouette width.",
+      },
+      {
+        id: "hclust-ward",
+        term: "hclust_ward",
+        body: "Hierarchical clustering with Ward linkage, which merges the pair of clusters that increases within-cluster variance the least. Tends to produce compact, even-sized entities.",
+      },
+      {
+        id: "pam",
+        term: "pam",
+        body: "Partitioning Around Medoids (k-medoids): picks k real records as centers and assigns every record to its nearest center. Robust to outliers; k picked by silhouette.",
+      },
+      {
         id: "supervised-classifiers",
-        term: "logistic · lda · qda · knn · fellegi_sunter",
-        body: "Supervised pair classifiers — only available with gold truth. Labeled pairs train the model, which then scores every candidate pair. Fellegi-Sunter is the classic probabilistic record-linkage model; the rest are standard classifiers on pair features.",
+        term: "logistic · lda · qda · knn · wknn · tree · rf · xgboost · nnet · fellegi_sunter · svm_radial",
+        body: "Supervised pair classifiers — only available with gold truth. Labeled pairs train the model, which then scores every candidate pair; links above the threshold become entities. Fellegi-Sunter is the classic probabilistic record-linkage model; the rest are standard classifiers on pair features, from k-NN and trees to random forests, gradient boosting, a small neural net, and an RBF support-vector machine.",
       },
     ],
   },

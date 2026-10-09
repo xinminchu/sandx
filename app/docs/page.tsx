@@ -95,9 +95,11 @@ export default function Docs() {
           of ERBOT&apos;s core stages on a serverless function: blocking,
           NA-aware similarity, <em>classification</em> (transitive closure,
           average-linkage hierarchical clustering, or HDBSCAN),{" "}
-          <em>clustering</em> (threshold connected-components, Louvain, or a
-          supervised pair classifier — logistic, lda, qda, knn,
-          fellegi_sunter — trained on gold truth), and evaluation (ARI,
+          <em>clustering</em> (threshold connected-components, Louvain, Leiden,
+          label propagation, graph coloring, average/Ward hierarchical
+          clustering, PAM, or a supervised pair classifier — logistic, lda,
+          qda, knn, wknn, tree, rf, xgboost, nnet, fellegi_sunter,
+          svm_radial — trained on gold truth), and evaluation (ARI,
           pairwise precision/recall/F1, B-cubed
           when gold truth is attached). Pairs stream through the pipeline, so
           million-pair runs stay in budget. It covers the interactive-dedup

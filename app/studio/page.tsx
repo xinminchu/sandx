@@ -30,11 +30,23 @@ const GLOSSARY_ID: Record<string, string> = {
   same: "same",
   threshold_cc: "threshold-cc",
   louvain: "louvain",
+  leiden: "leiden",
+  label_prop: "label-prop",
+  gc: "gc",
+  hclust_avg: "hclust-avg",
+  hclust_ward: "hclust-ward",
+  pam: "pam",
   logistic: "supervised-classifiers",
   lda: "supervised-classifiers",
   qda: "supervised-classifiers",
   knn: "supervised-classifiers",
+  wknn: "supervised-classifiers",
+  tree: "supervised-classifiers",
+  rf: "supervised-classifiers",
+  xgboost: "supervised-classifiers",
+  nnet: "supervised-classifiers",
   fellegi_sunter: "supervised-classifiers",
+  svm_radial: "supervised-classifiers",
 };
 const CLASSIFY_METHODS = [
   ["tc", "Transitive closure"],
@@ -43,7 +55,19 @@ const CLASSIFY_METHODS = [
 ] as const;
 const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
   { label: "Keep classify labels", methods: [["same", "Same as classify (default)"]] },
-  { label: "Unsupervised", methods: [["threshold_cc", "threshold_cc"], ["louvain", "louvain"]] },
+  {
+    label: "Unsupervised",
+    methods: [
+      ["threshold_cc", "threshold_cc"],
+      ["louvain", "louvain"],
+      ["leiden", "leiden"],
+      ["label_prop", "label_prop"],
+      ["gc", "gc"],
+      ["hclust_avg", "hclust_avg"],
+      ["hclust_ward", "hclust_ward"],
+      ["pam", "pam"],
+    ],
+  },
   {
     label: "Supervised (needs truth)",
     methods: [
@@ -51,7 +75,13 @@ const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
       ["lda", "lda"],
       ["qda", "qda"],
       ["knn", "knn"],
+      ["wknn", "wknn"],
+      ["tree", "tree"],
+      ["rf", "rf"],
+      ["xgboost", "xgboost"],
+      ["nnet", "nnet"],
       ["fellegi_sunter", "fellegi_sunter"],
+      ["svm_radial", "svm_radial"],
     ],
   },
 ];
@@ -1197,7 +1227,8 @@ export default function Studio() {
               </div>
             ))}
           </div>
-          {["logistic", "lda", "qda", "knn", "fellegi_sunter"].includes(
+          {["logistic", "lda", "qda", "knn", "wknn", "tree", "rf", "xgboost",
+            "nnet", "fellegi_sunter", "svm_radial"].includes(
             clusterMethod
           ) && (
             <div className="mt-2 space-y-2">

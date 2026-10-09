@@ -8,8 +8,12 @@ Classify (advisor's trio, from er_modular.R cluster_scores):
 
 Cluster (final labeling):
   same:          keep classify labels
-  threshold_cc / louvain: re-cluster the pair graph (unsupervised)
-  logistic / lda / qda / knn / fellegi_sunter:
+  threshold_cc / louvain / leiden / label_prop / gc: re-cluster the pair
+                 graph (unsupervised)
+  hclust_avg / hclust_ward / pam: dense-distance methods on 1 - score,
+                 k tuned by silhouette (mirrors er_cluster)
+  logistic / lda / qda / knn / wknn / tree / rf / xgboost / nnet /
+  fellegi_sunter / svm_radial:
                  supervised: train on truth-labeled pairs, predict all
                  pairs, transitive-closure on predicted links
                  (mirrors ERBOT er_cluster's supervised branch)
@@ -21,8 +25,14 @@ from array import array
 from .blocking import block
 from .cluster import (
     _hdbscan_matrix,
+    gc,
+    hclust_avg,
+    hclust_ward,
     hierarchical,
+    label_prop,
+    leiden,
     louvain_edges,
+    pam,
     threshold_cc_edges,
 )
 from .evaluate import adjusted_rand, b3_prf, pairwise_prf
@@ -31,19 +41,35 @@ from .supervised import train as train_classifier
 
 LOUVAIN_PAIR_CAP = 300_000  # networkx greedy modularity gets slow past this
 HC_N_CAP = 2500
+DENSE_N_CAP = 1500  # hclust/pam need a dense n x n distance matrix
 
 CLASSIFY_METHODS = ("tc", "hc", "hdbscan")
+GRAPH_METHODS = ("threshold_cc", "louvain", "leiden", "label_prop", "gc")
+DENSE_METHODS = ("hclust_avg", "hclust_ward", "pam")
 CLUSTER_METHODS = (
     "same",
     "threshold_cc",
     "louvain",
+    "leiden",
+    "label_prop",
+    "gc",
+    "hclust_avg",
+    "hclust_ward",
+    "pam",
     "logistic",
     "lda",
     "qda",
     "knn",
+    "wknn",
+    "tree",
+    "rf",
+    "xgboost",
+    "nnet",
     "fellegi_sunter",
+    "svm_radial",
 )
-SUPERVISED_METHODS = ("logistic", "lda", "qda", "knn", "fellegi_sunter")
+SUPERVISED_METHODS = ("logistic", "lda", "qda", "knn", "wknn", "tree", "rf",
+                      "xgboost", "nnet", "fellegi_sunter", "svm_radial")
 
 
 def _iter_none_pairs(n, max_pairs):
@@ -100,13 +126,20 @@ def run(df, fields, block_method="standard", block_key=None,
         pair_iter = iter(pairs)
         n_pairs_expected = len(pairs)
 
-    if cluster_method == "louvain" and n_pairs_expected > LOUVAIN_PAIR_CAP:
+    if cluster_method in ("louvain", "leiden") and \
+            n_pairs_expected > LOUVAIN_PAIR_CAP:
         raise ValueError(
-            f"louvain on {n_pairs_expected:,} pairs is too heavy for the demo; "
-            "use transitive closure or add blocking."
+            f"{cluster_method} on {n_pairs_expected:,} pairs is too heavy for "
+            "the demo; use transitive closure or add blocking."
+        )
+    if cluster_method in DENSE_METHODS and n > DENSE_N_CAP:
+        raise ValueError(
+            f"{cluster_method} needs a dense distance matrix "
+            f"(n <= {DENSE_N_CAP} for the demo, got {n}); use transitive "
+            "closure, louvain, or run a sample first."
         )
 
-    need_pairs = cluster_method in ("threshold_cc", "louvain") or \
+    need_pairs = cluster_method in GRAPH_METHODS + DENSE_METHODS or \
         cluster_method in SUPERVISED_METHODS
     need_features = cluster_method in SUPERVISED_METHODS
     if need_features and truth is None and truth_col is None:
@@ -199,6 +232,30 @@ def run(df, fields, block_method="standard", block_key=None,
     elif cluster_method == "louvain":
         edges = [(int(t_pi[t]), int(t_pj[t]), t_ps[t]) for t in range(len(t_pi))]
         labels = louvain_edges(edges, n)
+    elif cluster_method == "leiden":
+        pl = [int(t_pi[t]) for t in range(len(t_pi))]
+        pj = [int(t_pj[t]) for t in range(len(t_pi))]
+        ps = [float(t_ps[t]) for t in range(len(t_pi))]
+        labels = leiden(list(zip(pl, pj)), ps, n)
+    elif cluster_method == "label_prop":
+        pl = [int(t_pi[t]) for t in range(len(t_pi))]
+        pj = [int(t_pj[t]) for t in range(len(t_pi))]
+        ps = [float(t_ps[t]) for t in range(len(t_pi))]
+        labels = label_prop(list(zip(pl, pj)), ps, n)
+    elif cluster_method == "gc":
+        pl = [int(t_pi[t]) for t in range(len(t_pi))]
+        pj = [int(t_pj[t]) for t in range(len(t_pi))]
+        ps = [float(t_ps[t]) for t in range(len(t_pi))]
+        labels = gc(list(zip(pl, pj)), ps, n, threshold=threshold)
+    elif cluster_method in DENSE_METHODS:
+        triples = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
+                   for t in range(len(t_pi))]
+        if cluster_method == "hclust_avg":
+            labels = hclust_avg(n, triples)
+        elif cluster_method == "hclust_ward":
+            labels = hclust_ward(n, triples)
+        else:  # pam
+            labels = pam(n, triples)
     else:  # supervised: warn and keep classify labels when untrainable
         tvec_sup = truth if truth is not None else _truth_from_col(df, truth_col)
         if held_out and tvec_sup is not None:
