@@ -36,6 +36,12 @@ from .cluster import (
     threshold_cc_edges,
 )
 from .evaluate import adjusted_rand, b3_prf, pairwise_prf
+from .learned_blocking import (
+    Retriever as _Retriever,
+    k_for_budget as _k_for_budget,
+    record_vectors as _record_vectors,
+    topk_pairs as _topk_pairs,
+)
 from .similarity import _clean, sim_cleaned
 from .supervised import train as train_classifier
 
@@ -123,10 +129,18 @@ def run(df, fields, block_method="standard", block_key=None,
             "use transitive closure, or run a sample first."
         )
 
+    warnings = []
+
     if block_method == "none":
         pair_iter = _iter_none_pairs(n, max_pairs)
         n_pairs_expected = n * (n - 1) // 2
+    elif block_method == "embed":
+        pairs = _embed_block(df, cols, truth, truth_col, max_pairs, warnings)
+        pair_iter = iter(pairs)
+        n_pairs_expected = len(pairs)
     else:
+        if block_method not in ("standard", "prefix", "sn"):
+            raise ValueError(f"unknown blocking method: {block_method}")
         pairs = block(df, block_method, key=block_key, prefix_len=prefix_len,
                       window=window, max_pairs=max_pairs)
         pair_iter = iter(pairs)
@@ -225,7 +239,6 @@ def run(df, fields, block_method="standard", block_key=None,
         labels0 = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
 
     # ---- Cluster -> final labels ----
-    warnings = []
     train_entities = None
     test_entities = None
     held_out_active = False
@@ -348,6 +361,66 @@ def run(df, fields, block_method="standard", block_key=None,
         "cluster_sizes": sorted(counts.values(), reverse=True),
         "warnings": warnings,
     }
+
+
+def _embed_block(df, cols, truth, truth_col, max_pairs, warnings):
+    """Learned-retriever blocking.
+
+    Trains a small neural retriever on truth duplicate pairs (when truth
+    is available), then retrieves each record's top-K cosine neighbors as
+    candidate pairs. K comes from the pair budget alone (honest: truth
+    never selects K). Without truth, falls back to untrained n-gram
+    cosine retrieval.
+    """
+    import numpy as np
+
+    n = len(df)
+    texts = []
+    for r in df:
+        parts = []
+        for c in cols:
+            v = r.get(c)
+            parts.append("" if v is None else str(v))
+        texts.append(" ".join(parts))
+    X = _record_vectors(texts)
+    k = min(_k_for_budget(n, max_pairs), n - 1)
+
+    tvec = truth if truth is not None else (
+        _truth_from_col(df, truth_col) if truth_col else None)
+    dup_pairs = []
+    if tvec is not None:
+        buckets = {}
+        for i, t in enumerate(tvec):
+            if t is not None:
+                buckets.setdefault(t, []).append(i)
+        for mems in buckets.values():
+            if len(mems) >= 2:
+                for a in range(len(mems)):
+                    for b in range(a + 1, len(mems)):
+                        dup_pairs.append((mems[a], mems[b]))
+
+    if len(dup_pairs) >= 4:
+        model = _Retriever().fit(X, dup_pairs, epochs=20)
+        E = model.embed(X)
+        warnings.append(
+            f"embed blocking: retriever trained on {len(dup_pairs)} truth "
+            f"duplicate pairs; top-{k} retrieval (K from pair budget).")
+    else:
+        nrm = np.sqrt((X ** 2).sum(axis=1, keepdims=True)) + 1e-9
+        E = X / nrm
+        warnings.append(
+            "embed blocking: no truth to train on — untrained n-gram "
+            f"cosine retrieval (top-{k}). Attach truth to train the retriever.")
+    pairs = _topk_pairs(E, k)
+    if len(pairs) > max_pairs:
+        # K from budget is an estimate (top-K isn't symmetric); shrink K
+        # proportionally and retry once instead of truncating pairs
+        # (truncation would drop true duplicates arbitrarily).
+        k2 = max(1, int(k * max_pairs / len(pairs)))
+        if k2 < k:
+            pairs = _topk_pairs(E, k2)
+            k = k2
+    return pairs
 
 
 def _truth_from_col(df, truth_col):

@@ -90,7 +90,16 @@ class handler(BaseHTTPRequestHandler):
         block_method = body.get("block_method") or "prefix"
         block_key = body.get("block_key") or columns[0]
         try:
-            pairs = block(rows, method=block_method, key=block_key)
+            if block_method == "embed":
+                # estimate only: n*K/2 with K from the pair budget (no training)
+                import sys, os
+                sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+                from engine.learned_blocking import k_for_budget
+                k = k_for_budget(len(rows), 2000000)
+                n_pairs = len(rows) * k // 2
+            else:
+                pairs = block(rows, method=block_method, key=block_key)
+                n_pairs = len(pairs)
         except ValueError as e:
             self._send({"ok": False, "error": str(e)})
             return
@@ -111,7 +120,7 @@ class handler(BaseHTTPRequestHandler):
                 "ok": True,
                 "columns": columns,
                 "n_records": len(rows),
-                "n_pairs": len(pairs),
+                "n_pairs": n_pairs,
                 "sampled": sampled,
                 "filename": filename,
                 "truth_columns": truth_columns,

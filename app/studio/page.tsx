@@ -9,11 +9,12 @@ const SIM_LABELS: Record<string, string> = {
   lv: "lv — Levenshtein",
   jaccard: "jaccard — word overlap",
 };
-const BLOCK_METHODS = ["prefix", "standard", "sn", "none"];
+const BLOCK_METHODS = ["prefix", "standard", "sn", "embed", "none"];
 const BLOCK_LABELS: Record<string, string> = {
   prefix: "prefix — first 3 chars",
   standard: "standard — exact key",
   sn: "sn — sorted neighborhood",
+  embed: "embed — learned retriever (trains on truth if attached)",
   none: "none — all pairs",
 };
 const CLASSIFY_METHODS = [
@@ -556,7 +557,7 @@ export default function Studio() {
           config: {
             fields,
             block_method: blockMethod,
-            block_key: blockMethod === "none" ? null : blockKey || null,
+            block_key: blockMethod === "none" || blockMethod === "embed" ? null : blockKey || null,
             threshold,
             classify_method: classifyMethod,
             hc_h: hcH,
@@ -591,7 +592,7 @@ export default function Studio() {
           config: {
             fields: Object.keys(fields),
             block_method: blockMethod,
-            block_key: blockMethod === "none" ? null : blockKey || null,
+            block_key: blockMethod === "none" || blockMethod === "embed" ? null : blockKey || null,
             threshold,
             classify_method: classifyMethod,
             cluster_method: clusterMethod,
@@ -829,7 +830,7 @@ export default function Studio() {
                 <span className="text-xs text-slate-400">no blocking: every pair is compared</span>
               )}
             </label>
-            {blockMethod !== "none" && (
+            {blockMethod !== "none" && blockMethod !== "embed" && (
               <label className="block">
                 <span className="font-medium text-slate-700"><Term id="blocking-key">Blocking key</Term></span>
                 <select

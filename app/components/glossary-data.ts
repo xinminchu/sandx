@@ -50,6 +50,12 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         body: "Sorts all records by the blocking key, then compares each record with the next 20 in that order. Keys that are close (but not equal) still get compared — no buckets, just neighbors.",
       },
       {
+        id: "blocking-embed",
+        term: "embed",
+        aka: "Learned retriever",
+        body: "A small neural network learns record embeddings from truth-labeled duplicates, trained to rank duplicates at the top (recall@K, not classification). Each record's top-K nearest neighbors become the candidate pairs; K comes from the pair budget alone, so truth never tunes it. Without truth it falls back to plain n-gram cosine retrieval.",
+      },
+      {
         id: "blocking-none",
         term: "none",
         body: "No blocking: every pair is compared. Only feasible for small data — the pair budget will stop you before it melts the server.",
