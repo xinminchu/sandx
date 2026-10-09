@@ -24,15 +24,26 @@ def sniff_dialect(text):
     with embedded quotes, silently misaligning columns. Only the delimiter
     is taken from the sniffer.
     """
+    # 先看 header 行里哪种分隔符最多：小文件下 Sniffer 不可靠，计数更稳
+    header = text.split('\n', 1)[0] if text else ''
+    counts = {d: header.count(d) for d in (',', ';', '\t', '|')}
+    best = max(counts, key=lambda d: counts[d])
     try:
         d = csv.Sniffer().sniff(text[:8192], delimiters=[",", ";", "\t", "|"])
         if d.delimiter not in (",", ";", "\t", "|"):
             raise csv.Error("odd delimiter")
+        # Sniffer 和计数不一致时，信计数（小文件下计数更可靠）
+        chosen = best if counts[best] > counts.get(d.delimiter, 0) else d.delimiter
         class _Sniffed(csv.excel):
             pass
-        _Sniffed.delimiter = d.delimiter
+        _Sniffed.delimiter = chosen
         return _Sniffed
     except Exception:
+        if counts[best] > 0:
+            class _Counted(csv.excel):
+                pass
+            _Counted.delimiter = best
+            return _Counted
         return csv.excel
 
 
