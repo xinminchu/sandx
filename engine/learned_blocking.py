@@ -220,3 +220,61 @@ def recall_at_k(pairs, dup_pairs, n):
     cand = set((a, b) if a < b else (b, a) for a, b in pairs)
     hit = sum(1 for p in dup_pairs if p in cand)
     return hit / len(dup_pairs)
+
+
+def heldout_recall(X, entity_labels, k, test_size=0.3, seed=42,
+                   **train_kwargs):
+    """Honest blocking evaluation: entity-level train/test split.
+
+    Trains the retriever on train entities' duplicate pairs, embeds all
+    records, retrieves top-K over the full data (as in production), and
+    reports recall@K on test entities' duplicate pairs only.
+
+    This is the number you can put in a paper: it answers "a retriever
+    trained on old labeled data, how well does it block new data?"
+    In-sample recall (train and report on the same pairs) is optimistic
+    and must not be reported as blocking quality.
+
+    Returns a dict: recall, k, n_pairs, n_train/test_pairs/entities.
+    """
+    import numpy as np
+    X = np.asarray(X, dtype=np.float64)
+    n = len(X)
+    entities = sorted({e for e in entity_labels if e is not None})
+    if len(entities) < 2:
+        raise ValueError("held-out eval needs >= 2 truth entities.")
+    rng = np.random.default_rng(seed)
+    perm = rng.permutation(len(entities))
+    n_test = max(1, int(len(entities) * test_size))
+    test_ents = {entities[i] for i in perm[:n_test]}
+
+    buckets = {}
+    for i, e in enumerate(entity_labels):
+        if e is not None:
+            buckets.setdefault(e, []).append(i)
+    train_pairs, test_pairs = [], []
+    for e, mems in buckets.items():
+        if len(mems) < 2:
+            continue
+        for a in range(len(mems)):
+            for b in range(a + 1, len(mems)):
+                p = (mems[a], mems[b])
+                (test_pairs if e in test_ents else train_pairs).append(p)
+    if len(train_pairs) < 4:
+        raise ValueError(
+            f"too few train duplicate pairs ({len(train_pairs)}).")
+    if not test_pairs:
+        raise ValueError("no test duplicate pairs; increase data or test_size.")
+
+    model = Retriever(seed=seed).fit(X, train_pairs, **train_kwargs)
+    E = model.embed(X)
+    cand = topk_pairs(E, k)
+    return {
+        "recall": recall_at_k(cand, set(test_pairs), n),
+        "k": k,
+        "n_pairs": len(cand),
+        "n_train_pairs": len(train_pairs),
+        "n_test_pairs": len(test_pairs),
+        "n_train_entities": len(entities) - n_test,
+        "n_test_entities": n_test,
+    }
