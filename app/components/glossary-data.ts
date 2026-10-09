@@ -137,7 +137,7 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
       {
         id: "hdbscan",
         term: "hdbscan",
-        aka: "HDBSCAN",
+        aka: "Hierarchical Density-Based Spatial Clustering of Applications with Noise",
         body: "Density-based hierarchical clustering. Finds clusters of varying density, needs no similarity threshold, and labels sparse points as noise (shown as singletons here). min_pts (default 2) sets the smallest neighborhood that counts as dense.",
       },
       {
