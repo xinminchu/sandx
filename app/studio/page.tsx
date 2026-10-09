@@ -16,38 +16,6 @@ const BLOCK_LABELS: Record<string, string> = {
   sn: "sn — sorted neighborhood",
   none: "none — all pairs",
 };
-const GLOSSARY_ID: Record<string, string> = {
-  jw: "jw",
-  lv: "lv",
-  jaccard: "jaccard",
-  prefix: "blocking-prefix",
-  standard: "blocking-standard",
-  sn: "blocking-sn",
-  none: "blocking-none",
-  tc: "tc",
-  hc: "hc",
-  hdbscan: "hdbscan",
-  same: "same",
-  threshold_cc: "threshold-cc",
-  louvain: "louvain",
-  leiden: "leiden",
-  label_prop: "label-prop",
-  gc: "gc",
-  hclust_avg: "hclust-avg",
-  hclust_ward: "hclust-ward",
-  pam: "pam",
-  logistic: "supervised-classifiers",
-  lda: "supervised-classifiers",
-  qda: "supervised-classifiers",
-  knn: "supervised-classifiers",
-  wknn: "supervised-classifiers",
-  tree: "supervised-classifiers",
-  rf: "supervised-classifiers",
-  xgboost: "supervised-classifiers",
-  nnet: "supervised-classifiers",
-  fellegi_sunter: "supervised-classifiers",
-  svm_radial: "supervised-classifiers",
-};
 const CLASSIFY_METHODS = [
   ["tc", "Transitive closure"],
   ["hc", "Hierarchical"],
@@ -1120,7 +1088,7 @@ export default function Studio() {
                     : "border-slate-300 hover:bg-slate-50"
                 }`}
               >
-                <Term id={GLOSSARY_ID[m]}>{label}</Term>
+                {label}
               </button>
             ))}
           </div>
@@ -1220,7 +1188,7 @@ export default function Studio() {
                           : "border-slate-300 hover:bg-slate-50"
                       }`}
                     >
-                      <Term id={GLOSSARY_ID[v]}>{label}</Term>
+                      {label}
                     </button>
                   ))}
                 </div>
