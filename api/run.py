@@ -24,7 +24,7 @@ except ImportError:  # local dev fallback
     from engine.pipeline import run  # type: ignore
     from engine.rcode import r_script  # type: ignore
 
-MAX_ROWS = 3000
+MAX_ROWS = 10000
 MAX_PAIRS = 2_000_000
 DISPLAY_ROWS = 300
 SAMPLE_SEED = 42
@@ -155,7 +155,7 @@ class handler(BaseHTTPRequestHandler):
                 return self._send({"ok": False, "error": "CSV has no data rows."})
             if len(rows) > MAX_ROWS:
                 return self._send(
-                    {"ok": False, "error": f"Too many rows ({len(rows)}). Demo cap: {MAX_ROWS}."}
+                    {"ok": False, "error": f"Too many rows ({len(rows):,}). This demo runs up to {MAX_ROWS:,} rows — try a random sample (below), or add blocking to cut the pair count."}
                 )
 
             # Optional random sampling (seeded, reproducible) for large sets.

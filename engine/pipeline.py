@@ -41,6 +41,7 @@ from .supervised import train as train_classifier
 
 LOUVAIN_PAIR_CAP = 300_000  # networkx greedy modularity gets slow past this
 HC_N_CAP = 2500
+HDB_N_CAP = 3000  # hdbscan classify builds a dense n x n distance matrix
 DENSE_N_CAP = 1500  # hclust/pam need a dense n x n distance matrix
 
 CLASSIFY_METHODS = ("tc", "hc", "hdbscan")
@@ -115,6 +116,11 @@ def run(df, fields, block_method="standard", block_key=None,
         raise ValueError(
             f"hierarchical clustering needs n <= {HC_N_CAP} for the demo "
             f"(got {n}); use transitive closure or HDBSCAN."
+        )
+    if classify_method == "hdbscan" and n > HDB_N_CAP:
+        raise ValueError(
+            f"HDBSCAN needs n <= {HDB_N_CAP} for the demo (got {n}); "
+            "use transitive closure, or run a sample first."
         )
 
     if block_method == "none":

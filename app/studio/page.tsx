@@ -468,8 +468,8 @@ export default function Studio() {
 
   function onFile(f: File | undefined) {
     if (!f) return;
-    if (f.size > 2 * 1024 * 1024) {
-      setError("File too large: the demo service caps uploads at 2 MB.");
+    if (f.size > 4 * 1024 * 1024) {
+      setError("File too large for upload (4 MB cap). Paste a link to the file instead — the server fetches it directly (10 MB cap).");
       return;
     }
     const rd = new FileReader();

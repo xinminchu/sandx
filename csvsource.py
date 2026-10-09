@@ -11,7 +11,8 @@ import io
 import re
 import urllib.request
 
-MAX_BYTES = 2 * 1024 * 1024  # 2 MB cap, matches the studio upload limit
+MAX_BYTES = 4 * 1024 * 1024  # 4 MB upload cap (Vercel Hobby POST ~4.5 MB)
+LINK_MAX_BYTES = 10 * 1024 * 1024  # 10 MB for server-side link fetch (no POST limit)
 
 ID_LIKE = re.compile(r"(^|_)id$", re.IGNORECASE)
 
@@ -67,7 +68,7 @@ def resolve_source(body):
     if body.get("csv_text"):
         text = body["csv_text"]
         if len(text.encode("utf-8")) > MAX_BYTES:
-            return None, None, "CSV too large (2 MB cap)."
+            return None, None, "CSV too large (4 MB cap). For bigger files, paste a link instead — the server fetches it directly (10 MB cap)."
         return text, body.get("filename") or "upload.csv", None
 
     url = (body.get("url") or "").strip()
@@ -81,9 +82,9 @@ def resolve_source(body):
         req = urllib.request.Request(url, headers={"User-Agent": "sandx-studio/1.0"})
         with urllib.request.urlopen(req, timeout=15) as r:
             ctype = (r.headers.get("Content-Type") or "").lower()
-            data = r.read(MAX_BYTES + 1)
-        if len(data) > MAX_BYTES:
-            return None, None, "Linked file too large (2 MB cap)."
+            data = r.read(LINK_MAX_BYTES + 1)
+        if len(data) > LINK_MAX_BYTES:
+            return None, None, "Linked file too large (10 MB cap)."
         text = data.decode("utf-8", errors="replace")
         head = text[:800].lower()
         looks_like_html = "<html" in head or "<!doctype html" in head

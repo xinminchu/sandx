@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from csvsource import resolve_source, read_table, suggested_fields  # noqa: E402
 from engine.blocking import block  # noqa: E402
 
-MAX_ROWS = 3000
+MAX_ROWS = 10000
 SAMPLE_SEED = 42
 
 
@@ -76,7 +76,7 @@ class handler(BaseHTTPRequestHandler):
             return
         if len(rows) > MAX_ROWS:
             self._send(
-                {"ok": False, "error": f"Too many rows ({len(rows)} > {MAX_ROWS}). Use sampling."}
+                {"ok": False, "error": f"Too many rows ({len(rows):,} > {MAX_ROWS:,}). Try a random sample, or add blocking."}
             )
             return
 
