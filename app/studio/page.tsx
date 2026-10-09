@@ -153,7 +153,6 @@ interface SavedRun {
 }
 
 const HISTORY_KEY = "sandx-run-history-v1";
-const HISTORY_MAX = 20;
 
 function loadHistory(): SavedRun[] {
   try {
@@ -298,7 +297,7 @@ export default function Studio() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_MAX)));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     } catch {
       /* storage full or unavailable — history just won't persist */
     }
@@ -618,7 +617,7 @@ export default function Studio() {
             n_pairs: j.n_pairs ?? 0,
           },
         };
-        setHistory((h) => [entry, ...h].slice(0, HISTORY_MAX));
+        setHistory((h) => [entry, ...h]);
         setCompareIds([]);
       }
     } catch {
@@ -1621,8 +1620,7 @@ export default function Studio() {
                             ...valid.filter((r) => !seen.has(r.id)),
                             ...h,
                           ]
-                            .sort((a, b) => b.ts - a.ts)
-                            .slice(0, HISTORY_MAX);
+                            .sort((a, b) => b.ts - a.ts);
                           return merged;
                         });
                         setCompareIds([]);
@@ -1647,8 +1645,7 @@ export default function Studio() {
             </div>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Every run is saved automatically (latest {HISTORY_MAX}, this
-            browser only). Click a label to rename. Tick two or more to
+            Every run is saved automatically (this browser only). Click a label to rename. Tick two or more to
             compare — changed parameters are highlighted.
           </p>
           <div className="mt-3 overflow-x-auto border border-slate-200 rounded-xl bg-white">
