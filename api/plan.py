@@ -110,7 +110,8 @@ class handler(BaseHTTPRequestHandler):
         ttext = body.get("truth_csv_text") or ""
         if ttext:
             try:
-                rdr = csv.DictReader(io.StringIO(ttext))
+                from csvsource import sniff_dialect
+                rdr = csv.DictReader(io.StringIO(ttext), dialect=sniff_dialect(ttext))
                 truth_columns = [c for c in (rdr.fieldnames or []) if c]
             except Exception:
                 truth_columns = []
