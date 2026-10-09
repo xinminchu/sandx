@@ -2,7 +2,7 @@ const CORE: [string, string][] = [
   ["er_run()", "Run the full entity-resolution pipeline"],
   ["er_block()", "Generate candidate pairs via blocking"],
   ["er_similarity()", "Compute per-field similarity for all candidate pairs"],
-  ["er_combine()", "NA-aware adaptive weighted similarity combination"],
+  ["er_combine()", "missing-value-aware adaptive weighted similarity combination"],
   ["er_weights()", "Learn or select field weights"],
   ["er_cluster()", "Run a single clustering method"],
   ["er_cluster_all()", "Run all clustering methods"],
@@ -61,7 +61,7 @@ export default function Docs() {
       <h1 className="text-3xl font-extrabold">Docs</h1>
       <p className="text-slate-600 mt-2">
         The R package is the canonical engine. The Studio on this site runs a
-        Python port of its core stages — same blocking, same NA-aware
+        Python port of its core stages — same blocking, same missing-value-aware
         similarities, same clustering ideas.
       </p>
 
@@ -93,15 +93,15 @@ export default function Docs() {
           The <a href="/studio" className="text-teal-700 font-medium">Studio</a>{" "}
           runs <span className="font-mono2">engine/</span> — a pure-Python port
           of ERBOT&apos;s core stages on a serverless function: blocking,
-          NA-aware similarity, <em>classification</em> (transitive closure,
+          missing-value-aware similarity, <em>classification</em> (transitive closure,
           average-linkage hierarchical clustering, or HDBSCAN),{" "}
           <em>clustering</em> (threshold connected-components, Louvain, Leiden,
           label propagation, graph coloring, average/Ward hierarchical
-          clustering, PAM, or a supervised pair classifier — logistic, lda,
+          clustering, PAM, or a supervised pairwise classifier — logistic, lda,
           qda, knn, wknn, tree, rf, xgboost, nnet, fellegi_sunter,
-          svm_radial — trained on gold truth), and evaluation (ARI,
+          svm_radial — trained on ground truth), and evaluation (ARI,
           pairwise precision/recall/F1, B-cubed
-          when gold truth is attached). Pairs stream through the pipeline, so
+          when ground truth is attached). Pairs stream through the pipeline, so
           million-pair runs stay in budget. It covers the interactive-dedup
           path; the full R package adds weight learning, consensus merging,
           multiplex fusion, baselines, and the complete evaluation suite.

@@ -17,12 +17,12 @@ const STAGES = [
   {
     n: "04 · Similarity",
     fn: "er_similarity()",
-    d: "NA-aware per-field scores — Jaro-Winkler, Levenshtein, token Jaccard, bag-of-words, categorical, numeric. If either side is missing, the field contributes NA, never an imputed guess.",
+    d: "missing-value-aware per-field scores — Jaro-Winkler, Levenshtein, token Jaccard, bag-of-words, categorical, numeric. If either side is missing, the field contributes NA, never an imputed guess.",
   },
   {
     n: "05 · Combine",
     fn: "er_combine()",
-    d: "Fuses per-field similarities into one pair score with NA-aware weighting: fields that are missing simply don't vote. No leakage from imputation.",
+    d: "Fuses per-field similarities into one pair score with missing-value-aware weighting: fields that are missing simply don't vote. No leakage from imputation.",
   },
   {
     n: "06 · Weights",
@@ -65,8 +65,8 @@ export default function Methods() {
     <div className="max-w-4xl mx-auto px-5 py-10">
       <h1 className="text-3xl font-extrabold">Methods</h1>
       <p className="text-slate-600 mt-2">
-        What ERBOT does at each stage, and the two methodological bets that
-        define it: NA-aware everything, and truth that never leaks.
+        What ERBOT does at each stage, and the two design principles that
+        define it: missing-value-aware everything, and truth that never leaks.
       </p>
 
       <h2 className="text-xl font-bold mt-12 mb-4">The nine stages</h2>
@@ -87,13 +87,13 @@ export default function Methods() {
       <h2 className="text-xl font-bold mt-12 mb-4">Honest evaluation</h2>
       <div className="prose-sm text-slate-600 space-y-3 text-sm leading-relaxed">
         <p>
-          Entity resolution has a quiet reproducibility problem: the ground
+          Entity resolution has a reproducibility problem: the ground
           truth used to <em>score</em> a method also leaks into{" "}
           <em>choosing</em> it — tuning the threshold on the test set, picking
           the best of twelve methods by test ARI, splitting records instead of
-          entities so near-duplicates straddle train and test.
+          entities so near-duplicates appear in both train and test.
         </p>
-        <p>ERBOT&apos;s defaults close all three doors:</p>
+        <p>ERBOT&apos;s defaults address all three:</p>
         <ul className="list-disc pl-5 space-y-2">
           <li>
             <strong>Truth is evaluation-only.</strong> Ground truth drives
@@ -151,7 +151,7 @@ export default function Methods() {
         deterministic collinearity case.
       </div>
 
-      <h2 className="text-xl font-bold mt-12 mb-4">NA-aware by construction</h2>
+      <h2 className="text-xl font-bold mt-12 mb-4">Missing-value-aware by construction</h2>
       <p className="text-sm text-slate-600 leading-relaxed">
         Real-world records are messy: missing phones, empty addresses, blank
         names. ERBOT never imputes a similarity it didn&apos;t observe. A

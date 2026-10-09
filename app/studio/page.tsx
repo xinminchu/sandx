@@ -662,9 +662,9 @@ export default function Studio() {
     <div className="max-w-6xl mx-auto px-5 py-10">
       <h1 className="text-3xl font-extrabold">ER Studio</h1>
       <p className="text-slate-600 mt-2 max-w-2xl">
-        Run a real entity-resolution pipeline — blocking, NA-aware similarity,
+        Run a real entity-resolution pipeline — blocking, missing-value-aware similarity,
         clustering — powered by a Python port of ERBOT&apos;s core stages.
-        Your data never leaves the request.
+        Your data is never stored.
       </p>
 
       {/* 1 · Data source (pick exactly one) */}
@@ -877,7 +877,7 @@ export default function Studio() {
                 ))}
               </select>
               {sampleN > 0 && (
-                <span className="text-xs text-slate-400">seeded random sample — reproducible</span>
+                <span className="text-xs text-slate-400">random sample — reproducible</span>
               )}
             </label>
           </div>
@@ -1082,7 +1082,7 @@ export default function Studio() {
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
           <h2 className="font-bold">3 · Classify</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Group pairs into entities — the advisor&apos;s three grouping
+            Group pairs into entities — three grouping
             methods, run on the pair scores.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -1177,7 +1177,7 @@ export default function Studio() {
           <h2 className="font-bold">4 · Clustering</h2>
           <p className="text-sm text-slate-500 mt-1">
             Final cluster labels. Keep the classify output, re-cluster the
-            pair graph, or train a supervised pair classifier on gold truth.
+            pair graph, or train a supervised pairwise classifier on ground truth.
           </p>
           <div className="mt-3 space-y-3">
             {CLUSTER_GROUPS.map((g) => (
@@ -1210,8 +1210,8 @@ export default function Studio() {
           ) && (
             <div className="mt-2 space-y-2">
               <p className="text-xs text-slate-400">
-                Supervised: trains on truth-labeled pairs, predicts all pairs,
-                then transitive closure over predicted links. Needs gold truth
+                Supervised: trains on labeled pairs, predicts all pairs,
+                then transitive closure over predicted links. Needs ground truth
                 in step 2.
               </p>
               <label className="flex items-start gap-2 text-xs text-slate-600 cursor-pointer">
@@ -1395,7 +1395,7 @@ export default function Studio() {
               <div className="text-sm font-bold">
                 Performance{" "}
                 <span className="font-normal text-slate-400">
-                  (no gold truth — attach truth in step 2 and re-run for metrics)
+                  (no ground truth — attach ground truth in step 2 and re-run for metrics)
                 </span>
               </div>
               <div className="mt-2 text-sm text-slate-600">
@@ -1437,7 +1437,7 @@ export default function Studio() {
           )}
           {result.truth_source === "file" && (
             <div className="mt-3 text-sm text-slate-600">
-              Gold truth matched {(result.n_truth_matched ?? 0).toLocaleString()}{" "}
+              Ground truth matched {(result.n_truth_matched ?? 0).toLocaleString()}{" "}
               of {Number(result.n_records).toLocaleString()} records
               {result.ari == null ? " — too few matches for ARI." : "."}
             </div>

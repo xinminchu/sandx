@@ -75,7 +75,7 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         id: "blocking-embed",
         term: "embed",
         aka: "Learned retriever",
-        body: "A small neural network learns record embeddings from truth-labeled duplicates, trained to rank duplicates at the top (recall@K, not classification). Each record's top-K nearest neighbors become the candidate pairs; K comes from the pair budget alone, so truth never tunes it. Without truth it falls back to plain n-gram cosine retrieval.",
+        body: "A small neural network learns record embeddings from labeled duplicates, trained to rank duplicates at the top (recall@K, not classification). Each record's top-K nearest neighbors become the candidate pairs; K comes from the pair budget alone, so truth never tunes it. Without truth it falls back to plain n-gram cosine retrieval.",
       },
       {
         id: "blocking-none",
@@ -341,7 +341,7 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
     id: "evaluation",
     title: "Evaluation",
     intro:
-      "How good is the result? Needs gold truth. All metrics compare predicted clusters against true entities.",
+      "How good is the result? Needs ground truth. All metrics compare predicted clusters against true entities.",
     entries: [
       {
         id: "ari",
@@ -362,11 +362,11 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
       {
         id: "truth-entities",
         term: "truth entities",
-        body: "How many distinct real-world entities the gold truth contains. The number your cluster count is trying to match.",
+        body: "How many distinct real-world entities the ground truth contains. The number your cluster count is trying to match.",
       },
       {
         id: "gold-truth",
-        term: "gold truth",
+        term: "ground truth",
         body: "The answer key used only for evaluation — never for matching. Either a column already in your data or a separate file joined by id. Using it as a match field or blocking key would be cheating; Studio forbids it.",
       },
       {
@@ -472,8 +472,8 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
       },
       {
         id: "na-aware",
-        term: "NA-aware",
-        body: "Missing values stay missing. A blank field contributes NA to the pair score instead of an imputed guess, so absent data never fabricates similarity.",
+        term: "missing-value-aware",
+        body: "Missing values stay missing. A blank field contributes nothing to the pair score instead of an imputed guess, so absent data never fabricates similarity.",
       },
       {
         id: "column-roles",
