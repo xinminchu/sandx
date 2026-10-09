@@ -95,7 +95,7 @@ class handler(BaseHTTPRequestHandler):
                 import sys, os
                 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
                 from engine.learned_blocking import k_for_budget
-                k = k_for_budget(len(rows), 2000000)
+                k = min(k_for_budget(len(rows), 2000000), max(len(rows) - 1, 1))
                 n_pairs = len(rows) * k // 2
             else:
                 pairs = block(rows, method=block_method, key=block_key)
