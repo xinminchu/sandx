@@ -291,6 +291,14 @@ class handler(BaseHTTPRequestHandler):
                     "truth_source": truth_source,
                     "n_truth_matched": n_truth_matched,
                     "warnings": warnings,
+                    "config_summary": {
+                        "fields": fields,
+                        "block_method": block_method,
+                        "block_key": block_key,
+                        "threshold": threshold,
+                        "classify_method": classify_method,
+                        "cluster_method": cluster_method,
+                    },
                 }
             )
         except ValueError as e:

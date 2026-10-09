@@ -8,6 +8,11 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
       "How alike two field values are, scored 0 (nothing alike) to 1 (identical). Picked per match field in Studio. If either side is missing, the field scores NA — never a guessed value.",
     entries: [
       {
+        id: "similarity",
+        term: "similarity",
+        body: "How alike two field values are, scored 0 (nothing alike) to 1 (identical), picked per match field in Studio. Comparison is case-insensitive (“Blue Fin” = “blue fin”). If either side is missing or blank, the field scores NA — never a guessed value — and the pair score averages only the fields that have values.",
+      },
+      {
         id: "jw",
         term: "jw",
         aka: "Jaro-Winkler",

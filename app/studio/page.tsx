@@ -112,6 +112,14 @@ type RunResult = {
   truth_source?: string;
   n_truth_matched?: number;
   warnings?: string[];
+  config_summary?: {
+    fields: Record<string, string>;
+    block_method: string;
+    block_key: string | null;
+    threshold: number;
+    classify_method: string;
+    cluster_method: string;
+  };
 };
 
 function smartBlockKey(cols: string[]): string {
@@ -1286,6 +1294,27 @@ export default function Studio() {
               </div>
             ))}
           </div>
+
+          {/* Run configuration: blocking + fields, so the result is self-describing */}
+          {result.config_summary && (
+            <div className="mt-3 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 leading-relaxed">
+              <span className="font-semibold text-slate-600">Config:</span>{" "}
+              blocking <span className="font-mono text-slate-700">{result.config_summary.block_method}</span>
+              {result.config_summary.block_key && result.config_summary.block_method !== "embed" && result.config_summary.block_method !== "none" && (
+                <> on <span className="font-mono text-slate-700">“{result.config_summary.block_key}”</span></>
+              )}
+              {" · "}fields{" "}
+              <span className="font-mono text-slate-700">
+                {Object.entries(result.config_summary.fields || {})
+                  .map(([f, m]) => `${f} (${m})`)
+                  .join(", ")}
+              </span>
+              {" · "}
+              <span className="font-mono text-slate-700">{result.config_summary.classify_method}</span>
+              {" "}τ={result.config_summary.threshold}{" → "}
+              <span className="font-mono text-slate-700">{result.config_summary.cluster_method}</span>
+            </div>
+          )}
 
           {/* Performance panel */}
           {result.metrics ? (
