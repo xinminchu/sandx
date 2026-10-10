@@ -50,7 +50,7 @@ HC_N_CAP = 2500
 HDB_N_CAP = 3000  # hdbscan classify builds a dense n x n distance matrix
 DENSE_N_CAP = 1500  # hclust/pam need a dense n x n distance matrix
 
-CLASSIFY_METHODS = ("tc", "hc", "hdbscan")
+CLASSIFY_METHODS = ("tc", "center", "mc", "hc", "hdbscan")
 GRAPH_METHODS = ("threshold_cc", "louvain", "leiden", "label_prop", "gc")
 DENSE_METHODS = ("hclust_avg", "hclust_ward", "pam")
 CLUSTER_METHODS = (
@@ -90,6 +90,67 @@ def _iter_none_pairs(n, max_pairs):
 
 def _union_find_labels(links, n):
     return threshold_cc_edges(links, n)
+
+
+def _center_mc_labels(triples, n, merge):
+    """Hassanzadeh & Miller 2009 CENTER / MERGE-CENTER clustering.
+
+    Single scan of pairs sorted by similarity (descending). The first time
+    a node appears it becomes a cluster center; a center's unclaimed
+    neighbors join its cluster and can never recruit others themselves --
+    this breaks the transitive chains that make plain transitive closure
+    over-merge. MERGE-CENTER additionally merges two clusters when a
+    pair bridges to an already-claimed node (clusters may then have
+    multiple centers), healing CENTER's over-fragmentation.
+
+    `triples` is a list of (i, j, score); only pairs above the classify
+    threshold should be passed in (mirrors the paper's thresholded join
+    output). Returns a list of int labels, one per record.
+    """
+    parent = list(range(n))
+    claimed = [False] * n    # in some cluster (center or not)
+    centered = [False] * n   # is a cluster center (may recruit)
+
+    def find(a):
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    for i, j, _s in sorted(triples, key=lambda t: -t[2]):
+        if i == j:
+            continue
+        if not claimed[i]:
+            centered[i] = True
+            claimed[i] = True
+        # i has a cluster from here on (new or existing center, or member)
+        if not claimed[j]:
+            if centered[i]:
+                # only centers recruit: star grows, chains cannot
+                union(i, j)
+                claimed[j] = True
+            # else: non-center i cannot recruit; j stays unclaimed
+        elif merge and find(i) != find(j) and (centered[i] or centered[j]):
+            # bridge pair touching a cluster center: merge the two clusters.
+            # (Paper: merge when a record in ci is similar to the center of
+            # cj. Bridges between two non-centers do NOT merge -- this is
+            # what keeps MC from collapsing back into transitive closure.)
+            union(i, j)
+        # CENTER (merge=False), or bridge between non-centers: skip
+
+    comp = {}
+    labels = [0] * n
+    for a in range(n):
+        r = find(a)
+        if r not in comp:
+            comp[r] = len(comp)
+        labels[a] = comp[r]
+    return labels
 
 
 def run(df, fields, block_method="standard", block_key=None,
@@ -184,6 +245,7 @@ def run(df, fields, block_method="standard", block_key=None,
 
     tc_links = []
     hc_triples = [] if classify_method == "hc" else None
+    cm_triples = [] if classify_method in ("center", "mc") else None
     hdb_D = None
     if classify_method == "hdbscan":
         hdb_D = np.full((n, n), 1.0, dtype=np.float64)
@@ -214,6 +276,9 @@ def run(df, fields, block_method="standard", block_key=None,
                 tc_links.append((i, j))
         elif classify_method == "hc":
             hc_triples.append((i, j, score))
+        elif classify_method in ("center", "mc"):
+            if score >= threshold:
+                cm_triples.append((i, j, score))
         else:  # hdbscan
             d = 1.0 - score
             if d < hdb_D[i, j]:
@@ -235,6 +300,9 @@ def run(df, fields, block_method="standard", block_key=None,
     elif classify_method == "hc":
         labels = hierarchical(n, hc_triples, h=hc_h)
         labels0 = labels
+    elif classify_method in ("center", "mc"):
+        labels0 = _center_mc_labels(
+            cm_triples, n, merge=(classify_method == "mc"))
     else:  # hdbscan
         labels0 = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
 

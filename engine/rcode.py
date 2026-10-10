@@ -85,6 +85,20 @@ def r_script(cfg):
             f"{labvar}[{labvar} == 0] <- max({labvar}) + "
             f"seq_len(sum({labvar} == 0))",
         ]
+    elif classify in ("center", "mc"):
+        paper = "Hassanzadeh & Miller 2009"
+        what = ("MERGE-CENTER" if classify == "mc"
+                else "CENTER (star clustering)")
+        class_lines = [
+            "",
+            f"# 3b. Classification: {what} ({paper})",
+            f"# single scan of pairs by similarity; centers recruit neighbors,",
+            "# non-centers cannot recruit (breaks transitive chains)",
+            f'M <- er_classify(S, method = "{classify}", '
+            f"threshold = {threshold})",
+            f"{labvar} <- er_cluster(M, method = \\\"threshold_cc\\\", "
+            f"threshold = {threshold})",
+        ]
     else:
         class_lines = [
             "",

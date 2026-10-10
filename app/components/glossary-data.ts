@@ -129,6 +129,18 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         body: "Pairs scoring above the threshold become edges; connected components become the predicted entities. If A≈B and B≈C, all three land together — even when A and C look nothing alike. Simple and fast, but one bad edge can chain a whole cluster together.",
       },
       {
+        id: "center",
+        term: "center",
+        aka: "CENTER (star clustering)",
+        body: "Hassanzadeh & Miller 2009. Scan pairs by similarity, highest first: the first time a record appears it becomes a cluster center, and its not-yet-claimed neighbors join its cluster — but a claimed non-center can never recruit others. Each cluster is a star around its center, so transitive chains can't form. Tends to over-split compared to transitive closure.",
+      },
+      {
+        id: "mc",
+        term: "mc",
+        aka: "MERGE-CENTER",
+        body: "Hassanzadeh & Miller 2009. CENTER plus one merge rule: when a pair bridges to an already-claimed record, the two clusters merge instead of being skipped. Clusters may then have several centers. The paper's best disjoint method — fewer fragments than CENTER, fewer chains than transitive closure.",
+      },
+      {
         id: "hc",
         term: "hc",
         aka: "Hierarchical clustering",

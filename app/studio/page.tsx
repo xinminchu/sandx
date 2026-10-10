@@ -19,6 +19,8 @@ const BLOCK_LABELS: Record<string, string> = {
 };
 const CLASSIFY_METHODS = [
   ["tc", "Transitive closure"],
+  ["center", "CENTER (star)"],
+  ["mc", "MERGE-CENTER"],
   ["hc", "Hierarchical"],
   ["hdbscan", "HDBSCAN"],
 ] as const;
