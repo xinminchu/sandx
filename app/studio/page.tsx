@@ -1085,7 +1085,7 @@ export default function Studio() {
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
           <h2 className="font-bold">3 · Classify</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Group pairs into entities — three grouping
+            Group pairs into entities — {CLASSIFY_METHODS.length} grouping
             methods, run on the pair scores.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
