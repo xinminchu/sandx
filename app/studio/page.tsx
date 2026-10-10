@@ -281,9 +281,9 @@ export default function Studio() {
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
-  const [classifyMethod, setClassifyMethod] = useState<"tc" | "hc" | "hdbscan">(
-    "tc"
-  );
+  const [classifyMethod, setClassifyMethod] = useState<
+    "tc" | "center" | "mc" | "hc" | "hdbscan"
+  >("tc");
   const [hcH, setHcH] = useState(0.5);
   const [hdbscanMinPts, setHdbscanMinPts] = useState(2);
   const [clusterMethod, setClusterMethod] = useState("same");
