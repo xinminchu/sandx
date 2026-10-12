@@ -431,6 +431,73 @@ def run(df, fields, block_method="standard", block_key=None,
     }
 
 
+def blocking_report(df, fields, block_method="standard", block_key=None,
+                    truth_col=None, max_pairs=2000000,
+                    prefix_len=3, window=20, truth=None):
+    """Blocking stage only: candidate pairs plus PC / reduction-ratio stats.
+
+    Never runs classify/cluster. `truth` is an optional list aligned with
+    df (cluster ids, None/"" = unknown); when present, pair_completeness is
+    reported over the records that have truth.
+    """
+    n = len(df)
+    warnings = []
+    k = None
+    if block_method == "none":
+        pairs = list(_iter_none_pairs(n, max_pairs))
+        k = n - 1
+    elif block_method == "embed":
+        pairs = _embed_block(df, list(fields), truth, truth_col,
+                             max_pairs, warnings)
+        k = min(_k_for_budget(n, max_pairs), n - 1)
+    else:
+        if block_method not in ("standard", "prefix", "sn"):
+            raise ValueError(f"unknown blocking method: {block_method}")
+        pairs = block(df, block_method, key=block_key, prefix_len=prefix_len,
+                      window=window, max_pairs=max_pairs)
+
+    total_possible = n * (n - 1) // 2
+    n_pairs = len(pairs)
+    rr = 1.0 - n_pairs / total_possible if total_possible else 1.0
+
+    deg = [0] * n
+    for a, b in pairs:
+        deg[a] += 1
+        deg[b] += 1
+    out = {
+        "n_records": n,
+        "block_method": block_method,
+        "k": k,
+        "n_candidate_pairs": n_pairs,
+        "reduction_ratio": rr,
+        "pairs_per_record_mean": (sum(deg) / n) if n else 0.0,
+        "pairs_per_record_max": max(deg) if deg else 0,
+        "pair_completeness": None,
+        "n_truth_pairs": None,
+        "warnings": warnings,
+    }
+
+    tvec = truth if truth is not None else (
+        _truth_from_col(df, truth_col) if truth_col else None)
+    if tvec is not None:
+        buckets = {}
+        for i, t in enumerate(tvec):
+            if t is not None and t != "":
+                buckets.setdefault(t, []).append(i)
+        dup = set()
+        for mems in buckets.values():
+            for a in range(len(mems)):
+                for c in range(a + 1, len(mems)):
+                    u, v = mems[a], mems[c]
+                    dup.add((u, v) if u < v else (v, u))
+        if dup:
+            cand = set((a, b) if a < b else (b, a) for a, b in pairs)
+            out["pair_completeness"] = len(cand & dup) / len(dup)
+            out["n_truth_pairs"] = len(dup)
+            out["n_truth_entities"] = len(buckets)
+    return out
+
+
 def _embed_block(df, cols, truth, truth_col, max_pairs, warnings):
     """Learned-retriever blocking.
 

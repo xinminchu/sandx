@@ -81,6 +81,23 @@ type Plan = {
   suggested_fields?: string[];
 };
 
+type BlockingReport = {
+  ok: boolean;
+  error?: string;
+  n_records?: number;
+  block_method?: string;
+  k?: number | null;
+  n_candidate_pairs?: number;
+  reduction_ratio?: number;
+  pairs_per_record_mean?: number;
+  pairs_per_record_max?: number;
+  pair_completeness?: number | null;
+  n_truth_pairs?: number | null;
+  n_truth_entities?: number;
+  warnings?: string[];
+  config_summary?: { block_method: string; block_key: string | null; max_pairs: number };
+};
+
 type RunResult = {
   ok: boolean;
   error?: string;
@@ -285,6 +302,8 @@ export default function Studio() {
   const [pairBudget, setPairBudget] = useState<number>(2000000);
   const pairBudgetRef = useRef(pairBudget);
   pairBudgetRef.current = pairBudget;
+  const [blockingRep, setBlockingRep] = useState<BlockingReport | null>(null);
+  const [blockingLoading, setBlockingLoading] = useState(false);
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
@@ -545,6 +564,46 @@ export default function Studio() {
       else next[col] = "jw";
       return next;
     });
+  }
+
+  async function analyzeBlocking() {
+    if (!payload) return;
+    setBlockingLoading(true);
+    setBlockingRep(null);
+    try {
+      const r = await fetch("/api/blocking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          csv_text: payload.csv_text,
+          url: payload.url,
+          filename: payload.filename,
+          sample_n: sampleN || undefined,
+          truth_csv_text: truthSource === "file" ? truthText || undefined : undefined,
+          truth_filename: truthFileName || undefined,
+          truth_format: truthFormat,
+          truth_id_col: truthIdCol || undefined,
+          truth_id2_col: truthId2Col || undefined,
+          truth_cluster_col: truthClusterCol || undefined,
+          data_id_col: dataIdCol || undefined,
+          config: {
+            fields,
+            block_method: blockMethod,
+            block_key: blockMethod === "none" || blockMethod === "embed" ? null : blockKey || null,
+            max_pairs: pairBudget,
+            truth_source: truthSource,
+            truth_col: truthSource === "column" ? truthCol || null : null,
+          },
+        }),
+      });
+      const j = (await r.json()) as BlockingReport;
+      if (!j.ok) setError(j.error || "Blocking analysis failed.");
+      else setBlockingRep(j);
+    } catch {
+      setError("Request failed. The service may be cold-starting — try again.");
+    } finally {
+      setBlockingLoading(false);
+    }
   }
 
   async function run() {
@@ -1306,6 +1365,49 @@ export default function Studio() {
           >
             {running ? "Running…" : "Run entity resolution"}
           </button>
+          <button
+            onClick={analyzeBlocking}
+            disabled={blockingLoading || planning || !fieldCols.length || !!overBudget}
+            className="mt-4 ml-3 px-6 py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold hover:bg-teal-50 disabled:opacity-50"
+          >
+            {blockingLoading ? "Analyzing…" : "只看 blocking"}
+          </button>
+        </section>
+      )}
+
+      {/* 4b · Blocking 分析 */}
+      {blockingRep?.ok && (
+        <section className="mt-4 border border-teal-200 rounded-xl p-5 bg-teal-50/40">
+          <h2 className="font-bold">Blocking 分析
+            <span className="ml-2 text-xs font-normal text-slate-500">
+              {blockingRep.config_summary?.block_method}
+              {blockingRep.k != null ? ` · top-${blockingRep.k}/record` : ""}
+              {blockingRep.config_summary && blockingRep.config_summary.max_pairs !== 2000000
+                ? ` · budget ${blockingRep.config_summary.max_pairs.toLocaleString()}` : ""}
+            </span>
+          </h2>
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              ["Candidate pairs", blockingRep.n_candidate_pairs != null ? Number(blockingRep.n_candidate_pairs).toLocaleString() : "—", ""],
+              ["Reduction ratio", blockingRep.reduction_ratio != null ? `${(blockingRep.reduction_ratio * 100).toFixed(1)}%` : "—", "pairs avoided"],
+              ["Pair completeness", blockingRep.pair_completeness != null ? blockingRep.pair_completeness.toFixed(3) : "—",
+                blockingRep.pair_completeness != null
+                  ? `${Number(blockingRep.n_truth_pairs).toLocaleString()} true pairs`
+                  : "attach truth in step 2 to see recall"],
+              ["Pairs / record", `${(blockingRep.pairs_per_record_mean ?? 0).toFixed(1)} avg · ${blockingRep.pairs_per_record_max ?? 0} max`, "max = skew signal"],
+            ].map(([k, v, sub]) => (
+              <div key={k} className="border border-slate-200 rounded-lg p-3 text-center bg-white">
+                <div className="text-2xl font-extrabold text-teal-700">{v}</div>
+                <div className="text-xs text-slate-500 mt-1">{k}</div>
+                {sub ? <div className="text-xs text-slate-400">{sub}</div> : null}
+              </div>
+            ))}
+          </div>
+          {(blockingRep.warnings ?? []).length > 0 && (
+            <div className="mt-3 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              {blockingRep.warnings!.map((w, i) => <div key={i}>{w}</div>)}
+            </div>
+          )}
         </section>
       )}
 
