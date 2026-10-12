@@ -138,6 +138,7 @@ interface SavedRun {
     fields: string[];
     block_method: string;
     block_key: string | null;
+    max_pairs: number;
     threshold: number;
     classify_method: string;
     cluster_method: string;
@@ -184,7 +185,10 @@ function CompareTable({ runs }: { runs: SavedRun[] }) {
       "Blocking",
       (r) =>
         r.config.block_method +
-        (r.config.block_key ? ` · ${r.config.block_key}` : ""),
+        (r.config.block_key ? ` · ${r.config.block_key}` : "") +
+        (r.config.max_pairs && r.config.max_pairs !== 2000000
+          ? ` · budget ${r.config.max_pairs.toLocaleString()}`
+          : ""),
     ],
     ["Fields", (r) => r.config.fields.join(", ")],
     ["Held-out", (r) => (r.config.held_out ? "yes" : "no")],
@@ -278,6 +282,9 @@ export default function Studio() {
   const [columns, setColumns] = useState<string[]>([]);
   const [fields, setFields] = useState<Record<string, string>>({});
   const [blockMethod, setBlockMethod] = useState("prefix");
+  const [pairBudget, setPairBudget] = useState<number>(2000000);
+  const pairBudgetRef = useRef(pairBudget);
+  pairBudgetRef.current = pairBudget;
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
@@ -358,6 +365,7 @@ export default function Studio() {
           block_key: bk || undefined,
           sample_n: sn || undefined,
           truth_csv_text: tt || undefined,
+          max_pairs: pairBudgetRef.current,
         }),
       });
       const j = (await r.json()) as Plan;
@@ -569,6 +577,7 @@ export default function Studio() {
             fields,
             block_method: blockMethod,
             block_key: blockMethod === "none" || blockMethod === "embed" ? null : blockKey || null,
+            max_pairs: pairBudget,
             threshold,
             classify_method: classifyMethod,
             hc_h: hcH,
@@ -604,6 +613,7 @@ export default function Studio() {
             fields: Object.keys(fields),
             block_method: blockMethod,
             block_key: blockMethod === "none" || blockMethod === "embed" ? null : blockKey || null,
+            max_pairs: pairBudget,
             threshold,
             classify_method: classifyMethod,
             cluster_method: clusterMethod,
@@ -840,7 +850,31 @@ export default function Studio() {
               {blockMethod === "none" && (
                 <span className="text-xs text-slate-400">no blocking: every pair is compared</span>
               )}
+              {blockMethod === "embed" && (
+                <span className="text-xs text-slate-500">
+                  top-K per record, K = 2·budget/n
+                  {plan && plan.n_records ? ` ≈ top-${Math.min(Math.max(1, Math.floor((2 * pairBudget) / plan.n_records)), plan.n_records - 1)}` : ""}
+                </span>
+              )}
             </label>
+            {blockMethod === "embed" && (
+              <label className="block">
+                <span className="font-medium text-slate-700">Pair budget</span>
+                <input
+                  type="number"
+                  min={100}
+                  step={1000}
+                  value={pairBudget}
+                  onChange={(e) => {
+                    const v = parseInt(e.target.value, 10);
+                    setPairBudget(Number.isFinite(v) ? v : 2000000);
+                    debouncePlan(payload, blockMethod, blockKey, sampleN);
+                  }}
+                  className="mt-1 w-full border border-slate-300 rounded-lg px-2 py-2"
+                />
+                <span className="text-xs text-slate-400">caps candidate pairs; smaller = tighter blocking</span>
+              </label>
+            )}
             {blockMethod !== "none" && blockMethod !== "embed" && (
               <label className="block">
                 <span className="font-medium text-slate-700"><Term id="blocking-key">Blocking key</Term></span>

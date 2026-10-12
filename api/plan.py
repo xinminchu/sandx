@@ -90,12 +90,17 @@ class handler(BaseHTTPRequestHandler):
         block_method = body.get("block_method") or "prefix"
         block_key = body.get("block_key") or columns[0]
         try:
+            max_pairs = int(body.get("max_pairs", 2000000))
+        except (TypeError, ValueError):
+            max_pairs = 2000000
+        max_pairs = max(100, min(max_pairs, 10000000))
+        try:
             if block_method == "embed":
                 # estimate only: n*K/2 with K from the pair budget (no training)
                 import sys, os
                 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
                 from engine.learned_blocking import k_for_budget
-                k = min(k_for_budget(len(rows), 2000000), max(len(rows) - 1, 1))
+                k = min(k_for_budget(len(rows), max_pairs), max(len(rows) - 1, 1))
                 n_pairs = len(rows) * k // 2
             else:
                 pairs = block(rows, method=block_method, key=block_key)

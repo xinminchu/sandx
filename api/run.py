@@ -174,6 +174,11 @@ class handler(BaseHTTPRequestHandler):
             classify_method = cfg.get("classify_method") or "tc"
             cluster_method = cfg.get("cluster_method") or "same"
             try:
+                max_pairs = int(cfg.get("max_pairs", 2000000))
+            except (TypeError, ValueError):
+                max_pairs = 2000000
+            max_pairs = max(100, min(max_pairs, 10000000))
+            try:
                 hc_h = float(cfg.get("hc_h", 0.5))
             except (TypeError, ValueError):
                 hc_h = 0.5
@@ -215,6 +220,7 @@ class handler(BaseHTTPRequestHandler):
                 truth_col=truth_col,
                 truth=truth,
                 held_out=bool(cfg.get("held_out", False)),
+                max_pairs=max_pairs,
             )
             if res.get("n_pairs", 0) > MAX_PAIRS:
                 return self._send(
