@@ -91,7 +91,7 @@ const DATASETS: Ds[] = [
       "10,000 records, 6,000 entities, 8,705 duplicate pairs (JedAI, Table 1 of the paper above; all counts verified on our copy).",
     fields:
       "12 person attributes in the original (names, addresses and related census-style values; 106,108 name–value pairs in total). Our copy (10Kfull.csv) is pipe-delimited and flattened: ERBOT loads only Id and the Aggregate Value text. The raw file also carries embedding columns, which ERBOT does not load or use.",
-    gold: "Known by construction (Febrl generation). Our copy carries it as a pair file (10Kduplicates.csv, Entity1|Entity2) of generation links; clusters are the connected components of those pairs.",
+    gold: "Known by construction (Febrl generation). Our copy carries it as a pair file (10Kduplicates.csv, Entity1|Entity2) of generation links; clusters are the connected components of those pairs. A task-type note, because the name misleads: Febrl is a record-linkage system, but its generator emits a single originals-plus-duplicates table, and JedAI benchmarks these sets as Dirty ER — deduplication within one collection. Our copy has exactly that layout: one table, one id space, no source column.",
     usedBy: (
       <>
         The JedAI experimental programme (Papadakis et al. 2020 and the
