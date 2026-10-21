@@ -35,4 +35,18 @@ export const DATASETS: Dataset[] = [
     source: "Cora benchmark (public), gold pairs supplied by Sam",
     truthCol: "truth",
   },
+  {
+    file: "d10k.csv",
+    label: "D10K",
+    desc: "10,000 synthetic census records · 6,000 entities · one text field",
+    source: "JedAI benchmark (Febrl-generated synthetic data)",
+    truthCol: "truth",
+  },
+  {
+    file: "musicbrainz.csv",
+    label: "MusicBrainz-20K",
+    desc: "19,375 recordings · 10,000 entities · pipeline auto-samples 2,000",
+    source: "Leipzig DB Group benchmark (CC)",
+    truthCol: "truth",
+  },
 ];

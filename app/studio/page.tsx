@@ -304,6 +304,7 @@ export default function Studio() {
   const pairBudgetRef = useRef(pairBudget);
   pairBudgetRef.current = pairBudget;
   const [blockingRep, setBlockingRep] = useState<BlockingReport | null>(null);
+  const [tab, setTab] = useState<"pipeline" | "blocking">("pipeline");
   const [blockingLoading, setBlockingLoading] = useState(false);
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
@@ -449,13 +450,16 @@ export default function Studio() {
     planTimer.current = setTimeout(() => refreshPlan(p, bm, bk, sn), 450);
   }
 
-  function loadPayload(p: { csv_text?: string; url?: string; filename?: string }) {
+  function loadPayload(
+    p: { csv_text?: string; url?: string; filename?: string },
+    snOverride?: number
+  ) {
     setError("");
     setPlan(null);
     setColumns([]);
     setResult(null);
     setPayload(p);
-    refreshPlan(p, blockMethod, blockKey, sampleN, true);
+    refreshPlan(p, blockMethod, blockKey, snOverride ?? sampleN, true);
   }
 
   async function useDataset(ds: (typeof DATASETS)[number]) {
@@ -466,7 +470,16 @@ export default function Studio() {
       pendingTruth.current = ds.truthCol
         ? { source: "column", col: ds.truthCol }
         : null;
-      loadPayload({ csv_text: t, filename: ds.file });
+      // Oversized bundled sets (e.g. MusicBrainz-20K at 19,375 rows) exceed
+      // the pipeline's 10,000-row cap: auto-select the largest offered
+      // random sample instead of failing the run.
+      let sn: number | undefined;
+      const approxRows = t.split("\n").length - 2;
+      if (approxRows > 10000 && sampleN === 0) {
+        sn = 2000;
+        setSampleN(2000);
+      }
+      loadPayload({ csv_text: t, filename: ds.file }, sn);
     } catch {
       setError("Failed to load the dataset.");
     }
@@ -740,6 +753,46 @@ export default function Studio() {
         Your data is never stored.
       </p>
 
+      {/* Studio tabs */}
+      <div className="mt-6 flex flex-wrap gap-1 border-b border-slate-200">
+        <button
+          onClick={() => setTab("pipeline")}
+          className={`px-4 py-2 text-sm rounded-t-lg border-b-2 -mb-px ${
+            tab === "pipeline"
+              ? "border-teal-600 text-teal-700 font-semibold"
+              : "border-transparent text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          Pipeline
+        </button>
+        <button
+          onClick={() => setTab("blocking")}
+          className={`px-4 py-2 text-sm rounded-t-lg border-b-2 -mb-px ${
+            tab === "blocking"
+              ? "border-teal-600 text-teal-700 font-semibold"
+              : "border-transparent text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          Blocking · Budget Lab
+        </button>
+        <button
+          disabled
+          title="Coming soon"
+          className="px-4 py-2 text-sm text-slate-300 cursor-not-allowed"
+        >
+          Missing values <span className="text-[10px] align-super">soon</span>
+        </button>
+        <button
+          disabled
+          title="Coming soon"
+          className="px-4 py-2 text-sm text-slate-300 cursor-not-allowed"
+        >
+          Deep learning <span className="text-[10px] align-super">soon</span>
+        </button>
+      </div>
+
+      {tab === "pipeline" && (
+        <>
       {/* 1 · Data source (pick exactly one) */}
       <section className="mt-8 border border-slate-200 rounded-xl p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -1710,9 +1763,6 @@ export default function Studio() {
         </section>
       )}
 
-      {/* Budget Lab (standalone demonstration; independent of the run above) */}
-      <BudgetLab />
-
       {/* Run history */}
       {history.length > 0 && (
         <section className="max-w-6xl mx-auto px-5 pb-16">
@@ -1922,6 +1972,14 @@ export default function Studio() {
             />
           )}
         </section>
+      )}
+        </>
+      )}
+
+      {tab === "blocking" && (
+        <div className="mt-4">
+          <BudgetLab />
+        </div>
       )}
     </div>
   );

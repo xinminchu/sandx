@@ -64,7 +64,7 @@ const DATASETS: Ds[] = [
   {
     id: "d10k",
     name: "D10K (synthetic, 10,000 records)",
-    tag: "ERBOT experiments · JedAI benchmark",
+    tag: "ERBOT experiments · Studio · JedAI benchmark",
     source: (
       <>
         The synthetic Dirty-ER dataset <strong>D10K</strong> from the JedAI
@@ -119,7 +119,7 @@ const DATASETS: Ds[] = [
   {
     id: "musicbrainz",
     name: "MusicBrainz 20K",
-    tag: "ERBOT experiments",
+    tag: "ERBOT experiments · Studio",
     source: (
       <>
         Leipzig University Database Group,{" "}

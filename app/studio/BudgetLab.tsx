@@ -9,6 +9,8 @@ type LabResult = {
   ok: boolean;
   error?: string;
   filename?: string;
+  sampled_from?: number;
+  sampled_to?: number;
   n: number;
   entities: number;
   n_train: number;
@@ -202,6 +204,14 @@ export default function BudgetLab() {
 
       {res && row && (
         <div className="mt-5">
+          {res.sampled_from ? (
+            <div className="mb-3 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 max-w-3xl">
+              Whole-cluster sample: this run uses {res.sampled_to?.toLocaleString()} of the
+              file&apos;s {res.sampled_from.toLocaleString()} records (the lab&apos;s pool
+              build caps at 2,500 records). Sampling takes whole gold clusters, never
+              splits one — the same construction as the MusicBrainz-20K subset itself.
+            </div>
+          ) : null}
           <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
             <span>
               <strong className="text-slate-800">{res.n.toLocaleString()}</strong> records ·{" "}
