@@ -57,6 +57,7 @@ const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
   },
 ];
 import { DATASETS } from "./datasets";
+import BudgetLab from "./BudgetLab";
 
 const SAMPLE_OPTIONS = [
   { n: 0, label: "All records" },
@@ -1708,6 +1709,9 @@ export default function Studio() {
           ) : null}
         </section>
       )}
+
+      {/* Budget Lab (standalone demonstration; independent of the run above) */}
+      <BudgetLab />
 
       {/* Run history */}
       {history.length > 0 && (

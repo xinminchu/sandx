@@ -436,10 +436,12 @@ export default function ExperimentsPage() {
               where saturation is not a given.
             </li>
             <li>
-              An interactive budget-allocation demo is being added to the{" "}
-              <Link className="underline" href="/studio">Studio</Link>; it is a
-              teaching demonstration on the bundled datasets, distinct from
-              the archived runs reported here.
+              An interactive budget-allocation demo (the Budget Lab) is live
+              in the{" "}
+              <Link className="underline" href="/studio">Studio</Link>: same
+              protocol in miniature on the bundled datasets, computed live —
+              a teaching demonstration, distinct from the archived runs
+              reported here.
             </li>
           </ul>
         </div>
