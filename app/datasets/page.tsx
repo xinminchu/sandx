@@ -76,16 +76,19 @@ const DATASETS: Ds[] = [
         addresses, then duplicates were created with realistic error
         modifications (character/word insertions, deletions, substitutions;
         at most 10 per entity), leaving 40% of the records duplicates. Our
-        copy reached us as a flattened re-packaging (single Aggregate Value
-        column, plus embedding columns we do not use), not in JedAI&rsquo;s
-        original serialized form &mdash; the intermediate step is untraced, but
-        the fingerprint matches JedAI&rsquo;s published table exactly: 10,000
-        profiles, 12 attributes, and the 40%-duplicate rate implies 6,000
-        distinct entities, which is what our loader measures.
+        copy is a flattened re-packaging of JedAI&rsquo;s serialized profiles
+        (single Aggregate Value column, plus embedding columns we do not
+        use), obtained through a university lab&rsquo;s dataset collection —
+        whose bundled data README is the JedAI dataset description itself.
+        The fingerprint matches on every number: 10,000 profiles, 12
+        attributes, 8,705 duplicate pairs, and the 40%-duplicate rate
+        implies 6,000 distinct entities — all verified on our copy (the
+        pair file has exactly 8,705 rows and yields exactly 8,705 true
+        pairs).
       </>
     ),
     scale:
-      "10,000 records, 6,000 entities, 8,705 duplicate pairs (JedAI, Table 1 of the paper above; entity count verified on our copy).",
+      "10,000 records, 6,000 entities, 8,705 duplicate pairs (JedAI, Table 1 of the paper above; all counts verified on our copy).",
     fields:
       "12 person attributes in the original (names, addresses and related census-style values; 106,108 name–value pairs in total). Our copy (10Kfull.csv) is pipe-delimited and flattened: ERBOT loads only Id and the Aggregate Value text. The raw file also carries embedding columns, which ERBOT does not load or use.",
     gold: "Known by construction (Febrl generation). Our copy carries it as a pair file (10Kduplicates.csv, Entity1|Entity2) of generation links; clusters are the connected components of those pairs.",
