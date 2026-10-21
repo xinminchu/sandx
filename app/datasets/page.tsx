@@ -64,25 +64,37 @@ const DATASETS: Ds[] = [
   {
     id: "d10k",
     name: "D10K (synthetic, 10,000 records)",
-    tag: "ERBOT experiments",
+    tag: "ERBOT experiments · JedAI benchmark",
     source: (
       <>
-        <strong>Provenance not established.</strong> We searched the public web
-        (Oct 2026) for this exact file pair and format and found no published
-        dataset that matches it; it does not correspond to any Leipzig,
-        DeepMatcher, RIDDLE, Febrl or Christen distribution. We say so rather
-        than guess &mdash; if you recognise it, tell us.
+        The synthetic Dirty-ER dataset <strong>D10K</strong> from the JedAI
+        benchmark suite (Papadakis et al., &ldquo;Three-dimensional Entity
+        Resolution with JedAI,&rdquo; <em>Information Systems</em> 93, 2020).
+        Census-style person profiles artificially generated with the{" "}
+        <strong>Febrl</strong> generator: duplicate-free profiles were first
+        built from frequency tables of real given names, surnames and
+        addresses, then duplicates were created with realistic error
+        modifications (character/word insertions, deletions, substitutions;
+        at most 10 per entity), leaving 40% of the records duplicates. Our
+        copy reached us as a flattened re-packaging (single Aggregate Value
+        column, plus embedding columns we do not use), not in JedAI&rsquo;s
+        original serialized form &mdash; the intermediate step is untraced, but
+        the fingerprint matches JedAI&rsquo;s published table exactly: 10,000
+        profiles, 12 attributes, and the 40%-duplicate rate implies 6,000
+        distinct entities, which is what our loader measures.
       </>
     ),
     scale:
-      "10,000 records, 6,000 entities (measured with our loader: 4,000 gold pairs joined by union-find, the remaining 2,000 records singletons).",
+      "10,000 records, 6,000 entities, 8,705 duplicate pairs (JedAI, Table 1 of the paper above; entity count verified on our copy).",
     fields:
-      "The record file (10Kfull.csv) is pipe-delimited. ERBOT loads only two columns — Id and a single rich Aggregate Value text (all attributes concatenated). The raw file also carries embedding columns, which ERBOT does not load or use.",
-    gold: "A separate pair file (10Kduplicates.csv, Entity1|Entity2); clusters are the connected components of those pairs.",
+      "12 person attributes in the original (names, addresses and related census-style values; 106,108 name–value pairs in total). Our copy (10Kfull.csv) is pipe-delimited and flattened: ERBOT loads only Id and the Aggregate Value text. The raw file also carries embedding columns, which ERBOT does not load or use.",
+    gold: "Known by construction (Febrl generation). Our copy carries it as a pair file (10Kduplicates.csv, Entity1|Entity2) of generation links; clusters are the connected components of those pairs.",
     usedBy: (
       <>
-        ERBOT only, so far: the E1/E2 full-protocol matrix (2026), where it
-        serves as the ceiling case (below). No published use is known to us.
+        The JedAI experimental programme (Papadakis et al. 2020 and the
+        blocking/filtering evaluations around it) uses D10K as the smallest
+        of a synthetic scale ladder (D10K&ndash;D2M). In ERBOT it is the ceiling
+        case of the E1/E2 full-protocol matrix (2026), below.
       </>
     ),
     analysis: (
@@ -112,11 +124,12 @@ const DATASETS: Ds[] = [
           Benchmark datasets for entity resolution
         </a>
         ; introduced with the FAMER multi-source matching framework (Saeedi,
-        Peukert &amp; Rahm).
+        Peukert &amp; Rahm). Distributed under a Creative Commons licence
+        (Leipzig DB Group, June 2019).
       </>
     ),
     scale:
-      "Official 20K release: 19,375 records from 5 sources, 10,000 clusters, 16,250 duplicate pairs.",
+      "Official 20K release: 19,375 records from 5 sources, 10,000 clusters, 16,250 duplicate pairs. The family scales by 10× steps up to a 20M variant (19,375,000 records, 10,000,000 clusters, 16,250,000 pairs).",
     fields:
       "Raw header (verified on our file): TID, CID, CTID, SourceID, id, number, title, length, artist, album, year, language. Values are messy by design — lengths like “1m 58sec”, years like “75” or “null”.",
     gold: "Known by construction: real MusicBrainz records were duplicated and corrupted with the DAPO / GeCo data generators, so the cluster id (CID) is the gold standard.",
@@ -124,9 +137,11 @@ const DATASETS: Ds[] = [
       <>
         FAMER and later multi-source clustering evaluations; also Databricks&rsquo;
         Arc Autolinker evaluation (a 10&times; scaled variant). In ERBOT: the
-        near-ceiling column of the E1/E2 matrix &mdash; our local raw file is a far
-        larger generated variant (19.375M records, 10M clusters), from which we
-        sample whole CID clusters down to 20,000 records (10,294 entities).
+        near-ceiling column of the E1/E2 matrix &mdash; our local raw file is
+        Leipzig&rsquo;s <strong>20M variant</strong> (19,375,000 records,
+        10,000,000 clusters, 16,250,000 pairs &mdash; all three counts match the
+        Leipzig table exactly), from which we sample whole CID clusters down
+        to 20,000 records (10,294 entities).
       </>
     ),
     analysis: (
@@ -155,8 +170,8 @@ const DATASETS: Ds[] = [
         on real-world match problems&rdquo; (PVLDB 2010); distributed via the{" "}
         <a className="underline" href={LEIPZIG}>
           Leipzig benchmark page
-        </a>
-        .
+        </a>{" "}
+        under a Creative Commons licence (Leipzig DB Group, Jan 2019).
       </>
     ),
     scale: "2,173 records (1,081 Abt + 1,092 Buy), 1,076 entities in our Studio copy, 1,097 gold matches.",
@@ -187,7 +202,9 @@ const DATASETS: Ds[] = [
         <a className="underline" href={LEIPZIG}>
           Benchmark datasets for entity resolution
         </a>
-        .
+        , under a Creative Commons licence (June 2019). The strings were
+        extracted from the PDFs of database publications that appeared
+        between 2000 and 2009.
       </>
     ),
     scale: "2,260 affiliation strings, 330 gold clusters, 32,816 within-cluster pairs.",
@@ -250,7 +267,8 @@ const DATASETS: Ds[] = [
     source: (
       <>
         Bibliographic records from DBLP and the ACM Digital Library, first
-        presented by Köpcke &amp; Rahm (2008); labelled train/validation/test
+        presented by Köpcke &amp; Rahm (2008); the Leipzig distribution is
+        Creative Commons (Jan 2019). Labelled train/validation/test
         splits packaged by{" "}
         <a className="underline" href="https://github.com/anhaidgroup/deepmatcher">
           DeepMatcher
@@ -295,7 +313,16 @@ const DATASETS: Ds[] = [
         <a className="underline" href="http://openproceedings.org/2021/conf/edbt/p152.pdf">
           paper
         </a>
-        ).
+        ). (d) Leipzig&rsquo;s generated &ldquo;North Carolina Voters&rdquo; family (
+        <a className="underline" href={LEIPZIG}>
+          benchmark page
+        </a>
+        , Creative Commons, June 2019): real registry records replicated
+        across 5 or 10 duplicate-free sources with GeCo — 50% of entities
+        replicated in all sources uncorrupted, 25% corrupted and replicated
+        everywhere, 25% corrupted and present in only some sources, at a
+        moderate 20% corruption rate; the 5-source configuration holds
+        5,000,000 records in 3,500,840 clusters.
       </>
     ),
     scale:
@@ -381,7 +408,7 @@ export default function Datasets() {
         <Link href="#cora" className="underline text-teal-700">Cora</Link>{" "}
         (real headroom),{" "}
         <Link href="#d10k" className="underline text-teal-700">D10K</Link>{" "}
-        (total saturation, unknown provenance),{" "}
+        (total saturation; JedAI&rsquo;s Febrl-generated synthetic),{" "}
         <Link href="#musicbrainz" className="underline text-teal-700">MusicBrainz 20K</Link>{" "}
         (near-ceiling, generator-built).
       </p>
@@ -402,6 +429,12 @@ export default function Datasets() {
         <li>
           Köpcke, Thor &amp; Rahm, &ldquo;Evaluation of entity resolution approaches on
           real-world match problems,&rdquo; PVLDB 3(1), 2010.
+        </li>
+        <li>
+          Papadakis et al., &ldquo;Three-dimensional Entity Resolution with
+          JedAI,&rdquo; <em>Information Systems</em> 93 (2020) 101565 &mdash; Table 1
+          and the dataset-generation description for D10K (Febrl-generated
+          synthetic Dirty-ER family, D10K&ndash;D2M).
         </li>
         <li>
           <a className="underline" href={GOLLUM}>
