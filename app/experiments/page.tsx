@@ -640,8 +640,10 @@ permutation (R=199):  null +0.170 ± 0.016 · observed +0.3227 · p = 0.005`}
         </pre>
         <p className="mt-3 text-sm text-slate-500 leading-relaxed max-w-3xl">
           State note: the scripts were run on 2026-10-20–22 against the
-          ERBOT working tree; the public package repository may lag that
-          state. The D10K and MusicBrainz data files are not redistributed
+          ERBOT working tree; they also live in the public package
+          repository (<a className="underline" href="https://github.com/xinminchu/erbot/tree/main/experiments">xinminchu/erbot · experiments/</a>),
+          whose package code may lag the working-tree state. The D10K and
+          MusicBrainz data files are not redistributed
           here — their sources are on the{" "}
           <Link className="underline" href="/datasets">Datasets page</Link>.
         </p>
