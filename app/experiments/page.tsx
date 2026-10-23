@@ -382,16 +382,113 @@ export default function ExperimentsPage() {
         </div>
       </section>
 
+      {/* related methods */}
+      <section className="mt-14">
+        <h2 className="text-xl font-semibold text-slate-800">
+          Related methods under the same ruler (2026-10-22)
+        </h2>
+        <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
+          A claim about allocation invites an obvious question: how do the
+          classic methods do under the <em>same</em> protocol — same split,
+          same pool, same budget? We re-ran five of them: <strong>global
+          top-B</strong> (the whole pool ranked by cosine — the degenerate
+          allocation with no per-record structure), <strong>adaptive-k</strong>{" "}
+          (each record keeps neighbours within a relative threshold of its own
+          best cosine, α tuned on train), <strong>meta-blocking</strong>{" "}
+          (token blocks with block purging; edges weighted by common-block
+          count or Jaccard, plus weight-based neighbourhood pruning),{" "}
+          <strong>sorted neighborhood</strong> (one lexicographic key, sliding
+          window), and <strong>canopy</strong> (two-threshold greedy
+          clustering). This comparison is descriptive — no permutation tests
+          were run for these methods.
+        </p>
+        <div className="mt-5">
+          <div className="text-sm font-medium text-slate-700 mb-2">
+            Cora — the one dataset with headroom (B = 20,898 pairs)
+          </div>
+          <PcBars
+            rows={[
+              { label: "Fixed-k baseline", pc: 0.5865, note: "20,898 pairs" },
+              { label: "Global top-B", pc: 0.9227, note: "20,898 pairs", strong: true },
+              { label: "Adaptive-k (aligned)", pc: 0.9173, note: "native 0.8990 · 20,445 pairs" },
+              { label: "E2 waterfill A / B", pc: 0.9092, note: "20,575 pairs" },
+              { label: "Sorted neighborhood", pc: 0.5279, note: "aligned" },
+              { label: "Meta-blocking CBS / JS", pc: 0.5135, note: "aligned" },
+            ]}
+          />
+        </div>
+        <p className="mt-5 text-slate-600 leading-relaxed max-w-3xl">
+          The uncomfortable result first: on Cora, plain global ranking{" "}
+          <strong>beats our calibrated waterfill by +0.0135</strong>, and
+          adaptive-k sits between them. We therefore withdraw the claim that
+          calibrated marginal allocation is the best allocator. What survives
+          is the framework — spending the budget by global score gains
+          +0.32 to +0.34 over the fixed-k grid — plus the scope law below and
+          E2&apos;s permutation attribution, which compared waterfill against
+          shuffled budget profiles and is untouched by this run. (Global
+          top-B&apos;s +0.34 is a headline number; nobody has decomposed it.)
+        </p>
+        <div className="mt-6 overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="text-left text-slate-500 border-b border-slate-200">
+                <th className="py-2 pr-4 font-medium">Method (PC at budget B)</th>
+                <th className="py-2 pr-4 font-medium">Cora</th>
+                <th className="py-2 pr-4 font-medium">D10K</th>
+                <th className="py-2 font-medium">MusicBrainz-20K</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700 font-mono text-[13px]">
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Fixed-k baseline</td><td className="py-2 pr-4">0.5865</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9946</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Global top-B</td><td className="py-2 pr-4">0.9227</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9924</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Adaptive-k (aligned)</td><td className="py-2 pr-4">0.9173</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9889</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation A (Platt)</td><td className="py-2 pr-4">0.9092</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9924</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation B (mixture)</td><td className="py-2 pr-4">0.9092</td><td className="py-2 pr-4">0.9992</td><td className="py-2">0.9920</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking CBS (aligned)</td><td className="py-2 pr-4">0.5135</td><td className="py-2 pr-4">0.9935</td><td className="py-2">0.9899</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking JS (aligned)</td><td className="py-2 pr-4">0.5135</td><td className="py-2 pr-4">0.9906</td><td className="py-2">0.9911</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Sorted neighborhood (aligned)</td><td className="py-2 pr-4">0.5279</td><td className="py-2 pr-4">0.6851</td><td className="py-2">0.2075</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Canopy (native pairs)</td><td className="py-2 pr-4">0.2007 · 4,517</td><td className="py-2 pr-4">1.0000 · 5,668</td><td className="py-2">0.9848 · 56,721</td></tr>
+              <tr><td className="py-2 pr-4 font-sans text-sm">Meta-blocking WNP (native pairs)</td><td className="py-2 pr-4">0.1790 · 4,373</td><td className="py-2 pr-4">0.9471 · 7,772</td><td className="py-2">0.9804 · 97,406</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul className="mt-5 space-y-1.5 text-sm text-slate-600 leading-relaxed list-disc pl-5 max-w-3xl">
+          <li>
+            <strong>Meta-blocking never wins at equal budget</strong> — on any
+            of the three datasets. On Cora its token graph holds only 15,009
+            edges, fewer than the budget itself: sparse bibliographic tokens
+            are a poor fit for token blocking.
+          </li>
+          <li>
+            <strong>Sorted neighborhood is uniformly weak</strong>, and
+            collapses on MusicBrainz (0.2075): one lexicographic key cannot
+            group music-metadata duplicates.
+          </li>
+          <li>
+            <strong>Canopy is the efficiency side-finding.</strong> At equal
+            budget it changes no verdict, but on near-duplicate data it needs
+            a fraction of the pairs: PC 1.0000 on D10K with 5,668 pairs —
+            14% of the budget.
+          </li>
+          <li>
+            On MusicBrainz the plain fixed-k baseline beats every
+            alternative on the table — the scope law from the other side.
+          </li>
+        </ul>
+      </section>
+
       {/* conclusion */}
       <section className="mt-14 border border-teal-200 bg-teal-50 rounded-xl p-6">
         <h2 className="text-lg font-semibold text-teal-900">The scope law</h2>
         <p className="mt-2 text-teal-900/80 leading-relaxed max-w-3xl">
-          Marginal-allocation gains appear exactly where the fixed-k baseline
+          Allocation gains appear exactly where the fixed-k baseline
           cannot saturate — large on Cora (baseline 0.59–0.71), zero at the
           D10K and MusicBrainz ceilings (0.995–1.000). The deliverable of this
           experiment series is that scope statement plus one certified effect
           size (Cora E2, dPC +0.3227, permutation p = 0.005, roughly half of
-          it allocation proper) — not a universal improvement claim.
+          it allocation proper) — not a universal improvement claim. The
+          related-methods run narrows it once more: within allocation rules,
+          the ranking signal matters more than the allocation&apos;s shape.
         </p>
       </section>
 
@@ -460,6 +557,21 @@ export default function ExperimentsPage() {
           2026-10-21; every number on this page is taken from the archived run
           outputs without modification. Dataset identities, gold construction
           and licences: <Link className="underline" href="/datasets">Datasets</Link>.
+        </p>
+        <p className="mt-2">
+          Related-methods section: script{" "}
+          <code className="font-mono text-[13px]">exp-related-baselines-v1.R</code>,
+          run 2026-10-22 on E2&apos;s v2 split; its in-run self-check
+          reproduced the archived Cora baseline and waterfill numbers
+          exactly. Two data notes: the D10K runs used a copy rebuilt from
+          JedAI&apos;s official serialized distribution and verified against
+          the archived fingerprint (10,000 records / 8,705 pairs / 6,000
+          entities) — its tuned k* is 20 rather than 50, so D10K budgets
+          differ from the v2 runs while every verdict is unchanged; the
+          MusicBrainz-20K sample was rebuilt with the builder&apos;s seed
+          and matches the archived fingerprint exactly (20,000 / 10,294 /
+          16,934), with the baseline PC differing in the fourth decimal
+          (0.9946 vs 0.9954).
         </p>
       </section>
     </div>

@@ -4,7 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import { DATASETS } from "./datasets";
 
-type GridRow = { k: number; budget: number; fixed_pc: number; e1_pc: number; e2_pc: number };
+type GridRow = {
+  k: number;
+  budget: number;
+  fixed_pc: number;
+  e1_pc: number;
+  e2_pc: number;
+  topb_pc: number;
+  adapt_pc: number;
+  adapt_native: number;
+  adapt_alpha: number;
+};
 type LabResult = {
   ok: boolean;
   error?: string;
@@ -34,6 +44,8 @@ type LabResult = {
 
 const ARMS = [
   { key: "fixed_pc", label: "Fixed-k baseline", color: "#94a3b8" },
+  { key: "topb_pc", label: "Global top-B (pool ranking)", color: "#2563eb" },
+  { key: "adapt_pc", label: "Adaptive-k (relative threshold)", color: "#db2777" },
   { key: "e1_pc", label: "E1 · collective (communities)", color: "#0d9488" },
   { key: "e2_pc", label: "E2 · marginal allocation", color: "#d97706" },
 ] as const;
@@ -168,8 +180,11 @@ export default function BudgetLab() {
         Blocking spends a budget of candidate pairs. This lab replays ERBOT&apos;s
         blocking experiments in miniature on a bundled dataset: one shared
         candidate pool (char-3-gram cosine, top-200 per record), an
-        entity-disjoint 70/30 split, and three ways to spend exactly the same
-        budget — <strong>fixed-k</strong>, <strong>E1 collective</strong>{" "}
+        entity-disjoint 70/30 split, and five ways to spend exactly the same
+        budget — <strong>fixed-k</strong>, <strong>global top-B</strong>{" "}
+        (the whole pool ranked by cosine, no per-record structure),{" "}
+        <strong>adaptive-k</strong> (each record keeps neighbours within a
+        relative threshold of its own best match), <strong>E1 collective</strong>{" "}
         (community pairs + cross-community insurance), and{" "}
         <strong>E2 marginal allocation</strong> (water-filling by calibrated
         match probability). The paper-grade archived runs live on the{" "}
@@ -266,8 +281,13 @@ export default function BudgetLab() {
                 </div>
               ))}
               <div className="text-xs text-slate-400">
-                budget at k={row.k}: {row.budget.toLocaleString()} pairs · E1 {fmtD(row.e1_pc - row.fixed_pc)}{" "}
+                budget at k={row.k}: {row.budget.toLocaleString()} pairs · top-B {fmtD(row.topb_pc - row.fixed_pc)}{" "}
+                vs fixed-k · adaptive {fmtD(row.adapt_pc - row.fixed_pc)} vs fixed-k · E1 {fmtD(row.e1_pc - row.fixed_pc)}{" "}
                 vs fixed-k · E2 {fmtD(row.e2_pc - row.fixed_pc)} vs fixed-k
+              </div>
+              <div className="text-xs text-slate-400">
+                adaptive-k at this k: α = {row.adapt_alpha.toFixed(2)} (tuned on train), native{" "}
+                {row.adapt_native.toLocaleString()} pairs before budget alignment
               </div>
             </div>
           </div>
@@ -296,9 +316,11 @@ export default function BudgetLab() {
             Miniature disclosures: Louvain resolution fixed at 1 (the harness
             tunes it on train); pair weights are BoW cosines where the
             harness&apos;s E1 uses signature agreement; E2 shown is variant A
-            (Platt calibration) only; permutation R = 19 here vs 199 in the
-            archived runs. Same pool, split seed (20261012), budget alignment
-            and kill-line discipline as the full protocol.
+            (Platt calibration) only; adaptive-k&apos;s α is tuned on train
+            per k over 0.30–0.95 to match the train budget, exactly as in the
+            archived related-methods run; permutation R = 19 here vs 199 in
+            the archived runs. Same pool, split seed (20261012), budget
+            alignment and kill-line discipline as the full protocol.
           </p>
         </div>
       )}

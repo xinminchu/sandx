@@ -2,9 +2,15 @@
 blocking-experiment protocol).
 
 Question: given a fixed candidate-pair budget B, which pairs should a
-blocker buy? Three arms spend over one shared pool:
+blocker buy? Five arms spend over one shared pool:
 
   fixed-k   every record buys its k nearest neighbours (k tuned on train);
+  top-B     global ranking: the whole pool sorted by cosine, top B pairs
+            (the degenerate allocation — no per-record structure at all);
+  adaptive  per-record relative threshold (keep neighbours with cosine
+            >= alpha * the record's own best cosine; alpha tuned on
+            train to match the train budget at that k), budget-aligned
+            like the other arms;
   E1        collective blocking, ported from exp-e1-collective-blocking-v2.R:
             Louvain communities on the pool graph; candidate pairs =
             ALL within-community pairs (per-record cap 200 in communities
@@ -342,6 +348,60 @@ def _select_by_alloc(prof, alloc, budget, pool_by_marg):
     return set(chosen)
 
 
+# ---------------------------------------------------------------- top-B / adaptive
+
+ALPHA_GRID = [0.30 + 0.05 * i for i in range(14)]  # 0.30 .. 0.95
+
+
+def _pair_ratios(idxs, nbrs, sims):
+    """For each undirected pool pair within the subset, the largest alpha
+    at which the relative-threshold rule still selects it:
+    r = max(s / max_i, s / max_j) over the two directed stubs, where max_i
+    is record i's best in-subset cosine. The adaptive native set at
+    threshold alpha is exactly {pairs: r >= alpha}."""
+    inside = set(idxs)
+    best = {}
+    for i in idxs:
+        for j, s in zip(nbrs[i], sims[i]):
+            if int(j) in inside and int(j) != i:
+                best[i] = float(s)
+                break
+    ratios = {}
+    for i in idxs:
+        bi = best.get(i, 0.0)
+        if bi <= 0:
+            continue
+        for j, s in zip(nbrs[i], sims[i]):
+            j = int(j)
+            if j in inside and j != i:
+                key = (i, j) if i < j else (j, i)
+                r = float(s) / bi
+                if r > ratios.get(key, 0.0):
+                    ratios[key] = r
+    return ratios
+
+
+def _tune_alpha(ratios_train, budget_train):
+    """Alpha whose train pair count is closest to the train budget
+    (first minimum wins, as in the R harness)."""
+    import bisect
+
+    counts = sorted(ratios_train.values())
+    best_alpha, best_diff = ALPHA_GRID[0], None
+    for a in ALPHA_GRID:
+        cnt = len(counts) - bisect.bisect_left(counts, a)
+        diff = abs(cnt - budget_train)
+        if best_diff is None or diff < best_diff:
+            best_alpha, best_diff = a, diff
+    return best_alpha
+
+
+def _topb_pairs(pool_scores, budget):
+    """Global top-B: the pool ranked by cosine, first `budget` pairs."""
+    items = sorted(pool_scores.items(), key=lambda kv: -kv[1])
+    return {k for k, _ in items[:budget]}
+
+
 # ---------------------------------------------------------------- main entry
 
 def budget_lab(rows, cols, truth, id_col=None, truth_col=None, perm_r=19):
@@ -376,6 +436,8 @@ def budget_lab(rows, cols, truth, id_col=None, truth_col=None, perm_r=19):
     pool_test = _topk_pairs(test_idx, nbrs, sims, POOL_K)
     comm_of = _communities(test_idx, nbrs, sims)
     prof = _stubs_by_marg(test_idx, nbrs, margs)
+    ratios_train = _pair_ratios(train_idx, nbrs, sims)
+    ratios_test = _pair_ratios(test_idx, nbrs, sims)
     grid = []
     base_pairs = {}
     e2_sets = {}
@@ -386,12 +448,21 @@ def budget_lab(rows, cols, truth, id_col=None, truth_col=None, perm_r=19):
         e1 = _e1_pairs(test_idx, nbrs, sims, cos, comm_of, budget, pool_test)
         e2 = _waterfill(test_idx, nbrs, sims, prof, budget)
         e2_sets[k] = e2
+        topb = _topb_pairs(pool_test, budget)
+        alpha = _tune_alpha(ratios_train,
+                            len(_topk_pairs(train_idx, nbrs, sims, k)))
+        native = {p: pool_test[p] for p, r in ratios_test.items() if r >= alpha}
+        adapt = _align(native, budget, pool_test)
         grid.append({
             "k": k,
             "budget": budget,
             "fixed_pc": round(_pc(set(fixed), gold_test), 4),
             "e1_pc": round(_pc(e1, gold_test), 4),
             "e2_pc": round(_pc(e2, gold_test), 4),
+            "topb_pc": round(_pc(topb, gold_test), 4),
+            "adapt_pc": round(_pc(adapt, gold_test), 4),
+            "adapt_native": len(native),
+            "adapt_alpha": round(alpha, 2),
         })
 
     # ---- permutation check for E2 at k*: shuffle the observed degree
