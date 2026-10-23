@@ -544,6 +544,109 @@ export default function ExperimentsPage() {
         </div>
       </section>
 
+      {/* reproduce in R */}
+      <section className="mt-14">
+        <h2 className="text-xl font-semibold text-slate-800">Reproduce these runs in R</h2>
+        <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
+          Every number on this page comes from four R scripts run against a
+          source checkout of the ERBOT package. The scripts <em>are</em> the
+          protocol — there is no hidden step. If a re-run disagrees with the
+          archived numbers, the disagreement is in the data files or the
+          package state, and step 5 below is how you catch it.
+        </p>
+
+        <h3 className="mt-6 font-semibold text-slate-800">1 · Environment</h3>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          R ≥ 4.1 (the archived runs used R 4.3/4.4). Install the package
+          dependencies once:
+        </p>
+        <pre className="code mt-3">
+{`install.packages(c("pkgload", "data.table", "dplyr", "tibble", "stringr",
+                   "stringi", "tidyr", "purrr", "readr", "readxl",
+                   "text2vec", "Matrix", "irlba", "stringdist", "igraph",
+                   "FNN", "cluster", "gridExtra", "scales", "magrittr",
+                   "jsonlite"))`}
+        </pre>
+
+        <h3 className="mt-6 font-semibold text-slate-800">2 · The scripts</h3>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          Download the four scripts and place them in{" "}
+          <code className="font-mono text-[13px]">experiments/</code> at the
+          package root. Each loads the package from the working tree
+          (pkgload::load_all), so always run{" "}
+          <code className="font-mono text-[13px]">Rscript</code> from the
+          package root. The dataset is the first argument (default{" "}
+          <code className="font-mono text-[13px]">cora</code>).
+        </p>
+        <ul className="mt-3 space-y-1.5 text-sm text-slate-600 list-disc pl-5">
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e1-collective-blocking-v2.R">exp-e1-collective-blocking-v2.R</a> — E1 collective blocking + community-label permutation</li>
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e2-waterfill-v2.R">exp-e2-waterfill-v2.R</a> — E2 marginal allocation (variants A/B) + allocation-profile permutation</li>
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-related-baselines-v1.R">exp-related-baselines-v1.R</a> — the related-methods comparison above (global top-B, adaptive-k, meta-blocking, sorted neighborhood, canopy)</li>
+          <li><a className="underline font-mono text-[13px]" href="/rerun/build-musicbrainz20k.R">build-musicbrainz20k.R</a> — one-time MusicBrainz-20K sample builder</li>
+        </ul>
+
+        <h3 className="mt-6 font-semibold text-slate-800">3 · Data placement</h3>
+        <pre className="code mt-3">
+{`inst/extdata/cora.csv            inst/extdata/cora_gold.csv   # bundled with the working tree
+data/10Kfull.csv                 data/10Kduplicates.csv       # D10K — source on the Datasets page
+data/raw/musicbrainz-20000-A01.csv.zip                        # MusicBrainz — Leipzig download`}
+        </pre>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          Build the MusicBrainz-20K sample once (whole-cluster sampling,
+          seed 20261020; writes{" "}
+          <code className="font-mono text-[13px]">data/musicbrainz20k.csv</code>{" "}
+          and its gold file; check the printed fingerprint — 20,000 records /
+          10,294 entities / 16,934 matched pairs):
+        </p>
+        <pre className="code mt-3">
+{`Rscript experiments/build-musicbrainz20k.R id CID 20000`}
+        </pre>
+
+        <h3 className="mt-6 font-semibold text-slate-800">4 · Run</h3>
+        <pre className="code mt-3">
+{`Rscript experiments/exp-e1-collective-blocking-v2.R cora
+Rscript experiments/exp-e2-waterfill-v2.R cora
+Rscript experiments/exp-related-baselines-v1.R cora
+
+Rscript experiments/exp-e1-collective-blocking-v2.R d10k
+Rscript experiments/exp-e2-waterfill-v2.R d10k
+Rscript experiments/exp-related-baselines-v1.R d10k
+
+Rscript experiments/exp-e1-collective-blocking-v2.R musicbrainz20k
+Rscript experiments/exp-e2-waterfill-v2.R musicbrainz20k
+Rscript experiments/exp-related-baselines-v1.R musicbrainz20k`}
+        </pre>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          Cora finishes in minutes. The E1/E2 permutation sections (R = 199)
+          on D10K and MusicBrainz are hour-scale — run them in one sitting,
+          on a machine that will not sleep. The related-baselines script has
+          no permutation section, and it can also run <em>without</em> the
+          package installed: it carries local replicas of the three package
+          functions it needs (standalone mode; data.table, Matrix and tibble
+          suffice).
+        </p>
+
+        <h3 className="mt-6 font-semibold text-slate-800">5 · Check against the archive</h3>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          The E2 Cora run must open with these lines (the same numbers the
+          related-baselines script prints as its self-check). If your
+          baseline differs, stop — your data or package state differs from
+          the archived runs, and later numbers are not comparable.
+        </p>
+        <pre className="code mt-3">
+{`baseline (fixed-k):   20,898 pairs · PC 0.5865
+waterfill A / B:      20,575 pairs · PC 0.9092
+permutation (R=199):  null +0.170 ± 0.016 · observed +0.3227 · p = 0.005`}
+        </pre>
+        <p className="mt-3 text-sm text-slate-500 leading-relaxed max-w-3xl">
+          State note: the scripts were run on 2026-10-20–22 against the
+          ERBOT working tree; the public package repository may lag that
+          state. The D10K and MusicBrainz data files are not redistributed
+          here — their sources are on the{" "}
+          <Link className="underline" href="/datasets">Datasets page</Link>.
+        </p>
+      </section>
+
       {/* provenance */}
       <section className="mt-12 text-sm text-slate-500 leading-relaxed max-w-3xl">
         <h3 className="font-semibold text-slate-700">Provenance</h3>
