@@ -30,17 +30,22 @@ const STAGES = [
     d: "Learns field weights three ways: uniform, Fellegi–Sunter EM on the unlabeled pairs, or ARI-guided search on a labeled fit set. The default never touches truth.",
   },
   {
-    n: "07 · Cluster",
-    fn: "er_cluster() / er_cluster_all()",
-    d: "Nine unsupervised methods (threshold connected-components, Louvain, Leiden, HDBSCAN, …) plus eleven supervised pairwise classifiers. Structural inapplicability returns valid=FALSE with a reason — never a silent garbage label.",
+    n: "07 · Classify",
+    fn: "er_classify()",
+    d: "Pairwise match / non-match decisions: converts the fused similarity matrix S into a binary match graph M (thresholding or a 2-component GMM via EM). The eleven supervised classifiers below learn P(match | per-field similarities) from labeled pairs. Classification is pair-level and supervised — clustering comes next, as a separate stage.",
   },
   {
-    n: "08 · Merge",
+    n: "08 · Cluster",
+    fn: "er_cluster() / er_cluster_all()",
+    d: "Nine unsupervised methods (threshold connected-components, Louvain, Leiden, HDBSCAN, …) group records into entities from the match graph. Clustering is record-level and unsupervised: it consumes the classifier's pair decisions, it does not replace them. Structural inapplicability returns valid=FALSE with a reason — never a silent garbage label.",
+  },
+  {
+    n: "09 · Merge",
     fn: "er_merge()",
     d: "Post-processing: consensus merging across methods, small-cluster absorption. The default merge is consensus — the old truth-picking 'best' now warns loudly.",
   },
   {
-    n: "09 · Evaluate",
+    n: "10 · Evaluate",
     fn: "er_evaluate()",
     d: "ARI, B-cubed, AMI and friends. Predictions are aligned to ground truth by record id, by name. A single mismatched id is a loud error, not a wrong number in a table.",
   },
@@ -69,7 +74,7 @@ export default function Methods() {
         define it: missing-value-aware everything, and truth that never leaks.
       </p>
 
-      <h2 className="text-xl font-bold mt-12 mb-4">The nine stages</h2>
+      <h2 className="text-xl font-bold mt-12 mb-4">The ten stages</h2>
       <div className="space-y-4">
         {STAGES.map((s) => (
           <div key={s.n} className="border border-slate-200 rounded-xl p-5">
