@@ -25,9 +25,9 @@ const CLASSIFY_METHODS = [
   ["hdbscan", "HDBSCAN"],
 ] as const;
 const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
-  { label: "Keep classify labels", methods: [["same", "Same as classify (default)"]] },
+  { label: "Keep cluster labels", methods: [["same", "Same as cluster (default)"]] },
   {
-    label: "Unsupervised",
+    label: "Unsupervised re-cluster",
     methods: [
       ["threshold_cc", "threshold_cc"],
       ["louvain", "louvain"],
@@ -40,7 +40,7 @@ const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
     ],
   },
   {
-    label: "Supervised (needs truth)",
+    label: "Supervised classify (needs truth)",
     methods: [
       ["logistic", "logistic"],
       ["lda", "lda"],
@@ -196,8 +196,8 @@ function CompareTable({ runs }: { runs: SavedRun[] }) {
   const first = ordered[0];
   const cfgRows: [string, (r: SavedRun) => string][] = [
     ["Dataset", (r) => r.dataset],
-    ["Classify", (r) => r.config.classify_method],
-    ["Clustering", (r) => r.config.cluster_method],
+    ["Cluster", (r) => r.config.classify_method],
+    ["Refine", (r) => r.config.cluster_method],
     ["Threshold", (r) => String(r.config.threshold)],
     [
       "Blocking",
@@ -212,11 +212,11 @@ function CompareTable({ runs }: { runs: SavedRun[] }) {
     ["Held-out", (r) => (r.config.held_out ? "yes" : "no")],
   ];
   const metRows: [string, (r: SavedRun) => number | null, boolean][] = [
-    ["ARI (classify step)", (r) => r.result.classify_ari, true],
+    ["ARI (cluster step)", (r) => r.result.classify_ari, true],
     ["ARI (final)", (r) => r.result.ari, true],
     ["Pairwise F1", (r) => r.result.pairwise_f1, true],
     ["B³ F1", (r) => r.result.b3_f1, true],
-    ["Clusters (classify step)", (r) => r.result.classify_n_clusters, false],
+    ["Clusters (cluster step)", (r) => r.result.classify_n_clusters, false],
     ["Clusters (final)", (r) => r.result.n_clusters, false],
     ["Candidate pairs", (r) => r.result.n_pairs, false],
   ];
@@ -1227,13 +1227,14 @@ export default function Studio() {
         </section>
       )}
 
-      {/* 3 · Classify */}
+      {/* 3 · Cluster */}
       {columns.length > 0 && (
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">3 · Classify</h2>
+          <h2 className="font-bold">3 · Cluster</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Group pairs into entities — {CLASSIFY_METHODS.length} grouping
-            methods, run on the pair scores.
+            Turn pair scores into links (threshold classify), then group links
+            into entities — {CLASSIFY_METHODS.length} grouping methods, run on
+            the pair scores.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {CLASSIFY_METHODS.map(([m, label]) => (
@@ -1321,12 +1322,12 @@ export default function Studio() {
         </section>
       )}
 
-      {/* 4 · Clustering */}
+      {/* 4 · Refine labels */}
       {columns.length > 0 && (
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">4 · Clustering</h2>
+          <h2 className="font-bold">4 · Refine labels</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Final cluster labels. Keep the classify output, re-cluster the
+            Final labels. Keep the cluster output, re-cluster the
             pair graph, or train a supervised pairwise classifier on ground truth.
           </p>
           <div className="mt-3 space-y-3">
