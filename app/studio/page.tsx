@@ -17,23 +17,44 @@ const BLOCK_LABELS: Record<string, string> = {
   embed: "embed — learned retriever (trains on truth if attached)",
   none: "none — all pairs",
 };
-const CLASSIFY_METHODS = [
-  ["threshold", "Threshold τ"],
-  ["logistic", "logistic"],
-  ["lda", "lda"],
-  ["qda", "qda"],
-  ["knn", "knn"],
-  ["wknn", "wknn"],
-  ["tree", "tree"],
-  ["rf", "rf"],
-  ["xgboost", "xgboost"],
-  ["nnet", "nnet"],
-  ["fellegi_sunter", "fellegi_sunter"],
-  ["svm_radial", "svm_radial"],
-] as const;
+const CLASSIFY_GROUPS: { label: string; methods: [string, string][] }[] = [
+  {
+    label: "Pair links",
+    methods: [
+      ["threshold", "Threshold τ"],
+      ["logistic", "logistic"],
+      ["lda", "lda"],
+      ["qda", "qda"],
+      ["knn", "knn"],
+      ["wknn", "wknn"],
+      ["tree", "tree"],
+      ["rf", "rf"],
+      ["xgboost", "xgboost"],
+      ["nnet", "nnet"],
+      ["fellegi_sunter", "fellegi_sunter"],
+      ["svm_radial", "svm_radial"],
+    ],
+  },
+  {
+    label: "Community / distance (links = within-group pairs)",
+    methods: [
+      ["louvain", "louvain"],
+      ["leiden", "leiden"],
+      ["label_prop", "label_prop"],
+      ["gc", "gc"],
+      ["hclust_avg", "hclust_avg"],
+      ["hclust_ward", "hclust_ward"],
+      ["pam", "pam"],
+    ],
+  },
+];
 const SUPERVISED_CLASSIFY = [
   "logistic", "lda", "qda", "knn", "wknn", "tree", "rf", "xgboost",
   "nnet", "fellegi_sunter", "svm_radial",
+];
+const COMMUNITY_CLASSIFY = [
+  "louvain", "leiden", "label_prop", "gc",
+  "hclust_avg", "hclust_ward", "pam",
 ];
 const CLUSTER_METHODS = [
   ["tc", "Transitive closure"],
@@ -41,13 +62,6 @@ const CLUSTER_METHODS = [
   ["mc", "MERGE-CENTER"],
   ["hc", "Hierarchical"],
   ["hdbscan", "HDBSCAN"],
-  ["louvain", "louvain"],
-  ["leiden", "leiden"],
-  ["label_prop", "label_prop"],
-  ["gc", "gc"],
-  ["hclust_avg", "hclust_avg"],
-  ["hclust_ward", "hclust_ward"],
-  ["pam", "pam"],
 ] as const;
 import { DATASETS } from "./datasets";
 import BudgetLab from "./BudgetLab";
@@ -485,7 +499,7 @@ export default function Studio() {
       setError("Paste a link to a CSV file first.");
       return;
     }
-    // 从 URL 末尾取文件名（如 .../10Kfull_sample1k.csv），去掉 query 参数
+    // Take filename from end of URL (e.g. .../10Kfull_sample1k.csv), strip query params
     const fname = url.split("?")[0].replace(/\/$/, "").split("/").pop() || "link.csv";
     loadPayload({ url, filename: fname });
   }
@@ -1214,45 +1228,62 @@ export default function Studio() {
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
           <h2 className="font-bold">3 · Classify</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Decide which pairs become links (pair-level). The next step groups
-            links into entities.
+            Decide which pairs become links (pair-level) — the binary match
+            matrix. The next step groups links into entities.
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {CLASSIFY_METHODS.map(([m, label]) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => setClassifyMethod(m)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                  classifyMethod === m
-                    ? "border-teal-600 bg-teal-600 text-white"
-                    : "border-slate-300 hover:bg-slate-50"
-                }`}
-              >
-                {label}
-              </button>
+          <div className="mt-3 space-y-3">
+            {CLASSIFY_GROUPS.map((g) => (
+              <div key={g.label}>
+                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                  {g.label}
+                </div>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {g.methods.map(([m, label]) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setClassifyMethod(m)}
+                      className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                        classifyMethod === m
+                          ? "border-teal-600 bg-teal-600 text-white"
+                          : "border-slate-300 hover:bg-slate-50"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <div className="mt-4 max-w-md">
-            <label className="text-sm font-medium text-slate-700">
-              Link threshold τ:{" "}
-              <span className="font-mono2">{threshold.toFixed(2)}</span>
-            </label>
-            <input
-              type="range"
-              min={0.1}
-              max={0.95}
-              step={0.05}
-              value={threshold}
-              onChange={(e) => setThreshold(parseFloat(e.target.value))}
-              className="w-full accent-teal-600"
-            />
-            <p className="text-xs text-slate-400 mt-1">
-              {classifyMethod === "threshold"
-                ? "Pairs with score ≥ τ become links. Lower τ = more links, higher chaining risk."
-                : "Pairs with predicted P(match) ≥ τ become links."}
+          {!COMMUNITY_CLASSIFY.includes(classifyMethod) && (
+            <div className="mt-4 max-w-md">
+              <label className="text-sm font-medium text-slate-700">
+                Link threshold τ:{" "}
+                <span className="font-mono2">{threshold.toFixed(2)}</span>
+              </label>
+              <input
+                type="range"
+                min={0.1}
+                max={0.95}
+                step={0.05}
+                value={threshold}
+                onChange={(e) => setThreshold(parseFloat(e.target.value))}
+                className="w-full accent-teal-600"
+              />
+              <p className="text-xs text-slate-400 mt-1">
+                {classifyMethod === "threshold"
+                  ? "Pairs with score ≥ τ become links. Lower τ = more links, higher chaining risk."
+                  : "Pairs with predicted P(match) ≥ τ become links."}
+              </p>
+            </div>
+          )}
+          {COMMUNITY_CLASSIFY.includes(classifyMethod) && (
+            <p className="text-xs text-slate-400 mt-4">
+              {classifyMethod} groups the pair graph first; pairs inside the
+              same group become links (τ not used).
             </p>
-          </div>
+          )}
           {SUPERVISED_CLASSIFY.includes(classifyMethod) && (
             <div className="mt-2 space-y-2">
               <p className="text-xs text-slate-400">
@@ -1284,7 +1315,7 @@ export default function Studio() {
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
           <h2 className="font-bold">4 · Clustering</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Group links into entities (record-level, unsupervised).
+            Group links into entities (record-level) — the estimated entities.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {CLUSTER_METHODS.map(([m, label]) => (
@@ -1391,7 +1422,7 @@ export default function Studio() {
             disabled={blockingLoading || planning || !fieldCols.length || !!overBudget}
             className="mt-4 ml-3 px-6 py-3 rounded-xl border border-teal-600 text-teal-700 font-semibold hover:bg-teal-50 disabled:opacity-50"
           >
-            {blockingLoading ? "Analyzing…" : "只看 blocking"}
+            {blockingLoading ? "Analyzing…" : "Blocking only"}
           </button>
         </section>
       )}
@@ -1399,7 +1430,7 @@ export default function Studio() {
       {/* 4b · Blocking 分析 */}
       {blockingRep?.ok && (
         <section className="mt-4 border border-teal-200 rounded-xl p-5 bg-teal-50/40">
-          <h2 className="font-bold">Blocking 分析
+          <h2 className="font-bold">Blocking analysis
             <span className="ml-2 text-xs font-normal text-slate-500">
               {blockingRep.config_summary?.block_method}
               {blockingRep.k != null ? ` · top-${blockingRep.k}/record` : ""}

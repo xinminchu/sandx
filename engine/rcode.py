@@ -34,6 +34,15 @@ def r_script(cfg):
             "# 3. Classify: thresholded links (unsupervised)",
             f'M <- er_classify(S, method = "threshold", threshold = {threshold})',
         ]
+    elif classify in ("louvain", "leiden", "label_prop", "gc",
+                      "hclust_avg", "hclust_ward", "pam"):
+        class_lines = [
+            "",
+            f"# 3. Classify: {classify} groups the pair graph;",
+            "#    links = within-group pairs  ->  binary match matrix M",
+            f'comm <- er_cluster(S, method = "{_q(classify)}")',
+            "M <- er_community_links(S, comm)",
+        ]
     else:  # supervised pair classifier
         ts = cfg.get("truth_source") or "none"
         if ts == "column" and cfg.get("truth_col"):

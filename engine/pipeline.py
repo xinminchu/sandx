@@ -1,22 +1,24 @@
 """End-to-end pipeline: block -> similarity -> classify -> cluster -> evaluate.
 
-Classify (pair -> links):
+Classify (pair -> links, i.e. the binary match matrix M):
   threshold:  links = pairs with score >= threshold (unsupervised)
   logistic / lda / qda / knn / wknn / tree / rf / xgboost / nnet /
   fellegi_sunter / svm_radial:
               supervised: train on truth-labeled pairs, predict all pairs,
               links = pairs with P(match) >= threshold
+  louvain / leiden / label_prop / gc:
+              community detection on the pair graph;
+              links = within-community pairs (score = pair similarity)
+  hclust_avg / hclust_ward / pam:
+              dense-distance grouping on 1 - score;
+              links = within-group pairs (score = pair similarity)
 
-Cluster (links -> entity labels):
+Cluster (links -> entity labels, the estimated entities):
   tc:         connected components of the link graph (transitive closure)
   center:     CENTER star clustering (Hassanzadeh & Miller 2009)
   mc:         MERGE-CENTER (bridge pairs may merge two centers' clusters)
   hc:         average-linkage agglomerative on 1 - score, cut at height h
   hdbscan:    HDBSCAN on 1 - score (no eps); noise -> singletons
-  louvain / leiden / label_prop / gc:
-              community detection on the pair graph
-  hclust_avg / hclust_ward / pam:
-              dense-distance methods on 1 - score, k tuned by silhouette
 
 Pairs stream; only what downstream stages need is retained.
 """
@@ -52,14 +54,17 @@ DENSE_N_CAP = 1500  # hclust/pam need a dense n x n distance matrix
 
 CLASSIFY_METHODS = ("threshold", "logistic", "lda", "qda", "knn", "wknn",
                     "tree", "rf", "xgboost", "nnet", "fellegi_sunter",
-                    "svm_radial")
+                    "svm_radial",
+                    "louvain", "leiden", "label_prop", "gc",
+                    "hclust_avg", "hclust_ward", "pam")
 SUPERVISED_METHODS = ("logistic", "lda", "qda", "knn", "wknn", "tree", "rf",
                       "xgboost", "nnet", "fellegi_sunter", "svm_radial")
-CLUSTER_METHODS = ("tc", "center", "mc", "hc", "hdbscan",
-                   "louvain", "leiden", "label_prop", "gc",
-                   "hclust_avg", "hclust_ward", "pam")
+CLUSTER_METHODS = ("tc", "center", "mc", "hc", "hdbscan")
 GRAPH_METHODS = ("louvain", "leiden", "label_prop", "gc")
 DENSE_METHODS = ("hclust_avg", "hclust_ward", "pam")
+# The 7 community/distance methods live in the classify stage: they group
+# the pair graph first, and within-group pairs become the links (binary M).
+COMMUNITY_CLASSIFY = GRAPH_METHODS + DENSE_METHODS
 
 
 def _iter_none_pairs(n, max_pairs):
@@ -190,15 +195,15 @@ def run(df, fields, block_method="standard", block_key=None,
         pair_iter = iter(pairs)
         n_pairs_expected = len(pairs)
 
-    if cluster_method in ("louvain", "leiden") and \
+    if classify_method in ("louvain", "leiden") and \
             n_pairs_expected > LOUVAIN_PAIR_CAP:
         raise ValueError(
-            f"{cluster_method} on {n_pairs_expected:,} pairs is too heavy for "
+            f"{classify_method} on {n_pairs_expected:,} pairs is too heavy for "
             "the demo; use transitive closure or add blocking."
         )
-    if cluster_method in DENSE_METHODS and n > DENSE_N_CAP:
+    if classify_method in DENSE_METHODS and n > DENSE_N_CAP:
         raise ValueError(
-            f"{cluster_method} needs a dense distance matrix "
+            f"{classify_method} needs a dense distance matrix "
             f"(n <= {DENSE_N_CAP} for the demo, got {n}); use transitive "
             "closure, louvain, or run a sample first."
         )
@@ -279,6 +284,44 @@ def run(df, fields, block_method="standard", block_key=None,
     held_out_active = False
     if classify_method == "threshold":
         pass  # links already collected in the streaming loop
+    elif classify_method in COMMUNITY_CLASSIFY:
+        # Group the pair graph first; within-group pairs become the links
+        # (binary M). Link score = original pair similarity.
+        if classify_method == "louvain":
+            edges = [(int(t_pi[t]), int(t_pj[t]), t_ps[t])
+                     for t in range(len(t_pi))]
+            groups = louvain_edges(edges, n)
+        elif classify_method == "leiden":
+            pl = [int(t_pi[t]) for t in range(len(t_pi))]
+            pj = [int(t_pj[t]) for t in range(len(t_pi))]
+            ps = [float(t_ps[t]) for t in range(len(t_pi))]
+            groups = leiden(list(zip(pl, pj)), ps, n)
+        elif classify_method == "label_prop":
+            pl = [int(t_pi[t]) for t in range(len(t_pi))]
+            pj = [int(t_pj[t]) for t in range(len(t_pi))]
+            ps = [float(t_ps[t]) for t in range(len(t_pi))]
+            groups = label_prop(list(zip(pl, pj)), ps, n)
+        elif classify_method == "gc":
+            pl = [int(t_pi[t]) for t in range(len(t_pi))]
+            pj = [int(t_pj[t]) for t in range(len(t_pi))]
+            ps = [float(t_ps[t]) for t in range(len(t_pi))]
+            groups = gc(list(zip(pl, pj)), ps, n, threshold=threshold)
+        else:  # dense: hclust_avg / hclust_ward / pam
+            triples = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
+                       for t in range(len(t_pi))]
+            if classify_method == "hclust_avg":
+                groups = hclust_avg(n, triples)
+            elif classify_method == "hclust_ward":
+                groups = hclust_ward(n, triples)
+            else:  # pam
+                groups = pam(n, triples)
+        links = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
+                 for t in range(len(t_pi))
+                 if groups[int(t_pi[t])] == groups[int(t_pj[t])]]
+        warnings.append(
+            f"{classify_method} grouped pairs into {len(set(groups))} "
+            f"communities; {len(links)} within-group pairs became links."
+        )
     else:  # supervised: train on truth-labeled pairs, predict links
         tvec_sup = truth if truth is not None else _truth_from_col(df, truth_col)
         if held_out and tvec_sup is not None:
@@ -303,7 +346,7 @@ def run(df, fields, block_method="standard", block_key=None,
             links = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
                      for t in range(len(t_pi)) if t_ps[t] >= threshold]
 
-    # ---- Cluster: links -> entity labels ----
+    # ---- Cluster: links -> entity labels (estimated entities) ----
     if cluster_method == "tc":
         labels = _union_find_labels([(i, j) for (i, j, s) in links], n)
     elif cluster_method in ("center", "mc"):
@@ -313,33 +356,8 @@ def run(df, fields, block_method="standard", block_key=None,
         labels = hierarchical(n, hc_triples, h=hc_h)
     elif cluster_method == "hdbscan":
         labels = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
-    elif cluster_method == "louvain":
-        edges = [(int(t_pi[t]), int(t_pj[t]), t_ps[t]) for t in range(len(t_pi))]
-        labels = louvain_edges(edges, n)
-    elif cluster_method == "leiden":
-        pl = [int(t_pi[t]) for t in range(len(t_pi))]
-        pj = [int(t_pj[t]) for t in range(len(t_pi))]
-        ps = [float(t_ps[t]) for t in range(len(t_pi))]
-        labels = leiden(list(zip(pl, pj)), ps, n)
-    elif cluster_method == "label_prop":
-        pl = [int(t_pi[t]) for t in range(len(t_pi))]
-        pj = [int(t_pj[t]) for t in range(len(t_pi))]
-        ps = [float(t_ps[t]) for t in range(len(t_pi))]
-        labels = label_prop(list(zip(pl, pj)), ps, n)
-    elif cluster_method == "gc":
-        pl = [int(t_pi[t]) for t in range(len(t_pi))]
-        pj = [int(t_pj[t]) for t in range(len(t_pi))]
-        ps = [float(t_ps[t]) for t in range(len(t_pi))]
-        labels = gc(list(zip(pl, pj)), ps, n, threshold=threshold)
-    else:  # dense methods: hclust_avg / hclust_ward / pam
-        triples = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
-                   for t in range(len(t_pi))]
-        if cluster_method == "hclust_avg":
-            labels = hclust_avg(n, triples)
-        elif cluster_method == "hclust_ward":
-            labels = hclust_ward(n, triples)
-        else:  # pam
-            labels = pam(n, triples)
+    else:
+        raise ValueError(f"unknown cluster method: {cluster_method}")
 
     # ---- Evaluate ----
     tvec = truth
@@ -624,3 +642,11 @@ if __name__ == "__main__":
               classify_method="logistic", cluster_method="tc",
               truth_col="truth")
     print("logistic+tc", {k: v for k, v in res.items() if k != "labels"})
+    res = run(toy, {"name": "jw", "city": "jw"}, block_method="none",
+              classify_method="louvain", cluster_method="tc",
+              threshold=0.5, truth_col="truth")
+    print("louvain+tc", {k: v for k, v in res.items() if k != "labels"})
+    res = run(toy, {"name": "jw", "city": "jw"}, block_method="none",
+              classify_method="louvain", cluster_method="center",
+              threshold=0.5, truth_col="truth")
+    print("louvain+center", {k: v for k, v in res.items() if k != "labels"})
