@@ -171,8 +171,8 @@ class handler(BaseHTTPRequestHandler):
             block_method = cfg.get("block_method", "prefix")
             block_key = cfg.get("block_key") or (cols[0] if cols else None)
             threshold = float(cfg.get("threshold", 0.5))
-            classify_method = cfg.get("classify_method") or "tc"
-            cluster_method = cfg.get("cluster_method") or "same"
+            classify_method = cfg.get("classify_method") or "threshold"
+            cluster_method = cfg.get("cluster_method") or "tc"
             try:
                 max_pairs = int(cfg.get("max_pairs", 2000000))
             except (TypeError, ValueError):

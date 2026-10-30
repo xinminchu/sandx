@@ -18,44 +18,37 @@ const BLOCK_LABELS: Record<string, string> = {
   none: "none — all pairs",
 };
 const CLASSIFY_METHODS = [
+  ["threshold", "Threshold τ"],
+  ["logistic", "logistic"],
+  ["lda", "lda"],
+  ["qda", "qda"],
+  ["knn", "knn"],
+  ["wknn", "wknn"],
+  ["tree", "tree"],
+  ["rf", "rf"],
+  ["xgboost", "xgboost"],
+  ["nnet", "nnet"],
+  ["fellegi_sunter", "fellegi_sunter"],
+  ["svm_radial", "svm_radial"],
+] as const;
+const SUPERVISED_CLASSIFY = [
+  "logistic", "lda", "qda", "knn", "wknn", "tree", "rf", "xgboost",
+  "nnet", "fellegi_sunter", "svm_radial",
+];
+const CLUSTER_METHODS = [
   ["tc", "Transitive closure"],
   ["center", "CENTER (star)"],
   ["mc", "MERGE-CENTER"],
   ["hc", "Hierarchical"],
   ["hdbscan", "HDBSCAN"],
+  ["louvain", "louvain"],
+  ["leiden", "leiden"],
+  ["label_prop", "label_prop"],
+  ["gc", "gc"],
+  ["hclust_avg", "hclust_avg"],
+  ["hclust_ward", "hclust_ward"],
+  ["pam", "pam"],
 ] as const;
-const CLUSTER_GROUPS: { label: string; methods: [string, string][] }[] = [
-  { label: "Keep cluster labels", methods: [["same", "Same as cluster (default)"]] },
-  {
-    label: "Unsupervised re-cluster",
-    methods: [
-      ["threshold_cc", "threshold_cc"],
-      ["louvain", "louvain"],
-      ["leiden", "leiden"],
-      ["label_prop", "label_prop"],
-      ["gc", "gc"],
-      ["hclust_avg", "hclust_avg"],
-      ["hclust_ward", "hclust_ward"],
-      ["pam", "pam"],
-    ],
-  },
-  {
-    label: "Supervised classify (needs truth)",
-    methods: [
-      ["logistic", "logistic"],
-      ["lda", "lda"],
-      ["qda", "qda"],
-      ["knn", "knn"],
-      ["wknn", "wknn"],
-      ["tree", "tree"],
-      ["rf", "rf"],
-      ["xgboost", "xgboost"],
-      ["nnet", "nnet"],
-      ["fellegi_sunter", "fellegi_sunter"],
-      ["svm_radial", "svm_radial"],
-    ],
-  },
-];
 import { DATASETS } from "./datasets";
 import BudgetLab from "./BudgetLab";
 
@@ -117,12 +110,6 @@ type RunResult = {
     n_train_entities?: number;
     n_test_entities?: number;
   } | null;
-  classify_n_clusters?: number;
-  classify_metrics?: {
-    ari: number;
-    pairwise: { precision: number; recall: number; f1: number };
-    b3: { precision: number; recall: number; f1: number };
-  } | null;
   cluster_sizes?: number[];
   columns?: string[];
   display_rows?: Record<string, string>[];
@@ -164,9 +151,8 @@ interface SavedRun {
   };
   result: {
     n_clusters: number;
-    classify_n_clusters: number;
+    n_links: number;
     ari: number | null;
-    classify_ari: number | null;
     pairwise_f1: number | null;
     b3_f1: number | null;
     n_pairs: number;
@@ -212,11 +198,10 @@ function CompareTable({ runs }: { runs: SavedRun[] }) {
     ["Held-out", (r) => (r.config.held_out ? "yes" : "no")],
   ];
   const metRows: [string, (r: SavedRun) => number | null, boolean][] = [
-    ["ARI (cluster step)", (r) => r.result.classify_ari, true],
+    ["Links (classify)", (r) => r.result.n_links, false],
     ["ARI (final)", (r) => r.result.ari, true],
     ["Pairwise F1", (r) => r.result.pairwise_f1, true],
     ["B³ F1", (r) => r.result.b3_f1, true],
-    ["Clusters (cluster step)", (r) => r.result.classify_n_clusters, false],
     ["Clusters (final)", (r) => r.result.n_clusters, false],
     ["Candidate pairs", (r) => r.result.n_pairs, false],
   ];
@@ -309,12 +294,10 @@ export default function Studio() {
   const [blockKey, setBlockKey] = useState("");
   const [sampleN, setSampleN] = useState(0);
   const [threshold, setThreshold] = useState(0.5);
-  const [classifyMethod, setClassifyMethod] = useState<
-    "tc" | "center" | "mc" | "hc" | "hdbscan"
-  >("tc");
+  const [classifyMethod, setClassifyMethod] = useState<string>("threshold");
   const [hcH, setHcH] = useState(0.5);
   const [hdbscanMinPts, setHdbscanMinPts] = useState(2);
-  const [clusterMethod, setClusterMethod] = useState("same");
+  const [clusterMethod, setClusterMethod] = useState<string>("tc");
   const [heldOut, setHeldOut] = useState(true);
   const [history, setHistory] = useState<SavedRun[]>([]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -694,9 +677,8 @@ export default function Studio() {
           },
           result: {
             n_clusters: j.n_clusters ?? 0,
-            classify_n_clusters: j.classify_n_clusters ?? 0,
+            n_links: j.n_links ?? 0,
             ari: j.ari ?? null,
-            classify_ari: j.classify_metrics?.ari ?? null,
             pairwise_f1: j.metrics?.pairwise?.f1 ?? null,
             b3_f1: j.metrics?.b3?.f1 ?? null,
             n_pairs: j.n_pairs ?? 0,
@@ -1227,14 +1209,13 @@ export default function Studio() {
         </section>
       )}
 
-      {/* 3 · Cluster */}
+      {/* 3 · Classify */}
       {columns.length > 0 && (
         <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">3 · Cluster</h2>
+          <h2 className="font-bold">3 · Classify</h2>
           <p className="text-sm text-slate-500 mt-1">
-            Turn pair scores into links (threshold classify), then group links
-            into entities — {CLASSIFY_METHODS.length} grouping methods, run on
-            the pair scores.
+            Decide which pairs become links (pair-level). The next step groups
+            links into entities.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {CLASSIFY_METHODS.map(([m, label]) => (
@@ -1252,28 +1233,76 @@ export default function Studio() {
               </button>
             ))}
           </div>
-          {classifyMethod === "tc" && (
-            <div className="mt-4 max-w-md">
-              <label className="text-sm font-medium text-slate-700">
-                Similarity threshold τ:{" "}
-                <span className="font-mono2">{threshold.toFixed(2)}</span>
-              </label>
-              <input
-                type="range"
-                min={0.1}
-                max={0.95}
-                step={0.05}
-                value={threshold}
-                onChange={(e) => setThreshold(parseFloat(e.target.value))}
-                className="w-full accent-teal-600"
-              />
-              <p className="text-xs text-slate-400 mt-1">
-                Pairs with score ≥ τ become links; connected components are
-                the entities. Lower τ = more links, higher chaining risk.
+          <div className="mt-4 max-w-md">
+            <label className="text-sm font-medium text-slate-700">
+              Link threshold τ:{" "}
+              <span className="font-mono2">{threshold.toFixed(2)}</span>
+            </label>
+            <input
+              type="range"
+              min={0.1}
+              max={0.95}
+              step={0.05}
+              value={threshold}
+              onChange={(e) => setThreshold(parseFloat(e.target.value))}
+              className="w-full accent-teal-600"
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              {classifyMethod === "threshold"
+                ? "Pairs with score ≥ τ become links. Lower τ = more links, higher chaining risk."
+                : "Pairs with predicted P(match) ≥ τ become links."}
+            </p>
+          </div>
+          {SUPERVISED_CLASSIFY.includes(classifyMethod) && (
+            <div className="mt-2 space-y-2">
+              <p className="text-xs text-slate-400">
+                Supervised: trains on truth-labeled pairs, predicts all pairs.
+                Needs ground truth in step 2.
               </p>
+              <label className="flex items-start gap-2 text-xs text-slate-600 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={heldOut}
+                  onChange={(e) => setHeldOut(e.target.checked)}
+                  className="accent-teal-600 mt-0.5"
+                />
+                <span>
+                  <span className="font-medium">Held-out validation</span> — train on
+                  70% of entities, report ARI on the other 30%{" "}
+                  <span className="text-slate-400">
+                    (honest; without this the score is in-sample and optimistic)
+                  </span>
+                </span>
+              </label>
             </div>
           )}
-          {classifyMethod === "hc" && (
+        </section>
+      )}
+
+      {/* 4 · Clustering */}
+      {columns.length > 0 && (
+        <section className="mt-4 border border-slate-200 rounded-xl p-5">
+          <h2 className="font-bold">4 · Clustering</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Group links into entities (record-level, unsupervised).
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {CLUSTER_METHODS.map(([m, label]) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setClusterMethod(m)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                  clusterMethod === m
+                    ? "border-teal-600 bg-teal-600 text-white"
+                    : "border-slate-300 hover:bg-slate-50"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {clusterMethod === "hc" && (
             <div className="mt-4 max-w-md">
               <label className="text-sm font-medium text-slate-700">
                 Cut height h:{" "}
@@ -1294,7 +1323,7 @@ export default function Studio() {
               </p>
             </div>
           )}
-          {classifyMethod === "hdbscan" && (
+          {clusterMethod === "hdbscan" && (
             <div className="mt-4 max-w-md">
               <label className="text-sm font-medium text-slate-700">
                 min_pts:{" "}
@@ -1317,69 +1346,6 @@ export default function Studio() {
                 cluster — pairs stay singletons (use transitive closure for
                 pair-heavy data).
               </p>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* 4 · Refine labels */}
-      {columns.length > 0 && (
-        <section className="mt-4 border border-slate-200 rounded-xl p-5">
-          <h2 className="font-bold">4 · Refine labels</h2>
-          <p className="text-sm text-slate-500 mt-1">
-            Final labels. Keep the cluster output, re-cluster the
-            pair graph, or train a supervised pairwise classifier on ground truth.
-          </p>
-          <div className="mt-3 space-y-3">
-            {CLUSTER_GROUPS.map((g) => (
-              <div key={g.label}>
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
-                  {g.label}
-                </div>
-                <div className="mt-1 flex flex-wrap gap-2">
-                  {g.methods.map(([v, label]) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setClusterMethod(v)}
-                      className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                        clusterMethod === v
-                          ? "border-teal-600 bg-teal-600 text-white"
-                          : "border-slate-300 hover:bg-slate-50"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          {["logistic", "lda", "qda", "knn", "wknn", "tree", "rf", "xgboost",
-            "nnet", "fellegi_sunter", "svm_radial"].includes(
-            clusterMethod
-          ) && (
-            <div className="mt-2 space-y-2">
-              <p className="text-xs text-slate-400">
-                Supervised: trains on labeled pairs, predicts all pairs,
-                then transitive closure over predicted links. Needs ground truth
-                in step 2.
-              </p>
-              <label className="flex items-start gap-2 text-xs text-slate-600 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={heldOut}
-                  onChange={(e) => setHeldOut(e.target.checked)}
-                  className="accent-teal-600 mt-0.5"
-                />
-                <span>
-                  <span className="font-medium">Held-out validation</span> — train on
-                  70% of entities, report ARI on the other 30%{" "}
-                  <span className="text-slate-400">
-                    (honest; without this the score is in-sample and optimistic)
-                  </span>
-                </span>
-              </label>
             </div>
           )}
         </section>
@@ -1526,13 +1492,10 @@ export default function Studio() {
                   entities, ARI scored on {result.metrics.n_test_entities} unseen entities.
                 </div>
               )}
-              {clusterMethod !== "same" && result.classify_n_clusters != null && result.n_clusters != null && (
+              {result.n_links != null && result.n_clusters != null && (
                 <div className="mt-2 text-xs text-slate-500">
-                  Step 3 (classify): {result.classify_n_clusters} clusters
-                  {result.classify_metrics && (
-                    <>, ARI {result.classify_metrics.ari.toFixed(3)}</>
-                  )}{" "}
-                  → Step 4 ({clusterMethod}): {result.n_clusters} clusters
+                  Step 3 (classify): {Number(result.n_links).toLocaleString()} links
+                  {" "}→ Step 4 ({clusterMethod}): {result.n_clusters} clusters
                   {result.metrics && (
                     <>, ARI {result.metrics.ari.toFixed(3)}</>
                   )}

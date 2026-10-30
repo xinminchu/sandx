@@ -1,22 +1,22 @@
 """End-to-end pipeline: block -> similarity -> classify -> cluster -> evaluate.
 
-Classify (advisor's trio, from er_modular.R cluster_scores):
-  tc:     connected components of pairs with score >= threshold
-          (transitive closure)
-  hc:     average-linkage agglomerative on 1 - score, cut at height h
-  hdbscan: HDBSCAN on 1 - score (no eps); noise -> singletons
-
-Cluster (final labeling):
-  same:          keep classify labels
-  threshold_cc / louvain / leiden / label_prop / gc: re-cluster the pair
-                 graph (unsupervised)
-  hclust_avg / hclust_ward / pam: dense-distance methods on 1 - score,
-                 k tuned by silhouette (mirrors er_cluster)
+Classify (pair -> links):
+  threshold:  links = pairs with score >= threshold (unsupervised)
   logistic / lda / qda / knn / wknn / tree / rf / xgboost / nnet /
   fellegi_sunter / svm_radial:
-                 supervised: train on truth-labeled pairs, predict all
-                 pairs, transitive-closure on predicted links
-                 (mirrors ERBOT er_cluster's supervised branch)
+              supervised: train on truth-labeled pairs, predict all pairs,
+              links = pairs with P(match) >= threshold
+
+Cluster (links -> entity labels):
+  tc:         connected components of the link graph (transitive closure)
+  center:     CENTER star clustering (Hassanzadeh & Miller 2009)
+  mc:         MERGE-CENTER (bridge pairs may merge two centers' clusters)
+  hc:         average-linkage agglomerative on 1 - score, cut at height h
+  hdbscan:    HDBSCAN on 1 - score (no eps); noise -> singletons
+  louvain / leiden / label_prop / gc:
+              community detection on the pair graph
+  hclust_avg / hclust_ward / pam:
+              dense-distance methods on 1 - score, k tuned by silhouette
 
 Pairs stream; only what downstream stages need is retained.
 """
@@ -50,33 +50,16 @@ HC_N_CAP = 2500
 HDB_N_CAP = 3000  # hdbscan classify builds a dense n x n distance matrix
 DENSE_N_CAP = 1500  # hclust/pam need a dense n x n distance matrix
 
-CLASSIFY_METHODS = ("tc", "center", "mc", "hc", "hdbscan")
-GRAPH_METHODS = ("threshold_cc", "louvain", "leiden", "label_prop", "gc")
-DENSE_METHODS = ("hclust_avg", "hclust_ward", "pam")
-CLUSTER_METHODS = (
-    "same",
-    "threshold_cc",
-    "louvain",
-    "leiden",
-    "label_prop",
-    "gc",
-    "hclust_avg",
-    "hclust_ward",
-    "pam",
-    "logistic",
-    "lda",
-    "qda",
-    "knn",
-    "wknn",
-    "tree",
-    "rf",
-    "xgboost",
-    "nnet",
-    "fellegi_sunter",
-    "svm_radial",
-)
+CLASSIFY_METHODS = ("threshold", "logistic", "lda", "qda", "knn", "wknn",
+                    "tree", "rf", "xgboost", "nnet", "fellegi_sunter",
+                    "svm_radial")
 SUPERVISED_METHODS = ("logistic", "lda", "qda", "knn", "wknn", "tree", "rf",
                       "xgboost", "nnet", "fellegi_sunter", "svm_radial")
+CLUSTER_METHODS = ("tc", "center", "mc", "hc", "hdbscan",
+                   "louvain", "leiden", "label_prop", "gc",
+                   "hclust_avg", "hclust_ward", "pam")
+GRAPH_METHODS = ("louvain", "leiden", "label_prop", "gc")
+DENSE_METHODS = ("hclust_avg", "hclust_ward", "pam")
 
 
 def _iter_none_pairs(n, max_pairs):
@@ -154,9 +137,9 @@ def _center_mc_labels(triples, n, merge):
 
 
 def run(df, fields, block_method="standard", block_key=None,
-        classify_method="tc", threshold=0.5,
+        classify_method="threshold", threshold=0.5,
         hc_h=0.5, hdbscan_min_pts=3,
-        cluster_method="same",
+        cluster_method="tc",
         truth_col=None, max_pairs=2000000,
         prefix_len=3, window=20, truth=None, held_out=False,
         time_budget=45):
@@ -179,12 +162,12 @@ def run(df, fields, block_method="standard", block_key=None,
         raise ValueError(f"unknown classify method: {classify_method}")
     if cluster_method not in CLUSTER_METHODS:
         raise ValueError(f"unknown cluster method: {cluster_method}")
-    if classify_method == "hc" and n > HC_N_CAP:
+    if cluster_method == "hc" and n > HC_N_CAP:
         raise ValueError(
             f"hierarchical clustering needs n <= {HC_N_CAP} for the demo "
             f"(got {n}); use transitive closure or HDBSCAN."
         )
-    if classify_method == "hdbscan" and n > HDB_N_CAP:
+    if cluster_method == "hdbscan" and n > HDB_N_CAP:
         raise ValueError(
             f"HDBSCAN needs n <= {HDB_N_CAP} for the demo (got {n}); "
             "use transitive closure, or run a sample first."
@@ -220,12 +203,10 @@ def run(df, fields, block_method="standard", block_key=None,
             "closure, louvain, or run a sample first."
         )
 
-    need_pairs = cluster_method in GRAPH_METHODS + DENSE_METHODS or \
-        cluster_method in SUPERVISED_METHODS
-    need_features = cluster_method in SUPERVISED_METHODS
+    need_features = classify_method in SUPERVISED_METHODS
     if need_features and truth is None and truth_col is None:
         raise ValueError(
-            f"{cluster_method} is supervised and needs gold truth — "
+            f"{classify_method} is supervised and needs gold truth — "
             "attach truth in step 2."
         )
 
@@ -243,11 +224,11 @@ def run(df, fields, block_method="standard", block_key=None,
                 "'none', fewer match fields, or run a sample first."
             )
 
-    tc_links = []
-    hc_triples = [] if classify_method == "hc" else None
-    cm_triples = [] if classify_method in ("center", "mc") else None
+    # Classify stage emits links; cluster stage always needs pair scores.
+    links = []  # (i, j, score) triples judged links by the classify stage
+    hc_triples = [] if cluster_method == "hc" else None
     hdb_D = None
-    if classify_method == "hdbscan":
+    if cluster_method == "hdbscan":
         hdb_D = np.full((n, n), 1.0, dtype=np.float64)
     t_pi, t_pj, t_ps = array("i"), array("i"), array("d")
     feat_flat = array("d") if need_features else None
@@ -271,21 +252,19 @@ def run(df, fields, block_method="standard", block_key=None,
             cnt += 1
         score = tot / cnt if cnt else 0.0
 
-        if classify_method == "tc":
+        if classify_method == "threshold":
             if score >= threshold:
-                tc_links.append((i, j))
-        elif classify_method == "hc":
+                links.append((i, j, score))
+        # supervised classify: links are decided after training (post-loop)
+        if cluster_method == "hc":
             hc_triples.append((i, j, score))
-        elif classify_method in ("center", "mc"):
-            if score >= threshold:
-                cm_triples.append((i, j, score))
-        else:  # hdbscan
+        if cluster_method == "hdbscan":
             d = 1.0 - score
             if d < hdb_D[i, j]:
                 hdb_D[i, j] = d
                 hdb_D[j, i] = d
 
-        if need_pairs and score > 0:
+        if score > 0:
             t_pi.append(i)
             t_pj.append(j)
             t_ps.append(score)
@@ -293,29 +272,47 @@ def run(df, fields, block_method="standard", block_key=None,
             for f in feats:
                 feat_flat.append(0.0 if f != f else f)  # nan -> 0.0
 
-    # ---- Classify -> labels0 ----
+    # ---- Classify: pairs -> links ----
     _check_budget("classification")
-    if classify_method == "tc":
-        labels0 = _union_find_labels(tc_links, n)
-    elif classify_method == "hc":
-        labels = hierarchical(n, hc_triples, h=hc_h)
-        labels0 = labels
-    elif classify_method in ("center", "mc"):
-        labels0 = _center_mc_labels(
-            cm_triples, n, merge=(classify_method == "mc"))
-    else:  # hdbscan
-        labels0 = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
-
-    # ---- Cluster -> final labels ----
     train_entities = None
     test_entities = None
     held_out_active = False
-    if cluster_method == "same":
-        labels = labels0
-    elif cluster_method == "threshold_cc":
-        links = [(int(t_pi[t]), int(t_pj[t])) for t in range(len(t_pi))
-                 if t_ps[t] >= threshold]
-        labels = _union_find_labels(links, n)
+    if classify_method == "threshold":
+        pass  # links already collected in the streaming loop
+    else:  # supervised: train on truth-labeled pairs, predict links
+        tvec_sup = truth if truth is not None else _truth_from_col(df, truth_col)
+        if held_out and tvec_sup is not None:
+            train_entities, test_entities = _entity_split(tvec_sup)
+            if train_entities is not None:
+                held_out_active = True
+            else:
+                warnings.append(
+                    "Held-out requested but too few truth entities "
+                    "(need >= 10); evaluated in-sample instead."
+                )
+        try:
+            links = _supervised_links(
+                n, k_fields, feat_flat, t_pi, t_pj,
+                tvec_sup,
+                classify_method, threshold,
+                train_entities=train_entities,
+                deadline=_t0 + time_budget,
+            )
+        except ValueError as e:
+            warnings.append(str(e) + " Falling back to threshold links.")
+            links = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
+                     for t in range(len(t_pi)) if t_ps[t] >= threshold]
+
+    # ---- Cluster: links -> entity labels ----
+    if cluster_method == "tc":
+        labels = _union_find_labels([(i, j) for (i, j, s) in links], n)
+    elif cluster_method in ("center", "mc"):
+        labels = _center_mc_labels(
+            links, n, merge=(cluster_method == "mc"))
+    elif cluster_method == "hc":
+        labels = hierarchical(n, hc_triples, h=hc_h)
+    elif cluster_method == "hdbscan":
+        labels = _hdbscan_matrix(n, hdb_D, min_pts=hdbscan_min_pts)
     elif cluster_method == "louvain":
         edges = [(int(t_pi[t]), int(t_pj[t]), t_ps[t]) for t in range(len(t_pi))]
         labels = louvain_edges(edges, n)
@@ -334,7 +331,7 @@ def run(df, fields, block_method="standard", block_key=None,
         pj = [int(t_pj[t]) for t in range(len(t_pi))]
         ps = [float(t_ps[t]) for t in range(len(t_pi))]
         labels = gc(list(zip(pl, pj)), ps, n, threshold=threshold)
-    elif cluster_method in DENSE_METHODS:
+    else:  # dense methods: hclust_avg / hclust_ward / pam
         triples = [(int(t_pi[t]), int(t_pj[t]), float(t_ps[t]))
                    for t in range(len(t_pi))]
         if cluster_method == "hclust_avg":
@@ -343,28 +340,6 @@ def run(df, fields, block_method="standard", block_key=None,
             labels = hclust_ward(n, triples)
         else:  # pam
             labels = pam(n, triples)
-    else:  # supervised: warn and keep classify labels when untrainable
-        tvec_sup = truth if truth is not None else _truth_from_col(df, truth_col)
-        if held_out and tvec_sup is not None:
-            train_entities, test_entities = _entity_split(tvec_sup)
-            if train_entities is not None:
-                held_out_active = True
-            else:
-                warnings.append(
-                    "Held-out requested but too few truth entities "
-                    "(need >= 10); evaluated in-sample instead."
-                )
-        try:
-            labels = _supervised_labels(
-                n, k_fields, feat_flat, t_pi, t_pj,
-                tvec_sup,
-                cluster_method, threshold,
-                train_entities=train_entities,
-                deadline=_t0 + time_budget,
-            )
-        except ValueError as e:
-            warnings.append(str(e) + " Keeping classify labels.")
-            labels = labels0
 
     # ---- Evaluate ----
     tvec = truth
@@ -398,34 +373,14 @@ def run(df, fields, block_method="standard", block_key=None,
     for lab in labels:
         counts[lab] = counts.get(lab, 0) + 1
 
-    # ---- Classify-stage snapshot (so users can judge "same as classify") ----
-    classify_n_clusters = len(set(labels0))
-    classify_metrics = None
-    if tvec is not None and cluster_method != "same":
-        if held_out_active:
-            csub = [(t, p) for t, p in zip(tvec, labels0)
-                    if t is not None and t in test_entities]
-        else:
-            csub = [(t, p) for t, p in zip(tvec, labels0) if t is not None]
-        if len(csub) >= 2:
-            ctt = [t for t, _ in csub]
-            cpp = [p for _, p in csub]
-            classify_metrics = {
-                "ari": adjusted_rand(ctt, cpp),
-                "pairwise": pairwise_prf(ctt, cpp),
-                "b3": b3_prf(ctt, cpp),
-            }
-
     return {
         "labels": labels,
         "n_records": n,
         "n_pairs": n_pairs,
-        "n_links": len(tc_links) if classify_method == "tc" else None,
+        "n_links": len(links),
         "n_clusters": len(counts),
         "ari": ari,
         "metrics": metrics,
-        "classify_n_clusters": classify_n_clusters,
-        "classify_metrics": classify_metrics,
         "cluster_sizes": sorted(counts.values(), reverse=True),
         "warnings": warnings,
     }
@@ -568,9 +523,12 @@ def _truth_from_col(df, truth_col):
     return tvec
 
 
-def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, threshold,
+def _supervised_links(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, threshold,
                       train_entities=None, deadline=None):
-    """Train on truth-labeled pairs, predict all, transitive closure.
+    """Train on truth-labeled pairs, predict all pairs, return links.
+
+    Returns a list of (i, j, prob) triples with prob >= threshold.
+    The cluster stage turns these links into entity labels.
 
     train_entities: optional set of truth-entity ids to train on (held-out).
     When given, only pairs with both endpoints in train_entities are used
@@ -621,9 +579,9 @@ def _supervised_labels(n, k_fields, feat_flat, t_pi, t_pj, tvec, method, thresho
              for t in range(n_pairs)]
     _check("prediction")
     probs = clf.predict_proba(X_all)
-    links = [(int(t_pi[t]), int(t_pj[t])) for t in range(n_pairs)
-             if probs[t] >= threshold]
-    return _union_find_labels(links, n)
+    links = [(int(t_pi[t]), int(t_pj[t]), float(probs[t]))
+             for t in range(n_pairs) if probs[t] >= threshold]
+    return links
 
 
 def _entity_split(tvec, train_frac=0.7, seed=42):
@@ -658,8 +616,11 @@ if __name__ == "__main__":
     ]
     for cm in ("tc", "hc", "hdbscan"):
         res = run(toy, {"name": "jw", "city": "jw"}, block_method="none",
-                  classify_method=cm, threshold=0.5, truth_col="truth")
-        print(cm, {k: v for k, v in res.items() if k != "labels"})
+                  classify_method="threshold", cluster_method=cm,
+                  threshold=0.5, truth_col="truth")
+        print("threshold+" + cm,
+              {k: v for k, v in res.items() if k != "labels"})
     res = run(toy, {"name": "jw", "city": "jw"}, block_method="none",
-              classify_method="tc", cluster_method="logistic", truth_col="truth")
-    print("tc+logistic", {k: v for k, v in res.items() if k != "labels"})
+              classify_method="logistic", cluster_method="tc",
+              truth_col="truth")
+    print("logistic+tc", {k: v for k, v in res.items() if k != "labels"})

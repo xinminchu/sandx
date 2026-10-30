@@ -6,18 +6,15 @@ def _q(s):
     return str(s).replace("\\", "\\\\").replace('"', '\\"')
 
 
-_CLUSTER_MAP = {"threshold_cc": "threshold_cc", "louvain": "louvain",
-                "leiden": "leiden", "label_prop": "label_prop", "gc": "gc",
-                "hclust_avg": "hclust_avg", "hclust_ward": "hclust_ward",
-                "pam": "pam",
-                "same": "same (keep classify labels)"}
+_CLUSTER_MAP = {"tc": "threshold_cc"}
 _SUPERVISED_R = ("logistic", "lda", "qda", "knn", "wknn", "tree", "rf",
                  "xgboost", "nnet", "fellegi_sunter", "svm_radial")
 
 
 def r_script(cfg):
     """cfg keys: filename, fields (col->method), block_method, block_key,
-    threshold, cluster_method, truth_source, truth_col, truth_filename.
+    threshold, classify_method, cluster_method, truth_source, truth_col,
+    truth_filename.
     Returns the R script as one string."""
     filename = _q(cfg["filename"])
     fields = cfg["fields"]
@@ -25,88 +22,55 @@ def r_script(cfg):
     block_key = cfg.get("block_key")
     threshold = cfg["threshold"]
     block_arg = f', block_key="{_q(block_key)}"' if block_key else ""
-    cm = _CLUSTER_MAP.get(cfg["cluster_method"], cfg["cluster_method"])
     spec = ",\n  ".join(
         f'list(name="{_q(col)}", type="{_q(m)}")' for col, m in fields.items()
     )
-    supervised = cfg.get("cluster_method") in _SUPERVISED_R
-    if cfg.get("cluster_method") == "same":
-        tail_cluster = [
+    # ---- 3. Classify: pairs -> links (M) ----
+    classify = cfg.get("classify_method") or "threshold"
+    class_lines = []
+    if classify == "threshold":
+        class_lines = [
             "",
-            "# 4. Cluster: same labels as classification (no separate step)",
+            "# 3. Classify: thresholded links (unsupervised)",
+            f'M <- er_classify(S, method = "threshold", threshold = {threshold})',
         ]
-    elif supervised:
+    else:  # supervised pair classifier
         ts = cfg.get("truth_source") or "none"
         if ts == "column" and cfg.get("truth_col"):
             tv_line = f'truth_vec <- df[["{_q(cfg["truth_col"])}"]]'
         else:
             tv_line = ("truth_vec <- truth$cluster[match(df$id, truth$id)]"
                        "  # from gold-truth file")
-        tail_cluster = [
+        class_lines = [
             "",
-            "# 4. Cluster: supervised pair classifier trained on gold truth,",
-            "#    then transitive closure over predicted links",
+            f"# 3. Classify: supervised pair classifier ({classify}),",
+            "#    trained on gold-truth pairs; links = P(match) >= threshold",
         ]
         if cfg.get("held_out"):
-            tail_cluster += [
+            class_lines += [
                 "#    Held-out: train on 70% of entities (er_split), evaluate on",
                 "#    the other 30% — see er_protocol_b() for the honest protocol",
             ]
-        tail_cluster += [
+        class_lines += [
             tv_line,
-            f'labels <- er_cluster(S, method="{cm}", sim_list = sim, '
-            f"pairs = pairs,",
-            f'                     truth_vec = truth_vec, threshold = {threshold})',
+            f'M <- er_classify(S, method = "{_q(classify)}", pairs = pairs,',
+            f"                     sim_list = sim, truth_vec = truth_vec,",
+            f"                     threshold = {threshold})",
         ]
+    # ---- 4. Cluster: links -> entity labels ----
+    cluster = cfg.get("cluster_method") or "tc"
+    cm = _CLUSTER_MAP.get(cluster, cluster)
+    tail_cluster = [
+        "",
+        "# 4. Cluster: group links into entities",
+        f'labels <- er_cluster(M, method = "{_q(cm)}"',
+    ]
+    if cluster == "hc":
+        tail_cluster[-1] += f", h = {cfg.get('hc_h', 0.5)})"
+    elif cluster == "hdbscan":
+        tail_cluster[-1] += f", minPts = {cfg.get('hdbscan_min_pts', 3)})"
     else:
-        tail_cluster = [
-            "",
-            "# 4. Cluster",
-            f'labels <- er_cluster(S, method="{cm}", threshold = {threshold})',
-        ]
-    classify = cfg.get("classify_method") or "tc"
-    same = cfg.get("cluster_method") == "same"
-    labvar = "labels" if same else "labs"
-    class_lines = []
-    if classify == "hc":
-        class_lines = [
-            "",
-            "# 3b. Classification: hierarchical clustering (average linkage)",
-            f"{labvar} <- cutree(hclust(as.dist(1 - as.matrix(S)),",
-            f'               method = "average"), h = {cfg.get("hc_h", 0.5)})',
-        ]
-    elif classify == "hdbscan":
-        class_lines = [
-            "",
-            "# 3b. Classification: HDBSCAN on 1 - similarity",
-            f"{labvar} <- dbscan::hdbscan(as.dist(1 - as.matrix(S)),",
-            f"               minPts = {cfg.get('hdbscan_min_pts', 3)})$cluster",
-            "# noise (0) -> singletons, never one giant noise cluster",
-            f"{labvar}[{labvar} == 0] <- max({labvar}) + "
-            f"seq_len(sum({labvar} == 0))",
-        ]
-    elif classify in ("center", "mc"):
-        paper = "Hassanzadeh & Miller 2009"
-        what = ("MERGE-CENTER" if classify == "mc"
-                else "CENTER (star clustering)")
-        class_lines = [
-            "",
-            f"# 3b. Classification: {what} ({paper})",
-            f"# single scan of pairs by similarity; centers recruit neighbors,",
-            "# non-centers cannot recruit (breaks transitive chains)",
-            f'M <- er_classify(S, method = "{classify}", '
-            f"threshold = {threshold})",
-            f"{labvar} <- er_cluster(M, method = \\\"threshold_cc\\\", "
-            f"threshold = {threshold})",
-        ]
-    else:
-        class_lines = [
-            "",
-            "# 3b. Classification: transitive closure over thresholded links",
-            f"M <- er_classify(S, method = \"threshold\", threshold = {threshold})",
-            f"{labvar} <- er_cluster(M, method = \"threshold_cc\", "
-            f"threshold = {threshold})",
-        ]
+        tail_cluster[-1] += ")"
     tail = ["# 5. Inspect", "print(table(labels))"]
     ts = cfg.get("truth_source") or "none"
     if ts == "column" and cfg.get("truth_col"):
