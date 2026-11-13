@@ -2,8 +2,8 @@ const CORE: [string, string][] = [
   ["er_run()", "Run the full entity-resolution pipeline"],
   ["er_block()", "Generate candidate pairs via blocking"],
   ["er_similarity()", "Compute per-field similarity for all candidate pairs"],
-  ["er_combine()", "missing-value-aware adaptive weighted similarity combination"],
   ["er_weights()", "Learn or select field weights"],
+  ["er_combine()", "missing-value-aware adaptive weighted similarity combination"],
   ["er_cluster()", "Run a single clustering method"],
   ["er_cluster_all()", "Run all clustering methods"],
   ["er_merge()", "Post-process clustering results"],
@@ -34,7 +34,7 @@ const STUDY: [string, string][] = [
   ["er_bcubed()", "B-cubed precision, recall, and F-score"],
   ["er_ami()", "Adjusted mutual information"],
   ["er_baseline_splink()", "Splink probabilistic-linkage baseline"],
-  ["er_scenarios()", "Scenario presets for stress-testing"],
+  ["er_scenario_presets()", "Scenario presets for stress-testing"],
 ];
 
 function Table({ rows }: { rows: [string, string][] }) {
@@ -72,7 +72,7 @@ export default function Docs() {
 
       <h2 className="text-xl font-bold mt-10 mb-3">Quickstart</h2>
       <pre className="code">
-        <code>{`# one call: nine stages, honest defaults\nres <- er_run(df, truth = truth_tbl)\nres$metrics        # ARI, B-cubed, AMI, ...\nres$labels         # cluster per record\n\n# or stage by stage\npairs <- er_block(df, method = "prefix", block_key = "name")\nsim   <- er_similarity(df, pairs,\n          spec = list(list(name = "name", type = "jw"),\n                      list(name = "address", type = "jw")))\nS     <- er_pairs_to_sparse(pairs, er_combine(sim), n = nrow(df))\nlabs  <- er_cluster(S, method = "louvain")\n\n# supervised pairwise classifier (Firth logistic default)\nfit <- er_pair_classify(sim, pairs, truth_vec = truth,\n                        classifier = "logistic")\nfit$valid          # FALSE + reason if structurally inapplicable`}</code>
+        <code>{`# one call: ten stages, honest defaults\nres <- er_run(df, truth = truth_tbl)\nres$metrics        # ARI, B-cubed, AMI, ...\nres$labels         # cluster per record\n\n# or stage by stage\npairs <- er_block(df, method = "prefix", block_key = "name")\nsim   <- er_similarity(df, pairs,\n          spec = list(list(name = "name", type = "jw"),\n                      list(name = "address", type = "jw")))\nS     <- er_pairs_to_sparse(pairs, er_combine(sim), n = nrow(df))\nlabs  <- er_cluster(S, method = "louvain")\n\n# supervised pairwise classifier (Firth logistic default)\nfit <- er_pair_classify(sim, pairs, truth_vec = truth,\n                        classifier = "logistic")\nfit$valid          # FALSE + reason if structurally inapplicable`}</code>
       </pre>
 
       <h2 className="text-xl font-bold mt-10 mb-3">Core pipeline</h2>

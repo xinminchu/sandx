@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "ERBOT — Sand in, Gold out",
   description:
-    "A unified R pipeline for deduplication and record linkage. Nine stages, eleven supervised classifiers, one honest evaluation.",
+    "A unified R pipeline for deduplication and record linkage. Ten stages, eleven supervised classifiers, one honest evaluation.",
 };
 
 function Nav() {

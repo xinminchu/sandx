@@ -2,15 +2,15 @@ import Link from "next/link";
 
 const STATS: [string, string][] = [
   ["199", "regression tests, zero warnings"],
-  ["9", "pipeline stages, one function call"],
+  ["10", "pipeline stages, one function call"],
   ["11", "supervised classifier families"],
   ["0", "truth leakage in default paths"],
 ];
 
 const CARDS: [string, string, string, string][] = [
   [
-    "Nine stages, one call",
-    "Load → diagnose → block → similarity → combine → weights → classify → cluster → merge → evaluate.",
+    "Ten stages, one call",
+    "Load → diagnose → block → similarity → weights → combine → classify → cluster → merge → evaluate.",
     "/methods",
     "How it works →",
   ],
@@ -43,7 +43,7 @@ export default function Home() {
         </h1>
         <p className="mt-5 text-lg text-slate-600 max-w-2xl mx-auto">
           ERBOT is a unified R pipeline for deduplication and record linkage —
-          nine stages from raw CSV to evaluated clusters, with the evaluation
+          ten stages from raw CSV to evaluated clusters, with the evaluation
           discipline most toolkits skip.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
@@ -62,7 +62,7 @@ export default function Home() {
         </div>
         <div className="mt-8 max-w-xl mx-auto text-left">
           <pre className="code">
-            <code>{`# install\nremotes::install_github("xinminchu/erbot")\n\n# one call, nine stages\nres <- er_run(df, truth = truth_tbl)\nres$metrics  # ARI, B-cubed, AMI`}</code>
+            <code>{`# install\nremotes::install_github("xinminchu/erbot")\n\n# one call, ten stages\nres <- er_run(df, truth = truth_tbl)\nres$metrics  # ARI, B-cubed, AMI`}</code>
           </pre>
         </div>
       </section>

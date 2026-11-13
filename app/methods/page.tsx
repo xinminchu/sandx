@@ -20,14 +20,14 @@ const STAGES = [
     d: "missing-value-aware per-field scores — Jaro-Winkler, Levenshtein, token Jaccard, bag-of-words, categorical, numeric. If either side is missing, the field contributes NA, never an imputed guess.",
   },
   {
-    n: "05 · Combine",
-    fn: "er_combine()",
-    d: "Fuses per-field similarities into one pair score with missing-value-aware weighting: fields that are missing simply don't vote. No leakage from imputation.",
-  },
-  {
-    n: "06 · Weights",
+    n: "05 · Weights",
     fn: "er_weights()",
     d: "Learns field weights three ways: uniform, Fellegi–Sunter EM on the unlabeled pairs, or ARI-guided search on a labeled fit set. The default never touches truth.",
+  },
+  {
+    n: "06 · Combine",
+    fn: "er_combine()",
+    d: "Fuses per-field similarities into one pair score with missing-value-aware weighting: fields that are missing simply don't vote. No leakage from imputation.",
   },
   {
     n: "07 · Classify",
@@ -37,7 +37,7 @@ const STAGES = [
   {
     n: "08 · Cluster",
     fn: "er_cluster() / er_cluster_all()",
-    d: "Nine unsupervised methods (threshold connected-components, Louvain, Leiden, HDBSCAN, …) group records into entities from the match graph. Clustering is record-level and unsupervised: it consumes the classifier's pair decisions, it does not replace them. Structural inapplicability returns valid=FALSE with a reason — never a silent garbage label.",
+    d: "Eight unsupervised methods (threshold connected-components, Louvain, Leiden, label propagation, graph coloring, average- and Ward-linkage hierarchical clustering, PAM) group records into entities from the match graph. Clustering is record-level and unsupervised: it consumes the classifier's pair decisions, it does not replace them. Structural inapplicability returns valid=FALSE with a reason — never a silent garbage label.",
   },
   {
     n: "09 · Merge",
