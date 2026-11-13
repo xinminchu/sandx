@@ -196,8 +196,8 @@ function CompareTable({ runs }: { runs: SavedRun[] }) {
   const first = ordered[0];
   const cfgRows: [string, (r: SavedRun) => string][] = [
     ["Dataset", (r) => r.dataset],
-    ["Cluster", (r) => r.config.classify_method],
-    ["Refine", (r) => r.config.cluster_method],
+    ["Classify", (r) => r.config.classify_method],
+    ["Cluster", (r) => r.config.cluster_method],
     ["Threshold", (r) => String(r.config.threshold)],
     [
       "Blocking",

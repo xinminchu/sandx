@@ -10,7 +10,7 @@ const STATS: [string, string][] = [
 const CARDS: [string, string, string, string][] = [
   [
     "Nine stages, one call",
-    "Load → diagnose → block → similarity → combine → weights → cluster → merge → evaluate.",
+    "Load → diagnose → block → similarity → combine → weights → classify → cluster → merge → evaluate.",
     "/methods",
     "How it works →",
   ],

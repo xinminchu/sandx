@@ -93,13 +93,13 @@ export default function Docs() {
           The <a href="/studio" className="text-teal-700 font-medium">Studio</a>{" "}
           runs <span className="font-mono2">engine/</span> — a pure-Python port
           of ERBOT&apos;s core stages on a serverless function: blocking,
-          missing-value-aware similarity, <em>classification</em> (transitive closure,
-          average-linkage hierarchical clustering, or HDBSCAN),{" "}
-          <em>clustering</em> (threshold connected-components, Louvain, Leiden,
-          label propagation, graph coloring, average/Ward hierarchical
-          clustering, PAM, or a supervised pairwise classifier — logistic, lda,
-          qda, knn, wknn, tree, rf, xgboost, nnet, fellegi_sunter,
-          svm_radial — trained on ground truth), and evaluation (ARI,
+          missing-value-aware similarity, <em>classification</em> (thresholding,
+          a supervised pairwise classifier — logistic, lda, qda, knn, wknn,
+          tree, rf, xgboost, nnet, fellegi_sunter, svm_radial — trained on
+          ground truth, or a community/distance method whose groups become
+          links), <em>clustering</em> (transitive closure, CENTER,
+          MERGE-CENTER, average-linkage hierarchical clustering, or HDBSCAN),
+          and evaluation (ARI,
           pairwise precision/recall/F1, B-cubed
           when ground truth is attached). Pairs stream through the pipeline, so
           million-pair runs stay in budget. It covers the interactive-dedup
