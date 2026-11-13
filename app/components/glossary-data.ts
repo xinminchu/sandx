@@ -120,8 +120,14 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
     id: "classify",
     title: "Classify",
     intro:
-      "Turns per-field similarity scores into a yes/no decision for each candidate pair: same entity or not.",
+      "Turns similarity scores into a yes/no decision for each candidate pair: same entity or not. Three routes: threshold the combined score, train one of the eleven supervised classifiers on labeled pairs, or let a community/distance method group the pair graph first and take the within-group pairs as links.",
     entries: [
+      {
+        id: "threshold",
+        term: "threshold",
+        aka: "Score thresholding",
+        body: "The default classify method, and the simplest: a candidate pair becomes a link when its combined similarity score reaches the threshold \u03c4 (Studio default 0.5). No labeled data needed. Everything rides on \u03c4 \u2014 set it low and near-duplicates flood in; set it high and real matches with one weak field fall out. The supervised classifiers below exist to learn this boundary from labeled pairs instead of fixing it by hand.",
+      },
       {
         id: "clf-logistic",
         term: "logistic",
@@ -188,6 +194,41 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         aka: "RBF support-vector machine",
         body: "Finds the maximum-margin hyperplane in an implicit high-dimensional space via the kernel trick: K(x,x′) = exp(−γ‖x−x′‖²) makes similarity itself the feature, so the decision f(x) = Σᵢ αᵢyᵢK(xᵢ,x) + b depends only on the support vectors (the ambiguous pairs near the boundary). The RBF kernel bends the boundary around clusters of matching pairs; γ controls how local that bending is. Strong on clean numeric features, but probabilities need an extra calibration step and it scales worse than forests on large pair sets.",
       },
+      {
+        id: "louvain",
+        term: "louvain",
+        body: "Community detection on the pair graph, optimizing modularity. Handles large, messy graphs well; tends to split the giant chains that transitive closure sometimes produces.",
+      },
+      {
+        id: "leiden",
+        term: "leiden",
+        body: "Community detection like louvain, plus a refinement step that guarantees well-connected communities. Often cleaner clusters than louvain on noisy graphs.",
+      },
+      {
+        id: "label-prop",
+        term: "label_prop",
+        body: "Label propagation: every record repeatedly adopts the most common label among its similar neighbors until nothing changes. Fast and simple; can be unstable on ambiguous graphs.",
+      },
+      {
+        id: "gc",
+        term: "gc",
+        body: "Graph coloring (GCMER style): records similar above the threshold form cliques, and each clique becomes one entity — so every pair inside an entity is guaranteed similar. Strict, conservative grouping.",
+      },
+      {
+        id: "hclust-avg",
+        term: "hclust_avg",
+        body: "Hierarchical clustering with average linkage on 1 − similarity. The number of clusters k is picked automatically by silhouette width.",
+      },
+      {
+        id: "hclust-ward",
+        term: "hclust_ward",
+        body: "Hierarchical clustering with Ward linkage, which merges the pair of clusters that increases within-cluster variance the least. Tends to produce compact, even-sized entities.",
+      },
+      {
+        id: "pam",
+        term: "pam",
+        body: "Partitioning Around Medoids (k-medoids): picks k real records as centers and assigns every record to its nearest center. Robust to outliers; k picked by silhouette.",
+      },
     ],
   },
   {
@@ -231,45 +272,18 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         aka: "Hierarchical Density-Based Spatial Clustering of Applications with Noise",
         body: "Density-based hierarchical clustering. Finds clusters of varying density, needs no similarity threshold, and labels sparse points as noise (shown as singletons here). min_pts (default 2) sets the smallest neighborhood that counts as dense.",
       },
+    ],
+  },
+  {
+    id: "concepts",
+    title: "Concepts",
+    intro:
+      "Background ideas behind the grouping steps \u2014 quality functions and parameters for community detection, consensus ideas used when merging, and the linear algebra that turns similarities into features. These are not Studio options; they are the vocabulary of the methods pages and the R package.",
+    entries: [
       {
         id: "threshold-cc",
         term: "threshold_cc",
         body: "Threshold connected components: same idea as transitive closure, applied as a standalone re-clustering of the scored pair graph.",
-      },
-      {
-        id: "louvain",
-        term: "louvain",
-        body: "Community detection on the pair graph, optimizing modularity. Handles large, messy graphs well; tends to split the giant chains that transitive closure sometimes produces.",
-      },
-      {
-        id: "leiden",
-        term: "leiden",
-        body: "Community detection like louvain, plus a refinement step that guarantees well-connected communities. Often cleaner clusters than louvain on noisy graphs.",
-      },
-      {
-        id: "label-prop",
-        term: "label_prop",
-        body: "Label propagation: every record repeatedly adopts the most common label among its similar neighbors until nothing changes. Fast and simple; can be unstable on ambiguous graphs.",
-      },
-      {
-        id: "gc",
-        term: "gc",
-        body: "Graph coloring (GCMER style): records similar above the threshold form cliques, and each clique becomes one entity — so every pair inside an entity is guaranteed similar. Strict, conservative grouping.",
-      },
-      {
-        id: "hclust-avg",
-        term: "hclust_avg",
-        body: "Hierarchical clustering with average linkage on 1 − similarity. The number of clusters k is picked automatically by silhouette width.",
-      },
-      {
-        id: "hclust-ward",
-        term: "hclust_ward",
-        body: "Hierarchical clustering with Ward linkage, which merges the pair of clusters that increases within-cluster variance the least. Tends to produce compact, even-sized entities.",
-      },
-      {
-        id: "pam",
-        term: "pam",
-        body: "Partitioning Around Medoids (k-medoids): picks k real records as centers and assigns every record to its nearest center. Robust to outliers; k picked by silhouette.",
       },
       {
         id: "medoid",
@@ -281,11 +295,6 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         term: "modularity",
         aka: "Q",
         body: "Q = Σᵢⱼ [Aᵢⱼ − kᵢkⱼ/2m] δ(cᵢ,cⱼ) / 2m: edge density inside communities minus what you'd expect by chance. Louvain greedily maximizes it. Its known flaw is the resolution limit — communities smaller than ~√(2m) nodes tend to get merged — which is why Leiden and CPM exist.",
-      },
-      {
-        id: "silhouette",
-        term: "silhouette width",
-        body: "s(i) = (b(i) − a(i)) / max(a(i), b(i)), where a(i) is the mean distance to its own cluster and b(i) the mean distance to the nearest other cluster. Ranges [−1, 1]: near 1 means well-placed, near 0 means on a boundary, negative means probably misassigned. Averaged over records to pick k without truth.",
       },
       {
         id: "cpm",
@@ -354,6 +363,11 @@ export const SECTIONS: { id: string; title: string; intro: string; entries: Entr
         term: "ARI",
         aka: "Adjusted Rand Index",
         body: "Agreement between predicted clusters and true entities, corrected for chance. 1 is perfect, 0 is about as good as random guessing, negative is worse than random.",
+      },
+      {
+        id: "silhouette",
+        term: "silhouette width",
+        body: "s(i) = (b(i) − a(i)) / max(a(i), b(i)), where a(i) is the mean distance to its own cluster and b(i) the mean distance to the nearest other cluster. Ranges [−1, 1]: near 1 means well-placed, near 0 means on a boundary, negative means probably misassigned. Averaged over records to pick k without truth.",
       },
       {
         id: "pairwise-prf",
