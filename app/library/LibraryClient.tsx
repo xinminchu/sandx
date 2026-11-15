@@ -7,15 +7,18 @@ const METHODS = ["key-based", "token-based", "hashing/LSH", "embedding/ANN", "gr
 const SUPERVISION = ["supervised", "unsupervised", "self-supervised", "n/a"];
 const DATATYPES = ["structured", "textual", "mixed", "relational", "multi-source"];
 const SCALES = ["small benchmark", "large (100K-1M)", "web scale (>1M)", "n/a"];
-const ERAS = ["Before 1990", "1990s", "2000s", "2010s", "2020s"];
+const YEARS = ["2026", "2025", "2024", "2023", "2022", "2017–2021", "2012–2016", "2007–2011", "2002–2006", "1997–2001", "1992–1996", "1991 and earlier"];
 
-function eraOf(y: number | null): string {
+function yearBucket(y: number | null): string {
   if (!y) return "2020s";
-  if (y < 1990) return "Before 1990";
-  if (y < 2000) return "1990s";
-  if (y < 2010) return "2000s";
-  if (y < 2020) return "2010s";
-  return "2020s";
+  if (y >= 2022) return String(y);
+  if (y >= 2017) return "2017–2021";
+  if (y >= 2012) return "2012–2016";
+  if (y >= 2007) return "2007–2011";
+  if (y >= 2002) return "2002–2006";
+  if (y >= 1997) return "1997–2001";
+  if (y >= 1992) return "1992–1996";
+  return "1991 and earlier";
 }
 function shortAuthors(a: string[]): string {
   if (a.length === 0) return "";
@@ -30,7 +33,7 @@ export default function LibraryClient() {
   const [sups, setSups] = useState<Set<string>>(new Set());
   const [dts, setDts] = useState<Set<string>>(new Set());
   const [scales, setScales] = useState<Set<string>>(new Set());
-  const [eras, setEras] = useState<Set<string>>(new Set());
+  const [years, setYears] = useState<Set<string>>(new Set());
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sort, setSort] = useState("year-desc");
   const [open, setOpen] = useState<Set<string>>(new Set());
@@ -53,7 +56,7 @@ export default function LibraryClient() {
       if (sups.size && !sups.has(p.supervision)) return false;
       if (dts.size && !dts.has(p.dataType)) return false;
       if (scales.size && !scales.has(p.scale)) return false;
-      if (eras.size && !eras.has(eraOf(p.year))) return false;
+      if (years.size && !years.has(yearBucket(p.year))) return false;
       if (verifiedOnly && !p.verified) return false;
       if (q) {
         const hay = (p.title + " " + p.authors.join(" ") + " " + p.abstract + " " + p.focus + " " + p.id).toLowerCase();
@@ -68,11 +71,11 @@ export default function LibraryClient() {
       return a.n - b.n;
     });
     return list;
-  }, [query, themes, methods, sups, dts, scales, eras, verifiedOnly, sort]);
+  }, [query, themes, methods, sups, dts, scales, years, verifiedOnly, sort]);
 
   const clearAll = () => {
     setThemes(new Set()); setMethods(new Set()); setSups(new Set());
-    setDts(new Set()); setScales(new Set()); setEras(new Set());
+    setDts(new Set()); setScales(new Set()); setYears(new Set());
     setQuery(""); setVerifiedOnly(false);
   };
 
@@ -124,6 +127,12 @@ export default function LibraryClient() {
     return m;
   }, []);
 
+  const yearCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const p of PAPERS) { const b = yearBucket(p.year); m.set(b, (m.get(b) ?? 0) + 1); }
+    return m;
+  }, []);
+
   const filters = (
     <div>
       <div className="flex items-center justify-between">
@@ -140,7 +149,7 @@ export default function LibraryClient() {
       {facetGroup("Supervision", SUPERVISION, sups, setSups)}
       {facetGroup("Data type", DATATYPES, dts, setDts)}
       {facetGroup("Scale", SCALES, scales, setScales)}
-      {facetGroup("Era", ERAS, eras, setEras)}
+      {facetGroup("Year", YEARS, years, setYears, yearCounts)}
       <label className="mt-5 flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
         <input type="checkbox" checked={verifiedOnly} onChange={(e) => setVerifiedOnly(e.target.checked)} className="accent-teal-700" />
         Verified entries only
@@ -155,8 +164,8 @@ export default function LibraryClient() {
         A working library of entity resolution and record linkage research, organised by theme and
         searchable from several angles. Every entry carries a short focus note and a preliminary
         three-lens reading — <strong>Borrow</strong> (what we can take from it), <strong>Fill</strong>{" "}
-        (the research gap it filled), <strong>Correct</strong> (what in its core claims we should
-        question). Bibliographic details are checked against Crossref and Semantic Scholar; entries
+        (the gap it leaves for us — what it did not do that we can), <strong>Correct</strong> (what in
+        its core claims we should question). Bibliographic details are checked against Crossref and Semantic Scholar; entries
         still awaiting full verification are marked <span className="text-amber-600 font-medium">Unverified</span>.
       </p>
 
