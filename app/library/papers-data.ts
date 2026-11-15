@@ -2010,7 +2010,7 @@ export const PAPERS: Paper[] = [
   "id": "er-066",
   "title": "The stringdist Package for Approximate String Matching",
   "authors": [
-   "Mark,P.J.,van,der Loo"
+   "Mark P. J. van der Loo"
   ],
   "year": 2014,
   "venue": "The R Journal",
