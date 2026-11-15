@@ -56,6 +56,12 @@ function Nav() {
           >
             Glossary
           </Link>
+          <Link
+            href="/library"
+            className="px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100"
+          >
+            Library
+          </Link>
         </nav>
       </div>
     </header>
@@ -90,6 +96,9 @@ function Footer() {
           </Link>
           <Link href="/glossary" className="hover:text-teal-700">
             Glossary
+          </Link>
+          <Link href="/library" className="hover:text-teal-700">
+            Library
           </Link>
         </div>
       </div>
