@@ -95,6 +95,63 @@ export const PAPERS: Paper[] = [
  {
   "n": 3,
   "id": "er-003",
+  "title": "Febrl",
+  "authors": [
+   "Peter Christen"
+  ],
+  "year": 2008,
+  "venue": "Proceedings of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining",
+  "doi": "10.1145/1401890.1402020",
+  "citations": 136,
+  "themes": [
+   "blocking",
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This KDD paper presents Febrl, Peter Christen's open-source record linkage system, as a research tool for data linkage: it supports the standard linkage workflow of indexing/blocking, record comparison with a range of similarity functions, and classification, and is widely used for linkage experiments and teaching.",
+  "borrow": "Febrl's modular architecture — interchangeable indexing, comparison and classification components, plus facilities for generating and evaluating linkage experiments — is a design template ERBOT's R implementation can borrow.",
+  "fill": "Febrl is a Python research prototype; an R-native implementation aimed at very large datasets, with modern learned blocking and embedding comparisons, is precisely the gap ERBOT exists to fill.",
+  "correct": "As a system description, the paper's claims concern functionality and coverage rather than benchmarked superiority over alternatives, and very-large-scale performance is not its demonstrated claim.",
+  "verified": true
+ },
+ {
+  "n": 4,
+  "id": "er-004",
+  "title": "An Introduction to Duplicate Detection",
+  "authors": [
+   "Felix Naumann",
+   "Melanie Herschel"
+  ],
+  "year": 2010,
+  "venue": "Synthesis Lectures on Data Management",
+  "doi": "10.1007/978-3-031-01835-0",
+  "citations": 331,
+  "themes": [
+   "blocking",
+   "similarity"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Synthesis Lectures volume by Naumann and Herschel is an introductory monograph on duplicate detection: finding records that refer to the same real-world entity within a database. As an introductory text it presents the field's basic problem definition, workflow and terminology rather than a new algorithm.",
+  "borrow": "As a canonical map of the pipeline stages, it gives ERBOT a shared vocabulary and a checklist of design decisions (pair comparison, classification, evaluation) against which to structure the package's modules.",
+  "fill": "An introductory text from 2010 predates embedding- and LLM-based matching entirely; updating its pipeline taxonomy for learned representations and very large-scale blocking is work it leaves to us.",
+  "correct": "Its framing reflects the pre-deep-learning era, in which similarity functions and classifier workflows are the core machinery, so its guidance should not be read as covering how representation learning changes the cost and accuracy trade-offs.",
+  "verified": true
+ },
+ {
+  "n": 5,
+  "id": "er-005",
   "title": "Duplicate Detection Algorithms",
   "authors": [
    "Felix Naumann",
@@ -123,8 +180,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 4,
-  "id": "er-004",
+  "n": 6,
+  "id": "er-006",
   "title": "Efficient SPectrAl Neighborhood blocking for entity resolution",
   "authors": [
    "Liangcai Shu",
@@ -154,8 +211,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 5,
-  "id": "er-005",
+  "n": 7,
+  "id": "er-007",
   "title": "Eliminating the redundancy in blocking-based entity resolution methods",
   "authors": [
    "George Papadakis",
@@ -186,8 +243,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 6,
-  "id": "er-006",
+  "n": 8,
+  "id": "er-008",
   "title": "A Survey of Indexing Techniques for Scalable Record Linkage and Deduplication",
   "authors": [
    "Peter Christen"
@@ -214,8 +271,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 7,
-  "id": "er-007",
+  "n": 9,
+  "id": "er-009",
+  "title": "A framework for entity resolution with efficient blocking",
+  "authors": [
+   "Liangcai Shu",
+   "Can Lin",
+   "Weiyi Meng",
+   "Yue Han",
+   "Clement T. Yu",
+   "Neil R. Smalheiser"
+  ],
+  "year": 2012,
+  "venue": "2012 IEEE 13th International Conference on Information Reuse &amp; Integration (IRI)",
+  "doi": "10.1109/iri.2012.6303041",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This IEEE IRI 2012 paper presents a framework for entity resolution built around efficient blocking, organizing the resolution process so that candidate generation stays cheap. The record has no abstract, so the framework's components and evaluation are not documented here.",
+  "borrow": "As an early framework paper, it is a design reference for how ERBOT organizes its own stages: where blocking sits, what it must guarantee (high recall at low cost), and how later stages consume its output.",
+  "fill": "A 2012 framework predates embedding-based and LLM-based matching entirely; it leaves open how learned representations and modern classifiers plug into such a framework without redesigning it. Modernizing the framework's blocking interface is a gap we can address.",
+  "correct": "With no abstract in the record, the efficiency claim is unquantified, and a 2012 design's assumptions about data scale and hardware say little about performance on today's web-scale, heterogeneous sources.",
+  "verified": true
+ },
+ {
+  "n": 10,
+  "id": "er-010",
   "title": "A Blocking Framework for Entity Resolution in Highly Heterogeneous Information Spaces",
   "authors": [
    "George Papadakis",
@@ -246,8 +336,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 8,
-  "id": "er-008",
+  "n": 11,
+  "id": "er-011",
   "title": "Improving load balancing for MapReduce-based entity matching",
   "authors": [
    "Demetrio Gomes Mestre",
@@ -275,8 +365,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 9,
-  "id": "er-009",
+  "n": 12,
+  "id": "er-012",
   "title": "MFIBlocks: An effective blocking algorithm for entity resolution",
   "authors": [
    "Batya Kenig",
@@ -304,8 +394,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 10,
-  "id": "er-010",
+  "n": 13,
+  "id": "er-013",
   "title": "Dynamic Sorted Neighborhood Indexing for Real-Time Entity Resolution",
   "authors": [
    "Banda Ramadan",
@@ -334,8 +424,63 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 11,
-  "id": "er-011",
+  "n": 14,
+  "id": "er-014",
+  "title": "Efficient Blocking Method for a Large Scale Citation Matching",
+  "authors": [
+   "Mateusz Fedoryszak",
+   "Łukasz Bolikowski"
+  ],
+  "year": 2014,
+  "venue": "D-Lib Magazine",
+  "doi": "10.1045/november14-fedoryszak",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "The paper presents an efficient blocking method designed for citation matching at large scale, where the full set of citation pairs cannot be compared exhaustively. It appeared in D-Lib Magazine (2014) and comes out of large digital-library practice.",
+  "borrow": "Blocking designed specifically for citation strings — deciding which fields to key on when titles and author lists are noisy — transfers directly to ERBOT's blocking stage for bibliographic data.",
+  "fill": "The work optimizes the blocking step for its own collection's citations; how its keys behave when the target database and the citation source differ in coverage and metadata quality is left for us to test.",
+  "correct": "Blocking work of this era typically reports pair reduction on a single in-house collection, and aggressive keys on citations risk silently dropping true matches whose titles are corrupted; the record gives no numbers to verify the recall cost.",
+  "verified": true
+ },
+ {
+  "n": 15,
+  "id": "er-015",
+  "title": "Efficient Dynamic Blocking Scheme for Entity Resolution Systems",
+  "authors": [],
+  "year": 2014,
+  "venue": "International Conference on Advances in Engineering and Technology (ICAET'2014) March 29-30, 2014 Singapore",
+  "doi": "10.15242/iie.e0314076",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2014 conference paper proposes a dynamic blocking scheme for entity resolution systems, aiming at efficiency in candidate-pair generation. The record lists no authors and no abstract, so the scheme's mechanics are not documented here.",
+  "borrow": "Dynamic, data-driven block formation, as opposed to static blocking keys fixed in advance, is a design option for ERBOT's blocking stage when key distributions are skewed or unknown beforehand.",
+  "fill": "The paper leaves open how dynamic blocking compares with modern learned and embedding-based blocking, and how it behaves on dirty data at web scale. Benchmarking dynamic schemes against current practice is work we can do.",
+  "correct": "The efficiency claim is unverifiable from this record: an obscure venue, no abstract, and no reported datasets or reduction-ratio/pair-completeness figures, so the scheme should be treated as an unverified design sketch.",
+  "verified": true
+ },
+ {
+  "n": 16,
+  "id": "er-016",
   "title": "Forest-Based Dynamic Sorted Neighborhood Indexing for Real-Time Entity Resolution",
   "authors": [
    "Banda Ramadan",
@@ -363,8 +508,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 12,
-  "id": "er-012",
+  "n": 17,
+  "id": "er-017",
   "title": "Meta-Blocking: Taking Entity Resolutionto the Next Level",
   "authors": [
    "George Papadakis",
@@ -394,8 +539,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 13,
-  "id": "er-013",
+  "n": 18,
+  "id": "er-018",
   "title": "Noise-Tolerant Approximate Blocking for Dynamic Real-Time Entity Resolution",
   "authors": [
    "Huizhi Liang",
@@ -424,8 +569,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 14,
-  "id": "er-014",
+  "n": 19,
+  "id": "er-019",
   "title": "Supervised meta-blocking",
   "authors": [
    "George Papadakis",
@@ -453,8 +598,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 15,
-  "id": "er-015",
+  "n": 20,
+  "id": "er-020",
   "title": "A Clustering-Based Framework to Control Block Sizes for Entity Resolution",
   "authors": [
    "Jeffrey Fisher",
@@ -485,8 +630,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 16,
-  "id": "er-016",
+  "n": 21,
+  "id": "er-021",
+  "title": "Experimental Evaluation of Blocking Algorithms",
+  "authors": [
+   "Vassilis Christophides",
+   "Vasilis Efthymiou",
+   "Kostas Stefanidis"
+  ],
+  "year": 2015,
+  "venue": "Synthesis Lectures on Data, Semantics, and Knowledge",
+  "doi": "10.1007/978-3-031-79468-1_5",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "evaluation"
+  ],
+  "method": [
+   "benchmark",
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Synthesis Lectures chapter by Christophides, Efthymiou and Stefanidis experimentally evaluates blocking algorithms for entity resolution, comparing methods on their effectiveness and efficiency. The record has no abstract, so the specific benchmark setup is not documented here.",
+  "borrow": "A systematic experimental protocol for blocking, built around reduction ratio, pair completeness and runtime, is exactly the evaluation harness ERBOT needs for its blocking stage; adopting its methodology keeps our blocking comparisons honest.",
+  "fill": "A 2015-era evaluation predates learned, embedding-based and LLM-era blocking; re-running its protocol on modern blocking methods and on larger, dirtier datasets is an obvious piece of unfinished work we can take up.",
+  "correct": "The chapter's conclusions reflect the pre-deep-learning blocking landscape, and as a synthesis-lecture chapter (reissued under a 2025 DOI) it summarizes and evaluates others' methods rather than reporting a new controlled study, so its rankings should not be read as current.",
+  "verified": true
+ },
+ {
+  "n": 22,
+  "id": "er-022",
   "title": "Parallel meta-blocking: Realizing scalable entity resolution over large, heterogeneous data",
   "authors": [
    "Vasilis Efthymiou",
@@ -518,8 +694,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 17,
-  "id": "er-017",
+  "n": 23,
+  "id": "er-023",
   "title": "Practical and Optimal LSH for Angular Distance",
   "authors": [
    "Alexandr Andoni",
@@ -549,8 +725,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 18,
-  "id": "er-018",
+  "n": 24,
+  "id": "er-024",
+  "title": "The Nuts and Bolts of Entity Resolution",
+  "authors": [
+   "John R. Talburt",
+   "Yinle Zhou"
+  ],
+  "year": 2015,
+  "venue": "Entity Information Life Cycle for Big Data",
+  "doi": "10.1016/b978-0-12-800537-8.00008-9",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "similarity"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A practitioner-oriented book chapter (in Entity Information Life Cycle for Big Data) covering the fundamental components and working principles of entity resolution — the basic machinery from which ER systems are assembled. The record carries no abstract, so the chapter's specific contents are described only at this general level.",
+  "borrow": "A component-level checklist of what an ER system must contain is useful for auditing ERBOT's design: we can map the chapter's 'nuts and bolts' against our blocking, similarity, classification, and clustering stages to spot missing pieces.",
+  "fill": "As a 2015 big-data-era treatment, it predates deep-learning matchers, embedding-based blocking, and LLM-based matching; mapping its component view onto a modern learned pipeline is left undone and is something we can do explicitly for ERBOT.",
+  "correct": "A textbook chapter offers experience-based guidance rather than controlled evaluation, and its recommendations reflect the methods and data scales of its time, so individual prescriptions should not be adopted without testing on current data.",
+  "verified": true
+ },
+ {
+  "n": 25,
+  "id": "er-025",
   "title": "A Blocking Scheme for Entity Resolution in the Semantic Web",
   "authors": [
    "Gustavo De Assis Costa",
@@ -577,8 +782,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 19,
-  "id": "er-019",
+  "n": 26,
+  "id": "er-026",
   "title": "Blocking for large-scale Entity Resolution: Challenges, algorithms, and practical examples",
   "authors": [
    "George Papadakis",
@@ -606,8 +811,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 20,
-  "id": "er-020",
+  "n": 27,
+  "id": "er-027",
   "title": "Boosting the Efficiency of Large-Scale Entity Resolution with Enhanced Meta-Blocking",
   "authors": [
    "George Papadakis",
@@ -638,8 +843,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 21,
-  "id": "er-021",
+  "n": 28,
+  "id": "er-028",
   "title": "Comparative analysis of approximate blocking techniques for entity resolution",
   "authors": [
    "George Papadakis",
@@ -670,8 +875,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 22,
-  "id": "er-022",
+  "n": 29,
+  "id": "er-029",
   "title": "Semantic-Aware Blocking for Entity Resolution",
   "authors": [
    "Qing Wang",
@@ -699,8 +904,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 23,
-  "id": "er-023",
+  "n": 30,
+  "id": "er-030",
+  "title": "Blocking for Entity Resolution in the Web of Data: Challenges and Algorithms",
+  "authors": [
+   "Kostas Stefanidis"
+  ],
+  "year": 2017,
+  "venue": "Springer Proceedings in Business and Economics",
+  "doi": "10.1007/978-3-319-56288-9_63",
+  "citations": 1,
+  "themes": [
+   "blocking"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book chapter discusses the challenges of blocking for entity resolution in the Web of Data, where records are RDF descriptions in linked data rather than flat tuples, and reviews the algorithms proposed for that setting. The record carries no abstract, so its treatment is characterised from the title and venue only.",
+  "borrow": "Its Web-of-Data blocking considerations — schema heterogeneity, graph-structured descriptions, and identifier reuse — serve as a checklist for ERBOT when a source arrives as linked data rather than a clean table.",
+  "fill": "As a 2017 chapter it predates embedding- and ANN-based blocking; how those learned methods behave on linked-data blocking, and how Web-of-Data blocking compares empirically with relational blocking inside one pipeline, remain open for us to test.",
+  "correct": "The record provides no abstract or evaluation detail, so no empirical claim can be checked from it; it is a chapter-length treatment whose scope is the Web of Data setting rather than record linkage generally.",
+  "verified": true
+ },
+ {
+  "n": 31,
+  "id": "er-031",
   "title": "Dynamic Indexing for Incremental Entity Resolution in Data Integration Systems",
   "authors": [
    "Priscilla Kelly M. Vieira",
@@ -729,8 +961,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 24,
-  "id": "er-024",
+  "n": 32,
+  "id": "er-032",
   "title": "Efficient entity resolution using multiple blocking keys for bibliographic dataset",
   "authors": [
    "Dolly Mittal",
@@ -758,8 +990,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 25,
-  "id": "er-025",
+  "n": 33,
+  "id": "er-033",
   "title": "Parallel meta-blocking for scaling entity resolution over big heterogeneous data",
   "authors": [
    "Vasilis Efthymiou",
@@ -791,8 +1023,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 26,
-  "id": "er-026",
+  "n": 34,
+  "id": "er-034",
+  "title": "Populating a Linked Data Entity Name System",
+  "authors": [
+   "Mayank Kejriwal"
+  ],
+  "year": 2017,
+  "venue": "Studies on the Semantic Web",
+  "doi": "10.3233/978-1-61499-692-7-i",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book-length work in the Studies on the Semantic Web series concerns entity name systems for linked data: repositories that collect the variant names by which an entity is known, and the question of how such a system can be populated. Name-variant coverage is treated as infrastructure that downstream identity and matching tasks can draw on.",
+  "borrow": "ERBOT can borrow the name-system idea as a reusable resource: a curated variant table for names can feed both blocking keys and similarity scoring across projects.",
+  "fill": "Populating the name system is the focus; using it to improve measured linkage quality inside a full pipeline, and keeping it current as new variants appear, is left open for us.",
+  "correct": "A name system helps only where its coverage reaches; for long-tail entities with few recorded variants — often the hardest matching cases — the resource adds little over plain string similarity.",
+  "verified": true
+ },
+ {
+  "n": 35,
+  "id": "er-035",
   "title": "Web-Scale Blocking, Iterative and Progressive Entity Resolution",
   "authors": [
    "Kostas Stefanidis",
@@ -821,8 +1081,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 27,
-  "id": "er-027",
+  "n": 36,
+  "id": "er-036",
+  "title": "A Novel Approach for Progressive Duplicate Detection for Quality Assurance",
+  "authors": [
+   "S. Divya"
+  ],
+  "year": 2018,
+  "venue": "International Journal of Trend in Scientific Research and Development",
+  "doi": "10.31142/ijtsrd12972",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes an approach to progressive duplicate detection aimed at quality assurance, emitting duplicate candidates incrementally so that data-quality work can begin before processing completes.",
+  "borrow": "Framing progressive detection as a quality-assurance tool matches how ERBOT could serve data-cleaning workflows, where early partial deduplication has immediate value.",
+  "fill": "No abstract or evaluation is available in the record; whether the approach improves on standard progressive blocking or sorted-neighborhood baselines is undocumented and open.",
+  "correct": "A novelty claim with no accessible abstract, named baselines, or metrics cannot be assessed, and the venue's review standards are weak.",
+  "verified": true
+ },
+ {
+  "n": 37,
+  "id": "er-037",
   "title": "Entity resolution framework using rough set blocking for heterogeneous web of data",
   "authors": [
    "K.A. Vidhya",
@@ -849,8 +1137,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 28,
-  "id": "er-028",
+  "n": 38,
+  "id": "er-038",
   "title": "Improved suffix blocking for record linkage and entity resolution",
   "authors": [
    "Amin Allam",
@@ -878,8 +1166,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 29,
-  "id": "er-029",
+  "n": 39,
+  "id": "er-039",
   "title": "Scalable Entity Resolution Using Probabilistic Signatures on Parallel Databases",
   "authors": [
    "Yuhang Zhang",
@@ -910,8 +1198,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 30,
-  "id": "er-030",
+  "n": 40,
+  "id": "er-040",
+  "title": "Survey of duplicate detection using progressive detection techniques",
+  "authors": [
+   "K Venkatraman",
+   "A Akila"
+  ],
+  "year": 2018,
+  "venue": "International Journal of Engineering &amp; Technology",
+  "doi": "10.14419/ijet.v7i1.9.9757",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Data is an important task in real world; the common data is represented and used in all the fields. The duplicate data is executed and displayed in scenario. The proposed work two types of techniques used first one Progressive Sort Neighbourhood Method (PSNM) and Progressive Blocking (PB). Progressive Sort Neighbourhood Method is used to deliver the exact input based output and the method will separate the input based keywords and check the similarity of the output data. The progressive blocking is to filter the irrelevant information, keywords based indexing and entry level filtering standard input is implemented based on user requirement.",
+  "focus": "This survey-style paper discusses progressive duplicate detection, focusing on the Progressive Sorted Neighborhood Method and Progressive Blocking, which order candidate comparisons so that likely duplicates surface early rather than only after a complete pass. Its abstract frames the two techniques in terms of keyword-based indexing and entry-level filtering of the input data.",
+  "borrow": "The progressive principle — order comparisons so the most promising pairs are checked first — is worth adopting in ERBOT for interactive or time-boxed runs on very large data.",
+  "fill": "The paper offers no measurements; a reproducible comparison of progressive versus batch detection on standard benchmarks, measuring quality as a function of elapsed time, is still missing and is ours to produce.",
+  "correct": "The abstract is too vague to substantiate any claim and reports no datasets or metrics, so the paper adds little beyond the established progressive entity-resolution literature it summarizes.",
+  "verified": true
+ },
+ {
+  "n": 41,
+  "id": "er-041",
   "title": "The Impact of Name-Matching and Blocking on Author Disambiguation",
   "authors": [
    "Tobias Backes"
@@ -939,8 +1256,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 31,
-  "id": "er-031",
+  "n": 42,
+  "id": "er-042",
   "title": "A noise tolerant and schema-agnostic blocking technique for entity resolution",
   "authors": [
    "Tiago Brasileiro Araújo",
@@ -972,8 +1289,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 32,
-  "id": "er-032",
+  "n": 43,
+  "id": "er-043",
   "title": "Accelerating Large-Scale Inference with Anisotropic Vector Quantization",
   "authors": [
    "Ruiqi Guo",
@@ -1005,8 +1322,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 33,
-  "id": "er-033",
+  "n": 44,
+  "id": "er-044",
+  "title": "Analysis of Progressive Duplicate Data Detection",
+  "authors": [
+   "Veeramuthu P"
+  ],
+  "year": 2019,
+  "venue": "Journal of Computational Mathematica",
+  "doi": "10.26524/cm53",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper presents an analysis of progressive duplicate data detection, the family of methods that emit duplicate candidates early and improve completeness as processing continues.",
+  "borrow": "Its analytical framing reinforces a design option for ERBOT: expose anytime results whose quality grows with the compute budget.",
+  "fill": "An analysis without shared benchmarks leaves the practical question unanswered — how much quality is lost by stopping early on real datasets — which we can measure in our own pipeline.",
+  "correct": "With no abstract in the record, its specific conclusions cannot be checked, and the venue's review standards are not strong enough to weight them heavily.",
+  "verified": true
+ },
+ {
+  "n": 45,
+  "id": "er-045",
   "title": "DeepBlock: A Novel Blocking Approach for Entity Resolution using Deep Learning",
   "authors": [
    "Delaram Javdani",
@@ -1036,8 +1381,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 34,
-  "id": "er-034",
+  "n": 46,
+  "id": "er-046",
   "title": "Entity Resolution and Blocking: A Review",
   "authors": [
    "K.A. Vidhya",
@@ -1065,8 +1410,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 35,
-  "id": "er-035",
+  "n": 47,
+  "id": "er-047",
+  "title": "Entity Resolution for Big Data using Combination of Supervised Meta-Blocking and pay-as-you-go Configuration",
+  "authors": [],
+  "year": 2019,
+  "venue": "International Journal of Innovative Technology and Exploring Engineering",
+  "doi": "10.35940/ijitee.f1031.0486s419",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "graph-based",
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "Entity resolution refers to the method of identifying the same real world object from multiple data sets. In Data cleaning and data integration application, entity resolution is an important process. When data is large the task of entity resolution becomes complex and time consuming. End-to-end entity resolution proposal involves stages like blocking (efficiently identifies duplicates), detailed comparison (refines blocking output) and clustering (identifies the set of records which may refer to the same entity). In this paper, an approach for feedback based optimization of complete entity resolution is proposed in which supervised meta-blocking is used for blocking stage. This paper proposes a technique for entity resolution which does optimization of each phase of entity resolution with benefits of supervised Meta-blocking to improve performance of entity resolution for big data",
+  "focus": "This paper proposes an end-to-end entity resolution approach for big data that combines supervised meta-blocking at the blocking stage with feedback-based, pay-as-you-go optimization of each pipeline phase (blocking, detailed comparison, clustering). The abstract motivates the design but reports no datasets or quantitative results.",
+  "borrow": "Supervised meta-blocking, pruning the block-comparison graph with a learned classifier, plus per-phase feedback tuning, are both directly applicable to ERBOT: meta-blocking is a natural post-processing step after our blocking stage.",
+  "fill": "The paper leaves open low-label and unsupervised variants of its supervised pruning, and any rigorous comparison against standard (unsupervised) meta-blocking baselines; the pay-as-you-go configuration criteria are also unspecified in the abstract. Supplying those evaluations is work for us.",
+  "correct": "The abstract is generic and reports no experimental evidence at all, and the venue is a low-tier journal; the claim that the combination improves big-data ER performance should be treated as an assertion until independently reproduced.",
+  "verified": true
+ },
+ {
+  "n": 48,
+  "id": "er-048",
+  "title": "Fast Record Linkage for Company Entities",
+  "authors": [
+   "Thomas Gschwind",
+   "Christoph Miksovic",
+   "Julian Minder",
+   "Katsiaryna Mirylenka",
+   "Paolo Scotton"
+  ],
+  "year": 2019,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.1907.08667",
+  "citations": null,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "hashing/LSH",
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Record linkage is an essential part of nearly all real-world systems that consume structured and unstructured data coming from different sources. Typically no common key is available for connecting records. Massive data cleaning and data integration processes often have to be completed before any data analytics and further processing can be performed. Although record linkage is frequently regarded as a somewhat tedious but necessary step, it reveals valuable insights into the data at hand. These insights guide further analytic approaches to the data and support data visualization. In this work we focus on company entity matching, where company name, location and industry are taken into account. Our contribution is an end-to-end, highly scalable, enterprise-grade system that uses rule-based linkage algorithms extended with a machine learning approach to account for short company names. Linkage time is greatly reduced by efficient decomposition of the search space using MinHash. High linkage accuracy is achieved by the proposed thorough scoring process of the matching candidates. Based on real-world ground truth datasets, we show that our approach reaches a recall of 91% compared to 73% for baseline approaches. These results are achieved while scaling linearly with the number of nodes used in the system.",
+  "focus": "The paper presents an end-to-end, enterprise-grade record linkage system for company entities, using company name, location and industry. Rule-based linkage is extended with a machine-learning component for short company names, and the search space is decomposed with MinHash to cut linkage time; on real-world ground-truth datasets the system reaches 91% recall against 73% for baselines, while scaling linearly in the number of nodes.",
+  "borrow": "MinHash-based decomposition of the candidate space, plus a targeted ML fallback for short, ambiguous names, are both borrowable for ERBOT's blocking and classification stages.",
+  "fill": "The system is specialised to company entities; generalising the rule-plus-ML architecture to persons, publications and other record types — and consolidating matched pairs into entities — is left open for us.",
+  "correct": "The headline comparison is recall-only in the abstract, so the false-link cost of the extra recall is unreported there; as an unreviewed preprint from the system's own developers, independent replication is lacking.",
+  "verified": true
+ },
+ {
+  "n": 49,
+  "id": "er-049",
   "title": "Incremental Blocking for Entity Resolution over Web Streaming Data",
   "authors": [
    "Tiago Brasileiro Araújo",
@@ -1097,8 +1502,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 36,
-  "id": "er-036",
+  "n": 50,
+  "id": "er-050",
   "title": "A Survey on Blocking Technology of Entity Resolution",
   "authors": [
    "Bo-Han Li",
@@ -1128,8 +1533,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 37,
-  "id": "er-037",
+  "n": 51,
+  "id": "er-051",
   "title": "Arabic real time entity resolution using inverted indexing",
   "authors": [
    "Marwah Alian",
@@ -1158,8 +1563,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 38,
-  "id": "er-038",
+  "n": 52,
+  "id": "er-052",
   "title": "AutoBlock: A Hands-off Blocking Framework for Entity Matching",
   "authors": [
    "Wei Zhang",
@@ -1192,8 +1597,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 39,
-  "id": "er-039",
+  "n": 53,
+  "id": "er-053",
   "title": "Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs",
   "authors": [
    "Yu A. Malkov",
@@ -1221,8 +1626,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 40,
-  "id": "er-040",
+  "n": 54,
+  "id": "er-054",
   "title": "Entity Resolution with Recursive Blocking",
   "authors": [
    "Shao-Qing Yu"
@@ -1249,8 +1654,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 41,
-  "id": "er-041",
+  "n": 55,
+  "id": "er-055",
+  "title": "Landmarks-based Blocking Method For Large-scale Entity Resolution",
+  "authors": [
+   "Samudra Herath",
+   "Matthew Roughan",
+   "Gary Glonek"
+  ],
+  "year": 2020,
+  "venue": "2020 IEEE 7th International Conference on Data Science and Advanced Analytics (DSAA)",
+  "doi": "10.1109/dsaa49011.2020.00110",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This DSAA 2020 paper proposes a landmarks-based blocking method for large-scale entity resolution, using landmark reference points to assign records to blocks instead of comparing all pairs. The record has no abstract, so the landmark construction and empirical results are not documented here.",
+  "borrow": "Landmark-based assignment is a scalable blocking idea ERBOT can adopt: records are compared against a small set of landmarks, giving near-linear candidate generation whose cost is controllable through the number of landmarks.",
+  "fill": "The paper leaves open landmark selection under skewed and dirty data, and how landmark blocking should be combined with a second, recall-recovering pass for records far from every landmark. Those integration questions for a full pipeline remain for us.",
+  "correct": "Landmark methods trade recall for speed: records whose true matches lie across landmark boundaries are silently lost, and the record provides no pair-completeness figures to judge how large that loss is on realistic data.",
+  "verified": true
+ },
+ {
+  "n": 56,
+  "id": "er-056",
   "title": "Pivot-based approximate k-NN similarity joins for big high-dimensional data",
   "authors": [
    "Přemysl Čech",
@@ -1279,8 +1714,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 42,
-  "id": "er-042",
+  "n": 57,
+  "id": "er-057",
   "title": "Similarity Filtering with Multibit Trees for Record Linkage",
   "authors": [
    "Tobias Bachteler",
@@ -1309,8 +1744,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 43,
-  "id": "er-043",
+  "n": 58,
+  "id": "er-058",
+  "title": "klsh: Blocking for Record Linkage",
+  "authors": [
+   "Rebecca Steorts"
+  ],
+  "year": 2020,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.klsh",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2020) providing locality-sensitive-hashing-based blocking (KLSH) for record linkage: records are hashed so that likely matches share buckets, generating candidate pairs without exhaustive comparison. As a software record it carries no abstract; the contribution is the implementation.",
+  "borrow": "Ready-made LSH blocking in R is directly usable in ERBOT as a blocking option or baseline, particularly for the large files where key-based blocking either explodes or misses too many matches.",
+  "fill": "The package covers blocking only; downstream matching, clustering, and end-to-end measurement of how KLSH blocking quality propagates to final linkage accuracy are left to the user — a benchmark we can run inside ERBOT's evaluation stage.",
+  "correct": "A package listing offers no evaluation, and LSH blocking quality depends heavily on the record representation and parameter choices, which the record does not document; hash-based blocking can silently sacrifice pair completeness on skewed data.",
+  "verified": true
+ },
+ {
+  "n": 59,
+  "id": "er-059",
   "title": "BEER: Blocking for Effective Entity Resolution",
   "authors": [
    "Sainyam Galhotra",
@@ -1340,8 +1803,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 44,
-  "id": "er-044",
+  "n": 60,
+  "id": "er-060",
   "title": "Billion-Scale Similarity Search with GPUs",
   "authors": [
    "Jeff Johnson",
@@ -1371,8 +1834,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 45,
-  "id": "er-045",
+  "n": 61,
+  "id": "er-061",
   "title": "Blocking and Filtering Techniques for Entity Resolution: A Survey",
   "authors": [
    "George Papadakis",
@@ -1402,8 +1865,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 46,
-  "id": "er-046",
+  "n": 62,
+  "id": "er-062",
+  "title": "Deep indexed active learning for matching heterogeneous entity representations",
+  "authors": [
+   "Arjit Jain",
+   "Sunita Sarawagi",
+   "Prithviraj Sen"
+  ],
+  "year": 2021,
+  "venue": "Proceedings of the VLDB Endowment",
+  "doi": "10.14778/3485450.3485455",
+  "citations": 32,
+  "themes": [
+   "blocking",
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "embedding/ANN"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "Given two large lists of records, the task in entity resolution (ER) is to find the pairs from the Cartesian product of the lists that correspond to the same real world entity. Typically, passive learning methods on such tasks require large amounts of labeled data to yield useful models. Active Learning is a promising approach for ER in low resource settings. However, the search space, to find informative samples for the user to label, grows quadratically for instance-pair tasks making active learning hard to scale. Previous works, in this setting, rely on hand-crafted predicates, pre-trained language model embeddings, or rule learning to prune away unlikely pairs from the Cartesian product. This blocking step can miss out on important regions in the product space leading to low recall. We propose DIAL, a scalable active learning approach that jointly learns embeddings to maximize recall for blocking and accuracy for matching blocked pairs. DIAL uses an Index-By-Committee framework, where each committee member learns representations based on powerful pre-trained transformer language models. We highlight surprising differences between the matcher and the blocker in the creation of the training data and the objective used to train their parameters. Experiments on five benchmark datasets and a multilingual record matching dataset show the effectiveness of our approach in terms of precision, recall and running time.",
+  "focus": "DIAL is a deep indexed active learning framework for matching records between two large lists in low-resource settings where labelled pairs are scarce. Its Index-By-Committee approach jointly learns transformer-based embeddings for blocking, trained to maximise recall, and for matching blocked pairs, trained for accuracy, with different training-data construction and objectives for the two roles. Experiments on five benchmark datasets and a multilingual record matching dataset show gains in precision, recall and running time.",
+  "borrow": "Two ideas transfer directly: train the blocker and the matcher with different objectives instead of sharing one model, and use a committee of embeddings to surface informative pairs for labelling — both fit ERBOT's blocking and classification stages.",
+  "fill": "DIAL still presumes an oracle who labels queried pairs; how to budget that labelling across a full pipeline run, and how committee disagreement behaves at web scale, are left for adopters like us.",
+  "correct": "Active learning results depend on the oracle's consistency and the initial seed pairs; the reported recall advantage over predicate-based blocking may narrow when seed pairs are unrepresentative of the hard tail of matches.",
+  "verified": true
+ },
+ {
+  "n": 63,
+  "id": "er-063",
   "title": "Deep learning for blocking in entity matching: a design space exploration",
   "authors": [
    "Saravanan Thirumuruganathan",
@@ -1438,8 +1932,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 47,
-  "id": "er-047",
+  "n": 64,
+  "id": "er-064",
   "title": "Entity Resolution: Past, Present, and Yet-to-Come",
   "authors": [
    "George Papadakis",
@@ -1469,8 +1963,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 48,
-  "id": "er-048",
+  "n": 65,
+  "id": "er-065",
   "title": "MultiBlock: A Scalable Iterative Approach for Progressive Entity Resolution",
   "authors": [
    "Dimitrios Karapiperis",
@@ -1499,8 +1993,69 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 49,
-  "id": "er-049",
+  "n": 66,
+  "id": "er-066",
+  "title": "SeMBlock: A semantic-aware meta-blocking approach for entity resolution",
+  "authors": [
+   "Delaram Javdani",
+   "Hossein Rahmani",
+   "Gerhard Weiss"
+  ],
+  "year": 2021,
+  "venue": "Intelligent Decision Technologies",
+  "doi": "10.3233/idt-200207",
+  "citations": 1,
+  "themes": [
+   "blocking",
+   "similarity"
+  ],
+  "method": [
+   "embedding/ANN",
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "Entity resolution refers to the process of identifying, matching, and integrating records belonging to unique entities in a data set. However, a comprehensive comparison across all pairs of records leads to quadratic matching complexity. Therefore, blocking methods are used to group similar entities into small blocks before the matching. Available blocking methods typically do not consider semantic relationships among records. In this paper, we propose a Semantic-aware Meta-Blocking approach called SeMBlock. SeMBlock considers the semantic similarity of records by applying locality-sensitive hashing (LSH) based on word embedding to achieve fast and reliable blocking in a large-scale data environment. To improve the quality of the blocks created, SeMBlock builds a weighted graph of semantically similar records and prunes the graph edges. We extensively compare SeMBlock with 16 existing blocking methods, using three real-world data sets. The experimental results show that SeMBlock significantly outperforms all 16 methods with respect to two relevant measures, F-measure and pair-quality measure. F-measure and pair-quality measure of SeMBlock are approximately 7% and 27%, respectively, higher than recently released blocking methods.",
+  "focus": "SeMBlock is a semantic-aware meta-blocking approach that first builds blocks with locality-sensitive hashing over word embeddings, then constructs a weighted graph of semantically similar records and prunes its edges to improve block quality. Compared against 16 existing blocking methods on three real-world datasets, it reports F-measure roughly 7% and pair-quality roughly 27% higher than recently released blocking methods.",
+  "borrow": "The two-step pattern — embedding-LSH blocking followed by weighted-graph edge pruning — is a ready-made meta-blocking refinement stage for ERBOT: we can prune redundant comparisons after our standard blocking without changing the matcher downstream.",
+  "fill": "The evaluation covers only three real-world datasets and stops at blocking-stage measures; it leaves open how the pruned blocks affect end-to-end matching and clustering quality, and how the method behaves at the very large scales ERBOT targets — both are tests we can run inside the full pipeline.",
+  "correct": "The headline gains are relative to blocking-stage measures on three datasets and depend on the quality of the initial blocking and the chosen embeddings; the 7% and 27% margins should not be expected to transfer unchanged to other domains or to downstream F1.",
+  "verified": true
+ },
+ {
+  "n": 67,
+  "id": "er-067",
+  "title": "EABlock",
+  "authors": [
+   "Samaneh Jozashoori",
+   "Ahmad Sakor",
+   "Enrique Iglesias",
+   "Maria-Esther Vidal"
+  ],
+  "year": 2022,
+  "venue": "Proceedings of the 37th ACM/SIGAPP Symposium on Applied Computing",
+  "doi": "10.1145/3477314.3507132",
+  "citations": 4,
+  "themes": [
+   "blocking"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Presents EABlock, a blocking technique for entity matching pipelines — the candidate-generation stage that cuts down the record pairs a matcher must compare (ACM/SIGAPP Symposium on Applied Computing, 2022). The record carries no abstract, so only this title-level characterization is warranted.",
+  "borrow": "As a recent blocking proposal, EABlock is a candidate for ERBOT's blocking-stage comparisons against key-based and LSH baselines on shared benchmarks.",
+  "fill": "A short symposium paper necessarily leaves the thorough evaluation — pair completeness versus reduction ratio across standard benchmarks and very large inputs — to follow-up work that we can run.",
+  "correct": "Blocking claims stand or fall on measured pair completeness and reduction ratio on shared benchmarks; a short paper's own evaluation is rarely sufficient to establish either, so its results should be treated as preliminary.",
+  "verified": true
+ },
+ {
+  "n": 68,
+  "id": "er-068",
   "title": "How to reduce the search space of Entity Resolution: with Blocking or Nearest Neighbor search?",
   "authors": [
    "George Papadakis",
@@ -1533,8 +2088,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 50,
-  "id": "er-050",
+  "n": 69,
+  "id": "er-069",
   "title": "Progressive Entity Matching via Cost Benefit Analysis",
   "authors": [
    "Chenchen Sun",
@@ -1564,8 +2119,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 51,
-  "id": "er-051",
+  "n": 70,
+  "id": "er-070",
   "title": "Unsupervised Entity Resolution With Blocking and Graph Algorithms",
   "authors": [
    "Dongxiang Zhang",
@@ -1595,8 +2150,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 52,
-  "id": "er-052",
+  "n": 71,
+  "id": "er-071",
   "title": "Pre-trained Embeddings for Entity Resolution: An Experimental Analysis [Experiment, Analysis & Benchmark]",
   "authors": [
    "Alexandros Zeakis",
@@ -1628,8 +2183,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 53,
-  "id": "er-053",
+  "n": 72,
+  "id": "er-072",
   "title": "SC-Block: Supervised Contrastive Blocking within Entity Resolution Pipelines",
   "authors": [
    "Alexander Brinkmann",
@@ -1659,8 +2214,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 54,
-  "id": "er-054",
+  "n": 73,
+  "id": "er-073",
   "title": "ShallowBlocker: Improving Set Similarity Joins for Blocking",
   "authors": [
    "Nils Barlaug"
@@ -1687,8 +2242,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 55,
-  "id": "er-055",
+  "n": 74,
+  "id": "er-074",
   "title": "Sparkly: A Simple yet Surprisingly Strong TF/IDF Blocker for Entity Matching",
   "authors": [
    "Derek Paulsen",
@@ -1717,8 +2272,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 56,
-  "id": "er-056",
+  "n": 75,
+  "id": "er-075",
   "title": "Evaluating Blocking Biases in Entity Matching",
   "authors": [
    "Mohammad Hossein Moslemi",
@@ -1747,8 +2302,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 57,
-  "id": "er-057",
+  "n": 76,
+  "id": "er-076",
   "title": "GSM: A generalized approach to Supervised Meta-blocking for scalable entity resolution",
   "authors": [
    "Luca Gagliardelli",
@@ -1780,8 +2335,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 58,
-  "id": "er-058",
+  "n": 77,
+  "id": "er-077",
   "title": "HyperBlocker: Accelerating Rule-Based Blocking in Entity Resolution Using GPUs",
   "authors": [
    "Xiaoke Zhu",
@@ -1812,8 +2367,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 59,
-  "id": "er-059",
+  "n": 78,
+  "id": "er-078",
   "title": "Neural Locality Sensitive Hashing for Entity Blocking",
   "authors": [
    "Runhui Wang",
@@ -1849,8 +2404,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 60,
-  "id": "er-060",
+  "n": 79,
+  "id": "er-079",
   "title": "Open benchmark for filtering techniques in entity resolution",
   "authors": [
    "Franziska Neuhof",
@@ -1883,8 +2438,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 61,
-  "id": "er-061",
+  "n": 80,
+  "id": "er-080",
   "title": "Pre-trained Language Models for Entity Blocking: A Reproducibility Study",
   "authors": [
    "Runhui Wang",
@@ -1913,8 +2468,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 62,
-  "id": "er-062",
+  "n": 81,
+  "id": "er-081",
+  "title": "Scoping: Towards Streamlined Entity Collections for Multi-Sourced Entity Resolution with Self-Supervised Agents",
+  "authors": [
+   "Leonard Traeger",
+   "Andreas Behrend",
+   "George Karabatis"
+  ],
+  "year": 2024,
+  "venue": "Proceedings of the 26th International Conference on Enterprise Information Systems",
+  "doi": "10.5220/0012607500003690",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper introduces scoping for multi-sourced entity resolution: before matching begins, the entity collections from the multiple sources are streamlined — scoped — so that resolution works on a reduced, relevant collection. The scoping is carried out by self-supervised agents, with the aim of cutting the effort of multi-source entity resolution.",
+  "borrow": "Scoping is a pre-blocking reduction ERBOT can adopt: an explicit, learned pre-filter that shrinks each source's collection before candidate generation, with its own measurable recall cost.",
+  "fill": "The record gives no abstract, so how much reduction scoping achieves and at what recall loss is not visible; quantifying a scoping stage inside ERBOT's blocking step is left for us.",
+  "correct": "Any pre-filter that removes records before matching caps the recall of the whole pipeline, so claims of streamlining are only meaningful alongside the recall ceiling the scoping step imposes.",
+  "verified": true
+ },
+ {
+  "n": 82,
+  "id": "er-082",
   "title": "Towards Universal Dense Blocking for Entity Resolution",
   "authors": [
    "Tianshu Wang",
@@ -1947,8 +2532,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 63,
-  "id": "er-063",
+  "n": 83,
+  "id": "er-083",
   "title": "Blockingpy: Approximate Nearest Neighbours for Blocking of Records for Entity Resolution",
   "authors": [
    "Tymoteusz Strojny",
@@ -1975,8 +2560,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 64,
-  "id": "er-064",
+  "n": 84,
+  "id": "er-084",
+  "title": "Collective Scoping: Streamlining Entity Sets Towards Efficient and Effective Entity Linkages",
+  "authors": [
+   "Leonard Traeger",
+   "Andreas Behrend",
+   "George Karabatis"
+  ],
+  "year": 2025,
+  "venue": "SN Computer Science",
+  "doi": "10.1007/s42979-025-03734-7",
+  "citations": 1,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2025 paper introduces 'collective scoping', a step that streamlines entity sets before linkage with the aim of making the subsequent entity linkage both more efficient and more effective. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "A scoping pass that shrinks the entity set before blocking is a cheap pre-processing idea to trial in ERBOT, provided its effect on recall is measured rather than assumed.",
+  "fill": "The record quantifies nothing, leaving open how scoping interacts with standard blocking and meta-blocking, and what recall it costs — an ablation we can run directly.",
+  "correct": "With no abstract or results in the record, the added value of the newly coined 'collective scoping' over established blocking and meta-blocking cannot be judged.",
+  "verified": true
+ },
+ {
+  "n": 85,
+  "id": "er-085",
   "title": "EM-Join: Efficient Entity Matching Using Embedding-Based Similarity Join",
   "authors": [
    "Douglas Santana",
@@ -2005,8 +2620,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 65,
-  "id": "er-065",
+  "n": 86,
+  "id": "er-086",
   "title": "FastER: On-Demand Entity Resolution in Property Graphs",
   "authors": [
    "Shujing Wang",
@@ -2040,8 +2655,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 66,
-  "id": "er-066",
+  "n": 87,
+  "id": "er-087",
   "title": "Transformer-Gather, Fuzzy-Reconsider: A Scalable Hybrid Framework for Entity Resolution",
   "authors": [
    "Mohammadreza Sharifi",
@@ -2071,8 +2686,125 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 67,
-  "id": "er-067",
+  "n": 88,
+  "id": "er-088",
+  "title": "blocking: Various Blocking Methods for Entity Resolution",
+  "authors": [
+   "Maciej Beręsewicz",
+   "Adam Struzik"
+  ],
+  "year": 2025,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.blocking",
+  "citations": 0,
+  "themes": [
+   "blocking"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2025) that implements various blocking methods for entity resolution, packaging blocking techniques for use in R-based linkage workflows. As a software record it carries no abstract; its contribution is the implementation itself rather than new methodology.",
+  "borrow": "This is directly borrowable infrastructure: a ready set of blocking implementations in R that ERBOT can call, or against which we can benchmark our own blocking stage's pair completeness and reduction ratio.",
+  "fill": "The package supplies methods without guidance on which blocking scheme suits which data, or how blocking choices trade off against downstream matching accuracy; that comparative, in-pipeline evaluation is left for us to run.",
+  "correct": "A package listing carries no evaluation, so the correctness and coverage of the 'various methods' cannot be judged from the record alone; blocking quality is notoriously data-dependent and must be verified per dataset.",
+  "verified": true
+ },
+ {
+  "n": 89,
+  "id": "er-089",
+  "title": "A generalized approach to perform unsupervised blocking key selection for entity resolution",
+  "authors": [
+   "Dimas Cassimiro Nascimento",
+   "Carlos Eduardo Santos Pires",
+   "Thiago Pereira Nóbrega"
+  ],
+  "year": 2026,
+  "venue": "Information Sciences",
+  "doi": "10.1016/j.ins.2025.122952",
+  "citations": 0,
+  "themes": [
+   "blocking"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Information Sciences paper (2026) presents a generalized, unsupervised approach for selecting blocking keys for entity resolution, aiming to remove manual key engineering across datasets. The record has no abstract, so the selection criteria and evaluation are not documented here.",
+  "borrow": "Automatic blocking-key selection would remove one of the most hand-tuned components of ERBOT's blocking stage; even its selection criteria alone are worth borrowing as a checklist for validating our manually chosen keys.",
+  "fill": "The paper leaves open combining automatically selected keys with learned or semantic blocking, and evaluating key selection by end-to-end resolution quality rather than blocking metrics alone. Both extensions fit naturally into our pipeline work.",
+  "correct": "A 'generalized' claim needs evidence across many heterogeneous datasets, which the record does not show; key selection quality is bounded by the discriminativeness of the available attributes, and on dirty data the best key may still produce badly skewed blocks.",
+  "verified": true
+ },
+ {
+  "n": 90,
+  "id": "er-090",
+  "title": "AdaBlock: Unsupervised Entity Resolution Blocking via Adaptive Weight Learning and Distribution-Driven Thresholding",
+  "authors": [
+   "Ping Li",
+   "Jing Dong",
+   "Changqing Du",
+   "Hong Wu"
+  ],
+  "year": 2026,
+  "venue": "2026 International Conference on Computer Science, Machine Learning and Agents (CSMLA)",
+  "doi": "10.1109/csmla70906.2026.11724454",
+  "citations": 0,
+  "themes": [
+   "blocking"
+  ],
+  "method": [
+   "key-based",
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "AdaBlock (CSMLA 2026) is an unsupervised blocking method that learns adaptive weights for blocking evidence and sets its thresholds from the observed data distribution rather than by hand. The record has no abstract, so the weighting scheme and results are not documented here.",
+  "borrow": "Distribution-driven thresholding is a transferable idea for ERBOT: block-formation cutoffs derived from the data at hand instead of fixed constants would make our blocking stage less brittle across datasets.",
+  "fill": "AdaBlock leaves open how distribution-driven thresholds behave under dataset drift and heavy skew, and how its blocks affect downstream classification and clustering quality end-to-end. Testing adaptive blocking inside a full pipeline is left for us.",
+  "correct": "With no abstract in the record, the adaptivity claim is unverifiable; thresholds fitted to one data distribution can silently misfire when the distribution shifts, and a 2026 conference paper's results should be treated as preliminary.",
+  "verified": true
+ },
+ {
+  "n": 91,
+  "id": "er-091",
+  "title": "An Overview of Entity Resolution: From Classical Approaches to Large Language Models",
+  "authors": [
+   "Mayank Kejriwal"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.2139/ssrn.6174464",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "evaluation",
+   "llm"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "Entity Resolution (ER) is the problem of determining which records in one or more datasets refer to the same underlying real-world entity. Despite its half-century history, ER is still not completely solved and remains critical across numerous domains: healthcare systems must link patient records across institutions, e-commerce platforms deduplicate product catalogs, knowledge bases extract and consolidate entities from diverse sources, and fraud detection systems identify related accounts and transactions. This overview is designed for practitioners and advanced data scientists who must solve ER problems on real datasets. Rather than surveying all ER algorithms-a task more appropriate for researchers developing new methods-we synthesize the key concepts, design decisions, and practical approaches that have proven effective over decades. We describe the universal workflow common to nearly all ER systems: blocking for computational efficiency, feature-based matching, and evaluation methodology. We explain how this workflow extends from tabular data to semi-structured and graph-based data. We briefly discuss recent research trends including scalability techniques, domain-specific approaches, collective methods, and privacy-preserving solutions. Throughout, we emphasize the practical aspects of ER, and ground the discussion with concrete examples from real applications.",
+  "focus": "A practitioner-oriented overview of entity resolution spanning classical approaches to the LLM era. It synthesizes the universal ER workflow — blocking for efficiency, feature-based matching, and evaluation methodology — shows how the workflow extends from tabular data to semi-structured and graph-based data, and briefly covers scalability techniques, collective methods, domain-specific approaches, and privacy-preserving solutions, grounded in examples from real applications.",
+  "borrow": "The workflow-level synthesis doubles as an audit checklist: its blocking/matching/evaluation design decisions and its emphasis on evaluation methodology can be checked stage by stage against ERBOT's pipeline to find weak spots.",
+  "fill": "An overview synthesizes rather than tests, so it leaves open controlled head-to-head comparisons of classical versus LLM-based matching under a single protocol on shared benchmarks — an empirical gap ERBOT's evaluation harness is positioned to fill.",
+  "correct": "This is an unreviewed SSRN preprint whose 'what has proven effective' judgments reflect one author's selection and practitioner experience; failure cases and negative results for the recommended approaches get limited space, so its guidance should be verified before adoption.",
+  "verified": true
+ },
+ {
+  "n": 92,
+  "id": "er-092",
   "title": "Better Retrieval, Limited Clustering Gains: A Controlled Study of Multilingual Company Entity Resolution",
   "authors": [
    "Yijiashun Qi",
@@ -2101,8 +2833,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 68,
-  "id": "er-068",
+  "n": 93,
+  "id": "er-093",
   "title": "Domain-Specific Text Embedding Models for Entity Resolution",
   "authors": [
    "Khajesh Sapram",
@@ -2131,8 +2863,132 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 69,
-  "id": "er-069",
+  "n": 94,
+  "id": "er-094",
+  "title": "Marebito: citation matching interface for the digital library zbMATH open",
+  "authors": [
+   "Madhurima Deb",
+   "Isabel Beckenbach",
+   "Norman Meuschke",
+   "Olaf Teschke",
+   "Moritz Schubotz"
+  ],
+  "year": 2026,
+  "venue": "Scientometrics",
+  "doi": "10.1007/s11192-026-05868-8",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "similarity",
+   "scalable"
+  ],
+  "method": [
+   "ML classifier",
+   "system"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "web scale (>1M)",
+  "abstract": "Abstract\n                  zbMATH Open is a leading curated bibliographic database covering approximately five million publications in mathematics. This paper presents Marebito, a production citation-matching system developed for zbMATH Open, and documents its architecture, domain-adapted feature design, and operational performance at scale. Marebito combines bibliographic parsing with GROBID, candidate retrieval with Elasticsearch, and a supervised Random Forest trained on domain-specific string-similarity features. Evaluation on internal zbMATH Open datasets yields precision and recall exceeding 98% on modern DOI-indexed records. Evaluation across two bibliographically distinct subsets reveals that classifier performance is strongly conditioned on metadata completeness, particularly title and author string quality, rather than DOI availability alone, documenting a concrete challenge for citation matching in mathematical literature. A preliminary comparison with Crossref on a manually verified subset of 2,037 entries illustrates the limitations of general-purpose matchers on specialist mathematical bibliography. A neural reranking baseline confirms that Elasticsearch-derived hard negatives are essential for abstention. We also discuss downstream bibliometric applications within zbMATH Open.",
+  "focus": "Marebito is the production citation-matching system for zbMATH Open, a curated mathematics bibliography of about five million publications. It combines GROBID parsing, Elasticsearch candidate retrieval, and a supervised Random Forest over domain-specific string-similarity features, reaching precision and recall above 98% on modern DOI-indexed records; the authors show that performance is conditioned mainly on metadata completeness, and that Elasticsearch-derived hard negatives are essential for teaching the classifier to abstain.",
+  "borrow": "Two practices are directly reusable: mining hard negatives from the retrieval stage to train abstention, and evaluating matchers separately by metadata-completeness strata instead of reporting one global score.",
+  "fill": "Marebito is tuned to mathematical bibliography with strong curation; whether its feature set and abstention training transfer to noisier, less curated collections — the regime ERBOT usually faces — is left open.",
+  "correct": "The headline figures above 98% hold on modern DOI-indexed records, the easiest stratum; by the paper's own analysis quality drops as metadata completeness falls, so the numbers should not be read as performance on historical or sparse citations.",
+  "verified": true
+ },
+ {
+  "n": 95,
+  "id": "er-095",
+  "title": "Optimizing Semantic Blocking in Entity Resolution via Autoencoder-Based Deep Clustering",
+  "authors": [
+   "Rim Elmaataoui",
+   "Mourad Jabrane",
+   "Imad Hafidi"
+  ],
+  "year": 2026,
+  "venue": "SN Computer Science",
+  "doi": "10.1007/s42979-026-05360-3",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "embedding/ANN"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This SN Computer Science paper (2026) optimizes semantic blocking for entity resolution by learning autoencoder representations of records and forming blocks through deep clustering. The record has no abstract, so datasets and measured gains are not documented here.",
+  "borrow": "Autoencoder embeddings clustered into blocks are a concrete learned-blocking candidate for ERBOT, especially for records whose similarity is semantic rather than key-based; the approach fits our pipeline as a drop-in replacement for token blocking on textual attributes.",
+  "fill": "The paper leaves open the end-to-end consequences: how embedding-based blocks interact with downstream pairwise classification and final cluster quality, and what the representation-learning cost is at very large scale. Evaluating semantic blocking as one pipeline stage rather than in isolation is left for us.",
+  "correct": "With no abstract in the record, the optimization claim cannot be checked; deep-clustering blocking is sensitive to embedding quality and to how well the latent space separates true duplicates, and such methods often shine on clean benchmarks while degrading on noisy, heterogeneous records.",
+  "verified": true
+ },
+ {
+  "n": 96,
+  "id": "er-096",
+  "title": "Resource-efficient blocking: Optimizing the trade-off between effectiveness and scalability in entity resolution",
+  "authors": [
+   "Dimitrios Karapiperis",
+   "Christos Tjortjis",
+   "Vassilios S. Verykios"
+  ],
+  "year": 2026,
+  "venue": "Information Systems",
+  "doi": "10.1016/j.is.2026.102785",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based",
+   "token-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This Information Systems paper (2026) studies blocking under explicit resource constraints, optimizing the trade-off between blocking effectiveness and the computational resources consumed. The record has no abstract, so the method and measurements are not documented here.",
+  "borrow": "Treating blocking as a budgeted optimization, with an explicit effectiveness-versus-resource trade-off, matches ERBOT's practical need to cap comparison counts on very large inputs; its framing can inform how we set block-size and pruning budgets.",
+  "fill": "The paper leaves open how a resource budget should be set adaptively per dataset rather than fixed in advance, and how blocking-stage savings translate into end-to-end resolution quality after classification and clustering. That propagation analysis is ours to build.",
+  "correct": "Resource measurements are hardware- and implementation-dependent, and with no abstract in the record the claimed trade-off curve cannot be checked; efficiency results from one system rarely transfer directly to a different pipeline such as an R-based one.",
+  "verified": true
+ },
+ {
+  "n": 97,
+  "id": "er-097",
+  "title": "joinery: Heuristic Index-Based Record Linkage",
+  "authors": [
+   "Eduard Brüll"
+  ],
+  "year": 2026,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.joinery",
+  "citations": 0,
+  "themes": [
+   "blocking",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2026) for record linkage built on heuristic, index-based candidate generation: indexes and heuristics select which record pairs to compare instead of exhaustive cross-products. As a software record it carries no abstract; the contribution is the implementation and its heuristics.",
+  "borrow": "Another R-native linkage tool whose index-based heuristics amount to candidate blocking strategies; ERBOT can adopt or benchmark them against its own blocking stage for pair completeness and reduction ratio.",
+  "fill": "The package leaves end-to-end evaluation — how its heuristics affect final matching accuracy and clustering on large, dirty files — to users; running that evaluation inside ERBOT's harness is open work for us.",
+  "correct": "A package listing documents no evaluation, and heuristic candidate generation trades recall guarantees for speed: pairs the heuristics never generate cannot be recovered downstream, a risk the record does not quantify.",
+  "verified": true
+ },
+ {
+  "n": 98,
+  "id": "er-098",
   "title": "Algorithms for approximate string matching",
   "authors": [
    "Esko Ukkonen"
@@ -2158,8 +3014,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 70,
-  "id": "er-070",
+  "n": 99,
+  "id": "er-099",
   "title": "Duplicate record identification in bibliographic databases",
   "authors": [
    "Pankaj Goyal"
@@ -2186,8 +3042,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 71,
-  "id": "er-071",
+  "n": 100,
+  "id": "er-100",
   "title": "Advances in Record-Linkage Methodology as Applied to Matching the 1985 Census of Tampa, Florida",
   "authors": [
    "Matthew A. Jaro"
@@ -2214,8 +3070,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 72,
-  "id": "er-072",
+  "n": 101,
+  "id": "er-101",
   "title": "String Comparator Metrics and Enhanced Decision Rules in the Fellegi-Sunter Model of Record Linkage.",
   "authors": [
    "W. Winkler"
@@ -2243,8 +3099,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 73,
-  "id": "er-073",
+  "n": 102,
+  "id": "er-102",
   "title": "Fast and practical approximate string matching",
   "authors": [
    "Ricardo A. Baeza-Yates",
@@ -2271,8 +3127,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 74,
-  "id": "er-074",
+  "n": 103,
+  "id": "er-103",
   "title": "Approximate string matching with suffix automata",
   "authors": [
    "Esko Ukkonen",
@@ -2299,8 +3155,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 75,
-  "id": "er-075",
+  "n": 104,
+  "id": "er-104",
   "title": "Approximate string matching and local similarity",
   "authors": [
    "William I. Chang",
@@ -2327,8 +3183,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 76,
-  "id": "er-076",
+  "n": 105,
+  "id": "er-105",
   "title": "Approximate string matching with don't care characters",
   "authors": [
    "Tatsuya Akutsu"
@@ -2354,8 +3210,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 77,
-  "id": "er-077",
+  "n": 106,
+  "id": "er-106",
   "title": "A faster algorithm for approximate string matching",
   "authors": [
    "Ricardo Baeza-Yates",
@@ -2382,8 +3238,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 78,
-  "id": "er-078",
+  "n": 107,
+  "id": "er-107",
   "title": "Boyer-Moore strategy to efficient approximate string matching",
   "authors": [
    "Nadia El-Mabrouk",
@@ -2410,8 +3266,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 79,
-  "id": "er-079",
+  "n": 108,
+  "id": "er-108",
   "title": "Filtration with q-samples in approximate string matching",
   "authors": [
    "Erkki Sutinen",
@@ -2438,8 +3294,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 80,
-  "id": "er-080",
+  "n": 109,
+  "id": "er-109",
   "title": "A Partial Deterministic Automaton for Approximate String Matching",
   "authors": [
    "Gonzalo Navarro¹²"
@@ -2465,8 +3321,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 81,
-  "id": "er-081",
+  "n": 110,
+  "id": "er-110",
   "title": "An Efficient Domain-Independent Algorithm for Detecting Approximately Duplicate Database Records",
   "authors": [
    "Alvaro E. Monge",
@@ -2493,8 +3349,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 82,
-  "id": "er-082",
+  "n": 111,
+  "id": "er-111",
   "title": "Multiple Approximate String Matching by Counting",
   "authors": [
    "Gonzalo Navarro¹²"
@@ -2520,8 +3376,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 83,
-  "id": "er-083",
+  "n": 112,
+  "id": "er-112",
   "title": "A New Indexing Method for Approximate String Matching",
   "authors": [
    "Gonzalo Navarro",
@@ -2549,8 +3405,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 84,
-  "id": "er-084",
+  "n": 113,
+  "id": "er-113",
+  "title": "Autonomous citation matching",
+  "authors": [
+   "Steve Lawrence",
+   "C. Lee Giles",
+   "Kurt D. Bollacker"
+  ],
+  "year": 1999,
+  "venue": "Proceedings of the third annual conference on Autonomous Agents",
+  "doi": "10.1145/301136.301255",
+  "citations": 58,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Lawrence, Giles and Bollacker present autonomous citation matching: automatically deciding whether citation strings in digital libraries refer to the same publication, without manual intervention. It is an early, CiteSeer-era treatment of record matching over noisy, free-form citation text.",
+  "borrow": "Citation matching is ER over some of the noisiest short text there is; its string-similarity treatment of titles, authors and venues remains a useful baseline feature set for ERBOT's similarity stage.",
+  "fill": "The 1999 approach predates learned representations and large labelled corpora; re-benchmarking its heuristics against modern matchers on the same task is unfinished work we can still do.",
+  "correct": "Heuristic string matching on citations degrades on highly abbreviated or error-dense references, and the paper's late-1990s web citation data limits how far its accuracy figures generalise.",
+  "verified": true
+ },
+ {
+  "n": 114,
+  "id": "er-114",
   "title": "Faster Approximate String Matching",
   "authors": [
    "R. Baeza-Yates and G. Navarro"
@@ -2576,8 +3461,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 85,
-  "id": "er-085",
+  "n": 115,
+  "id": "er-115",
   "title": "Approximate String Matching over Ziv—Lempel Compressed Text",
   "authors": [
    "Juha Kärkkäinen",
@@ -2605,8 +3490,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 86,
-  "id": "er-086",
+  "n": 116,
+  "id": "er-116",
   "title": "Approximate string matching using factor automata",
   "authors": [
    "Jan Holub",
@@ -2633,8 +3518,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 87,
-  "id": "er-087",
+  "n": 117,
+  "id": "er-117",
   "title": "A guided tour to approximate string matching",
   "authors": [
    "Gonzalo Navarro"
@@ -2661,8 +3546,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 88,
-  "id": "er-088",
+  "n": 118,
+  "id": "er-118",
   "title": "Faster Bit-Parallel Approximate String Matching",
   "authors": [
    "Heikki Hyyrö",
@@ -2689,8 +3574,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 89,
-  "id": "er-089",
+  "n": 119,
+  "id": "er-119",
   "title": "Learning domain-independent string transformation weights for high accuracy object identification",
   "authors": [
    "Sheila Tejada",
@@ -2720,8 +3605,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 90,
-  "id": "er-090",
+  "n": 120,
+  "id": "er-120",
   "title": "String Matching with Metric Trees Using an Approximate Distance",
   "authors": [
    "Ilaria Bartolini",
@@ -2750,8 +3635,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 91,
-  "id": "er-091",
+  "n": 121,
+  "id": "er-121",
   "title": "Adaptive duplicate detection using learnable string similarity measures",
   "authors": [
    "Mikhail Bilenko",
@@ -2780,8 +3665,40 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 92,
-  "id": "er-092",
+  "n": 122,
+  "id": "er-122",
+  "title": "Adaptive name matching in information integration",
+  "authors": [
+   "M. Bilenko",
+   "R. Mooney",
+   "W. Cohen",
+   "P. Ravikumar",
+   "S. Fienberg"
+  ],
+  "year": 2003,
+  "venue": "IEEE Intelligent Systems",
+  "doi": "10.1109/mis.2003.1234765",
+  "citations": 310,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric",
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Bilenko, Mooney, Cohen, Ravikumar, and Fienberg present adaptive name matching for information integration: instead of fixing a string distance in advance, the similarity measure itself is learned from examples, so matching adapts to the error patterns of a particular dataset. Published in IEEE Intelligent Systems (2003), it is a classic of learnable string metrics.",
+  "borrow": "Learnable edit costs are a direct upgrade for ERBOT's similarity stage: train the string metric on the dataset's own typo and abbreviation patterns rather than relying on off-the-shelf distance weights.",
+  "fill": "The learned metrics address pairwise name similarity only; how dataset-adapted metrics interact with blocking recall and with cluster-level decisions downstream is left open for pipeline builders like us.",
+  "correct": "Learning a metric from labeled pairs ties its gains to the representativeness of those pairs; an adaptively tuned metric can overfit one collection's quirks and underperform a generic metric on a new source.",
+  "verified": true
+ },
+ {
+  "n": 123,
+  "id": "er-123",
   "title": "Average-Optimal Multiple Approximate String Matching",
   "authors": [
    "Kimmo Fredriksson",
@@ -2808,8 +3725,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 93,
-  "id": "er-093",
+  "n": 124,
+  "id": "er-124",
+  "title": "Similarity Measures and Clustering of String Patterns",
+  "authors": [
+   "Ana Fred"
+  ],
+  "year": 2003,
+  "venue": "Combinatorial Optimization",
+  "doi": "10.1007/978-1-4613-0231-5_7",
+  "citations": 3,
+  "themes": [
+   "similarity",
+   "clustering"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book chapter treats similarity measures for string patterns and how string patterns can be clustered using them. It addresses the foundations of comparing short strings and grouping similar ones, rather than a complete record linkage system.",
+  "borrow": "String-pattern similarity measures and their clustering behaviour are borrowable for ERBOT's similarity stage on short string fields such as names and codes, where edit-style measures remain the workhorse.",
+  "fill": "The chapter concerns string patterns in general, not typed record fields; working its measures into a full multi-field similarity vector and evaluating them there is left to us.",
+  "correct": "Clustering results are highly sensitive to which string measure is chosen, and no single measure dominates across pattern types, so the chapter's material offers options rather than a default choice.",
+  "verified": true
+ },
+ {
+  "n": 125,
+  "id": "er-125",
   "title": "Improved Single and Multiple Approximate String Matching",
   "authors": [
    "Kimmo Fredriksson",
@@ -2836,8 +3781,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 94,
-  "id": "er-094",
+  "n": 126,
+  "id": "er-126",
+  "title": "Robust Identification of Fuzzy Duplicates",
+  "authors": [
+   "S. Chaudhuri",
+   "V. Ganti",
+   "R. Motwani"
+  ],
+  "year": 2005,
+  "venue": "21st International Conference on Data Engineering (ICDE'05)",
+  "doi": "10.1109/icde.2005.125",
+  "citations": 98,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "token-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This ICDE paper tackles duplicate detection when duplicates are 'fuzzy' — records that refer to the same entity but differ through noise and variation — and aims to identify them robustly rather than by exact or brittle matching criteria.",
+  "borrow": "Its robustness stance is borrowable for ERBOT's similarity stage: token evidence should be weighted so that common, uninformative tokens do not dominate match decisions.",
+  "fill": "The paper concentrates on the identification step itself; embedding robust fuzzy matching inside a full pipeline — blocking at very large scale, transitive clustering, and error evaluation — remains for us to do.",
+  "correct": "The scope limit is its token-overlap view of records: entities whose records share few tokens, or whose errors are structural rather than typographical, sit outside what this framing handles well.",
+  "verified": true
+ },
+ {
+  "n": 127,
+  "id": "er-127",
   "title": "A Primitive Operator for Similarity Joins in Data Cleaning",
   "authors": [
    "S. Chaudhuri",
@@ -2867,8 +3841,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 95,
-  "id": "er-095",
+  "n": 128,
+  "id": "er-128",
   "title": "Duplicate Record Detection: A Survey",
   "authors": [
    "Ahmed K. Elmagarmid",
@@ -2897,8 +3871,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 96,
-  "id": "er-096",
+  "n": 129,
+  "id": "er-129",
   "title": "Scaling up all pairs similarity search",
   "authors": [
    "Roberto J. Bayardo",
@@ -2927,8 +3901,126 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 97,
-  "id": "er-097",
+  "n": 130,
+  "id": "er-130",
+  "title": "Ed-Join",
+  "authors": [
+   "Chuan Xiao",
+   "Wei Wang",
+   "Xuemin Lin"
+  ],
+  "year": 2008,
+  "venue": "Proceedings of the VLDB Endowment",
+  "doi": "10.14778/1453856.1453957",
+  "citations": 173,
+  "themes": [
+   "similarity",
+   "scalable"
+  ],
+  "method": [
+   "string metric",
+   "token-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "large (100K-1M)",
+  "abstract": "There has been considerable interest in similarity join in the research community recently. Similarity join is a fundamental operation in many application areas, such as data integration and cleaning, bioinformatics, and pattern recognition. We focus on efficient algorithms for similarity join with edit distance constraints. Existing approaches are mainly based on converting the edit distance constraint to a weaker constraint on the number of\n            matching q\n            -grams between pair of strings.\n          \n          \n            In this paper, we propose the novel perspective of investigating\n            mismatching q\n            -grams. Technically, we derive two new edit distance lower bounds by analyzing the locations and contents of mismatching\n            q\n            -grams. A new algorithm, Ed-Join, is proposed that exploits the new mismatch-based filtering methods; it achieves substantial reduction of the candidate sizes and hence saves computation time. We demonstrate experimentally that the new algorithm outperforms alternative methods on large-scale real datasets under a wide range of parameter settings.",
+  "focus": "Ed-Join is an algorithm for similarity joins under an edit-distance constraint, a core operation for data integration and cleaning. Instead of relying only on matching q-grams, it derives two new edit-distance lower bounds from the locations and contents of mismatching q-grams, and uses them to filter candidates much more aggressively; experiments on large-scale real datasets show it outperforming alternative methods across parameter settings.",
+  "borrow": "The mismatch-based lower bounds are directly borrowable for ERBOT's similarity stage: they prune edit-distance candidate pairs before expensive verification, complementing q-gram counting filters.",
+  "fill": "Ed-Join is a string-join operator, not a linkage pipeline: how its filtering behaves inside a full ER workflow — after blocking, before classification and clustering, and alongside non-edit-distance similarities — is left for us to establish.",
+  "correct": "The gains are specific to edit-distance joins and the tested thresholds; they do not speak to semantic or token-level matching, and filter effectiveness degrades as strings lengthen or thresholds loosen.",
+  "verified": true
+ },
+ {
+  "n": 131,
+  "id": "er-131",
+  "title": "Influence of Normalization and Types of Citation Fields on Citation Matching",
+  "authors": [
+   "Hee-Kwan Koo",
+   "Han-Min Jung",
+   "Won-Kyung Sung"
+  ],
+  "year": 2008,
+  "venue": "The Journal of the Korea Contents Association",
+  "doi": "10.5392/jkca.2008.8.11.395",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "evaluation"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This study examines how text normalization choices and the selection of citation fields influence the accuracy of citation matching. It appeared in the Journal of the Korea Contents Association (2008).",
+  "borrow": "A field-by-field and normalization-by-normalization ablation is exactly the discipline ERBOT needs before fixing its citation feature set: measure each field's contribution instead of assuming more fields always help.",
+  "fill": "The study varies fields and normalization for citation matching only; how these choices interact with learned matchers and with blocking keys in a full pipeline is left for us to measure.",
+  "correct": "Findings from 2008-era Korean bibliographic data may not carry to other languages and databases, and a field's usefulness is entangled with the specific matcher used, so the conclusions are conditional rather than universal.",
+  "verified": true
+ },
+ {
+  "n": 132,
+  "id": "er-132",
+  "title": "Duplicate Record Detection for Database Cleansing",
+  "authors": [
+   "Mariam Rehman",
+   "Vatcharapon Esichaikul"
+  ],
+  "year": 2009,
+  "venue": "2009 Second International Conference on Machine Vision",
+  "doi": "10.1109/icmv.2009.43",
+  "citations": 9,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Addresses duplicate record detection as part of database cleansing: finding duplicate entries within a database so that the cleansed data can be trusted for downstream use (2009).",
+  "borrow": "The cleansing framing — deduplication as a data-quality gate with explicit handling of what is removed or merged — fits ERBOT's within-file deduplication mode.",
+  "fill": "A 2009 treatment predates scalable blocking and learned matching; how its cleansing workflow performs on the large, heterogeneous tables ERBOT targets is left open.",
+  "correct": "Its scope is a single database to be cleansed; cross-source linkage, where identifier conventions differ between files, is the harder problem and lies outside what this work addresses.",
+  "verified": true
+ },
+ {
+  "n": 133,
+  "id": "er-133",
+  "title": "Exploring personal name disambiguation from name understanding",
+  "authors": [
+   "Ying Chen",
+   "Chu-Ren Huang"
+  ],
+  "year": 2010,
+  "venue": "2010 4th International Universal Communication Symposium",
+  "doi": "10.1109/iucs.2010.5666185",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "clustering"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2010 paper explores personal name disambiguation from the angle of name understanding: how the structure and cultural conventions of personal names themselves inform which records can belong to the same person.",
+  "borrow": "Name-structure knowledge — name order, surname and given-name conventions, transliteration patterns — is a cheap prior we can encode in ERBOT's name comparison instead of treating names as opaque strings.",
+  "fill": "The paper predates modern representation learning; combining name-understanding rules with learned embeddings, and testing them across many naming cultures, remains open for us.",
+  "correct": "Rule-based name understanding is culture-specific and brittle: conventions that hold for one naming system mislead in another, and mixed international datasets violate any single set of assumptions.",
+  "verified": true
+ },
+ {
+  "n": 134,
+  "id": "er-134",
   "title": "Probabilistic string similarity joins",
   "authors": [
    "Jeffrey Jestes",
@@ -2959,8 +4051,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 98,
-  "id": "er-098",
+  "n": 135,
+  "id": "er-135",
   "title": "Context-based entity description rule for entity resolution",
   "authors": [
    "Lingli Li",
@@ -2989,8 +4081,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 99,
-  "id": "er-099",
+  "n": 136,
+  "id": "er-136",
+  "title": "Duplicate Records Detection Techniques: Issues and Illustration",
+  "authors": [
+   "Hussein Issa",
+   "Miklos A. Vasarhelyi"
+  ],
+  "year": 2011,
+  "venue": "",
+  "doi": "10.2139/ssrn.1910473",
+  "citations": 3,
+  "themes": [
+   "similarity",
+   "evaluation"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Data quality has become a key issue in computer-based management systems. Inadequate data causes serious operational difficulties as well as direct financial losses.  Furthermore, databases are increasing in size at an exponential rate with the proliferation of business electronization (Vasarhelyi and Greenstein 2003), globalization, and real-time economy. Once-manual processes are now stored in electronic databases, with data from multiple sources. This heterogeneity gives rise to a new set of problems. Errors – such as incorrect data entry, incomplete information, and unstandardized formats from different data sources – can lead to the existence of more than one representation of the same real-life object in a database. This paper discusses a problem that has received little academic attention but remains of great importance to an organization’s data quality, in particular, duplicate payments. We use data from a telecommunication company to demonstrate record matching techniques.",
+  "focus": "The paper discusses duplicate records as a data-quality problem with direct financial consequences, focusing in particular on duplicate payments. Using data from a telecommunication company, it illustrates record matching techniques for detecting duplicate representations of the same real-world object arising from entry errors, incomplete information, and unstandardized formats across sources.",
+  "borrow": "The duplicate-payments framing is borrowable for ERBOT's evaluation: duplicates expressed as direct financial loss give a concrete cost model for missed matches, complementing abstract precision/recall reporting.",
+  "fill": "The illustration rests on a single company's data and an accounting-oriented use case; embedding the techniques in a general-purpose, large-scale ER pipeline and testing them there is left undone and open to us.",
+  "correct": "The paper itself notes the problem had received little academic attention, and its evidence is one telecom case study, so the demonstrated techniques' performance should not be generalized beyond that setting without further testing.",
+  "verified": true
+ },
+ {
+  "n": 137,
+  "id": "er-137",
   "title": "Efficient similarity joins for near-duplicate detection",
   "authors": [
    "Chuan Xiao",
@@ -3021,8 +4142,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 100,
-  "id": "er-100",
+  "n": 138,
+  "id": "er-138",
+  "title": "The OYSTER Project",
+  "authors": [
+   "John R. Talburt"
+  ],
+  "year": 2011,
+  "venue": "Entity Resolution and Information Quality",
+  "doi": "10.1016/b978-0-12-381972-7.00006-3",
+  "citations": 0,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A book chapter (in Entity Resolution and Information Quality) describing the OYSTER project, an entity resolution system effort developed within the information-quality school of ER. The record carries no abstract, so the chapter is characterized only as a system/project description.",
+  "borrow": "Long-running ER system projects accumulate practical design lessons — how matching rules are managed, how identity decisions are recorded and audited — that ERBOT can consult when designing its own rule management and provenance for match decisions.",
+  "fill": "A 2011-era system description predates learned matching, embedding representations, and web-scale blocking; how its design principles survive those changes is untested and is a comparison we can draw explicitly when documenting ERBOT's architecture.",
+  "correct": "A project description chapter reports the builders' own experience rather than an independent evaluation, so its design claims should be treated as practitioner testimony, not measured results.",
+  "verified": true
+ },
+ {
+  "n": 139,
+  "id": "er-139",
   "title": "Trie-join: a trie-based method for efficient string similarity joins",
   "authors": [
    "Jianhua Feng",
@@ -3051,8 +4199,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 101,
-  "id": "er-101",
+  "n": 140,
+  "id": "er-140",
+  "title": "A Complete Survey of Duplicate Record Detection Using Data Mining Techniques",
+  "authors": [
+   "V. Subramaniy",
+   "S. Chenthur Pandian"
+  ],
+  "year": 2012,
+  "venue": "Information Technology Journal",
+  "doi": "10.3923/itj.2012.941.945",
+  "citations": 12,
+  "themes": [
+   "similarity",
+   "clustering"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Surveys duplicate record detection from a data mining perspective, organizing the techniques available up to 2012 for finding duplicate records in databases (Information Technology Journal, 2012).",
+  "borrow": "It serves as a checklist of pre-deep-learning data mining approaches against which ERBOT's classical stages can be audited for missing techniques.",
+  "fill": "The survey predates representation learning and LLM-era matching entirely; mapping the modern half of the design space — embeddings, learned blocking, active learning at scale — is left for us to do.",
+  "correct": "The claim of completeness in the title is not credible for a field of this size in a short journal article; coverage is necessarily selective, and the survey offers no comparative evaluation to rank the techniques it lists.",
+  "verified": true
+ },
+ {
+  "n": 141,
+  "id": "er-141",
   "title": "Cross-lingual entity matching and infobox alignment in Wikipedia",
   "authors": [
    "Daniel Rinser",
@@ -3080,8 +4257,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 102,
-  "id": "er-102",
+  "n": 142,
+  "id": "er-142",
   "title": "Entity Matching in Online Social Networks",
   "authors": [
    "Olga Peled",
@@ -3110,8 +4287,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 103,
-  "id": "er-103",
+  "n": 143,
+  "id": "er-143",
+  "title": "Entity Resolution and Link Prediction",
+  "authors": [
+   "Jennifer Golbeck"
+  ],
+  "year": 2013,
+  "venue": "Analyzing the Social Web",
+  "doi": "10.1016/b978-0-12-405531-5.00009-2",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A book chapter (in Analyzing the Social Web) that treats entity resolution together with link prediction in social-web data: deciding which accounts or profiles across social networks refer to the same person, and predicting connections between them. The record carries no abstract, so the treatment is characterized only at this level.",
+  "borrow": "The structural signal is the borrowable idea: in relational data, link patterns themselves are evidence for identity matching, and ERBOT could add graph-derived features alongside attribute similarity when records carry relationship structure.",
+  "fill": "The chapter is framed around social-web data; it leaves open how graph evidence should be combined with attribute similarity in general record linkage, and how such collective signals behave at the scale of administrative or bibliographic files — both testable in ERBOT on relational datasets.",
+  "correct": "A textbook chapter presents concepts rather than controlled comparisons, and social-network identity matching has a distinctive error structure (sparse attributes, rich graphs) that does not carry over to attribute-rich, graph-poor linkage tasks.",
+  "verified": true
+ },
+ {
+  "n": 144,
+  "id": "er-144",
   "title": "Approximate String Matching Using a Bidirectional Index",
   "authors": [
    "Gregory Kucherov",
@@ -3139,8 +4344,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 104,
-  "id": "er-104",
+  "n": 145,
+  "id": "er-145",
   "title": "MassJoin: A mapreduce-based method for scalable string similarity joins",
   "authors": [
    "Dong Deng",
@@ -3172,8 +4377,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 105,
-  "id": "er-105",
+  "n": 146,
+  "id": "er-146",
   "title": "Parallel Corpus Approach for Name Matching in Record Linkage",
   "authors": [
    "Jeffrey Sukharev",
@@ -3202,8 +4407,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 106,
-  "id": "er-106",
+  "n": 147,
+  "id": "er-147",
   "title": "Rule-based deduplication of article records from bibliographic databases",
   "authors": [
    "Yu Jiang",
@@ -3234,8 +4439,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 107,
-  "id": "er-107",
+  "n": 148,
+  "id": "er-148",
   "title": "String similarity joins",
   "authors": [
    "Yu Jiang",
@@ -3266,8 +4471,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 108,
-  "id": "er-108",
+  "n": 149,
+  "id": "er-149",
   "title": "The stringdist Package for Approximate String Matching",
   "authors": [
    "Mark P. J. van der Loo"
@@ -3293,8 +4498,95 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 109,
-  "id": "er-109",
+  "n": 150,
+  "id": "er-150",
+  "title": "A survey analysis on duplicate detection in Hierarchical Data",
+  "authors": [
+   "Shital Gaikwad",
+   "Nagaraju Bogiri"
+  ],
+  "year": 2015,
+  "venue": "2015 International Conference on Pervasive Computing (ICPC)",
+  "doi": "10.1109/pervasive.2015.7087099",
+  "citations": 3,
+  "themes": [
+   "similarity",
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This survey analyses duplicate detection techniques for hierarchical data, where records have nested structure rather than flat fields. It reviews and compares approaches for deciding when two hierarchical records describe the same entity.",
+  "borrow": "The survey's taxonomy of techniques for nested records is a useful map for ERBOT when input arrives as hierarchical/XML-shaped data rather than flat tables, a case the standard flat-field pipeline handles poorly.",
+  "fill": "As a 2015 survey it predates embedding-based and LLM-based matching for hierarchical records; redoing the comparison with modern learned similarity on nested data is left open for us.",
+  "correct": "A survey analysis without a unifying benchmark can only compare techniques qualitatively, and for hierarchical data the right similarity choice is strongly dataset-dependent, so the survey's groupings should not be read as performance rankings.",
+  "verified": true
+ },
+ {
+  "n": 151,
+  "id": "er-151",
+  "title": "A. Survey of Entity Resolution and Record Linkage Methodologies",
+  "authors": [
+   "David Guy Brizan",
+   "Abdullah Uz Tansel"
+  ],
+  "year": 2015,
+  "venue": "Communications of the IIMA",
+  "doi": "10.58729/1941-6687.1324",
+  "citations": 28,
+  "themes": [
+   "similarity",
+   "probabilistic"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "A great deal of research is focused on formation of a data warehouse. This is an important area of research as it could save many computation cycles and thus allow accurate information provided to the right people at the right time. Two considerations when forming a data warehouse are data cleansing (including entity resolution) and with schema integration (including record linkage). Uncleansed and fragmented data requires time to decipher and may lead to increased costs for an organization, so data cleansing and schema integration can save a great many (human) computation cycles and can lead to higher organizational efficiency. In this study we survey the literature for the methodologies proposed or developed for entity resolution and record linkage. This survey provides a foundation for solving many problems in data warehousing. For instance, little or no research has been directed at the problem of maintenance of cleansed and linked relations.",
+  "focus": "This survey reviews methodologies proposed for entity resolution and record linkage, framed by data warehouse formation, where data cleansing and schema integration determine whether the warehouse is usable. It positions ER and linkage as foundations for warehousing rather than ends in themselves, and notes that little research has addressed maintenance of already-cleansed and linked relations.",
+  "borrow": "The warehousing framing is a reminder to design ERBOT outputs for maintenance — linked data that downstream users can refresh — not just for one-off matching accuracy.",
+  "fill": "The survey itself flags the leftover: maintenance of cleansed and linked relations over time is under-researched, which is precisely the incremental-update problem ERBOT will face in production use.",
+  "correct": "As a 2015 survey it predates the deep-learning and LLM turn in entity resolution, so its methodology map should not be treated as current coverage of the field.",
+  "verified": true
+ },
+ {
+  "n": 152,
+  "id": "er-152",
+  "title": "Challenges in Matching Dataset Citation Strings to Datasets in Social Science",
+  "authors": [
+   "Brigitte Mathiak",
+   "Katarina Boland"
+  ],
+  "year": 2015,
+  "venue": "D-Lib Magazine",
+  "doi": "10.1045/january2015-mathiak",
+  "citations": 6,
+  "themes": [
+   "similarity",
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Examines the practical challenges of matching dataset citation strings — free-text references to datasets appearing in publications — to the datasets they denote, in the context of social science data infrastructure (D-Lib Magazine, 2015).",
+  "borrow": "A catalog of failure modes for matching short, noisy citation strings is directly relevant to ERBOT's bibliographic and dataset matching: missing identifiers, variant titles, and version ambiguity recur in both settings.",
+  "fill": "As a challenges paper it identifies problems rather than solving them; an evaluated matching method for dataset citations, and benchmark data for the task, are left open for us to build.",
+  "correct": "The analysis is grounded in social-science dataset citations within one infrastructure context; the mix and severity of the challenges may differ in other fields, so its problem list should not be read as universal.",
+  "verified": true
+ },
+ {
+  "n": 153,
+  "id": "er-153",
   "title": "Entity Matching in OCRed Documents with Redundant Databases",
   "authors": [
    "Nihel Kooli",
@@ -3321,8 +4613,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 110,
-  "id": "er-110",
+  "n": 154,
+  "id": "er-154",
   "title": "Trends in Cleaning Relational Data: Consistency and Deduplication",
   "authors": [
    "Ihab F. Ilyas",
@@ -3350,8 +4642,64 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 111,
-  "id": "er-111",
+  "n": 155,
+  "id": "er-155",
+  "title": "A survey on duplicate record detection in real world data",
+  "authors": [
+   "Dhivyabharathi G V",
+   "S. Kumaresan"
+  ],
+  "year": 2016,
+  "venue": "2016 3rd International Conference on Advanced Computing and Communication Systems (ICACCS)",
+  "doi": "10.1109/icaccs.2016.7586397",
+  "citations": 9,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A short conference survey of duplicate record detection as it applies to real-world data, reviewing the problem and the standard detection approaches (ICACCS 2016).",
+  "borrow": "Its real-world framing is a reminder to validate ERBOT's design assumptions against messy production data rather than only clean benchmark sets.",
+  "fill": "As a brief survey it leaves the empirical work undone: no comparative experiments and no guidance on which methods survive real-world noise, which are benchmarks we still need to run.",
+  "correct": "Short conference surveys of this kind typically summarize without critical evaluation, so its coverage should not be read as evidence about which techniques work best in practice.",
+  "verified": true
+ },
+ {
+  "n": 156,
+  "id": "er-156",
+  "title": "Duplicate Literature Detection for Cross-Library Search",
+  "authors": [
+   "Wei Liu",
+   "Jianxun Zeng"
+  ],
+  "year": 2016,
+  "venue": "Cybernetics and Information Technologies",
+  "doi": "10.1515/cait-2016-0028",
+  "citations": 1,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "multi-source",
+  "scale": "small benchmark",
+  "abstract": "Abstract\n                The proliferation of online digital libraries offers users a great opportunity to search their desired literatures on Web. Cross-library search applications can help users search more literature information from multiple digital libraries. Duplicate literatures detection is always a necessary step when merging the search results from multiple digital libraries due to heterogeneity and autonomy of digital libraries. To this end, this paper proposes a holistic solution which includes achieving automatic training set, holistic attribute mapping, and weight of attribute training. The experiments on real digital libraries show that the proposed solution is highly effective.",
+  "focus": "This paper proposes a holistic solution for detecting duplicate bibliographic records when merging search results from multiple digital libraries: automatic construction of a training set, holistic attribute mapping across heterogeneous library schemas, and training of attribute weights. Experiments on real digital libraries are reported to show the solution is highly effective.",
+  "borrow": "Two components transfer directly to ERBOT's multi-source bibliographic work: bootstrapping a training set automatically instead of hand-labelling pairs, and learning attribute weights after an explicit cross-schema attribute mapping step.",
+  "fill": "The evaluation uses the authors' own library data; how well the automatically built training set holds up on noisier sources, and whether the approach generalises beyond bibliographic records, is left for us to test.",
+  "correct": "The abstract claims the solution is 'highly effective' without reporting precision or recall figures, and the attribute-mapping step assumes the sources' schemas can be aligned — an assumption that fails for genuinely heterogeneous feeds.",
+  "verified": true
+ },
+ {
+  "n": 157,
+  "id": "er-157",
   "title": "ELM: An Extended Logic Matching Method on Record Linkage Analysis of Disparate Databases for Profiling Data Mining",
   "authors": [
    "Colin Conrad",
@@ -3380,8 +4728,42 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 112,
-  "id": "er-112",
+  "n": 158,
+  "id": "er-158",
+  "title": "The Interaction Between Schema Matching and Record Matching in Data Integration",
+  "authors": [
+   "Binbin Gu",
+   "Zhixu Li",
+   "Xiangliang Zhang",
+   "An Liu",
+   "Guanfeng Liu",
+   "Kai Zheng",
+   "Lei Zhao",
+   "Xiaofang Zhou"
+  ],
+  "year": 2017,
+  "venue": "IEEE Transactions on Knowledge and Data Engineering",
+  "doi": "10.1109/tkde.2016.2611577",
+  "citations": 19,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Studies how schema matching and record matching interact in data integration: the schema alignment determines which records can be meaningfully compared, while record-level matching evidence can in turn inform the schema alignment, so the two tasks should not be treated as independent pipeline steps (IEEE TKDE, 2017).",
+  "borrow": "For ERBOT's multi-source ingestion, the actionable idea is a feedback loop: let record-matching evidence revise the schema mapping instead of freezing the mapping before matching begins.",
+  "fill": "The interaction is studied in a heterogeneous-schema integration setting; a practical joint procedure inside an R-based pipeline, and the behaviour of the feedback loop with nested or semi-structured sources, are left open.",
+  "correct": "Joint treatment can also couple errors — a wrong schema match can manufacture false record matches that then reinforce the schema error — and the synergy framing emphasizes the benefits more than this failure mode.",
+  "verified": true
+ },
+ {
+  "n": 159,
+  "id": "er-159",
   "title": "An effective weighted rule-based method for entity resolution",
   "authors": [
    "Hiba Abu Ahmad",
@@ -3408,8 +4790,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 113,
-  "id": "er-113",
+  "n": 160,
+  "id": "er-160",
+  "title": "Multilingual Entity Matching",
+  "authors": [
+   "Ilgiz Mustafin",
+   "Marius Frunza",
+   "Jooyoung Lee"
+  ],
+  "year": 2018,
+  "venue": "SSRN Electronic Journal",
+  "doi": "10.2139/ssrn.3306378",
+  "citations": 0,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This working paper studies entity matching when the records to be matched are written in different languages, so names and descriptions cannot be compared as plain strings within a single language. It addresses how matching can proceed across language boundaries.",
+  "borrow": "The cross-language framing is relevant to ERBOT whenever sources mix languages: matching must plan for transliteration and translation variance rather than treating them as ordinary typographical errors.",
+  "fill": "The paper is an early working-paper treatment; a reproducible multilingual benchmark, and an integration of multilingual matching into a blocking-to-clustering pipeline, remain open for us.",
+  "correct": "As an unreviewed SSRN working paper with no abstract in the record, its claims cannot be checked from the published record and should be weighted accordingly.",
+  "verified": true
+ },
+ {
+  "n": 161,
+  "id": "er-161",
   "title": "Rule-based Entity Resolution on Database with hidden temporal Information",
   "authors": [
    "Hongzhi Wang",
@@ -3438,8 +4849,40 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 114,
-  "id": "er-114",
+  "n": 162,
+  "id": "er-162",
+  "title": "<i>Certus</i>",
+  "authors": [
+   "Selasi Kwashie",
+   "Lin Liu",
+   "Jixue Liu",
+   "Markus Stumptner",
+   "Jiuyong Li",
+   "Lujing Yang"
+  ],
+  "year": 2019,
+  "venue": "Proceedings of the VLDB Endowment",
+  "doi": "10.14778/3311880.3311883",
+  "citations": 33,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "small benchmark",
+  "abstract": "Entity resolution (ER) is the problem of accurately identifying multiple, differing, and possibly contradicting representations of unique real-world entities in data. It is a challenging and fundamental task in data cleansing and data integration. In this work, we propose graph differential dependencies (GDDs) as an extension of the recently developed graph entity dependencies (which are formal constraints for graph data) to enable approximate matching of values. Furthermore, we investigate a special discovery of GDDs for ER by designing an algorithm for generating a non-redundant set of GDDs in labelled data. Then, we develop an effective ER technique, Certus, that employs the learned GDDs for improving the accuracy of ER results. We perform extensive empirical evaluation of our proposals on five real-world ER benchmark datasets and a proprietary database to test their effectiveness and efficiency. The results from the experiments show the discovery algorithm and Certus are efficient; and more importantly, GDDs significantly improve the precision of ER without considerable trade-off of recall.",
+  "focus": "Certus is an entity resolution technique built on graph differential dependencies (GDDs), an extension of graph entity dependencies that allows approximate matching of values. The authors design an algorithm for discovering a non-redundant set of GDDs from labelled data and use the learned dependencies in the Certus resolver; on five real-world ER benchmarks and a proprietary database, GDDs significantly improve precision without considerable loss of recall.",
+  "borrow": "Learned matching dependencies are interpretable rules ERBOT can surface to users — unlike a black-box score, a dependency explains why two records were matched — and the discovery algorithm shows how to mine them from labelled pairs.",
+  "fill": "GDD discovery is demonstrated on graph-structured benchmarks; mining equivalent dependencies over plain relational tables at ERBOT's scale, and maintaining them as data drifts, is left open.",
+  "correct": "The precision gains depend on labelled data clean enough to discover valid dependencies; with noisy labels the discovery step can learn the labellers' mistakes and enforce them as constraints.",
+  "verified": true
+ },
+ {
+  "n": 163,
+  "id": "er-163",
   "title": "Towards a unified framework for string similarity joins",
   "authors": [
    "Pengfei Xu",
@@ -3467,8 +4910,123 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 115,
-  "id": "er-115",
+  "n": 164,
+  "id": "er-164",
+  "title": "comparator: Comparison Functions for Clustering and Record Linkage",
+  "authors": [
+   "Neil Marchant"
+  ],
+  "year": 2020,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.comparator",
+  "citations": 0,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2020) providing comparison functions — string and record similarity measures — designed for use in clustering and record linkage workflows. As a software record it carries no abstract; the contribution is a maintained library of the similarity primitives on which linkage pipelines depend.",
+  "borrow": "Directly borrowable at ERBOT's similarity stage: a maintained set of comparison functions saves reimplementing standard string metrics and reduces the risk of subtle metric bugs in our own code.",
+  "fill": "The package supplies primitives only; how comparisons should be weighted and combined into match decisions, and how metric choice affects end-to-end linkage quality, are left to the user — an evaluation ERBOT's harness can perform systematically.",
+  "correct": "A package listing carries no evaluation, so the correctness and coverage of the implementations must be trusted or independently tested; similarity-metric choice is also known to interact with data type, which a general library cannot settle for the user.",
+  "verified": true
+ },
+ {
+  "n": 165,
+  "id": "er-165",
+  "title": "Deep String Matching For Duplicate Detection",
+  "authors": [
+   "Alexandre Bloch",
+   "Daniel Alexandre Bloch"
+  ],
+  "year": 2021,
+  "venue": "",
+  "doi": "10.2139/ssrn.3847416",
+  "citations": 1,
+  "themes": [
+   "similarity",
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "string metric"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "small benchmark",
+  "abstract": "We consider the problem of duplicate detection in the case where dealing with typographical errors, toponym matching, and datatype dependency are all combined into a single task. We express this task as a string matching problem and resolve it by estimating a conditional probability via an encoder-decoder model, whereby the strings are first encoded with a Deep Recurrent Network into context vectors which are then concatenated and used as inputs for a Deep Classifier Network.&lt;br&gt;&lt;br&gt;We explore the effects that different architectures have on the string matching problem when applied to duplicate detection. Finally, we test the models on numerous datasets of varying size, with some more focused on one of the datatype issues than others. We show that deep hierarchical networks perform best in tasks where temporal order matters.",
+  "focus": "This preprint casts duplicate detection with typographical errors, toponym matching, and datatype dependencies as a string matching problem, estimating a conditional probability with an encoder-decoder model: a deep recurrent network encodes each string into a context vector, and a deep classifier scores the concatenated pair. Across numerous datasets of varying size, deep hierarchical networks perform best where temporal order in the strings matters.",
+  "borrow": "The learned string scorer — encode each field value, concatenate the context vectors, classify — is a drop-in similarity component for ERBOT's comparison stage, especially for typo- and toponym-heavy fields where fixed string metrics are brittle.",
+  "fill": "The model is evaluated as a standalone string matcher; integrating its probability output into a full blocking-to-clustering pipeline, and calibrating that output for threshold-based decisions, is left open for us to test.",
+  "correct": "This is an SSRN preprint that has not been peer-reviewed, and the abstract names no standard ER benchmarks among its 'numerous datasets', so its standing against established matchers is hard to judge.",
+  "verified": true
+ },
+ {
+  "n": 166,
+  "id": "er-166",
+  "title": "A Two-tire Approach for Organization Name Entity Resolution",
+  "authors": [
+   "Almuth Müller",
+   "Achim Kuwertz"
+  ],
+  "year": 2022,
+  "venue": "Proceedings of the 11th International Conference on Data Science, Technology and Applications",
+  "doi": "10.5220/0011307000003269",
+  "citations": 0,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "key-based",
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This conference paper proposes a two-tier approach to organization name entity resolution — resolving the many variant forms of organization names to the organizations they denote. The record carries no abstract, so the design of the two tiers and any evaluation results cannot be detailed further.",
+  "borrow": "The tiered design pattern is borrowable for ERBOT's handling of organization-name fields: a cheap, high-precision tier can settle easy name variants first, reserving expensive comparison for the residual hard cases.",
+  "fill": "The approach is scoped to organization names alone; it leaves open person names and other entity types, and how tiered name matching interacts with blocking and clustering at large scale — extensions ERBOT would need for general bibliographic and affiliation data.",
+  "correct": "With no abstract in the record there is no visible evaluation, and organization-name matching is a narrow slice of ER whose error structure (abbreviations, legal suffixes, mergers) differs substantially from person-record linkage, so results may not transfer.",
+  "verified": true
+ },
+ {
+  "n": 167,
+  "id": "er-167",
+  "title": "Duplicate Detection in a Knowledge Base with PIKA",
+  "authors": [
+   "Maxime Prieur",
+   "Guillaume Gadek",
+   "Bruno Grilheres"
+  ],
+  "year": 2022,
+  "venue": "Proceedings of the 14th International Conference on Agents and Artificial Intelligence",
+  "doi": "10.5220/0010769500003116",
+  "citations": 1,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper presents PIKA, a system for detecting duplicate entries within a knowledge base. The record carries no abstract, so the description rests on the title and venue only.",
+  "borrow": "PIKA's knowledge-base-internal deduplication workflow is a reference for the relational-data cases ERBOT meets, where duplicates must be resolved against graph structure rather than flat rows.",
+  "fill": "The record gives no method or evaluation detail, leaving open how a KB-specific detector compares with a generic ER pipeline run on the same knowledge base — a comparison we can carry out.",
+  "correct": "With no abstract in the record, PIKA's effectiveness cannot be verified, and knowledge-base-specific assumptions in its design may not transfer to ordinary record linkage.",
+  "verified": true
+ },
+ {
+  "n": 168,
+  "id": "er-168",
   "title": "Approximate Similarity Joins over Dense Vector Embeddings",
   "authors": [
    "Douglas Rolins de Santana",
@@ -3497,8 +5055,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 116,
-  "id": "er-116",
+  "n": 169,
+  "id": "er-169",
   "title": "Named Entity Resolution in Personal Knowledge Graphs",
   "authors": [
    "Mayank Kejriwal"
@@ -3526,8 +5084,156 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 117,
-  "id": "er-117",
+  "n": 170,
+  "id": "er-170",
+  "title": "On the Surprising Effectiveness of Name Matching Alone in Autoregressive Entity Linking",
+  "authors": [
+   "Elliot Schumacher",
+   "James Mayfield",
+   "Mark Dredze"
+  ],
+  "year": 2023,
+  "venue": "Proceedings of the First Workshop on Matching From Unstructured and Structured Data (MATCHING 2023)",
+  "doi": "10.18653/v1/2023.matching-1.6",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "evaluation"
+  ],
+  "method": [
+   "string metric",
+   "LLM"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper reports a deliberately simple finding for autoregressive entity linking — linking text mentions to knowledge-base entities with generative models: matching on the entity name alone is surprisingly effective compared with the heavier autoregressive machinery. It serves as a baseline check on how much of the linking task is carried by names themselves.",
+  "borrow": "ERBOT can adopt the paper's discipline: before adding a complex model, measure a name-only matcher, since a strong trivial baseline exposes whether the added complexity earns its cost.",
+  "fill": "The result is shown for mention-to-knowledge-base linking; whether name-only matching is equally dominant in record-to-record deduplication, where both sides of a pair are noisy, is left for us to verify.",
+  "correct": "Name matching alone works when names are near-unique identifiers, as in curated knowledge bases; it degrades exactly where entity resolution is hardest — common names, abbreviations, and name changes.",
+  "verified": true
+ },
+ {
+  "n": 171,
+  "id": "er-171",
+  "title": "Comparing Inexact String Matching Methods for Large Scale Entity Matching",
+  "authors": [
+   "Davis Spradling",
+   "Erik Saule"
+  ],
+  "year": 2024,
+  "venue": "2024 IEEE International Conference on Big Data (BigData)",
+  "doi": "10.1109/bigdata62323.2024.10825868",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "scalable"
+  ],
+  "method": [
+   "string metric",
+   "benchmark"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "The paper compares inexact (approximate) string matching methods in the context of large-scale entity matching, where names and attribute strings must be compared despite typos and variants. It benchmarks how the alternative string-matching methods behave when used as the similarity component of a large matching job.",
+  "borrow": "A head-to-head comparison of string similarity methods at scale is exactly the evidence ERBOT needs when choosing the similarity functions inside its comparison stage.",
+  "fill": "The comparison isolates the string-matching step; how the ranking of methods changes once blocking restricts the candidate pairs, and once scores feed a classifier, is left for us to measure.",
+  "correct": "Method rankings obtained on string pairs alone can mislead pipeline design, because in a full system the practical cost of a string method is dominated by how many pairs blocking sends to it.",
+  "verified": true
+ },
+ {
+  "n": 172,
+  "id": "er-172",
+  "title": "Gathering and Matching Data from the Web: The Bibliographic Data Collection Case Study",
+  "authors": [
+   "Olga Cherednichenko",
+   "Lubomir Nebesky",
+   "Marián Kováč"
+  ],
+  "year": 2024,
+  "venue": "Proceedings of the 21st International Conference on Smart Business Technologies",
+  "doi": "10.5220/0012863500003764",
+  "citations": 1,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This case study reports on gathering bibliographic data from the web and matching the collected records into a unified collection. The record carries no abstract, so the description rests on the title and venue only.",
+  "borrow": "The case study's end-to-end workflow — web collection followed by matching — offers practical lessons for ERBOT's bibliographic ingestion, where source pages are heterogeneous and records arrive incomplete.",
+  "fill": "As a case study without an abstract in the record, it leaves open a reusable, quantified matching methodology: error rates and matching rules that others can replicate on their own collections remain for us to document.",
+  "correct": "Case-study results are specific to the sources and collection process used, and none of them can be verified from this record.",
+  "verified": true
+ },
+ {
+  "n": 173,
+  "id": "er-173",
+  "title": "Author Bibliographic Coupling Analysis as an additional criterion for Author Name Disambiguation: initial approaches",
+  "authors": [
+   "Rafael Gutierres Castanha",
+   "Raidan Cruz Silveira"
+  ],
+  "year": 2025,
+  "venue": "Scientometrics",
+  "doi": "10.1007/s11192-025-05502-z",
+  "citations": 0,
+  "themes": [
+   "similarity",
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Scientometrics paper proposes author bibliographic coupling — the references two publications share — as an additional criterion for author name disambiguation, and reports initial approaches to using it. The underlying idea is that papers by the same author tend to draw on overlapping literatures.",
+  "borrow": "Shared-reference overlap is a cheap, label-free similarity feature we can add to ERBOT's comparison vectors for bibliographic records.",
+  "fill": "The paper presents initial approaches only; integrating coupling strength into a full disambiguation pipeline and testing where it helps beyond co-author and venue signals is left for us to do.",
+  "correct": "Bibliographic coupling is weak for authors who change topics and undefined for first publications, so it can only ever be a supporting signal, not a primary disambiguation criterion.",
+  "verified": true
+ },
+ {
+  "n": 174,
+  "id": "er-174",
+  "title": "Text-based entity matching for entity resolution and data fusion applied to person descriptions",
+  "authors": [
+   "Jan Nausner",
+   "Jakob Hurst",
+   "Michael Hubner"
+  ],
+  "year": 2025,
+  "venue": "2025 IEEE International Conference on Systems, Man, and Cybernetics (SMC)",
+  "doi": "10.1109/smc58881.2025.11343499",
+  "citations": 0,
+  "themes": [
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper applies text-based entity matching to person descriptions, where the evidence about a person is free text rather than structured fields, in the service of entity resolution and data fusion. It studies how matching decisions can be made from such unstructured descriptions.",
+  "borrow": "ERBOT's similarity stage can take from this the treatment of free-text descriptions as matchable evidence, relevant when our sources carry notes or description fields alongside structured attributes.",
+  "fill": "The work is scoped to person descriptions; generalizing text-based matching to organizations and products, and combining text evidence with structured-field scores in one classifier, is left for us.",
+  "correct": "Free-text descriptions vary with the writer and the source system, so matching quality measured on one description corpus may reflect its writing conventions more than the method itself.",
+  "verified": true
+ },
+ {
+  "n": 175,
+  "id": "er-175",
   "title": "Cluster-based name embeddings reduce ethnic disparities in record linkage quality under realistic name corruption: evidence from the North Carolina Voter Registry",
   "authors": [
    "Joseph Lam",
@@ -3559,8 +5265,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 118,
-  "id": "er-118",
+  "n": 176,
+  "id": "er-176",
   "title": "Frequency Sensitive Duplicate Detection Using Multi-Metric Spaces",
   "authors": [
    "Debjyoti Chatterjee",
@@ -3587,8 +5293,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 119,
-  "id": "er-119",
+  "n": 177,
+  "id": "er-177",
   "title": "Linking Hadith Narrator Identities Across Heterogeneous Arabic Biographical Databases: A Multi-Signal Entity Resolution Pipeline",
   "authors": [
    "Taufiq Wirahman"
@@ -3615,8 +5321,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 120,
-  "id": "er-120",
+  "n": 178,
+  "id": "er-178",
   "title": "Automatic Linkage of Vital Records: Computers can be used to extract \"follow-up\" statistics of families from files of routine records",
   "authors": [
    "H. B. Newcombe",
@@ -3645,8 +5351,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 121,
-  "id": "er-121",
+  "n": 179,
+  "id": "er-179",
+  "title": "A Model for Optimum Linkage of Records",
+  "authors": [
+   "Benjamin J. Tepping"
+  ],
+  "year": 1968,
+  "venue": "Journal of the American Statistical Association",
+  "doi": "10.2307/2285887",
+  "citations": 4,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Tepping's JASA paper gives an early formal model for linking records optimally: linkage decisions are framed as a decision problem in which the costs of false links and missed links determine how records should be matched. It is part of the theoretical foundation on which Fellegi–Sunter record linkage was built.",
+  "borrow": "The cost-based framing is borrowable for ERBOT's thresholding: cut-offs should be set from the relative costs of false and missed links in the target application, not from convention.",
+  "fill": "The model assumes the error probabilities and costs it optimises over; estimating them from data and realising the optimum computationally at scale were left to later work and remain part of our pipeline design problem.",
+  "correct": "As a 1968 theory paper it offers no empirical evaluation, and its optimum is only as good as the assumed probabilities — a scope limit, since in practice those quantities are themselves estimated with error.",
+  "verified": true
+ },
+ {
+  "n": 180,
+  "id": "er-180",
   "title": "A Theory for Record Linkage",
   "authors": [
    "Ivan P. Fellegi",
@@ -3674,8 +5407,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 122,
-  "id": "er-122",
+  "n": 181,
+  "id": "er-181",
   "title": "Record Linkage: Statistical Models for Matching Computer Records",
   "authors": [
    "J. B. Copas",
@@ -3702,8 +5435,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 123,
-  "id": "er-123",
+  "n": 182,
+  "id": "er-182",
+  "title": "Bootstrap Evaluation of Calibration Procedures Used for Decision Rules in the Fellegi-Sunter Model of Record Linkage",
+  "authors": [
+   "William E. Winkler"
+  ],
+  "year": 1992,
+  "venue": "Computing Science and Statistics",
+  "doi": "10.1007/978-1-4612-2856-1_101",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Winkler evaluates, by bootstrap, calibration procedures for the decision rules of the Fellegi–Sunter record linkage model — how well estimated matching weights and error rates behave under resampling. It is an early statistical check on the reliability of Fellegi–Sunter thresholds.",
+  "borrow": "Bootstrap calibration of linkage decision rules applies directly to ERBOT's classification stage: resampling gives honest uncertainty around Fellegi–Sunter-style thresholds instead of treating point estimates as exact.",
+  "fill": "The bootstrap study concerns the classical model with a handful of comparison fields; extending calibration to learned matchers with many correlated features, and to error rates of the clustering stage, is left for us.",
+  "correct": "Bootstrap resampling inherits the original sample's biases and the Fellegi–Sunter conditional-independence assumption, so calibrated error rates can still be optimistically wrong when fields are dependent.",
+  "verified": true
+ },
+ {
+  "n": 183,
+  "id": "er-183",
   "title": "A Method for Calibrating False-Match Rates in Record Linkage",
   "authors": [
    "Thomas R. Belin",
@@ -3730,8 +5491,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 124,
-  "id": "er-124",
+  "n": 184,
+  "id": "er-184",
   "title": "Matching and Record Linkage",
   "authors": [
    "William E. Winkler"
@@ -3757,8 +5518,61 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 125,
-  "id": "er-125",
+  "n": 185,
+  "id": "er-185",
+  "title": "Probabilistic linkage of large public health data files",
+  "authors": [
+   "Matthew A. Jaro"
+  ],
+  "year": 1995,
+  "venue": "Statistics in Medicine",
+  "doi": "10.1002/sim.4780140510",
+  "citations": 575,
+  "themes": [
+   "probabilistic",
+   "scalable"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "AbstractProbabilistic linkage technology makes it feasible and efficient to link large public health databases in a statistically justifiable manner. The problem addressed by the methodology is that of matching two files of individual data under conditions of uncertainty. Each field is subject to error which is measured by the probability that the field agrees given a record pair matches (called themprobability) and probabilities of chance agreement of its value states (called theuprobability). Fellegi and Sunter pioneered record linkage theory. Advances in methodology include use of an EM algorithm for parameter estimation, optimization of matches by means of a linear sum assignment program, and more recently, a probability model that addresses bothmanduprobabilities for all value states of a field. This provides a means for obtaining greater precision from non‐uniformly distributed fields, without the theoretical complications arising from frequency‐based matching alone. The model includes an interative parameter estimation procedure that is more robust than pre‐match estimation techniques. The methodology was originally developed and tested by the author at the U.S. Census Bureau for census undercount estimation. The more recent advances and a new generalized software system were tested and validated by linking highway crashes to Emergency Medical Service (EMS) reports and to hospital admission records for the National Highway Traffic Safety Administration (NHTSA).",
+  "focus": "Jaro presents the probabilistic linkage methodology he developed at the U.S. Census Bureau for linking large public health files under uncertainty, built on Fellegi–Sunter theory with field agreement probabilities (m- and u-probabilities). Advances reported include EM-based parameter estimation, optimal assignment of matches via a linear sum assignment program, and value-specific agreement probabilities for non-uniformly distributed fields; the system was validated by linking highway crash, EMS and hospital records.",
+  "borrow": "ERBOT's probabilistic core can borrow two things directly: EM estimation of m/u parameters without labelled data, and value-specific u-probabilities so that agreement on a rare value counts for more than agreement on a common one.",
+  "fill": "The methodology is pairwise and file-to-file: it leaves transitive clustering of matched pairs, learned blocking for today's file sizes, and propagation of linkage uncertainty into downstream analysis to later work — and to us.",
+  "correct": "The Fellegi–Sunter machinery assumes field agreements are conditionally independent given match status, which correlated fields (e.g. city and postcode) violate; its one-to-one assignment step also fits duplicate-free files better than files with internal duplicates.",
+  "verified": true
+ },
+ {
+  "n": 186,
+  "id": "er-186",
+  "title": "Record Linkage Techniques -- 1997",
+  "authors": [],
+  "year": 1999,
+  "venue": "",
+  "doi": "10.17226/6491",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A National Academies Press volume (1999) collecting the record linkage techniques presented at the 1997 record linkage workshop, documenting statistical record linkage practice — Fellegi–Sunter-era methods and their use in official statistics — as of the late 1990s. The record carries no abstract, so individual contributions are not detailed here.",
+  "borrow": "The volume is a historical baseline of official-statistics linkage practice; ERBOT's probabilistic stage can be compared against the era's standard methods and problem formulations to show what has actually changed and what has not.",
+  "fill": "The 1997 state of practice predates learned matchers, embedding-based blocking, and LLM methods, and assumes far smaller files; which of its recommendations survive at modern scale is a question left for us to answer empirically.",
+  "correct": "A workshop proceedings is not a systematic evaluation: its guidance reflects the data, computing constraints, and institutional settings of 1997 and should not be read as validated best practice for current linkage problems.",
+  "verified": true
+ },
+ {
+  "n": 187,
+  "id": "er-187",
   "title": "Reclink: aplicativo para o relacionamento de bases de dados, implementando o método probabilistic record linkage",
   "authors": [
    "Kenneth R. de Camargo Jr.",
@@ -3786,8 +5600,62 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 126,
-  "id": "er-126",
+  "n": 188,
+  "id": "er-188",
+  "title": "USEFULNESS OF NAME INFORMATION IN PROBABILISTIC LINKAGE.",
+  "authors": [],
+  "year": 2000,
+  "venue": "Pediatric Emergency Care",
+  "doi": "10.1097/00006565-200002000-00026",
+  "citations": 1,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "",
+  "focus": "This short 2000 journal item examines the usefulness of name information in probabilistic linkage, appearing in a pediatric emergency care journal. The record carries no abstract and minimal metadata, so the description rests on the title and venue only.",
+  "borrow": "The question it poses — how much matching value name fields actually carry — is a clean ablation for ERBOT: quantify the marginal contribution of name attributes before trusting them with large comparison weights.",
+  "fill": "Whatever quantitative answer the item gave is not documented in this record, and name distributions have shifted since 2000; re-measuring the marginal value of name information on modern administrative data is left for us to do.",
+  "correct": "The record is minimal — no abstract and an unresolved author field — so its evidence cannot be assessed, and a single-setting observation from 2000 predates modern probabilistic linkage tooling.",
+  "verified": true
+ },
+ {
+  "n": 189,
+  "id": "er-189",
+  "title": "Iterative Automated Record Linkage Using Mixture Models",
+  "authors": [
+   "Michael D Larsen",
+   "Donald B Rubin"
+  ],
+  "year": 2001,
+  "venue": "Journal of the American Statistical Association",
+  "doi": "10.1198/016214501750332956",
+  "citations": 124,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Larsen and Rubin develop iterative automated record linkage based on finite mixture models: comparison patterns of record pairs are modeled as arising from match and non-match mixture components, and the model is fit iteratively so pairs can be classified without manually labeled training data. Published in the Journal of the American Statistical Association (2001), it is a foundational statistical treatment of automated linkage.",
+  "borrow": "The mixture-model formulation is a statistical backbone ERBOT can use when labeled pairs are absent: fit the match/non-match mixture, then derive posterior match probabilities and decision thresholds from it.",
+  "fill": "The mixture approach classifies pairs on their own; propagating pair-level mixture uncertainty into transitive clustering, and into downstream analyses that consume the linked data, is left for later work — including ours.",
+  "correct": "Mixture identifiability leans on conditional independence of comparison fields given match status, which real fields violate (names and addresses co-vary), so posterior probabilities can be badly calibrated even when classification accuracy looks good.",
+  "verified": true
+ },
+ {
+  "n": 190,
+  "id": "er-190",
   "title": "Probabilistic Record Linkage: Relationships between File Sizes, Identifiers, and Match Weights",
   "authors": [
    "L. M. Olson",
@@ -3816,8 +5684,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 127,
-  "id": "er-127",
+  "n": 191,
+  "id": "er-191",
   "title": "Record Linkage",
   "authors": [
    "William E. Winkler"
@@ -3844,8 +5712,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 128,
-  "id": "er-128",
+  "n": 192,
+  "id": "er-192",
   "title": "Probabilistic record linkage and a method to calculate the positive predictive value",
   "authors": [
    "Tony Blakely",
@@ -3873,8 +5741,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 129,
-  "id": "er-129",
+  "n": 193,
+  "id": "er-193",
   "title": "Validating Distance-Based Record Linkage with Probabilistic Record Linkage",
   "authors": [
    "Josep Domingo-Ferrer",
@@ -3903,8 +5771,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 130,
-  "id": "er-130",
+  "n": 194,
+  "id": "er-194",
   "title": "Probabilistic record linkage and an automated procedure to minimize the undecided-matched pair problem",
   "authors": [
    "Carla Jorge Machado",
@@ -3931,8 +5799,124 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 131,
-  "id": "er-131",
+  "n": 195,
+  "id": "er-195",
+  "title": "Record Linkage Using Finite Mixture Models",
+  "authors": [
+   "Michael D. Larsen"
+  ],
+  "year": 2004,
+  "venue": "Wiley Series in Probability and Statistics",
+  "doi": "10.1002/0470090456.ch28",
+  "citations": 6,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Presents record linkage through finite mixture models: the distribution of comparison vectors is modeled as a mixture over match and non-match classes, providing a probabilistic basis for estimating linkage weights and error rates from unlabeled comparisons (Wiley chapter, 2004).",
+  "borrow": "The mixture-model view is the statistical foundation under EM-estimated Fellegi–Sunter weights; ERBOT's probabilistic stage can borrow its treatment of estimating match prevalence and classification error rates without labeled data.",
+  "fill": "A 2004 handbook treatment predates scalable computation and modern similarity features; mixture modeling over high-dimensional, learned comparison vectors is left open.",
+  "correct": "A two-component mixture assumes comparison vectors within each class follow a tractable distribution; the strong dependence among fields in real data makes this a rough approximation whose error-rate estimates can be overconfident.",
+  "verified": true
+ },
+ {
+  "n": 196,
+  "id": "er-196",
+  "title": "A hierarchical naive Bayes mixture model for name disambiguation in author citations",
+  "authors": [
+   "Hui Han",
+   "Wei Xu",
+   "Hongyuan Zha",
+   "C. Lee Giles"
+  ],
+  "year": 2005,
+  "venue": "Proceedings of the 2005 ACM symposium on Applied computing",
+  "doi": "10.1145/1066677.1066920",
+  "citations": 53,
+  "themes": [
+   "probabilistic",
+   "clustering"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Han and colleagues address name disambiguation in author citations with a hierarchical naive Bayes mixture model, clustering citations that share a name into groups corresponding to distinct authors. It is an early probabilistic treatment of the disambiguation problem in digital libraries.",
+  "borrow": "A generative mixture formulation gives ERBOT a principled unsupervised option for the clustering stage, with the number of clusters inferred rather than fixed by a similarity threshold.",
+  "fill": "The model is developed for citation records with rich fields; how mixture-based clustering behaves on sparse records missing coauthor or venue fields is not settled and is testable in ERBOT.",
+  "correct": "Naive Bayes conditional-independence assumptions are badly violated by bibliographic fields — coauthors, venue and topic are strongly correlated — so the model's posterior confidence should not be taken at face value.",
+  "verified": true
+ },
+ {
+  "n": 197,
+  "id": "er-197",
+  "title": "A method for consideration of conditional dependencies in the Fellegi and Sunter model of record linkage",
+  "authors": [
+   "Josef Schürle"
+  ],
+  "year": 2005,
+  "venue": "Statistical Papers",
+  "doi": "10.1007/bf02762843",
+  "citations": 8,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Proposes a method for incorporating conditional dependencies between comparison fields into the Fellegi–Sunter model, addressing the model's standard assumption that fields agree or disagree independently given match status (Statistical Papers, 2005).",
+  "borrow": "A concrete technique for relaxing conditional independence — the best-known weak point of Fellegi–Sunter weighting — that ERBOT can adapt when fields are correlated, such as city and postal code.",
+  "fill": "This 2005 fix predates modern estimation practice; how dependency modeling scales to many fields, and how it interacts with EM-estimated weights in current pipelines, is left open.",
+  "correct": "Modeling dependencies adds parameters that must be estimated from the same unlabeled comparisons, so the cure can introduce its own estimation error; whether the trade-off pays off will vary by dataset.",
+  "verified": true
+ },
+ {
+  "n": 198,
+  "id": "er-198",
+  "title": "Entity Resolution with Markov Logic",
+  "authors": [
+   "Parag Singla",
+   "Pedro Domingos"
+  ],
+  "year": 2006,
+  "venue": "Sixth International Conference on Data Mining (ICDM'06)",
+  "doi": "10.1109/icdm.2006.65",
+  "citations": 185,
+  "themes": [
+   "probabilistic",
+   "clustering"
+  ],
+  "method": [
+   "probabilistic",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Singla and Domingos formulate entity resolution in Markov logic, expressing collective evidence — shared attributes, relationships, and transitivity-like dependencies — as weighted first-order formulas whose joint inference decides matches together rather than pair by pair. Presented at ICDM 2006, it is a landmark of collective entity resolution.",
+  "borrow": "The collective-inference principle transfers even without Markov logic itself: ERBOT's clustering stage should let relational evidence (shared co-authors, addresses, identifiers) override weak pairwise scores, which is exactly what the weighted formulas encode.",
+  "fill": "Markov logic inference is expensive and was demonstrated on modest collections; making collective inference fast enough for ERBOT's very large datasets, with approximation quality kept under control, is still unfinished business.",
+  "correct": "The approach's quality hinges on hand-authored formulas and weights learned from labeled data, so reported results entangle the formalism with its authors' feature engineering; since exact inference is intractable, the gains also partly reflect approximation choices.",
+  "verified": true
+ },
+ {
+  "n": 199,
+  "id": "er-199",
   "title": "Data Quality and Record Linkage Techniques",
   "authors": [
    "Thomas N. Herzog",
@@ -3962,8 +5946,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 132,
-  "id": "er-132",
+  "n": 200,
+  "id": "er-200",
   "title": "Event-based record linkage in health and aged care services data: a methodological innovation",
   "authors": [
    "Rosemary Karmel",
@@ -3991,8 +5975,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 133,
-  "id": "er-133",
+  "n": 201,
+  "id": "er-201",
+  "title": "Data linkage using probabilistic decision rules: A primer",
+  "authors": [
+   "Craig Alan Mason",
+   "Shihfen Tu"
+  ],
+  "year": 2008,
+  "venue": "Birth Defects Research Part A: Clinical and Molecular Teratology",
+  "doi": "10.1002/bdra.20510",
+  "citations": 21,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "AbstractElectronic data linkage is increasingly being used by researchers and health professionals in the birth defects field as a tool for enhancing both research and service/care. However, in many cases, a common pre‐existing ID number does not exist across different datasets, and common identifiers, such as names or dates of birth, which could be used to match records, may be known to contain errors or even legitimate differences over time. In such situations, probabilistic matching, which does not require that all identifying fields exactly agree in order for one to conclude that two records belong to the same individual, can be a valuable tool for improving data linkage. However, probabilistic matching is computationally complex and demanding, and not well understood by many who may wish to apply it in their work. Therefore, the purpose of this article is to provide an overview of one approach to probabilistic matching, including the step‐by‐step procedures involved in the calculation of indices corresponding to the likelihood that two records are a correct match. In addition, the use of multiple iterative protocols, in which several different matching strategies are used in order to maximize the number of linked records, is discussed. Finally, issues related to deduplication and verification of internal‐consistency in the linked data set are also reviewed. Birth Defects Research (Part A), 2008. © 2008 Wiley‐Liss, Inc.",
+  "focus": "A step-by-step primer on probabilistic matching for practitioners: it walks through computing likelihood-based indices for the probability that two records match when identifiers contain errors, discusses running several matching strategies iteratively to maximize linked records, and reviews deduplication and internal-consistency checks on the linked data.",
+  "borrow": "The worked calculation of match weights and the iterative multi-protocol design are a documentation and teaching template for ERBOT's probabilistic stage, especially for users who are not linkage specialists.",
+  "fill": "Written for comparatively small, hand-checkable health datasets, the primer leaves open how its manual, iterative protocols and threshold choices scale when clerical review is impossible at ERBOT's target sizes.",
+  "correct": "The primer presents probabilistic matching largely as a calculation recipe and understates how sensitive the results are to the conditional-independence assumption and to the estimated agreement probabilities, which later work shows are the main drivers of linkage error.",
+  "verified": true
+ },
+ {
+  "n": 202,
+  "id": "er-202",
   "title": "Author name disambiguation in MEDLINE",
   "authors": [
    "Vetle I. Torvik",
@@ -4020,8 +6032,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 134,
-  "id": "er-134",
+  "n": 203,
+  "id": "er-203",
   "title": "Empirical aspects of record linkage across multiple data sets using statistical linkage keys: the experience of the PIAC cohort study",
   "authors": [
    "Rosemary Karmel",
@@ -4053,8 +6065,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 135,
-  "id": "er-135",
+  "n": 204,
+  "id": "er-204",
   "title": "Extending the Fellegi–Sunter probabilistic record linkage method for approximate field comparators",
   "authors": [
    "Scott L. DuVall",
@@ -4084,8 +6096,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 136,
-  "id": "er-136",
+  "n": 205,
+  "id": "er-205",
   "title": "The RecordLinkage Package: Detecting Errors in Data",
   "authors": [
    "Murat Sariyar",
@@ -4113,8 +6125,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 137,
-  "id": "er-137",
+  "n": 206,
+  "id": "er-206",
+  "title": "Regression Analysis under Probabilistic Multi‐Linkage",
+  "authors": [
+   "Gunky Kim",
+   "Raymond Chambers"
+  ],
+  "year": 2011,
+  "venue": "Statistica Neerlandica",
+  "doi": "10.1111/j.1467-9574.2011.00509.x",
+  "citations": 23,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Linkage errors can occur when probability‐based methods are used to link records from two distinct data sets corresponding to the same target population. Current approaches to modifying standard methods of regression analysis to allow for these errors only deal with the case of two linked data sets and assume that the linkage process is complete, that is, all records on the two data sets are linked. This study extends these ideas to accommodate the situation when more than two data sets are probabilistically linked and the linkage is incomplete.",
+  "focus": "Kim and Chambers study regression analysis when more than two datasets have been probabilistically linked and the linkage is incomplete. They extend linkage-error adjustments that previously handled only two completely linked files, so that regression can account for errors arising across multiple linked sources.",
+  "borrow": "Multi-file linkage is ERBOT's realistic setting — several sources at once — and this paper supplies the statistical framing for reporting how linkage error propagates into analyses built on multi-source links.",
+  "fill": "The extension still assumes the linkage-error mechanism can be characterised; estimating that mechanism from ERBOT's own match probabilities, rather than assuming it, remains open.",
+  "correct": "Incomplete multi-linkage compounds error sources across files, so corrections calibrated on two-file settings may understate bias exactly where the method is meant to help.",
+  "verified": true
+ },
+ {
+  "n": 207,
+  "id": "er-207",
   "title": "Results from simulated data sets: probabilistic record linkage outperforms deterministic record linkage",
   "authors": [
    "Miranda Tromp",
@@ -4145,8 +6186,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 138,
-  "id": "er-138",
+  "n": 208,
+  "id": "er-208",
   "title": "Data Matching: Concepts and Techniques for Record Linkage, Entity Resolution, and Duplicate Detection",
   "authors": [
    "Peter Christen"
@@ -4173,8 +6214,97 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 139,
-  "id": "er-139",
+  "n": 209,
+  "id": "er-209",
+  "title": "Methods for analyzing data from probabilistic linkage strategies based on partially identifying variables",
+  "authors": [
+   "M. H. P. Hof",
+   "A. H. Zwinderman"
+  ],
+  "year": 2012,
+  "venue": "Statistics in Medicine",
+  "doi": "10.1002/sim.5498",
+  "citations": 32,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "In record linkage studies, unique identifiers are often not available, and therefore, the linkage procedure depends on combinations of partially identifying variables with low discriminating power. As a consequence, wrongly linked covariate and outcome pairs will be created and bias further analysis of the linked data. In this article, we investigated two estimators that correct for linkage error in regression analysis. We extended the estimators developed by Lahiri and Larsen and also suggested a weighted least squares approach to deal with linkage error. We considered both linear and logistic regression problems and evaluated the performance of both methods with simulations. Our results show that all wrong covariate and outcome pairs need to be removed from the analysis in order to calculate unbiased regression coefficients in both approaches. This removal requires strong assumptions on the structure of the data. In addition, the bias significantly increases when the assumptions do not hold and wrongly linked records influence the coefficient estimation. Our simulations showed that both methods had similar performance in linear regression problems. With logistic regression problems, the weighted least squares method showed less bias. Because the specific structure of the data in record linkage problems often leads to different assumptions, it is necessary that the analyst has prior knowledge on the nature of the data. These assumptions are more easily introduced in the weighted least squares approach than in the Lahiri and Larsen estimator. Copyright © 2012 John Wiley &amp; Sons, Ltd.",
+  "focus": "This paper studies how to analyse data produced by probabilistic linkage when only partially identifying variables are available, so some linked covariate–outcome pairs are wrong and bias regression analysis. It extends the linkage-error estimators of Lahiri and Larsen and proposes a weighted least squares alternative, evaluating both in simulations for linear and logistic regression: unbiased coefficients require removing all wrongly linked pairs, bias grows sharply when the needed assumptions fail, and weighted least squares shows less bias for logistic models.",
+  "borrow": "Post-linkage bias correction belongs in ERBOT's evaluation story: reporting match rates is not enough if downstream regressions inherit linkage error, and the weighted least squares route is implementable in R.",
+  "fill": "Both estimators need strong assumptions and, in effect, knowledge of which links are wrong; a practical workflow that estimates the linkage-error structure from the linkage output itself is still missing — a gap ERBOT's diagnostics could fill.",
+  "correct": "The central finding cuts against casual use of linked data: if wrong pairs cannot be identified and removed, the corrections do not deliver unbiased estimates, so the methods' practical value is narrower than their framing suggests.",
+  "verified": true
+ },
+ {
+  "n": 210,
+  "id": "er-210",
+  "title": "The analysis of record‐linked data using multiple imputation with data value priors",
+  "authors": [
+   "Harvey Goldstein",
+   "Katie Harron",
+   "Angie Wade"
+  ],
+  "year": 2012,
+  "venue": "Statistics in Medicine",
+  "doi": "10.1002/sim.5508",
+  "citations": 55,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic",
+   "Bayesian"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "Probabilistic record linkage techniques assign match weights to one or more potential matches for those individual records that cannot be assigned ‘unequivocal matches’ across data files. Existing methods select the single record having the maximum weight provided that this weight is higher than an assigned threshold. We argue that this procedure, which ignores all information from matches with lower weights and for some individuals assigns no match, is inefficient and may also lead to biases in subsequent analysis of the linked data. We propose that a multiple imputation framework be utilised for data that belong to records that cannot be matched unequivocally. In this way, the information from all potential matches is transferred through to the analysis stage. This procedure allows for the propagation of matching uncertainty through a full modelling process that preserves the data structure. For purposes of statistical modelling, results from a simulation example suggest that a full probabilistic record linkage is unnecessary and that standard multiple imputation will provide unbiased and efficient parameter estimates. Copyright © 2012 John Wiley &amp; Sons, Ltd.",
+  "focus": "The authors argue that the usual probabilistic-linkage practice — keep only the highest-weight candidate above a threshold — wastes information and can bias later analysis. They propose instead a multiple imputation framework in which records that cannot be matched unequivocally contribute all their plausible matches, with data value priors, so matching uncertainty propagates into the analysis; a simulation example suggests standard multiple imputation then yields unbiased and efficient estimates, without a full probabilistic linkage model.",
+  "borrow": "ERBOT can borrow the principle of exporting uncertainty instead of a single hard linkage: match weights over candidate sets, packaged for multiple-imputation-style downstream analysis, are a deliverable our evaluation stage could produce.",
+  "fill": "The demonstration is a simulation example within a statistics workflow; wiring candidate generation (blocking) and weight calibration in a real end-to-end pipeline so that the imputation inputs are trustworthy is left open for us.",
+  "correct": "The approach inherits the quality of the candidate sets and weights it is fed: if blocking never surfaces the true match, or weights are badly calibrated, imputation propagates the wrong uncertainty rather than fixing it.",
+  "verified": true
+ },
+ {
+  "n": 211,
+  "id": "er-211",
+  "title": "A Generalized Fellegi–Sunter Framework for Multiple Record Linkage With Application to Homicide Record Systems",
+  "authors": [
+   "Mauricio Sadinle",
+   "Stephen E. Fienberg"
+  ],
+  "year": 2013,
+  "venue": "Journal of the American Statistical Association",
+  "doi": "10.1080/01621459.2012.757231",
+  "citations": 67,
+  "themes": [
+   "probabilistic",
+   "clustering"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This JASA paper generalises the Fellegi–Sunter framework from the classic two-file setting to multiple record linkage — matching across more than two files simultaneously — and applies the generalisation to homicide record systems. It extends probabilistic linkage theory to the multi-source case that real integration projects usually face.",
+  "borrow": "The multi-file generalisation is borrowable for ERBOT's design: match evidence and decision rules should be formulated for several sources at once, not as a chain of pairwise linkages.",
+  "fill": "The paper is primarily theoretical with one application domain; scalable estimation and blocking strategies for multi-file linkage over very large files remain open, and are part of what our pipeline must supply.",
+  "correct": "The generalisation inherits Fellegi–Sunter assumptions, including conditional independence of field comparisons, and the estimation burden grows with the number of files — limits the title and framework make plain.",
+  "verified": true
+ },
+ {
+  "n": 212,
+  "id": "er-212",
   "title": "A practical approach for incorporating dependence among fields in probabilistic record linkage",
   "authors": [
    "Joanne K Daggy",
@@ -4204,8 +6334,43 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 140,
-  "id": "er-140",
+  "n": 213,
+  "id": "er-213",
+  "title": "Implementation of an extended Fellegi-Sunter probabilistic record linkage method using the Jaro-Winkler string comparator",
+  "authors": [
+   "Xinran Li",
+   "Aline Guttmann",
+   "Sebastien Cipiere",
+   "Lydia Maigne",
+   "Jacques Demongeot",
+   "Jean-Yves Boire",
+   "Lemlih Ouchchane"
+  ],
+  "year": 2014,
+  "venue": "IEEE-EMBS International Conference on Biomedical and Health Informatics (BHI)",
+  "doi": "10.1109/bhi.2014.6864381",
+  "citations": 14,
+  "themes": [
+   "probabilistic",
+   "similarity"
+  ],
+  "method": [
+   "probabilistic",
+   "string metric"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Implements an extended Fellegi–Sunter probabilistic record linkage method in which the Jaro–Winkler string comparator supplies the field-agreement evidence, presented in a biomedical and health informatics venue (BHI 2014).",
+  "borrow": "It is a concrete recipe for plugging a prefix-sensitive string comparator into Fellegi–Sunter agreement weights, directly reusable in ERBOT's similarity stage for name fields.",
+  "fill": "The extension is built around a single comparator in a biomedical setting; a systematic comparison of comparators per field type, and the interaction of this extension with learned similarity scores inside the same Fellegi–Sunter frame, are left open.",
+  "correct": "Jaro–Winkler's prefix bonus is tuned for short personal names and can over-credit strings that merely share a prefix; embedding it in the weights without field-specific validation can inflate match scores for distinct people.",
+  "verified": true
+ },
+ {
+  "n": 214,
+  "id": "er-214",
   "title": "Matching and record linkage",
   "authors": [
    "William E. Winkler"
@@ -4232,8 +6397,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 141,
-  "id": "er-141",
+  "n": 215,
+  "id": "er-215",
+  "title": "Next generation data classification and linkage: Role of probabilistic models and artificial intelligence",
+  "authors": [
+   "Gayan Prasad Hettiarachchi",
+   "Nadeeka Nilmini Hettiarachchi",
+   "Dhammika Suresh Hettiarachchi",
+   "Azusa Ebisuya"
+  ],
+  "year": 2014,
+  "venue": "IEEE Global Humanitarian Technology Conference (GHTC 2014)",
+  "doi": "10.1109/ghtc.2014.6970340",
+  "citations": 4,
+  "themes": [
+   "probabilistic",
+   "ml-deep"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A position paper arguing that next-generation data classification and linkage systems should combine probabilistic models with artificial intelligence techniques (IEEE Global Humanitarian Technology Conference, 2014).",
+  "borrow": "Its agenda — hybrid probabilistic-plus-AI linkage — matches ERBOT's direction of combining Fellegi–Sunter-style weights with learned models, and it is an early statement of that design goal.",
+  "fill": "The paper proposes a direction rather than a system; the concrete hybrid architectures, benchmarks, and error analyses it calls for remain to be built, which is precisely the space ERBOT occupies.",
+  "correct": "Vision papers overpromise: the paper offers no evidence that the proposed combination beats well-tuned classical linkage, and in 2014 the AI components it invoked were not yet practical for this task.",
+  "verified": true
+ },
+ {
+  "n": 216,
+  "id": "er-216",
   "title": "Probabilistic Record Linkage for Disclosure Risk Assessment",
   "authors": [
    "Natalie Shlomo"
@@ -4260,8 +6456,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 142,
-  "id": "er-142",
+  "n": 217,
+  "id": "er-217",
   "title": "Uncertain entity resolution",
   "authors": [
    "Avigdor Gal"
@@ -4288,8 +6484,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 143,
-  "id": "er-143",
+  "n": 218,
+  "id": "er-218",
+  "title": "Comparative validity of methods to select appropriate cutoff weight for probabilistic linkage without unique personal identifiers",
+  "authors": [
+   "Ying Zhu",
+   "Chih-Ying Chen",
+   "Yutaka Matsuyama",
+   "Yasuo Ohashi",
+   "Jessica M. Franklin",
+   "Soko Setoguchi"
+  ],
+  "year": 2015,
+  "venue": "Pharmacoepidemiology and Drug Safety",
+  "doi": "10.1002/pds.3832",
+  "citations": 5,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Compares methods for selecting the cutoff weight that separates matches from non-matches in probabilistic linkage conducted without unique personal identifiers, assessing the comparative validity of the selection methods (Pharmacoepidemiology and Drug Safety, 2015).",
+  "borrow": "A head-to-head comparison of threshold-selection methods is directly usable in ERBOT's classification stage, which needs a defensible cutoff rule when no labeled data are available.",
+  "fill": "The comparison is set in pharmacoepidemiology data; whether the ranking of cutoff methods holds for other data types, and for learned rather than Fellegi–Sunter match scores, is left open.",
+  "correct": "Cutoff validity judged within one applied domain can mislead elsewhere, because the best cutoff depends on match prevalence and on the relative costs of missed and false matches, both of which vary by application.",
+  "verified": true
+ },
+ {
+  "n": 219,
+  "id": "er-219",
   "title": "Entity resolution based EM for integrating heterogeneous distributed probabilistic data",
   "authors": [
    "Ramesh Dharavath",
@@ -4317,8 +6546,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 144,
-  "id": "er-144",
+  "n": 220,
+  "id": "er-220",
   "title": "Probabilistic Record Linkage and Deduplication after Indexing, Blocking, and Filtering",
   "authors": [
    "Jared S. Murray"
@@ -4345,8 +6574,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 145,
-  "id": "er-145",
+  "n": 221,
+  "id": "er-221",
   "title": "Probabilistic Record Linkage in Astronomy: Directional Cross-Identification and Beyond",
   "authors": [
    "Tamás Budavári",
@@ -4376,8 +6605,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 146,
-  "id": "er-146",
+  "n": 222,
+  "id": "er-222",
   "title": "Probabilistic linkage",
   "authors": [
    "William E. Winkler"
@@ -4403,8 +6632,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 147,
-  "id": "er-147",
+  "n": 223,
+  "id": "er-223",
   "title": "Probabilistic record linkage",
   "authors": [
    "Adrian Sayers",
@@ -4433,8 +6662,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 148,
-  "id": "er-148",
+  "n": 224,
+  "id": "er-224",
+  "title": "When to conduct probabilistic linkage vs. deterministic linkage? A simulation study",
+  "authors": [
+   "Ying Zhu",
+   "Yutaka Matsuyama",
+   "Yasuo Ohashi",
+   "Soko Setoguchi"
+  ],
+  "year": 2015,
+  "venue": "Journal of Biomedical Informatics",
+  "doi": "10.1016/j.jbi.2015.05.012",
+  "citations": 91,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This simulation study in the Journal of Biomedical Informatics asks a practical question for data linkage: under what conditions should probabilistic linkage be preferred over deterministic linkage? It compares the two strategies in simulated data, where the true match status is known by construction.",
+  "borrow": "A simulation-based decision rule for when deterministic rules suffice — and when probabilistic scoring earns its complexity — is exactly the kind of guidance ERBOT can encode as a diagnostic for new linkage tasks.",
+  "fill": "The study is framed for biomedical data; whether its conditions and thresholds transfer to bibliographic or commercial records with different error patterns is untested and left for us.",
+  "correct": "Simulation conclusions inherit the simulation's assumptions about error rates and field quality; real linkage projects often violate them, so the recommended choice may flip under messier missingness than was simulated.",
+  "verified": true
+ },
+ {
+  "n": 225,
+  "id": "er-225",
   "title": "A Bayesian Approach to Graphical Record Linkage and Deduplication",
   "authors": [
    "Rebecca C. Steorts",
@@ -4464,8 +6724,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 149,
-  "id": "er-149",
+  "n": 226,
+  "id": "er-226",
   "title": "A Probabilistic Record Linkage Model for Survival Data",
   "authors": [
    "Michel H. Hof",
@@ -4493,8 +6753,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 150,
-  "id": "er-150",
+  "n": 227,
+  "id": "er-227",
   "title": "Bayesian Estimation of Bipartite Matchings for Record Linkage",
   "authors": [
    "Mauricio Sadinle"
@@ -4521,8 +6781,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 151,
-  "id": "er-151",
+  "n": 228,
+  "id": "er-228",
+  "title": "Probabilistic linkage to enhance deterministic algorithms and reduce data linkage errors in hospital administrative data",
+  "authors": [
+   "Gareth Hagger-Johnson",
+   "Katie Harron",
+   "Harvey Goldstein",
+   "Robert Aldridge",
+   "Ruth Gilbert"
+  ],
+  "year": 2017,
+  "venue": "Journal of Innovation in Health Informatics",
+  "doi": "10.14236/jhi.v24i2.891",
+  "citations": 17,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "BackgroundThe pseudonymisation algorithm used to link together episodes of care belonging to the same patients in England (HESID) has never undergone any formal evaluation, to determine the extent of data linkage error.ObjectiveTo quantify improvements in linkage accuracy from adding probabilistic linkage to existing deterministic HESID algorithms.MethodsInpatient admissions to NHS hospitals in England (Hospital Episode Statistics, HES) over 17 years (1998 to 2015) for a sample of patients (born 13/28th of months in 1992/1998/2005/2012). We compared the existing deterministic algorithm with one that included an additional probabilistic step, in relation to a reference standard created using enhanced probabilistic matching with additional clinical and demographic information. Missed and false matches were quantified and the impact on estimates of hospital readmission within one year were determined.ResultsHESID produced a high missed match rate, improving over time (8.6% in 1998 to 0.4% in 2015). Missed matches were more common for ethnic minorities, those living in areas of high socio-economic deprivation, foreign patients and those with ‘no fixed abode’. Estimates of the readmission rate were biased for several patient groups owing to missed matches, which was reduced for nearly all groups. ConclusionProbabilistic linkage of HES reduced missed matches and bias in estimated readmission rates, with clear implications for commissioning, service evaluation and performance monitoring of hospitals. The existing algorithm should be modified to address data linkage error, and a retrospective update of the existing data would address existing linkage errors and their implications.",
+  "focus": "Evaluates the deterministic HESID algorithm used to link hospital episodes in England against an enhanced probabilistic reference standard over 17 years of admissions. The deterministic algorithm's missed-match rate fell from 8.6% in 1998 to 0.4% in 2015, missed matches were concentrated among ethnic minorities, deprived areas, and foreign patients, and the resulting bias in readmission estimates was reduced for nearly all groups when a probabilistic step was added.",
+  "borrow": "The audit design — benchmark a production deterministic linker against an enhanced probabilistic reference and report missed-match rates by subgroup — is a template for ERBOT's evaluation stage and for fairness checks on linkage error.",
+  "fill": "The study is specific to English hospital data and one pseudonymised identifier pipeline; a reusable audit toolkit, and whether the same subgroup bias patterns appear in non-health administrative data, are left open for us to test.",
+  "correct": "The reference standard is itself an enhanced probabilistic linkage, so the reported error rates are relative to another imperfect algorithm rather than ground truth; true error may be higher exactly where both approaches fail in the same way.",
+  "verified": true
+ },
+ {
+  "n": 229,
+  "id": "er-229",
+  "title": "blink: Record Linkage for Empirically Motivated Priors",
+  "authors": [
+   "Rebecca Steorts"
+  ],
+  "year": 2017,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.blink",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "clustering"
+  ],
+  "method": [
+   "Bayesian"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2017) implementing Bayesian record linkage and entity resolution with empirically motivated priors — the 'blink' model — in which matching and clustering of records into entities are inferred jointly under a Bayesian model whose priors are informed by the data. As a software record it carries no abstract; the contribution is the implementation.",
+  "borrow": "A ready Bayesian ER implementation in R with data-driven priors is directly usable as an ERBOT baseline for model-based linkage, including its posterior uncertainty over entity assignments — something point-estimate matchers do not provide.",
+  "fill": "The package centers on the linkage model itself; scaling Bayesian ER of this kind to very large files and integrating it with modern blocking remain open, and are precisely the engineering problems ERBOT's pipeline would need to solve around it.",
+  "correct": "A package listing gives no benchmarks, and Bayesian entity resolution models of this family are known to be computationally demanding, so the record alone cannot support claims about the scales at which the implementation remains practical.",
+  "verified": true
+ },
+ {
+  "n": 230,
+  "id": "er-230",
   "title": "fastLink: Fast Probabilistic Record Linkage with Missing Data",
   "authors": [
    "Ted Enamorado",
@@ -4551,8 +6871,67 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 152,
-  "id": "er-152",
+  "n": 231,
+  "id": "er-231",
+  "title": "Bayesian propagation of record linkage uncertainty into population size estimation of human rights violations",
+  "authors": [
+   "Mauricio Sadinle"
+  ],
+  "year": 2018,
+  "venue": "The Annals of Applied Statistics",
+  "doi": "10.1214/18-aoas1178",
+  "citations": 22,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Multiple-systems or capture–recapture estimation are common techniques for population size estimation, particularly in the quantitative study of human rights violations. These methods rely on multiple samples from the population, along with the information of which individuals appear in which samples. The goal of record linkage techniques is to identify unique individuals across samples based on the information collected on them. Linkage decisions are subject to uncertainty when such information contains errors and missingness, and when different individuals have very similar characteristics. Uncertainty in the linkage should be propagated into the stage of population size estimation. We propose an approach called linkage-averaging to propagate linkage uncertainty, as quantified by some Bayesian record linkage methodologies, into a subsequent stage of population size estimation. Linkage-averaging is a two-stage approach in which the results from the record linkage stage are fed into the population size estimation stage. We show that under some conditions the results of this approach correspond to those of a proper Bayesian joint model for both record linkage and population size estimation. The two-stage nature of linkage-averaging allows us to combine different record linkage models with different capture–recapture models, which facilitates model exploration. We present a case study from the Salvadoran civil war, where we are interested in estimating the total number of civilian killings using lists of witnesses’ reports collected by different organizations. These lists contain duplicates, typographical and spelling errors, missingness, and other inaccuracies that lead to uncertainty in the linkage. We show how linkage-averaging can be used for transferring the uncertainty in the linkage of these lists into different models for population size estimation.",
+  "focus": "Proposes linkage-averaging, a two-stage approach that propagates the uncertainty produced by Bayesian record linkage into capture–recapture (multiple-systems) population size estimation, and shows it coincides with a proper joint Bayesian model under some conditions. A case study estimates the total number of civilian killings in the Salvadoran civil war from overlapping witness lists containing duplicates, typographical errors, and missingness.",
+  "borrow": "The linkage-averaging pattern — feeding posterior linkage uncertainty into a downstream estimator instead of committing to one hard clustering — is a template ERBOT's evaluation stage can adopt whenever linkage feeds a population count or other aggregate estimate.",
+  "fill": "The method is demonstrated only for capture–recapture estimation paired with Bayesian linkage models that yield posterior samples; propagating linkage uncertainty into other downstream targets, and pairing linkage-averaging with non-Bayesian matchers such as ERBOT's, is left open for us to build.",
+  "correct": "The equivalence to a joint model holds only under stated conditions, and the two-stage design still inherits any bias built into the first-stage linkage model; a single case study on Salvadoran lists does not establish how the approach behaves when lists are very large or overlap only sparsely.",
+  "verified": true
+ },
+ {
+  "n": 232,
+  "id": "er-232",
+  "title": "Demystifying probabilistic linkage",
+  "authors": [
+   "James C Doidge",
+   "Katie Harron"
+  ],
+  "year": 2018,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v3i1.410",
+  "citations": 20,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "survey",
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Many of the distinctions made between probabilistic and deterministic linkage are misleading. While these two approaches to record linkage operate in different ways and can produce different outputs, the distinctions between them are more a result of how they are implemented than because of any intrinsic differences. In the way they are generally applied, probabilistic and deterministic procedures can be little more than alternative means to similar ends—or they can arrive at very different ends depending on choices that are made during implementation. Misconceptions about probabilistic linkage contribute to reluctance for implementing it and mistrust of its outputs. By examining some common misconceptions about probabilistic linkage and its difference from deterministic linkage, we highlight the potential impact of design choices on the outputs of either approach. We hope that better understanding of linkage designs will help to allay some concerns about probabilistic linkage, and will help data linkers to tailor either procedure to produce outputs that are appropriate for their intended use.",
+  "focus": "Argues that the standard distinctions between probabilistic and deterministic linkage are misleading: the two approaches differ mainly in how they are implemented, and design choices made during implementation drive the outputs more than the label does. By examining common misconceptions, the paper aims to reduce reluctance to use probabilistic linkage and to help linkers tailor either procedure to its intended use.",
+  "borrow": "Its central lesson is a design checklist for ERBOT: expose blocking, comparison, and threshold choices explicitly, because those choices — not the algorithm family — determine the error profile users will see.",
+  "fill": "The paper is a conceptual clarification without new empirical comparisons; a systematic, quantitative mapping of which design choices matter most, and on which kinds of data, is left open and is something we can measure on ERBOT benchmarks.",
+  "correct": "In softening the distinction, the paper risks understating a real one: data-estimated probabilistic weights adapt to the error patterns of a specific file in ways fixed deterministic rules do not, so the two approaches are not always interchangeable in practice.",
+  "verified": true
+ },
+ {
+  "n": 233,
+  "id": "er-233",
   "title": "Exploring hybrid parallel systems for probabilistic record linkage",
   "authors": [
    "Murilo Boratto",
@@ -4585,8 +6964,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 153,
-  "id": "er-153",
+  "n": 234,
+  "id": "er-234",
   "title": "Active Learning for Probabilistic Record Linkage",
   "authors": [
    "Ted Enamorado"
@@ -4614,8 +6993,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 154,
-  "id": "er-154",
+  "n": 235,
+  "id": "er-235",
+  "title": "Connecting Correction Methods for Linkage Error in Capture-Recapture",
+  "authors": [
+   "Peter-Paul de Wolf",
+   "Jan van der Laan",
+   "Daan Zult"
+  ],
+  "year": 2019,
+  "venue": "Journal of Official Statistics",
+  "doi": "10.2478/jos-2019-0024",
+  "citations": 3,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Abstract\n                  A commonly known problem in population size estimation using registers, is that registers do not necessarily cover the whole population. This may be because they intend to cover part of the population (e.g., students), due to administrative delay or because part of the target population is not registered by default (e.g., illegal persons). One of the methods to estimate the population size in the presence of undercount is the capture-recapture method that combines the information of two or more samples. In the context of census estimation registers are used instead of samples. However, the method assumes that perfect linkage between the registers can be achieved. It is known that this assumption is often violated.\n                  In the setting of evaluating the population coverage of a census using a post-enumeration survey, a correction for linkage error was proposed. That correction was later generalized by relaxing some of the newly introduced conditions. However, the new correction method still implicitly assumed that the two registers are of equal size. We introduce a further generalization that includes both previously mentioned correction methods and at the same time deals with registers of different sizes. Specific parameter settings will correspond to the different correction methods. We show that the parameters of each method can be chosen such that the resulting estimates all equal the traditional Petersen estimate (1896) that would theoretically be obtained under truly perfect linkage.",
+  "focus": "Capture-recapture population size estimation assumes registers can be linked perfectly, an assumption often violated in practice. The paper introduces a further generalization of existing linkage-error correction methods that also handles registers of different sizes, and shows that specific parameter settings reproduce each earlier correction method as well as the traditional Petersen estimate that perfect linkage would yield.",
+  "borrow": "The unification trick is borrowable as a sanity check: corrections parameterized so that special cases recover the perfect-linkage benchmark give ERBOT's evaluation a principled reference point when assessing linkage-error corrections.",
+  "fill": "The corrections are developed for two-register capture-recapture population estimation; carrying the same error-correction machinery over to general downstream analyses of linked data (regression, subgroup estimates) is not done here and is open for us.",
+  "correct": "The neat equivalence to the Petersen estimate holds under the model's parameter settings, but real linkage error is rarely homogeneous across a population, so a single correction can hide subgroup-specific error rates that still bias estimates.",
+  "verified": true
+ },
+ {
+  "n": 236,
+  "id": "er-236",
   "title": "High-performance probabilistic record linkage via multi-dimensional homomorphisms",
   "authors": [
    "Ari Rasch",
@@ -4648,8 +7057,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 155,
-  "id": "er-155",
+  "n": 237,
+  "id": "er-237",
   "title": "Incorporating conditional dependence in latent class models for probabilistic record linkage: Does it matter?",
   "authors": [
    "Huiping Xu",
@@ -4680,8 +7089,71 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 156,
-  "id": "er-156",
+  "n": 238,
+  "id": "er-238",
+  "title": "Probabilistic record linkage of de-identified research datasets with discrepancies using diagnosis codes",
+  "authors": [
+   "Boris P. Hejblum",
+   "Griffin M. Weber",
+   "Katherine P. Liao",
+   "Nathan P. Palmer",
+   "Susanne Churchill",
+   "Nancy A. Shadick",
+   "Peter Szolovits",
+   "Shawn N. Murphy",
+   "Isaac S. Kohane",
+   "Tianxi Cai"
+  ],
+  "year": 2019,
+  "venue": "Scientific Data",
+  "doi": "10.1038/sdata.2018.298",
+  "citations": 28,
+  "themes": [
+   "probabilistic",
+   "privacy-bayesian"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "AbstractWe develop an algorithm for probabilistic linkage of de-identified research datasets at the patient level, when only diagnosis codes with discrepancies and no personal health identifiers such as name or date of birth are available. It relies on Bayesian modelling of binarized diagnosis codes, and provides a posterior probability of matching for each patient pair, while considering all the data at once. Both in our simulation study (using an administrative claims dataset for data generation) and in two real use-cases linking patient electronic health records from a large tertiary care network, our method exhibits good performance and compares favourably to the standard baseline Fellegi-Sunter algorithm. We propose a scalable, fast and efficient open-source implementation in the ludic R package available on CRAN, which also includes the anonymized diagnosis code data from our real use-case. This work suggests it is possible to link de-identified research databases stripped of any personal health identifiers using only diagnosis codes, provided sufficient information is shared between the data sources.",
+  "focus": "This paper develops an algorithm for probabilistic linkage of de-identified research datasets at the patient level when no personal identifiers are available, relying only on diagnosis codes that may disagree between sources. A Bayesian model over binarised diagnosis codes yields a posterior matching probability for each patient pair while considering all the data at once; in simulations and two real EHR use-cases from a large tertiary care network it performs well and compares favourably with the Fellegi–Sunter baseline, and the authors release the ludic R package on CRAN.",
+  "borrow": "Two things: a worked example of Bayesian linkage when identifiers are absent entirely, and the fact that it ships as an R package (ludic) — a neighbouring tool ERBOT can interoperate with or benchmark against.",
+  "fill": "The method leans on diagnosis codes carrying enough shared signal; linkage when the shared variables are far weaker or mostly missing — the common case outside health data — is not addressed.",
+  "correct": "Diagnosis codes are billing artefacts as much as clinical ones, so coding-practice differences between institutions can masquerade as patient differences; favourable comparison with Fellegi–Sunter on the authors' own use-cases may not generalise.",
+  "verified": true
+ },
+ {
+  "n": 239,
+  "id": "er-239",
+  "title": "diyar: Record Linkage and Epidemiological Case Definitions in 'R'",
+  "authors": [],
+  "year": 2019,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.diyar",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "diyar is an R package (distributed via CRAN) for record linkage together with epidemiological case definitions, i.e. grouping linked records into episodes of care or disease. The record carries no abstract, so only the package's stated scope is documented here.",
+  "borrow": "As an R-native linkage tool, diyar's API and its episode/case-definition grouping are a design reference for ERBOT: our clustering stage could offer a similar episode-style grouping of linked records, and the package is a candidate baseline for R-side comparisons.",
+  "fill": "A general-purpose package record leaves open how its linkage functions perform inside a full blocking-to-clustering pipeline on very large, dirty datasets, and how its results compare with dedicated ER pipelines. Running that comparison is work we can pick up.",
+  "correct": "A CRAN package record is not a peer-reviewed evaluation: correctness and linkage quality rest on documentation and tests rather than benchmarked evidence, so any performance expectation must be verified independently.",
+  "verified": true
+ },
+ {
+  "n": 240,
+  "id": "er-240",
   "title": "A hybrid approach to record linkage using a combination of deterministic and probabilistic methodology",
   "authors": [
    "Toan C Ong",
@@ -4710,8 +7182,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 157,
-  "id": "er-157",
+  "n": 241,
+  "id": "er-241",
   "title": "An Improved Fellegi-Sunter Framework for Probabilistic Record Linkage Between Large Data Sets",
   "authors": [
    "Marco Fortini"
@@ -4738,8 +7210,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 158,
-  "id": "er-158",
+  "n": 242,
+  "id": "er-242",
   "title": "An Introduction to Probabilistic Record Linkage with a Focus on Linkage Processing for WTC Registries",
   "authors": [
    "Jana Asher",
@@ -4770,8 +7242,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 159,
-  "id": "er-159",
+  "n": 243,
+  "id": "er-243",
   "title": "BRL: Beta Record Linkage",
   "authors": [
    "Mauricio Sadinle"
@@ -4799,8 +7271,153 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 160,
-  "id": "er-160",
+  "n": 244,
+  "id": "er-244",
+  "title": "Field Weights Computation for Probabilistic Record Linkage in Presence of Missing Data",
+  "authors": [
+   "Yinghao Zhang",
+   "Senlin Xu",
+   "Mingfan Zheng",
+   "Xinran Li"
+  ],
+  "year": 2020,
+  "venue": "International Journal of Pattern Recognition and Artificial Intelligence",
+  "doi": "10.1142/s0218001420590466",
+  "citations": 1,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Record linkage is the task for identifying which records refer to the same entity. When records in different data sources do not have a common key and they contain typographical errors in their identifier fields, the extended Fellegi–Sunter probabilistic record linkage method with consideration of field similarity proposed by Winkler, is one of the most effective methods to perform record linkage to our knowledge. But this method has a limitation that it cannot efficiently handle the problem of missing value in the fields, an inappropriate weight is assigned to record pair containing missing data. Therefore, to improve the performance of Winkler’s probabilistic record linkage method in presence of missing value, we proposed a solution for adjusting record pair’s weight when missing data occurred, which allows enhancing the accuracy of the Winkler’s record linkage decisions without increasing much more computational time.",
+  "focus": "The paper addresses a weakness of Winkler's similarity-extended Fellegi–Sunter linkage: when identifier fields are missing, the standard weight assignment treats the affected pairs inappropriately and degrades linkage decisions. It proposes an adjustment of a record pair's weight when missing data occurs, aiming to raise the accuracy of the linkage decisions without much additional computation time.",
+  "borrow": "ERBOT's probabilistic stage can adopt the missing-field weight adjustment so that pairs with missing attributes are scored on the evidence actually present, instead of being penalized or credited by a default rule.",
+  "fill": "The adjustment is developed inside the classical fixed-weight framework only; how missing-data handling should interact with learned blocking and with classifier-based matching on very large files is left open for us to work out in ERBOT.",
+  "correct": "The claimed accuracy gain is demonstrated only within the probabilistic framework the authors start from; the paper does not show the adjustment still helps once similarity-based classifiers or supervised models replace fixed field weights.",
+  "verified": true
+ },
+ {
+  "n": 245,
+  "id": "er-245",
+  "title": "A General Framework for Multiple-Recapture Estimation that Incorporates Linkage Error Correction",
+  "authors": [
+   "Daan Zult",
+   "Peter-Paul de Wolf",
+   "Bart F. M. Bakker",
+   "Peter van der Heijden"
+  ],
+  "year": 2021,
+  "venue": "Journal of Official Statistics",
+  "doi": "10.2478/jos-2021-0031",
+  "citations": 1,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Abstract\n                  The size of a partly observed population is often estimated with the capture-recapture model. An important assumption of this chat model is that sources can be perfectly linked. This assumption is of relevance if the identification of records is not obtained by some perfect identifier (such as an id code) but by indirect identifiers (such as name and address). In that case, the perfect linkage assumption is often violated, which in general leads to biased population size estimates. Initial suggestions to solve this use record linkage probabilities to correct the capture-recapture model. In this article we provide a general framework, based on the standard log-linear modelling approach, that generalises this work towards the inclusion of additional sources and covariates. We show that the method performs well in a simulation study.",
+  "focus": "The paper provides a general framework, based on log-linear modelling, for capture-recapture population size estimation that incorporates linkage error correction, generalising earlier suggestions that used record linkage probabilities to correct the model. The framework accommodates additional sources and covariates, and a simulation study shows it performs well.",
+  "borrow": "Using record linkage probabilities — not just hard link decisions — to correct downstream estimates is borrowable for ERBOT's evaluation: any population-size or count estimate built on ERBOT-linked files can inherit the correction instead of assuming perfect linkage.",
+  "fill": "The framework is demonstrated by simulation for population-size estimation; applying the correction machinery to other downstream analyses and to real link sets produced by a pipeline like ERBOT is left open for us.",
+  "correct": "The corrections rest on the log-linear model's assumptions and on well-calibrated linkage probabilities; if the match probabilities fed in are mis-calibrated, the 'corrected' estimates are biased in a new way rather than fixed.",
+  "verified": true
+ },
+ {
+  "n": 246,
+  "id": "er-246",
+  "title": "A primer on probabilistic record linkage",
+  "authors": [
+   "Ted Enamorado"
+  ],
+  "year": 2021,
+  "venue": "Handbook of Computational Social Science, Volume 2",
+  "doi": "10.4324/9781003025245-8",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic",
+   "survey"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A primer chapter introducing probabilistic record linkage for computational social scientists: the Fellegi–Sunter framework, agreement weights, and the practical workflow of linking records that lack unique identifiers. It appears in the Handbook of Computational Social Science (2021).",
+  "borrow": "As a teaching-grade exposition written for applied users, it doubles as an implementation checklist for ERBOT's probabilistic mode — weight estimation, threshold choice, and clerical review.",
+  "fill": "A primer necessarily stays with the classical workflow; it does not cover learned blocking, embedding similarity, or how linkage error propagates into downstream estimates, all of which ERBOT needs beyond the classical core.",
+  "correct": "Primer-level treatments tend to present Fellegi–Sunter assumptions, notably conditional independence of fields, as benign; in practice those assumptions are the main source of misestimated match probabilities.",
+  "verified": true
+ },
+ {
+  "n": 247,
+  "id": "er-247",
+  "title": "A simple two-step procedure using the Fellegi–Sunter model for frequency-based record linkage",
+  "authors": [
+   "Huiping Xu",
+   "Xiaochun Li",
+   "Shaun Grannis"
+  ],
+  "year": 2021,
+  "venue": "Journal of Applied Statistics",
+  "doi": "10.1080/02664763.2021.1922615",
+  "citations": 9,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Proposes a simple two-step procedure built on the Fellegi–Sunter model for frequency-based record linkage, in which the frequency of a value in the data informs how much its agreement counts as evidence for a match (Journal of Applied Statistics, 2021).",
+  "borrow": "Frequency-based weighting — agreement on a rare value is stronger evidence than agreement on a common one — is a cheap, principled upgrade to ERBOT's probabilistic stage, and the two-step form keeps the implementation simple.",
+  "fill": "The procedure is presented within the classical Fellegi–Sunter setting; combining frequency-based weights with learned similarity scores, and with blocking choices at very large scale, is left open.",
+  "correct": "Frequency-based weights are only as good as the frequency estimates: in files that under-represent subpopulations, value frequencies are biased, which can systematically misweight matches for minority groups.",
+  "verified": true
+ },
+ {
+  "n": 248,
+  "id": "er-248",
+  "title": "Fast Bayesian Record Linkage With Record-Specific Disagreement Parameters",
+  "authors": [
+   "Thomas Stringham"
+  ],
+  "year": 2021,
+  "venue": "Journal of Business &amp; Economic Statistics",
+  "doi": "10.1080/07350015.2021.1934478",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "Bayesian"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes a fast Bayesian record linkage model in which the disagreement parameters — the probabilities governing field agreement among non-matching records — are record-specific rather than global constants, so that how surprising an agreement is can vary with the record involved. It appeared in the Journal of Business & Economic Statistics; the record carries no abstract, so computational and empirical details are not summarized here.",
+  "borrow": "Record-specific disagreement modeling is a concrete refinement for ERBOT's probabilistic stage: common names and rare names should not contribute identical agreement evidence, and this model shows how to build that asymmetry into a Bayesian Fellegi–Sunter-style framework.",
+  "fill": "The contribution is a modeling refinement; it leaves open integration with modern blocking for very large files and head-to-head comparison with learned matchers inside a full pipeline — both natural ERBOT experiments.",
+  "correct": "With no abstract in the record, the speed and accuracy claims cannot be assessed here; more generally, Bayesian linkage models of this family lean on conditional-independence assumptions across fields that real data routinely violate, which record-specific parameters only partly address.",
+  "verified": true
+ },
+ {
+  "n": 249,
+  "id": "er-249",
   "title": "d-blink: Distributed End-to-End Bayesian Entity Resolution",
   "authors": [
    "Neil G. Marchant",
@@ -4831,8 +7448,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 161,
-  "id": "er-161",
+  "n": 250,
+  "id": "er-250",
   "title": "(Almost) all of entity resolution",
   "authors": [
    "Olivier Binette",
@@ -4860,8 +7477,67 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 162,
-  "id": "er-162",
+  "n": 251,
+  "id": "er-251",
+  "title": "A Bayesian MultiLayer Record Linkage Procedure to Analyze Post-Acute Care Recovery of Patients with Traumatic Brain Injury",
+  "authors": [
+   "Mingyang Shan",
+   "Kali S Thomas",
+   "Roee Gutman"
+  ],
+  "year": 2022,
+  "venue": "Biostatistics",
+  "doi": "10.1093/biostatistics/kxac016",
+  "citations": 6,
+  "themes": [
+   "probabilistic",
+   "blocking"
+  ],
+  "method": [
+   "Bayesian"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Summary\n               Understanding associations between injury severity and postacute care recovery for patients with traumatic brain injury (TBI) is crucial to improving care. Estimating these associations requires information on patients’ injury, demographics, and healthcare utilization, which are dispersed across multiple data sets. Because of privacy regulations, unique identifiers are not available to link records across these data sets. Record linkage methods identify records that represent the same patient across data sets in the absence of unique identifiers. With a large number of records, these methods may result in many false links. Health providers are a natural grouping scheme for patients, because only records that receive care from the same provider can represent the same patient. In some cases, providers are defined within each data set, but they are not uniquely identified across data sets. We propose a Bayesian record linkage procedure that simultaneously links providers and patients. The procedure improves the accuracy of the estimated links compared to current methods. We use this procedure to merge a trauma registry with Medicare claims to estimate the association between TBI patients’ injury severity and postacute care recovery.",
+  "focus": "Proposes a Bayesian record linkage procedure that simultaneously links two layers — health care providers and their patients — exploiting the constraint that only records treated by the same provider can belong to the same patient, even though providers are not uniquely identified across datasets. It is used to merge a trauma registry with Medicare claims to study post-acute care recovery after traumatic brain injury, improving link accuracy over current methods.",
+  "borrow": "The multilayer idea — jointly linking a grouping variable alongside the records it constrains — generalizes beyond health care: ERBOT can jointly link households, facilities, or organizations with individuals when group membership restricts possible matches.",
+  "fill": "The procedure is built for US health data with provider groupings; other grouping structures, more than two layers, and scaling the joint Bayesian computation to millions of records are left open.",
+  "correct": "The gains depend on the grouping constraint actually holding — patients who change providers or receive care across systems violate it — and multilayer Bayesian models are computationally heavy relative to the accuracy they add.",
+  "verified": true
+ },
+ {
+  "n": 252,
+  "id": "er-252",
+  "title": "Bayesian Causal Inference with Bipartite Record Linkage",
+  "authors": [
+   "Sharmistha Guha",
+   "Jerome P. Reiter",
+   "Andrea Mercatanti"
+  ],
+  "year": 2022,
+  "venue": "Bayesian Analysis",
+  "doi": "10.1214/21-ba1297",
+  "citations": 10,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "Bayesian"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "In some scenarios, the observational data needed for causal inferences are spread over two data files. In particular, we consider scenarios where one file includes covariates and the treatment measured on a set of individuals, and a second file includes responses measured on another, partially overlapping set of individuals. In the absence of error-free direct identifiers like social security numbers, straightforward merging of separate files is not feasible, so that records must be linked using error-prone variables such as names, birth dates, and demographic characteristics. Typical practice in such situations generally follows a two-stage procedure: first link the two files using a probabilistic linkage technique, then make causal inferences with the linked dataset. This does not propagate uncertainty due to imperfect linkages to the causal inference, nor does it leverage relationships among the study variables to improve the quality of the linkages. We propose a joint model for simultaneous Bayesian inference on probabilistic linkage and causal effects that addresses these deficiencies. Using simulation studies and theoretical arguments, we show that the joint model can improve the accuracy of estimated treatment effects, as well as the record linkages, compared to the two-stage modeling option. We illustrate the joint model using a constructed causal study of the effects of debit card possession on household spending.",
+  "focus": "Proposes a joint Bayesian model that simultaneously performs bipartite probabilistic linkage between two files — covariates and treatment in one, responses in the other — and estimates causal effects, so linkage uncertainty propagates into the causal estimates and study variables feed back to improve the linkage. Simulations and theory show improved treatment-effect and linkage accuracy over the usual two-stage practice, illustrated with a constructed study of debit card possession and household spending.",
+  "borrow": "The joint-modeling principle — letting downstream variables feed back into linkage rather than treating linkage as frozen preprocessing — is a design option for ERBOT whenever the analysis target is known in advance.",
+  "fill": "The model is demonstrated for bipartite linkage with a specific causal estimand and a constructed example; multi-file linkage, non-causal downstream analyses, and computation at ERBOT's target scale are left open.",
+  "correct": "Joint modeling ties the linkage to one outcome model: if that model is misspecified, its feedback can distort the linkage itself, a risk the two-stage approach avoids; and the empirical illustration is constructed rather than real linked administrative data.",
+  "verified": true
+ },
+ {
+  "n": 253,
+  "id": "er-253",
   "title": "Improving Probabilistic Record Linkage Using Statistical Prediction Models",
   "authors": [
    "Angelo Moretti",
@@ -4889,8 +7565,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 163,
-  "id": "er-163",
+  "n": 254,
+  "id": "er-254",
   "title": "Splink: Free software for probabilistic record linkage at scale.",
   "authors": [
    "Robin Linacre",
@@ -4922,8 +7598,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 164,
-  "id": "er-164",
+  "n": 255,
+  "id": "er-255",
   "title": "The Data-Adaptive Fellegi-Sunter Model for Probabilistic Record Linkage: Algorithm Development and Validation for Incorporating Missing Data and Field Selection",
   "authors": [
    "Xiaochun Li",
@@ -4951,8 +7627,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 165,
-  "id": "er-165",
+  "n": 256,
+  "id": "er-256",
+  "title": "bstrl: Bayesian Streaming Record Linkage",
+  "authors": [
+   "Brenda Betancourt",
+   "Andee Kaplan",
+   "Ian Taylor"
+  ],
+  "year": 2022,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.bstrl",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "Bayesian"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2022) implementing Bayesian streaming record linkage: linkage inference that updates as records arrive over time, rather than assuming a single static batch of files. As a software record it carries no abstract; the contribution is a working implementation of the streaming Bayesian linkage model.",
+  "borrow": "Directly borrowable for ERBOT: a Bayesian streaming linkage implementation in R that we can use as a component or as a baseline when linkage must be maintained incrementally instead of recomputed from scratch.",
+  "fill": "The package addresses the streaming linkage model itself; combining it with blocking for very large files, and propagating linkage uncertainty into downstream analysis of the linked data, are left to the user — integration work we can do and evaluate in ERBOT.",
+  "correct": "A package listing provides no accuracy or runtime evidence, and streaming linkage quality depends on how well the model's assumptions fit the arrival process and drift in the data, which the record does not document.",
+  "verified": true
+ },
+ {
+  "n": 257,
+  "id": "er-257",
   "title": "reclin2: Record Linkage Toolkit",
   "authors": [
    "Jan van der Laan"
@@ -4979,8 +7684,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 166,
-  "id": "er-166",
+  "n": 258,
+  "id": "er-258",
   "title": "An open-source probabilistic record linkage process for records with family-level information: Simulation study and applied analysis",
   "authors": [
    "John Prindle",
@@ -5010,8 +7715,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 167,
-  "id": "er-167",
+  "n": 259,
+  "id": "er-259",
   "title": "Bayesian Graphical Entity Resolution Using Exchangeable Random Partition Priors",
   "authors": [
    "Neil G. Marchant",
@@ -5042,8 +7747,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 168,
-  "id": "er-168",
+  "n": 260,
+  "id": "er-260",
   "title": "Bayesian Record Linkage with Variables in One File",
   "authors": [
    "Gauri Kamat",
@@ -5071,8 +7776,40 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 169,
-  "id": "er-169",
+  "n": 261,
+  "id": "er-261",
+  "title": "Extending the Fellegi-Sunter record linkage model for mixed-type data with application to the French national health data system",
+  "authors": [
+   "Thanh Huan Vo",
+   "Guillaume Chauvet",
+   "André Happe",
+   "Emmanuel Oger",
+   "Stéphane Paquelet",
+   "Valérie Garès"
+  ],
+  "year": 2023,
+  "venue": "Computational Statistics &amp; Data Analysis",
+  "doi": "10.1016/j.csda.2022.107656",
+  "citations": 9,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Extends the Fellegi–Sunter record linkage model to mixed-type data, so that fields of different kinds can contribute agreement evidence within one linkage model, and applies the extension to the French national health data system (Computational Statistics & Data Analysis, 2023).",
+  "borrow": "A principled way to bring continuous and otherwise mixed-type fields into Fellegi–Sunter weighting, instead of forcing every field into a binary agree/disagree, is directly relevant to ERBOT records that include numeric fields.",
+  "fill": "The extension is demonstrated on one national health data system; validation on non-health data and integration with blocking and post-linkage clustering in a full pipeline are left open.",
+  "correct": "Mixed-type extensions add per-field modeling choices, and misspecification of how a field's agreement is scored can quietly dominate the linkage result; a single application does not show the extension is robust across different field mixes.",
+  "verified": true
+ },
+ {
+  "n": 262,
+  "id": "er-262",
   "title": "Fast Bayesian Record Linkage for Streaming Data Contexts",
   "authors": [
    "Ian Taylor",
@@ -5102,8 +7839,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 170,
-  "id": "er-170",
+  "n": 263,
+  "id": "er-263",
+  "title": "Implementing Informative-Based Active Learning in Biomedical Record Linkage for the Splink Package in Python",
+  "authors": [
+   "Marko Miletic",
+   "Murat Sariyar"
+  ],
+  "year": 2023,
+  "venue": "Studies in Health Technology and Informatics",
+  "doi": "10.3233/shti230545",
+  "citations": 1,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic",
+   "system"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "In biomedical record linkage, efficient determination of a threshold to decide at which level of similarity two records should be classified as belonging to the same patient is frequently still an open issue. Here, we describe how to implement an efficient active learning strategy that puts into practice a measure of usefulness of training sets for such a task. Our results show that active learning should always be considered when training data is to be produced via manual labeling. In addition to that, active learning gives a quick indication how complex a problem is by looking into the label frequencies: If the most difficult entities are always stemming from the same class, then the classifier will probably have less problems in distinguishing the classes. In big data applications, these two properties are essential, as the problems of under- and overfitting are exacerbated in such contexts.",
+  "focus": "The paper implements an informative active learning strategy for biomedical record linkage inside Splink, the Python Fellegi–Sunter linkage package, targeting the open practical problem of setting a similarity threshold and producing training data by manual labeling. The authors report that active learning should be considered whenever training data must be produced by manual labeling, and that the label frequencies among the hardest entities give an early indication of how well the classifier will be able to separate the classes.",
+  "borrow": "The usefulness-ranked labeling queue transfers directly: ERBOT can present reviewers with the pairs that most improve threshold and weight estimation instead of random or purely borderline pairs.",
+  "fill": "The implementation is tied to Splink's Python Fellegi–Sunter workflow; porting informative active learning into an R-based pipeline, and extending it from threshold setting to blocking and clustering decisions, remains for us to do.",
+  "correct": "The recommendation that active learning should always be considered is drawn from a biomedical linkage setting; on very large files the labeling savings may shrink relative to the cost of repeatedly re-estimating the model, which the paper does not quantify.",
+  "verified": true
+ },
+ {
+  "n": 264,
+  "id": "er-264",
   "title": "Optimal $F$-score Clustering for Bipartite Record Linkage",
   "authors": [
    "Eric A. Bai",
@@ -5134,8 +7900,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 171,
-  "id": "er-171",
+  "n": 265,
+  "id": "er-265",
   "title": "multilink: Multifile Record Linkage and Duplicate Detection",
   "authors": [
    "Serge Aleshin-Guendel"
@@ -5162,8 +7928,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 172,
-  "id": "er-172",
+  "n": 266,
+  "id": "er-266",
   "title": "A Flexible Model for Record Linkage",
   "authors": [
    "Kayané Robach",
@@ -5193,8 +7959,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 173,
-  "id": "er-173",
+  "n": 267,
+  "id": "er-267",
   "title": "A Fuzzy Approach to Record Linkages",
   "authors": [
    "Pratik K. Biswas"
@@ -5221,8 +7987,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 174,
-  "id": "er-174",
+  "n": 268,
+  "id": "er-268",
   "title": "De-Anonymizing Users across Rating Datasets via Record Linkage and Quasi-Identifier Attacks",
   "authors": [
    "Nicolás Torres",
@@ -5251,8 +8017,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 175,
-  "id": "er-175",
+  "n": 269,
+  "id": "er-269",
+  "title": "From Probabilistic to Fuzzy Matching Record Linkage: A promising Transition",
+  "authors": [
+   "Mahmoud Azimaee",
+   "Gangamma Kalappa",
+   "Charlotte Ma",
+   "Nan Wang",
+   "Winnie Shen"
+  ],
+  "year": 2024,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v9i5.2624",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "string metric",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "web scale (>1M)",
+  "abstract": "ObjectiveProbabilistic Record Linkage (PRL) heavily relies on manual intervention for gray area resolutions. This makes PRL extremely time and resource intensive. No matter how scientifically sound and robust PRL method is, it didn’t meet close-to-real-time data availability requirements at ICES.  \r\nApproachDuring a thorough evaluation and comparison process of three software and two methods of Record Linkage, ICES initiated a semi-design of experiment to select an optimal record linkage approach. For this experiment, a large Ontario data on 12 million individuals with required linkage variables plus valid Ontario health card numbers was selected. While the availability of the health card number enabled assessment of the accuracy of different approaches, the analysts were blinded to the correct health card numbers during the process. If manual intervention was required, it was repeated by two analysts to allow capturing human error.\r\nResultsPRL-based software needed the most personnel time to complete the process. Human errors were identified during the manual intervention due to subjective decisions by the analysts. Fuzzy Matching approach eliminated manual intervention but achieved comparable linkage rate to PRL while maintaining the same accuracy. The Fuzzy Matching software costs were higher; however, the data timeliness was significantly improved, and the clerical review costs and human error were eliminated.\r\nConclusionsThe Modernization of Record Linkage (MORL) project was a successful demonstration of the advantages of Fuzzy Matching over PRL method. However, the implementation of new approach at the organization level was a challenging change management.",
+  "focus": "At Ontario's ICES institute, the authors compared probabilistic record linkage with fuzzy matching on data covering 12 million individuals, using health card numbers as ground truth that analysts were blinded to. Probabilistic linkage consumed the most personnel time and its manual gray-area review introduced human error, while fuzzy matching eliminated manual intervention at a comparable linkage rate and the same accuracy — at higher software cost but with significantly improved timeliness.",
+  "borrow": "The study design is the borrowable part: blinded ground-truth identifiers, duplicated manual review to measure reviewer error, and total-cost accounting in personnel time rather than accuracy alone — an evaluation template ERBOT should copy.",
+  "fill": "The comparison is between specific software packages at one institute; it does not isolate which algorithmic ingredient (similarity functions, thresholds, automation of the gray zone) produced the gain, leaving the mechanism for us to identify.",
+  "correct": "One organization's data, identifiers, and staffing drive the result; the 'same accuracy' verdict is measured against health card numbers that are themselves not error-free, and vendor cost differences may dominate the algorithmic ones elsewhere.",
+  "verified": true
+ },
+ {
+  "n": 270,
+  "id": "er-270",
   "title": "Hausdorff Distance-Based Record Linkage for Improved Matching of Households and Individuals in Different Databases",
   "authors": [
    "Thais Pacheco Menezes",
@@ -5281,8 +8080,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 176,
-  "id": "er-176",
+  "n": 271,
+  "id": "er-271",
+  "title": "Regression-assisted Bayesian record linkage for causal inference in observational studies with covariates spread over two files",
+  "authors": [
+   "Sharmistha Guha",
+   "Jerome P. Reiter"
+  ],
+  "year": 2024,
+  "venue": "Journal of Statistical Planning and Inference",
+  "doi": "10.1016/j.jspi.2023.07.004",
+  "citations": 3,
+  "themes": [
+   "probabilistic",
+   "privacy-bayesian"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper develops a Bayesian record linkage approach for the setting where the covariates needed for a causal analysis are split across two files that must first be linked. A regression-assisted formulation is used so that the linkage and the downstream causal analysis inform each other rather than being run as disconnected steps.",
+  "borrow": "The borrowable practice is propagating linkage uncertainty into the downstream estimate instead of treating links as certain: ERBOT's evaluation can report how sensitive a linked-file analysis is to match uncertainty, not just pairwise match accuracy.",
+  "fill": "The method is framed for two files with covariates spread across them; multi-file linkage, richer covariate structures, and an implementation that survives very large files are left open, and are natural extensions for us.",
+  "correct": "Fully Bayesian linkage is computationally expensive and prior-sensitive, and the record gives no evidence about behaviour at large scale, so the approach's practical reach beyond moderate-sized files should not be assumed.",
+  "verified": true
+ },
+ {
+  "n": 272,
+  "id": "er-272",
   "title": "False Discovery estimation in Record Linkage",
   "authors": [
    "Kayané Robach",
@@ -5311,8 +8140,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 177,
-  "id": "er-177",
+  "n": 273,
+  "id": "er-273",
   "title": "Large-scale entity resolution via microclustering Ewens--Pitman random partitions",
   "authors": [
    "Mario Beraha",
@@ -5342,8 +8171,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 178,
-  "id": "er-178",
+  "n": 274,
+  "id": "er-274",
   "title": "On linkage bias-correction for estimators using iterated bootstraps",
   "authors": [
    "Siu-Ming Tam",
@@ -5373,8 +8202,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 179,
-  "id": "er-179",
+  "n": 275,
+  "id": "er-275",
+  "title": "Probabilistic Linkage Pipeline Improving Linkage Quality and Explainability in Healthcare",
+  "authors": [
+   "Jonny Laidler",
+   "Amaia Imaz Blanco",
+   "Divya Balasubramanian"
+  ],
+  "year": 2025,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v10i4.3271",
+  "citations": 1,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "web scale (>1M)",
+  "abstract": "ObjectivesThe current methods used for data linkage or indexing in the healthcare industry follow deterministic algorithms that are not transparent to the end users and with often sub-optimal outcomes. Our work focuses on building and implementing a probabilistic algorithm that improves quality as well as explainability of the linkage.\r\nMethodsIn this project we have used Splink, a UK Ministry of Justice probabilistic linkage Python package, to build a pipeline that links any health data set to the Personal Demographics Service (PDS), a dataset containing information about all patients registered to a GP in England, which acts as our linkage “spine”. Our work has involved thorough investigation and evaluation every step of the process to ensure the quality of linkage is assured. We have taken considerations for data set ingestion, preprocessing, blocking rules, distance metric hierarchies, and explainability, including how to present the data appropriately to users of linked data.\r\nResultsThroughout the developing process we have made comparisons to the existing deterministic linkage algorithm, clerically reviewing results that differed between the models, aiming to improve it. This allowed us to also build a ground truth dataset of records we reviewed and whether they were a true link or not. Furthermore, bias analysis is performed for evaluation purposes. Whilst we aim to continue improving the model, preliminary results show that this new methodology has improved linkage quality by up to 19% in comparison to the existing methodology. We are building an in-house capability to deliver this methodology at scale. Our mode, available in a public repo, provides additional metrics such as linkage probability made available to the end-users as part of improving transparency and explainability.\r\nConclusionOur research and implementation provide evidence that probabilistic linkage algorithms are more sustainable indexing methods for continuous improvement of data quality, particularly in the healthcare industry. We believe the additional explainable measures will allow end-users to make informed decisions in their product creation ultimately improving patient health.",
+  "focus": "This paper builds a probabilistic linkage pipeline with Splink that links health datasets to England's Personal Demographics Service as a spine, covering ingestion, preprocessing, blocking rules, and distance-metric hierarchies, and reporting linkage probabilities to end users for explainability. Disagreements with the incumbent deterministic algorithm were clerically reviewed to build a ground-truth set and run bias analysis; preliminary results show linkage quality improved by up to 19% over the deterministic method.",
+  "borrow": "The operational template transfers almost whole: probabilistic pipeline plus disagreement-driven clerical review to manufacture ground truth, bias analysis, and per-pair probability reporting — all directly adoptable in ERBOT's evaluation and reporting stage.",
+  "fill": "The work is explicitly ongoing, with full-scale in-house delivery still being built; published, reproducible quality figures at national scale, and evidence that the template transfers beyond a single spine dataset, are left open — including for our own deployments.",
+  "correct": "The headline 'up to 19%' improvement is preliminary and measured against a deterministic incumbent, a weak baseline; and because the ground truth was built by reviewing exactly the cases where the two models disagreed, it may be kinder to the probabilistic model's error profile.",
+  "verified": true
+ },
+ {
+  "n": 276,
+  "id": "er-276",
   "title": "Probabilistic Record Linkage Using Pretrained Text Embeddings",
   "authors": [
    "Joseph T. Ornstein"
@@ -5402,8 +8261,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 180,
-  "id": "er-180",
+  "n": 277,
+  "id": "er-277",
   "title": "Regression Analysis After Bipartite Bayesian Record Linkage",
   "authors": [
    "Xueyan Hu",
@@ -5432,8 +8291,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 181,
-  "id": "er-181",
+  "n": 278,
+  "id": "er-278",
   "title": "Relaxing the Assumption of Strongly Non-Informative Linkage Error in Secondary Regression Analysis of Linked Files",
   "authors": [
    "Priyanjali Bukke",
@@ -5461,8 +8320,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 182,
-  "id": "er-182",
+  "n": 279,
+  "id": "er-279",
   "title": "fuzzylink: Probabilistic Record Linkage Using Pretrained Text Embeddings",
   "authors": [
    "Joe Ornstein"
@@ -5490,8 +8349,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 183,
-  "id": "er-183",
+  "n": 280,
+  "id": "er-280",
+  "title": "Bayesian and Variational FastLink for Record Linkage",
+  "authors": [
+   "Sonya Eason",
+   "Yinyihong Liu",
+   "Rebecca C. Steorts"
+  ],
+  "year": 2026,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-032-37883-5_11",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "scalable"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A book chapter (Lecture Notes in Computer Science, 2026) presenting Bayesian and variational versions of FastLink, the fast Fellegi–Sunter record linkage approach — adding Bayesian posterior inference, approximated variationally for speed, to a framework classically estimated by EM. The record carries no abstract, so specific results are not summarized here.",
+  "borrow": "Variational Bayesian inference for Fellegi–Sunter linkage is directly relevant to ERBOT: it promises match-probability uncertainty at something close to FastLink speed, which our probabilistic stage could adopt for large files where full Bayesian computation is infeasible.",
+  "fill": "The chapter is a methods contribution; end-to-end evaluation inside a full pipeline — combined with blocking, clustering, and downstream use of the linked data — and comparison against learned matchers remain for us to carry out.",
+  "correct": "With no abstract in the record, the evidence for the approach cannot be assessed here; variational approximations also trade posterior accuracy for speed, and the size of that trade-off for linkage decisions is exactly what a reader cannot tell from this record.",
+  "verified": true
+ },
+ {
+  "n": 281,
+  "id": "er-281",
   "title": "Causal Record Linkage",
   "authors": [
    "Kayané Robach",
@@ -5521,8 +8411,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 184,
-  "id": "er-184",
+  "n": 282,
+  "id": "er-282",
   "title": "FlexRL: an R package for Flexible Record Linkage and Linked Data Quality Assessment",
   "authors": [
    "Kayané Robach",
@@ -5552,8 +8442,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 185,
-  "id": "er-185",
+  "n": 283,
+  "id": "er-283",
   "title": "RCShift: Certifying When Partial Linkage Suffices for Finite-Sample Decisions",
   "authors": [
    "Shuheng Cao",
@@ -5587,8 +8477,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 186,
-  "id": "er-186",
+  "n": 284,
+  "id": "er-284",
   "title": "Randomized Experiments with Ambiguous Record Linkage",
   "authors": [
    "Bruno Ferman",
@@ -5616,8 +8506,150 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 187,
-  "id": "er-187",
+  "n": 285,
+  "id": "er-285",
+  "title": "Record Linkage Error and Inference in Population Research",
+  "authors": [
+   "Casey Breen",
+   "Won-tak Joo"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.31235/osf.io/yjnpm_v2",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "The explosion in digitization of large-scale administrative data and advances in record linkage have opened up new possibilities for studying core topics in population research, including social mobility, early-life determinants of longevity, and shifts in ethnoracial identity. Much attention has been paid to improving record linkage algorithms, but methodological guidance for researchers analyzing linked data is limited. We propose a general framework to explain how different types of linkage errors—false matches and missed matches—impact inference with linked data and introduce a bias-correction method. We then conduct three empirical case studies on canonical topics in population research: social mobility, the education–longevity gradient, and shifts in ethnoracial identification. These case studies demonstrate the settings in which linkage errors do and do not meaningfully impact substantive research findings. We conclude with practical recommendations for researchers performing inference with linked data and provide an accompanying R package implementing the methods introduced in this paper.",
+  "focus": "The paper proposes a general framework explaining how the two linkage error types, false matches and missed matches, bias substantive inference in population research, and introduces a bias-correction method. It demonstrates the framework in three case studies (social mobility, the education-longevity gradient, and shifts in ethnoracial identification) and provides an accompanying R package implementing the methods.",
+  "borrow": "The error-type framework and bias correction give ERBOT's evaluation stage a way to translate false-match and missed-match rates into expected downstream bias, not just precision/recall numbers. The accompanying R package is also directly inspectable from our R-based pipeline.",
+  "fill": "The framework is demonstrated on population-research estimands with the authors' own linkage setups; it does not show how to choose blocking or threshold settings inside a pipeline like ours so as to minimize downstream bias, nor how linkage uncertainty should propagate through a clustering stage. Building that bridge from error rates to pipeline design choices is left for us.",
+  "correct": "This is an unreviewed preprint (OSF), and the bias correction necessarily rests on assumptions about the linkage error process that the abstract does not state; if errors are not missing at random with respect to the analysis variables, the correction can mislead. The three case studies are all in US administrative-data settings, so the settings where errors 'do not matter' may not transfer.",
+  "verified": true
+ },
+ {
+  "n": 286,
+  "id": "er-286",
+  "title": "Timelink: Time-Aware Record Linkage With Semi-Markov Dynamics",
+  "authors": [
+   "Kwan Bo Shim"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.2139/ssrn.6468518",
+  "citations": 0,
+  "themes": [
+   "probabilistic",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Record linkage-determining whether records in different databases refer to the same person-is foundational to health research, official statistics, and public administration. The classical Fellegi-Sunter (FS) framework treats all field comparisons as static, ignoring that attributes like address and marital status change over time. We propose TimeLink, a semi-Markov extension of FS that classifies fields as stable (time-invariant), dynamic (low-cardinality, modeled via semi-Markov transition matrices), or semi-stable (high-cardinality, modeled via Weibull survival times). Match weights are derived from a coherent generative model, depend on the time gap, and reduce to a standard FS additive score with precomputed weights. On North Carolina voter registration data (10-year gap), TimeLink achieves F1 = 0.877 vs. 0.751 for classical FS; on IPUMS historical census records (20year gap), F1 = 0.668 vs. 0.146; and in a controlled simulation spanning 10-30 year gaps, classical FS collapses to F1 = 0.055 while TimeLink maintains F1 above 0.85, matching supervised methods without labeled data. TimeLink thus enables accurate unsupervised linkage across decade-scale gaps where classical methods fail.",
+  "focus": "Timelink extends the Fellegi–Sunter framework to handle attributes that change over time, classifying fields as stable, dynamic (low-cardinality, modeled with semi-Markov transition matrices), or semi-stable (high-cardinality, modeled with Weibull survival times), so match weights depend on the time gap yet still reduce to a precomputed additive score. On North Carolina voter records spanning 10 years it reaches F1 0.877 versus 0.751 for classical Fellegi–Sunter, on IPUMS census records over 20 years 0.668 versus 0.146, and in simulation it stays above 0.85 across 10–30-year gaps where classical Fellegi–Sunter collapses to 0.055 — without labeled data.",
+  "borrow": "The stable/dynamic/semi-stable field taxonomy and time-gap-dependent match weights are directly adoptable in ERBOT for longitudinal and historical linkage, where treating address or marital status as static is a known source of missed matches.",
+  "fill": "Evidence comes from U.S. voter and census person records; other drifting-attribute domains, estimating the transition/survival parameters when some labels exist, and combining time-aware weights with blocking at very large scale are left open for us to pursue.",
+  "correct": "This is an unreviewed SSRN preprint, and the dramatic simulation contrast (Fellegi–Sunter at F1 0.055) is partly a product of the authors' simulation design, which is built to punish static scoring; the real-data gains, while substantial, rest on two U.S. person-record datasets.",
+  "verified": true
+ },
+ {
+  "n": 287,
+  "id": "er-287",
+  "title": "starling: Record Linkage for Public Health Surveillance",
+  "authors": [
+   "Nicolas Smoll"
+  ],
+  "year": 2026,
+  "venue": "CRAN: Contributed Packages",
+  "doi": "10.32614/cran.package.starling",
+  "citations": 0,
+  "themes": [
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An R package (CRAN, 2026) providing record linkage tailored to public health surveillance, where the same individuals must be matched across incoming surveillance reports and registries. As a software record it carries no abstract; the contribution is a domain-tailored linkage implementation.",
+  "borrow": "Domain-tailored linkage defaults for person records of the surveillance type (names, dates, demographics) give ERBOT a comparison point — and possibly reusable components — for health-data linkage tasks.",
+  "fill": "The package is tailored to one domain; its blocking behavior and accuracy on very large files and on non-health record types are left open, and cross-domain evaluation is work we can contribute.",
+  "correct": "A package listing carries no documented evaluation, and surveillance-specific tailoring (field choices, thresholds) may not transfer to other record types; users must validate it on their own data before trusting its links.",
+  "verified": true
+ },
+ {
+  "n": 288,
+  "id": "er-288",
+  "title": "Learning object identification rules for information integration",
+  "authors": [
+   "Sheila Tejada",
+   "Craig A Knoblock",
+   "Steven Minton"
+  ],
+  "year": 2001,
+  "venue": "Information Systems",
+  "doi": "10.1016/s0306-4379(01)00042-4",
+  "citations": 185,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper addresses object identification — deciding which records from different information sources refer to the same object — by learning identification rules from examples rather than hand-crafting them. Published in Information Systems, it is an early demonstration that matching rules for information integration can be induced automatically.",
+  "borrow": "Learned, human-readable matching rules over attribute-similarity evidence are worth borrowing for ERBOT's classification stage as an interpretable alternative to black-box classifiers.",
+  "fill": "The 2001 approach predates learned representations and modern blocking; combining induced rules with embedding-based similarities and scaling rule learning to very large files is left open for us.",
+  "correct": "With no abstract available, the safe scope limit is its era and setting: rule induction depends on representative labelled examples, and its behaviour on today's large, noisy structured files is not established by the record.",
+  "verified": true
+ },
+ {
+  "n": 289,
+  "id": "er-289",
+  "title": "Interactive deduplication using active learning",
+  "authors": [
+   "Sunita Sarawagi",
+   "Anuradha Bhamidipaty"
+  ],
+  "year": 2002,
+  "venue": "Proceedings of the eighth ACM SIGKDD international conference on Knowledge discovery and data mining",
+  "doi": "10.1145/775047.775087",
+  "citations": 441,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Sarawagi and Bhamidipaty introduce interactive deduplication driven by active learning: the system selects the record pairs whose labels would most improve the matcher and asks the user to judge those, interleaving training with the deduplication process itself. Presented at KDD 2002, it founded the active-learning line of entity resolution research.",
+  "borrow": "The query-selection idea — spend human labels only on pairs near the decision boundary or with high expected model change — is the cheapest route for ERBOT to reach supervised quality on a tiny labeling budget.",
+  "fill": "The 2002 formulation assumes a single interactive user and batch retraining; selecting informative pairs under modern learned representations, and allocating a labeling budget jointly across blocking, matching, and clustering, remains open.",
+  "correct": "Active learning gains depend on the user being a reliable oracle and on early queries being representative; a few mislabeled or atypical answers early on can steer the matcher into a poor region.",
+  "verified": true
+ },
+ {
+  "n": 290,
+  "id": "er-290",
   "title": "Entity matching in heterogeneous databases: A logistic regression approach",
   "authors": [
    "Debabrata Dey"
@@ -5644,8 +8676,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 188,
-  "id": "er-188",
+  "n": 291,
+  "id": "er-291",
   "title": "Classifier based duplicate record elimination for query results from web databases",
   "authors": [
    "G. Kalpana",
@@ -5673,8 +8705,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 189,
-  "id": "er-189",
+  "n": 292,
+  "id": "er-292",
   "title": "Beyond probabilistic record linkage: Using neural networks and complex features to improve genealogical record linkage",
   "authors": [
    "D. Randall Wilson"
@@ -5702,8 +8734,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 190,
-  "id": "er-190",
+  "n": 293,
+  "id": "er-293",
   "title": "Active sampling for entity matching",
   "authors": [
    "Kedar Bellare",
@@ -5733,8 +8765,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 191,
-  "id": "er-191",
+  "n": 294,
+  "id": "er-294",
   "title": "CrowdER: Crowdsourcing Entity Resolution",
   "authors": [
    "Jiannan Wang",
@@ -5764,8 +8796,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 192,
-  "id": "er-192",
+  "n": 295,
+  "id": "er-295",
   "title": "Active Sampling for Entity Matching with Guarantees",
   "authors": [
    "Kedar Bellare",
@@ -5795,8 +8827,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 193,
-  "id": "er-193",
+  "n": 296,
+  "id": "er-296",
+  "title": "Author Name Disambiguation by Using Deep Neural Network",
+  "authors": [
+   "Hung Nghiep Tran",
+   "Tin Huynh",
+   "Tien Do"
+  ],
+  "year": 2014,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-319-05476-6_13",
+  "citations": 41,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Tran, Huynh and Do apply a deep neural network to author name disambiguation, learning representations of author records to separate same-name authors in bibliographic data. Published in 2014, it is an early use of deep learning for this disambiguation task.",
+  "borrow": "Learned representations for author records, rather than hand-crafted similarity features alone, anticipate the embedding features ERBOT can compute for its classification stage.",
+  "fill": "The paper predates modern pre-trained language models; re-testing its premise with current embeddings, and on non-English author names, is work left open.",
+  "correct": "Deep models for disambiguation need substantial labelled training data, which is precisely what most libraries lack; reported gains may shrink where training labels are thin or noisy.",
+  "verified": true
+ },
+ {
+  "n": 297,
+  "id": "er-297",
   "title": "Learning an accurate entity resolution model from crowdsourced labels",
   "authors": [
    "Jingjing Wang",
@@ -5825,8 +8887,103 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 194,
-  "id": "er-194",
+  "n": 298,
+  "id": "er-298",
+  "title": "Matching Entities Across Online Social Networks",
+  "authors": [
+   "Olga Peled",
+   "Michael Fire",
+   "Lior Rokach",
+   "Yuval Elovici"
+  ],
+  "year": 2014,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.1410.6717",
+  "citations": null,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "mixed",
+  "scale": "small benchmark",
+  "abstract": "Online Social Networks (OSNs), such as Facebook and Twitter, have become an integral part of our daily lives. There are hundreds of OSNs, each with its own focus in that each offers particular services and functionalities. Recent studies show that many OSN users create several accounts on multiple OSNs using the same or different personal information. Collecting all the available data of an individual from several OSNs and fusing it into a single profile can be useful for many purposes. In this paper, we introduce novel machine learning based methods for solving Entity Resolution (ER), a problem for matching user profiles across multiple OSNs. The presented methods are able to match between two user profiles from two different OSNs based on supervised learning techniques, which use features extracted from each one of the user profiles. By using the extracted features and supervised learning techniques, we developed classifiers which can perform entity matching between two profiles for the following scenarios: (a) matching entities across two OSNs; (b) searching for a user by similar name; and (c) de-anonymizing a user's identity. The constructed classifiers were tested by using data collected from two popular OSNs, Facebook and Xing. We then evaluated the classifiers' performances using various evaluation measures, such as true and false positive rates, accuracy, and the Area Under the receiver operator Curve (AUC). The constructed classifiers were evaluated and their classification performance measured by AUC was quite remarkable, with an AUC of up to 0.982 and an accuracy of up to 95.9% in identifying user profiles across two OSNs.",
+  "focus": "This paper applies supervised machine learning to entity resolution across online social networks: classifiers built on features extracted from user profiles decide whether profiles on two networks (evaluated on Facebook and Xing data) belong to the same person. It covers cross-network matching, searching for a user by similar name, and de-anonymisation, reporting AUC up to 0.982 and accuracy up to 95.9%.",
+  "borrow": "The profile-feature engineering and classifier evaluation protocol (true/false positive rates, AUC) are borrowable for person matching in ERBOT when records come from heterogeneous profile-like sources.",
+  "fill": "The study is confined to two networks and 2014-era profile fields; multi-source profile linkage across today's platforms, and privacy-preserving variants of such matching, are left open for us.",
+  "correct": "Results rest on data the authors collected from two networks and may not generalise; the de-anonymisation scenario also underlines that high matching accuracy is dual-use, a risk the paper's framing treats mainly as a capability. It is an unreviewed preprint.",
+  "verified": true
+ },
+ {
+  "n": 299,
+  "id": "er-299",
+  "title": "A Joint Embedding Method for Entity Alignment of Knowledge Bases",
+  "authors": [
+   "Yanchao Hao",
+   "Yuanzhe Zhang",
+   "Shizhu He",
+   "Kang Liu",
+   "Jun Zhao"
+  ],
+  "year": 2016,
+  "venue": "Communications in Computer and Information Science",
+  "doi": "10.1007/978-981-10-3168-7_1",
+  "citations": 60,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes a joint embedding method for aligning entities across knowledge bases, learning entity and attribute representations together rather than from graph structure alone. Published in 2016, it is an early example of bringing attribute information into embedding-based alignment.",
+  "borrow": "Jointly embedding structural and attribute signals — rather than concatenating separate scores afterwards — is a design option for ERBOT's classification stage when attributes and relations coexist.",
+  "fill": "The record provides no abstract, so the method's data requirements (seed alignments, attribute coverage) cannot be checked here; its behaviour on non-KG tabular data remains an open question for us.",
+  "correct": "Early joint-embedding alignment methods typically depend on a reasonable set of seed alignments and shared attributes; where those are scarce, the joint objective has little to anchor on.",
+  "verified": true
+ },
+ {
+  "n": 300,
+  "id": "er-300",
+  "title": "Collective Entity Resolution with Multi-Focal Attention",
+  "authors": [
+   "Amir Globerson",
+   "Nevena Lazic",
+   "Soumen Chakrabarti",
+   "Amarnag Subramanya",
+   "Michael Ringaard",
+   "Fernando Pereira"
+  ],
+  "year": 2016,
+  "venue": "Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+  "doi": "10.18653/v1/p16-1059",
+  "citations": 55,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Globerson and colleagues formulate entity resolution collectively: match decisions for an entity are made jointly, attending to multiple related entities — multi-focal attention — instead of scoring pairs independently. The paper brings attention mechanisms into collective record matching.",
+  "borrow": "Collective inference is the principled version of what clustering approximates; the multi-focal idea — letting several neighbours inform a match — can guide how ERBOT propagates evidence within a block.",
+  "fill": "Collective models are typically evaluated at modest scale; making joint inference tractable and well calibrated at the block sizes ERBOT encounters in production data is left open.",
+  "correct": "Joint inference can also propagate errors: one confident wrong match can pull its neighbours with it, a failure mode that pairwise pipelines with conservative clustering avoid.",
+  "verified": true
+ },
+ {
+  "n": 301,
+  "id": "er-301",
   "title": "Magellan: toward building entity matching management systems over data science stacks",
   "authors": [
    "Pradap Konda",
@@ -5865,8 +9022,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 195,
-  "id": "er-195",
+  "n": 302,
+  "id": "er-302",
   "title": "A Supervised Learning Approach To Entity Matching Between Scholarly Big Datasets",
   "authors": [
    "Jian Wu",
@@ -5896,8 +9053,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 196,
-  "id": "er-196",
+  "n": 303,
+  "id": "er-303",
   "title": "Active Learning for Large-Scale Entity Resolution",
   "authors": [
    "Kun Qian",
@@ -5926,8 +9083,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 197,
-  "id": "er-197",
+  "n": 304,
+  "id": "er-304",
   "title": "ERBlox: Combining matching dependencies with machine learning for entity resolution",
   "authors": [
    "Zeinab Bahmani",
@@ -5956,8 +9113,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 198,
-  "id": "er-198",
+  "n": 305,
+  "id": "er-305",
+  "title": "Bootstrapping Entity Alignment with Knowledge Graph Embedding",
+  "authors": [
+   "Zequn Sun",
+   "Wei Hu",
+   "Qingheng Zhang",
+   "Yuzhong Qu"
+  ],
+  "year": 2018,
+  "venue": "Proceedings of the Twenty-Seventh International Joint Conference on Artificial Intelligence",
+  "doi": "10.24963/ijcai.2018/611",
+  "citations": 397,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "Embedding-based entity alignment represents different knowledge graphs (KGs) as low-dimensional embeddings and finds entity alignment by measuring the similarities between entity embeddings. Existing approaches have achieved promising results, however, they are still challenged by the lack of enough prior alignment as labeled training data. In this paper, we propose a bootstrapping approach to embedding-based entity alignment. It iteratively labels likely entity alignment as training data for learning alignment-oriented KG embeddings. Furthermore, it employs an alignment editing method to reduce error accumulation during iterations. Our experiments on real-world datasets showed that the proposed approach significantly outperformed the state-of-the-art embedding-based ones for entity alignment. The proposed alignment-oriented KG embedding, bootstrapping process and alignment editing method all contributed to the performance improvement.",
+  "focus": "Embedding-based entity alignment maps two knowledge graphs into a shared vector space and matches entities by embedding similarity, but it normally needs many seed alignments as training data. This paper proposes a bootstrapping approach that iteratively promotes likely alignments into the training set for alignment-oriented KG embeddings, with an alignment editing step that reduces error accumulation across iterations. Experiments on real-world datasets show it significantly outperforms prior embedding-based alignment methods.",
+  "borrow": "The iterative self-labelling loop with an explicit error-editing pass is a pattern ERBOT can adapt: high-confidence matches from one pipeline round can seed the next, provided a correction step prunes accumulated false matches.",
+  "fill": "Bootstrapping is demonstrated only for KG embedding alignment with seed pairs; it leaves open how the same self-training loop behaves for plain tabular records without graph structure, which is where ERBOT would have to validate it.",
+  "correct": "The gains rest on the assumption that iteratively added alignments are mostly correct; on graphs whose neighbourhoods are sparse or highly ambiguous, error accumulation may outrun the editing step, and the evidence is confined to standard alignment benchmarks.",
+  "verified": true
+ },
+ {
+  "n": 306,
+  "id": "er-306",
   "title": "Deep Learning for Entity Matching: A Design Space Exploration",
   "authors": [
    "Sidharth Mudgal",
@@ -5991,8 +9178,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 199,
-  "id": "er-199",
+  "n": 307,
+  "id": "er-307",
   "title": "Distributed representations of tuples for entity resolution",
   "authors": [
    "Muhammad Ebraheem",
@@ -6024,8 +9211,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 200,
-  "id": "er-200",
+  "n": 308,
+  "id": "er-308",
   "title": "Entity Matching with Active Monotone Classification",
   "authors": [
    "Yufei Tao"
@@ -6051,8 +9238,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 201,
-  "id": "er-201",
+  "n": 309,
+  "id": "er-309",
   "title": "The impact of imbalanced training data on machine learning for author name disambiguation",
   "authors": [
    "Jinseok Kim",
@@ -6080,8 +9267,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 202,
-  "id": "er-202",
+  "n": 310,
+  "id": "er-310",
+  "title": "Auto-EM: End-to-end Fuzzy Entity-Matching using Pre-trained Deep Models and Transfer Learning",
+  "authors": [
+   "Chen Zhao",
+   "Yeye He"
+  ],
+  "year": 2019,
+  "venue": "The World Wide Web Conference",
+  "doi": "10.1145/3308558.3313578",
+  "citations": 93,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Auto-EM tackles fuzzy entity matching end to end using pre-trained deep models and transfer learning, aiming to reduce the per-dataset engineering that matching pipelines usually require. Presented at The Web Conference 2019, it positions pre-trained models as a reusable substrate for matching new record collections.",
+  "borrow": "The transfer-learning premise — reuse a pre-trained model instead of training from scratch per dataset — is directly relevant to ERBOT's goal of working out of the box on new data sources with little labelling.",
+  "fill": "The bibliographic record gives no detail on which record types or languages the transfer covers; validating transfer to the messy, sparse-attribute tables ERBOT targets is left open.",
+  "correct": "End-to-end automation claims should be read cautiously: with no abstract or per-dataset breakdown in this record, it is unclear how much silent failure occurs on attribute types the pre-trained models were not built for.",
+  "verified": true
+ },
+ {
+  "n": 311,
+  "id": "er-311",
   "title": "Deep Sequence-to-Sequence Entity Matching for Heterogeneous Entity Resolution",
   "authors": [
    "Hao Nie",
@@ -6114,8 +9330,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 203,
-  "id": "er-203",
+  "n": 312,
+  "id": "er-312",
   "title": "Entity Alignment for Cross-lingual Knowledge Graph with Graph Convolutional Networks",
   "authors": [
    "Fan Xiong",
@@ -6144,8 +9360,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 204,
-  "id": "er-204",
+  "n": 313,
+  "id": "er-313",
   "title": "Entity Matching on Unstructured Data: An Active Learning Approach",
   "authors": [
    "Ursin Brunner",
@@ -6172,8 +9388,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 205,
-  "id": "er-205",
+  "n": 314,
+  "id": "er-314",
   "title": "Hybrid Deep Pairwise Classification for Author Name Disambiguation",
   "authors": [
    "Kunho Kim",
@@ -6202,8 +9418,102 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 206,
-  "id": "er-206",
+  "n": 315,
+  "id": "er-315",
+  "title": "Low-resource Deep Entity Resolution with Transfer and Active Learning",
+  "authors": [
+   "Jungo Kasai",
+   "Kun Qian",
+   "Sairam Gurajada",
+   "Yunyao Li",
+   "Lucian Popa"
+  ],
+  "year": 2019,
+  "venue": "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics",
+  "doi": "10.18653/v1/p19-1586",
+  "citations": 90,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "",
+  "focus": "Kasai and co-authors address deep entity resolution when labeled data are scarce, combining transfer learning from related ER tasks with active learning to select the most valuable pairs to label. Published at ACL 2019, it targets the low-resource regime where training a deep matcher from scratch is infeasible.",
+  "borrow": "The transfer-plus-active-learning recipe applies directly when ERBOT meets a new domain: start from a model trained on an existing ER corpus, then spend the small labeling budget on actively chosen pairs.",
+  "fill": "The study's transfers are between similar structured ER benchmarks; transfer across genuinely different record types (bibliographic to health to product data) and its interaction with blocking remain untested, leaving cross-domain ERBOT deployments open.",
+  "correct": "Reported gains depend on the source task being close enough to the target — negative transfer is possible — and active-learning selections made under a transferred model can entrench the source domain's biases.",
+  "verified": true
+ },
+ {
+  "n": 316,
+  "id": "er-316",
+  "title": "Multi-view Knowledge Graph Embedding for Entity Alignment",
+  "authors": [
+   "Qingheng Zhang",
+   "Zequn Sun",
+   "Wei Hu",
+   "Muhao Chen",
+   "Lingbing Guo",
+   "Yuzhong Qu"
+  ],
+  "year": 2019,
+  "venue": "Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence",
+  "doi": "10.24963/ijcai.2019/754",
+  "citations": 201,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "We study the problem of embedding-based entity alignment between knowledge graphs (KGs). Previous works mainly focus on the relational structure of entities. Some further incorporate another type of features, such as attributes, for refinement. However, a vast of entity features are still unexplored or not equally treated together, which impairs the accuracy and robustness of embedding-based entity alignment. In this paper, we propose a novel framework that unifies multiple views of entities to learn embeddings for entity alignment. Specifically, we embed entities based on the views of entity names, relations and attributes, with several combination strategies. Furthermore, we design some cross-KG inference methods to enhance the alignment between two KGs. Our experiments on real-world datasets show that the proposed framework significantly outperforms the state-of-the-art embedding-based entity alignment methods. The selected views, cross-KG inference and combination strategies all contribute to the performance improvement.",
+  "focus": "Embedding-based entity alignment usually relies on relational structure alone, leaving name and attribute information underused. This paper proposes MultiKE, which learns entity embeddings from three views — entity names, relations and attributes — under several combination strategies, plus cross-KG inference methods that refine alignment between the two graphs. On real-world datasets it significantly outperforms prior embedding-based alignment methods, with ablations crediting the views, the cross-KG inference and the combination strategies.",
+  "borrow": "The multi-view design — separate embeddings for names, relations and attributes, combined late — maps directly onto ERBOT's attribute-wise similarity design and suggests learning view weights instead of fixing combination rules by hand.",
+  "fill": "MultiKE assumes the two KGs expose alignable views and seed alignments; aligning records that lack relational structure, or weighting views when some are missing for many records, remains open for our tabular setting.",
+  "correct": "The improvement is shown on curated KG benchmarks where names and attributes are comparatively clean; on noisy real-world records the name view may dominate or mislead, and the combination strategies are not stress-tested under heavy attribute corruption.",
+  "verified": true
+ },
+ {
+  "n": 317,
+  "id": "er-317",
+  "title": "Semi-Supervised Entity Alignment via Knowledge Graph Embedding with Awareness of Degree Difference",
+  "authors": [
+   "Shichao Pei",
+   "Lu Yu",
+   "Robert Hoehndorf",
+   "Xiangliang Zhang"
+  ],
+  "year": 2019,
+  "venue": "The World Wide Web Conference",
+  "doi": "10.1145/3308558.3313646",
+  "citations": 105,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper addresses semi-supervised entity alignment between knowledge graphs via KG embedding, with explicit attention to degree difference — the fact that the same entity can have very different numbers of neighbours in the two graphs. The title indicates an embedding approach designed to stay robust when the structural context around an entity is uneven across graphs.",
+  "borrow": "Degree difference is a concrete failure mode worth importing: ERBOT's neighbourhood- or graph-based features should be checked for sensitivity to how densely connected a record is in each source.",
+  "fill": "The work targets KG alignment with seed pairs; how degree imbalance affects blocking and pairwise classification on flat, non-graph records is not addressed and is ours to test.",
+  "correct": "The record carries no abstract, so its empirical claims cannot be assessed from the bibliographic entry alone; degree-aware corrections may also trade away accuracy for the many entities whose degrees are in fact similar.",
+  "verified": true
+ },
+ {
+  "n": 318,
+  "id": "er-318",
   "title": "CorDEL: A Contrastive Deep Learning Approach for Entity Linkage",
   "authors": [
    "Zhengyang Wang",
@@ -6233,8 +9543,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 207,
-  "id": "er-207",
+  "n": 319,
+  "id": "er-319",
+  "title": "DEM: Deep Entity Matching Across Heterogeneous Information Networks",
+  "authors": [
+   "Chao Kong",
+   "Bao-Xiang Chen",
+   "Li-Ping Zhang"
+  ],
+  "year": 2020,
+  "venue": "Journal of Computer Science and Technology",
+  "doi": "10.1007/s11390-020-0139-5",
+  "citations": 1,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "DEM performs deep entity matching across heterogeneous information networks, where entities are embedded in a typed network of relations rather than appearing as flat records. A deep model exploits the network structure together with entity attributes to decide matches.",
+  "borrow": "Exploiting typed relational context as matching evidence is borrowable for the cases where ERBOT's inputs carry relations beyond flat attributes — co-authorship, transactions, household structure — instead of discarding that signal.",
+  "fill": "The heterogeneous-network setting assumes rich typed relations; ERBOT's main case is flat record files without that structure, so whether DEM-style models transfer there, and at what cost, is left open for us.",
+  "correct": "Deep network models are data-hungry and their gains are demonstrated on network benchmarks; on attribute-only data the extra machinery may add substantial cost without accuracy to show for it.",
+  "verified": true
+ },
+ {
+  "n": 320,
+  "id": "er-320",
   "title": "Deep entity matching with pre-trained language models",
   "authors": [
    "Yuliang Li",
@@ -6264,8 +9604,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 208,
-  "id": "er-208",
+  "n": 321,
+  "id": "er-321",
   "title": "Graph-based Aspect Representation Learning for Entity Resolution",
   "authors": [
    "Zhenqi Zhao",
@@ -6298,8 +9638,72 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 209,
-  "id": "er-209",
+  "n": 322,
+  "id": "er-322",
+  "title": "GraphER: Token-Centric Entity Resolution with Graph Convolutional Neural Networks",
+  "authors": [
+   "Bing Li",
+   "Wei Wang",
+   "Yifang Sun",
+   "Linhan Zhang",
+   "Muhammad Asif Ali",
+   "Yi Wang"
+  ],
+  "year": 2020,
+  "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "doi": "10.1609/aaai.v34i05.6330",
+  "citations": 35,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "graph-based",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "Entity resolution (ER) aims to identify entity records that refer to the same real-world entity, which is a critical problem in data cleaning and integration. Most of the existing models are attribute-centric, that is, matching entity pairs by comparing similarities of pre-aligned attributes, which require the schemas of records to be identical and are too coarse-grained to capture subtle key information within a single attribute. In this paper, we propose a novel graph-based ER model GraphER. Our model is token-centric: the final matching results are generated by directly aggregating token-level comparison features, in which both the semantic and structural information has been softly embedded into token embeddings by training an Entity Record Graph Convolutional Network (ER-GCN). To the best of our knowledge, our work is the first effort to do token-centric entity resolution with the help of GCN in entity resolution task. Extensive experiments on two real-world datasets demonstrate that our model stably outperforms state-of-the-art models.",
+  "focus": "GraphER is a token-centric entity resolution model: instead of comparing pre-aligned attributes, it aggregates token-level comparison features through an Entity Record Graph Convolutional Network that softly embeds semantic and structural information into token embeddings. The authors describe it as the first GCN-based token-centric ER model, and experiments on two real-world datasets show it stably outperforms state-of-the-art models.",
+  "borrow": "Token-level comparison frees ERBOT from strict schema alignment — records with shifted or missing attributes can still be compared token by token, which suits the heterogeneous sources ERBOT ingests.",
+  "fill": "GraphER is evaluated on two datasets at benchmark scale; its token-graph construction cost and accuracy on the very large, multi-source collections ERBOT targets are untested.",
+  "correct": "Token-centric aggregation can blur attribute boundaries that are actually informative — a city token is not a surname token — and evidence from two datasets is thin support for a claim of stable superiority.",
+  "verified": true
+ },
+ {
+  "n": 323,
+  "id": "er-323",
+  "title": "Knowledge Graph Alignment with Entity-Pair Embedding",
+  "authors": [
+   "Zhichun Wang",
+   "Jinjian Yang",
+   "Xiaoju Ye"
+  ],
+  "year": 2020,
+  "venue": "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
+  "doi": "10.18653/v1/2020.emnlp-main.130",
+  "citations": 38,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Wang, Yang and Ye propose embedding entity pairs themselves for knowledge graph alignment, representing a candidate pair jointly rather than embedding each entity independently and comparing afterwards. The paper appears at EMNLP 2020.",
+  "borrow": "Pair-level representations capture interactions that independent embeddings miss — the same argument for cross-features in ERBOT's pairwise classifier instead of relying on per-record embeddings alone.",
+  "fill": "Pair embedding is natural for alignment candidate sets but expensive over a full cross-product; combining it with ERBOT's blocking, so pairs are embedded only where plausible, is the open engineering problem.",
+  "correct": "Scoring pairs jointly forfeits the reusable per-entity index that makes embedding alignment fast at scale, so the accuracy gain may not survive very large candidate volumes.",
+  "verified": true
+ },
+ {
+  "n": 324,
+  "id": "er-324",
   "title": "Model Reuse in Machine Learning for Author Name Disambiguation: An Exploration of Transfer Learning",
   "authors": [
    "Jinseok Kim",
@@ -6327,8 +9731,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 210,
-  "id": "er-210",
+  "n": 325,
+  "id": "er-325",
   "title": "Schema-Agnostic Entity Matching using Pre-trained Language Models",
   "authors": [
    "Kai-Sheng Teong",
@@ -6356,8 +9760,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 211,
-  "id": "er-211",
+  "n": 326,
+  "id": "er-326",
   "title": "Technical perspective: Entity matching with Magellan",
   "authors": [
    "Wang-Chiew Tan"
@@ -6384,8 +9788,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 212,
-  "id": "er-212",
+  "n": 327,
+  "id": "er-327",
   "title": "A multiclass classification approach for incremental entity resolution on short textual data",
   "authors": [
    "N.A. Jo�ã",
@@ -6413,8 +9817,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 213,
-  "id": "er-213",
+  "n": 328,
+  "id": "er-328",
   "title": "Automating Entity Matching Model Development",
   "authors": [
    "Pei Wang",
@@ -6444,8 +9848,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 214,
-  "id": "er-214",
+  "n": 329,
+  "id": "er-329",
+  "title": "Demonstration of Panda: A Weakly Supervised Entity Matching System",
+  "authors": [
+   "Renzhi Wu",
+   "Prem Sakala",
+   "Peng Li",
+   "Xu Chu",
+   "Yeye He"
+  ],
+  "year": 2021,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2106.10821",
+  "citations": null,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "Entity matching (EM) refers to the problem of identifying tuple pairs in one or more relations that refer to the same real world entities. Supervised machine learning (ML) approaches, and deep learning based approaches in particular, typically achieve state-of-the-art matching results. However, these approaches require many labeled examples, in the form of matching and non-matching pairs, which are expensive and time-consuming to label. In this paper, we introduce Panda, a weakly supervised system specifically designed for EM. Panda uses the same labeling function abstraction as Snorkel, where labeling functions (LF) are user-provided programs that can generate large amounts of (somewhat noisy) labels quickly and cheaply, which can then be combined via a labeling model to generate accurate final predictions. To support users developing LFs for EM, Panda provides an integrated development environment (IDE) that lives in a modern browser architecture. Panda's IDE facilitates the development, debugging, and life-cycle management of LFs in the context of EM tasks, similar to how IDEs such as Visual Studio or Eclipse excel in general-purpose programming. Panda's IDE includes many novel features purpose-built for EM, such as smart data sampling, a builtin library of EM utility functions, automatically generated LFs, visual debugging of LFs, and finally, an EM-specific labeling model. We show in this demo that Panda IDE can greatly accelerate the development of high-quality EM solutions using weak supervision.",
+  "focus": "Panda is a demonstration system for weakly supervised entity matching built on the labelling-function abstraction: users write small programs that noisily label record pairs, and a labelling model combines them into final predictions. Its contribution is a browser-based IDE purpose-built for EM — smart data sampling, a library of EM utilities, automatically generated labelling functions, and visual debugging — intended to speed up development of EM solutions without hand-labelled training data.",
+  "borrow": "Panda's IDE features are borrowable as design requirements for ERBOT's labelling tooling: sampling pairs for inspection, debugging individual labelling functions, and auto-generating candidate functions address exactly where weak supervision gets painful.",
+  "fill": "As a demonstration, Panda leaves production concerns open — running the workflow over very large files inside a full blocking-to-clustering pipeline is work for us to do.",
+  "correct": "A demo paper's claims concern workflow and usability rather than benchmarked matching quality, and this preprint version should be read as a system description, not an evaluation.",
+  "verified": true
+ },
+ {
+  "n": 330,
+  "id": "er-330",
   "title": "Entity and Relation Matching Consensus for Entity Alignment",
   "authors": [
    "Jinzhu Yang",
@@ -6477,8 +9912,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 215,
-  "id": "er-215",
+  "n": 331,
+  "id": "er-331",
   "title": "GNEM: A Generic One-to-Set Neural Entity Matching Framework",
   "authors": [
    "Runjin Chen",
@@ -6507,8 +9942,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 216,
-  "id": "er-216",
+  "n": 332,
+  "id": "er-332",
   "title": "Machamp: A Generalized Entity Matching Benchmark",
   "authors": [
    "Jin Wang",
@@ -6537,8 +9972,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 217,
-  "id": "er-217",
+  "n": 333,
+  "id": "er-333",
   "title": "Mixed Hierarchical Networks for Deep Entity Matching",
   "authors": [
    "Chen-Chen Sun",
@@ -6565,8 +10000,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 218,
-  "id": "er-218",
+  "n": 334,
+  "id": "er-334",
   "title": "Neural Networks for Entity Matching: A Survey",
   "authors": [
    "Nils Barlaug",
@@ -6594,8 +10029,136 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 219,
-  "id": "er-219",
+  "n": 335,
+  "id": "er-335",
+  "title": "OntoEA: Ontology-guided Entity Alignment via Joint Knowledge Graph Embedding",
+  "authors": [
+   "Yuejia Xiang",
+   "Ziheng Zhang",
+   "Jiaoyan Chen",
+   "Xi Chen",
+   "Zhenxi Lin",
+   "Yefeng Zheng"
+  ],
+  "year": 2021,
+  "venue": "Findings of the Association for Computational Linguistics: ACL-IJCNLP 2021",
+  "doi": "10.18653/v1/2021.findings-acl.96",
+  "citations": 42,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "embedding/ANN"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "OntoEA guides entity alignment between knowledge graphs with ontology information, learning joint KG embeddings that exploit the ontological structure the graphs carry. It appears in the Findings of ACL-IJCNLP 2021.",
+  "borrow": "Using a schema or ontology layer to constrain matching is analogous to using field semantics in ERBOT: type information about attributes can prune implausible matches before scoring.",
+  "fill": "Ontology-guided alignment presumes both sources expose a usable ontology; deriving equivalent guidance automatically for schema-less tables is unfinished and relevant to us.",
+  "correct": "Where the two graphs' ontologies are themselves misaligned or incomplete, ontology guidance can systematically bias alignment toward the ontology's own errors.",
+  "verified": true
+ },
+ {
+  "n": 336,
+  "id": "er-336",
+  "title": "Time-aware Graph Neural Network for Entity Alignment between Temporal Knowledge Graphs",
+  "authors": [
+   "Chengjin Xu",
+   "Fenglong Su",
+   "Jens Lehmann"
+  ],
+  "year": 2021,
+  "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+  "doi": "10.18653/v1/2021.emnlp-main.709",
+  "citations": 50,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "graph-based",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This EMNLP 2021 paper aligns entities between temporal knowledge graphs with a time-aware graph neural network, incorporating temporal information into the alignment model rather than treating the graphs as static snapshots.",
+  "borrow": "Timestamps are an underused signal in ER generally; the paper's way of folding time into neighbourhood aggregation suggests features ERBOT could add when records carry dates.",
+  "fill": "Temporal alignment is studied for knowledge graphs; the analogous problem for ordinary records — entities whose attributes drift over time — is not covered and is a natural ERBOT extension.",
+  "correct": "Time-aware models assume timestamps are available and reliable in both graphs; in much real linkage data, dates are missing or noisy enough that the temporal signal may add variance rather than accuracy.",
+  "verified": true
+ },
+ {
+  "n": 337,
+  "id": "er-337",
+  "title": "CompanyName2Vec: Company Entity Matching Based on Job Ads",
+  "authors": [
+   "Ran Ziv",
+   "Ilan Gronau",
+   "Michael Fire"
+  ],
+  "year": 2022,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2201.04687",
+  "citations": null,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "embedding/ANN",
+   "deep learning"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "Entity Matching is an essential part of all real-world systems that take in structured and unstructured data coming from different sources. Typically no common key is available for connecting records. Massive data cleaning and integration processes require completion before any data analytics, or further processing can be performed. Although record linkage is frequently regarded as a somewhat tedious but necessary step, it reveals valuable insights, supports data visualization, and guides further analytic approaches to the data. Here, we focus on organization entity matching. We introduce CompanyName2Vec, a novel algorithm to solve company entity matching (CEM) using a neural network model to learn company name semantics from a job ad corpus, without relying on any information on the matched company besides its name. Based on a real-world data, we show that CompanyName2Vec outperforms other evaluated methods and solves the CEM challenge with an average success rate of 89.3%.",
+  "focus": "CompanyName2Vec tackles company entity matching using only company names: a neural network learns name semantics from a corpus of job advertisements, producing embeddings with which matching companies can be recognised. On real-world data the authors report an average success rate of 89.3%, outperforming the other methods they evaluated.",
+  "borrow": "Domain-corpus name embeddings are borrowable as a similarity feature in ERBOT for organisation-name matching, where generic string metrics struggle with abbreviations and word order.",
+  "fill": "The method is name-only and company-specific; combining such embeddings with addresses and other attributes, and extending the recipe to other entity types and languages, is left open for us.",
+  "correct": "This is an unreviewed preprint evaluated on a single real-world dataset with a non-standard 'success rate' metric, so the 89.3% figure is not comparable to precision/recall results elsewhere and generalisation beyond company names is unestablished.",
+  "verified": true
+ },
+ {
+  "n": 338,
+  "id": "er-338",
+  "title": "Deep and Collective Entity Resolution in Parallel",
+  "authors": [
+   "Ting Deng",
+   "Wenfei Fan",
+   "Ping Lu",
+   "Xiaomeng Luo",
+   "Xiaoke Zhu",
+   "Wanhe An"
+  ],
+  "year": 2022,
+  "venue": "2022 IEEE 38th International Conference on Data Engineering (ICDE)",
+  "doi": "10.1109/icde53745.2022.00200",
+  "citations": 3,
+  "themes": [
+   "ml-deep",
+   "clustering",
+   "scalable"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper combines deep learning-based matching with collective entity resolution — where match decisions exploit relationships among records — and executes the combination in parallel. It targets the tension that collective resolution is more accurate but harder to scale than independent pairwise matching.",
+  "borrow": "The design pattern is borrowable for ERBOT's clustering stage: deep pairwise scores upgraded by collective, relationship-aware inference, with parallelism treated as a first-class requirement rather than an afterthought.",
+  "fill": "The record gives no benchmark details, so reproducing the parallel collective approach in an R-based pipeline and measuring where collectivity stops paying for itself at very large scale remains open for us.",
+  "correct": "Collective resolution propagates pairwise errors through relational inference, so mistakes by the deep matcher can be amplified rather than corrected; the combination's headline promise does not by itself address that failure mode.",
+  "verified": true
+ },
+ {
+  "n": 339,
+  "id": "er-339",
   "title": "Deep entity matching with adversarial active learning",
   "authors": [
    "Jiacheng Huang",
@@ -6626,8 +10189,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 220,
-  "id": "er-220",
+  "n": 340,
+  "id": "er-340",
   "title": "Degree aware based adversarial graph convolutional networks for entity alignment in heterogeneous knowledge graph",
   "authors": [
    "Hanchen Wang",
@@ -6657,8 +10220,40 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 221,
-  "id": "er-221",
+  "n": 341,
+  "id": "er-341",
+  "title": "Entity Resolution with Hierarchical Graph Attention Networks",
+  "authors": [
+   "Dezhong Yao",
+   "Yuhong Gu",
+   "Gao Cong",
+   "Hai Jin",
+   "Xinqiao Lv"
+  ],
+  "year": 2022,
+  "venue": "Proceedings of the 2022 International Conference on Management of Data",
+  "doi": "10.1145/3514221.3517872",
+  "citations": 58,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "graph-based",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This SIGMOD 2022 paper applies hierarchical graph attention networks to entity resolution, letting match decisions draw on a graph of related records and attributes rather than treating each record pair in isolation. The bibliographic record carries no abstract, so its exact architecture and evaluation cannot be summarised beyond what the title states.",
+  "borrow": "Hierarchical attention — weighting which neighbouring records and attributes matter for a match decision — is a candidate mechanism for ERBOT's clustering stage, where pair decisions should inform each other.",
+  "fill": "Without reported detail in this record, the open work is empirical: testing whether attention-based collective decisions beat transitive closure on the large, sparse block graphs ERBOT produces.",
+  "correct": "Graph attention models are data-hungry and their gains are usually demonstrated on standard benchmarks; on very large datasets the graph construction itself can become the bottleneck, which the title-level framing does not address.",
+  "verified": true
+ },
+ {
+  "n": 342,
+  "id": "er-342",
   "title": "Entity alignment with adaptive margin learning knowledge graph embedding",
   "authors": [
    "Linshan Shen",
@@ -6688,8 +10283,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 222,
-  "id": "er-222",
+  "n": 343,
+  "id": "er-343",
+  "title": "Ground Truth Inference for Weakly Supervised Entity Matching",
+  "authors": [
+   "Renzhi Wu",
+   "Alexander Bendeck",
+   "Xu Chu",
+   "Yeye He"
+  ],
+  "year": 2022,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2211.06975",
+  "citations": null,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "relational",
+  "scale": "small benchmark",
+  "abstract": "Entity matching (EM) refers to the problem of identifying pairs of data records in one or more relational tables that refer to the same entity in the real world. Supervised machine learning (ML) models currently achieve state-of-the-art matching performance; however, they require many labeled examples, which are often expensive or infeasible to obtain. This has inspired us to approach data labeling for EM using weak supervision. In particular, we use the labeling function abstraction popularized by Snorkel, where each labeling function (LF) is a user-provided program that can generate many noisy match/non-match labels quickly and cheaply. Given a set of user-written LFs, the quality of data labeling depends on a labeling model to accurately infer the ground-truth labels. In this work, we first propose a simple but powerful labeling model for general weak supervision tasks. Then, we tailor the labeling model specifically to the task of entity matching by considering the EM-specific transitivity property. The general form of our labeling model is simple while substantially outperforming the best existing method across ten general weak supervision datasets. To tailor the labeling model for EM, we formulate an approach to ensure that the final predictions of the labeling model satisfy the transitivity property required in EM, utilizing an exact solution where possible and an ML-based approximation in remaining cases. On two single-table and nine two-table real-world EM datasets, we show that our labeling model results in a 9% higher F1 score on average than the best existing method. We also show that a deep learning EM end model (DeepMatcher) trained on labels generated from our weak supervision approach is comparable to an end model trained using tens of thousands of ground-truth labels, demonstrating that our approach can significantly reduce the labeling efforts required in EM.",
+  "focus": "This paper generates training labels for entity matching by weak supervision: users write labelling functions that noisily label many pairs, and a labelling model infers ground truth from their agreements and disagreements. The model is tailored to EM by enforcing the transitivity property of matching, and on eleven real-world EM datasets it beats the best existing labelling model by 9% F1 on average; a DeepMatcher model trained on its labels rivals one trained on tens of thousands of gold labels.",
+  "borrow": "The labelling-function workflow, and especially transitivity-aware label inference, is borrowable for ERBOT: domain rules our users already write as heuristics could be converted into training labels for a learned classifier.",
+  "fill": "The approach presumes users can write labelling functions with reasonable coverage and accuracy; tooling to help users discover and debug such functions inside an R pipeline, and scaling the inference to very large pair sets, is left open for us.",
+  "correct": "This is an unreviewed preprint, and its gains depend on the quality of the supplied labelling functions; on datasets where heuristics are weak or highly correlated, the inferred labels — and the 9% advantage — may not hold.",
+  "verified": true
+ },
+ {
+  "n": 344,
+  "id": "er-344",
   "title": "LEMON: Explainable Entity Matching",
   "authors": [
    "Nils Barlaug"
@@ -6716,8 +10342,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 223,
-  "id": "er-223",
+  "n": 345,
+  "id": "er-345",
   "title": "Probing the Robustness of Pre-trained Language Models for Entity Matching",
   "authors": [
    "Mehdi Akbarian Rastaghi",
@@ -6746,8 +10372,43 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 224,
-  "id": "er-224",
+  "n": 346,
+  "id": "er-346",
+  "title": "PromptEM: Prompt-tuning for Low-resource Generalized Entity Matching",
+  "authors": [
+   "Pengfei Wang",
+   "Xiaocan Zeng",
+   "Lu Chen",
+   "Fan Ye",
+   "Yuren Mao",
+   "Junhao Zhu",
+   "Yunjun Gao"
+  ],
+  "year": 2022,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2207.04802",
+  "citations": null,
+  "themes": [
+   "ml-deep",
+   "llm"
+  ],
+  "method": [
+   "deep learning",
+   "LLM"
+  ],
+  "supervision": "supervised",
+  "dataType": "mixed",
+  "scale": "small benchmark",
+  "abstract": "Entity Matching (EM), which aims to identify whether two entity records from two relational tables refer to the same real-world entity, is one of the fundamental problems in data management. Traditional EM assumes that two tables are homogeneous with the aligned schema, while it is common that entity records of different formats (e.g., relational, semi-structured, or textual types) involve in practical scenarios. It is not practical to unify their schemas due to the different formats. To support EM on format-different entity records, Generalized Entity Matching (GEM) has been proposed and gained much attention recently. To do GEM, existing methods typically perform in a supervised learning way, which relies on a large amount of high-quality labeled examples. However, the labeling process is extremely labor-intensive, and frustrates the use of GEM. Low-resource GEM, i.e., GEM that only requires a small number of labeled examples, becomes an urgent need. To this end, this paper, for the first time, focuses on the low-resource GEM and proposes a novel low-resource GEM method, termed as PromptEM. PromptEM has addressed three challenging issues (i.e., designing GEM-specific prompt-tuning, improving pseudo-labels quality, and running efficient self-training) in low-resource GEM. Extensive experimental results on eight real benchmarks demonstrate the superiority of PromptEM in terms of effectiveness and efficiency.",
+  "focus": "PromptEM addresses low-resource generalised entity matching — matching records across tables of different formats (relational, semi-structured, textual) with only a small number of labelled examples. It adapts prompt-tuning to GEM, improves pseudo-label quality, and uses efficient self-training; experiments on eight real benchmarks are reported to show superior effectiveness and efficiency.",
+  "borrow": "The prompt-tuning plus self-training recipe is borrowable when ERBOT users can label only a handful of pairs: it offers a route to a learned matcher for heterogeneous-format records without a large training set.",
+  "fill": "PromptEM works at the pairwise classification step; integrating low-resource GEM with blocking over mixed-format sources and with clustering into entities is left open for us.",
+  "correct": "This is an unreviewed preprint, and its eight benchmarks are still curated datasets; performance when pseudo-labels are noisy in genuinely messy production data remains to be shown.",
+  "verified": true
+ },
+ {
+  "n": 347,
+  "id": "er-347",
   "title": "Towards deep entity resolution via soft schema matching",
   "authors": [
    "Chenchen Sun",
@@ -6774,8 +10435,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 225,
-  "id": "er-225",
+  "n": 348,
+  "id": "er-348",
+  "title": "Transformer-based Denoising Adversarial Variational Entity Resolution",
+  "authors": [
+   "Shuaichao Li",
+   "Huaiguang Wu"
+  ],
+  "year": 2022,
+  "venue": "",
+  "doi": "10.21203/rs.3.rs-2160930/v1",
+  "citations": 0,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "embedding/ANN"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Abstract\n        Entity resolution (ER), precisely identifying different representations of the same real-world entities, is critical for data integration. The ER question has been studied for many years, and many methods have been proposed to solve it. Although deep learning has achieved good performance in ER tasks, there are some challenges regarding manual labelling and model transfer. This paper proposes a novel ER model, Transformer-based Denoising Adversarial Variational Entity Resolution (TdavER). For entity embedding, we develop an unsupervised entity embedding model based on denoising autoencoders and pre-trained language models, which takes corrupted input as training data to motivate the encoder to generate rather stable and robust high-quality entity representations. Furthermore, we propose an unsupervised entity feature transformation model based on adversarial variational autoencoders to remove the constraints on entity representations from training data. This transformation model converts low-level entity embeddings to high-level probability distributions, which are not constrained by the source data and contain deep similarity features. To better implement the feature transformation, we adopt adversarial networks to optimize the variational autoencoder's training process and help it learn the correct posterior distribution. Extensive experiments confirm that the performance of our proposed TdavER is comparable with the current state-of-the-art ER methods and that its entity feature transformation model is transferable.",
+  "focus": "TdavER is an unsupervised entity resolution model that attacks the labeling and transfer problems of deep ER. It builds entity embeddings with a denoising autoencoder over pre-trained language model representations, trained on corrupted inputs for robustness, and then applies an adversarial variational autoencoder that transforms low-level embeddings into distribution-level features claimed to be free of source-data constraints; the authors report performance comparable to state-of-the-art ER methods and a transferable transformation model.",
+  "borrow": "The denoising-autoencoder route to label-free entity embeddings is borrowable for ERBOT's low-label settings: corrupting records and training encoders to be stable under corruption is a concrete self-supervision recipe we can replicate in our similarity stage.",
+  "fill": "The paper concentrates on representation learning for matching; it leaves the surrounding pipeline — blocking for very large files, clustering matched pairs into entities, and end-to-end error accounting — unaddressed, which is exactly the scaffolding ERBOT can provide and evaluate around such embeddings.",
+  "correct": "This is an unreviewed Research Square preprint; the 'comparable to state of the art' and transferability claims rest on the authors' own experiments, and the adversarial-VAE machinery adds substantial complexity whose benefit over simpler unsupervised embeddings is not established by the abstract.",
+  "verified": true
+ },
+ {
+  "n": 349,
+  "id": "er-349",
   "title": "Word Embedding based Heterogeneous Entity Matching on Web of Things",
   "authors": [
    "Xingsi Xue",
@@ -6802,8 +10492,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 226,
-  "id": "er-226",
+  "n": 350,
+  "id": "er-350",
   "title": "AdapterEM: Pre-trained Language Model Adaptation for Generalized Entity Matching using Adapter-tuning",
   "authors": [
    "John Bosco Mugeni",
@@ -6832,8 +10522,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 227,
-  "id": "er-227",
+  "n": 351,
+  "id": "er-351",
   "title": "An Improved Active Machine Learning Query Strategy for Entity Matching Problem",
   "authors": [
    "Mourad Jabrane",
@@ -6861,8 +10551,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 228,
-  "id": "er-228",
+  "n": 352,
+  "id": "er-352",
   "title": "Bi-Neighborhood Graph Neural Network for cross-lingual entity alignment",
   "authors": [
    "Xinchen Shi",
@@ -6892,8 +10582,42 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 229,
-  "id": "er-229",
+  "n": 353,
+  "id": "er-353",
+  "title": "CoSiNES: Contrastive Siamese Network for Entity Standardization",
+  "authors": [
+   "Jiaqing Yuan",
+   "Michele Merler",
+   "Mihir Choudhury",
+   "Raju Pavuluri",
+   "Munindar Singh",
+   "Maja Vukovic"
+  ],
+  "year": 2023,
+  "venue": "Proceedings of the First Workshop on Matching From Unstructured and Structured Data (MATCHING 2023)",
+  "doi": "10.18653/v1/2023.matching-1.9",
+  "citations": 1,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "deep learning",
+   "embedding/ANN"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "CoSiNES applies a contrastive Siamese network to entity standardization, learning embeddings in which variant surface forms of the same entity are pulled together and different entities pushed apart. Standardization — mapping messy variants to a canonical form — is treated as a learned representation problem.",
+  "borrow": "The contrastive pair-training recipe is borrowable for ERBOT's similarity stage: learning embeddings for messy textual fields from positive and negative pairs gives a similarity signal that string metrics alone cannot capture.",
+  "fill": "Standardization is a single stage; plugging learned standardizations into a full blocking-to-clustering pipeline and measuring the end-to-end effect on resolution quality is not done here and remains open for us.",
+  "correct": "Contrastive training stands or falls with pair construction — false negatives in the negative pairs distort the embedding space — and a workshop paper's evaluation is necessarily limited in datasets and baselines.",
+  "verified": true
+ },
+ {
+  "n": 354,
+  "id": "er-354",
   "title": "Effective entity matching with transformers",
   "authors": [
    "Yuliang Li",
@@ -6923,8 +10647,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 230,
-  "id": "er-230",
+  "n": 355,
+  "id": "er-355",
+  "title": "Entity Matching with Similarity Encoding: A Supervised Learning Recommendation Framework for Linking (Big) Data",
+  "authors": [
+   "Pantelis Karapanagiotis",
+   "Marius Liebald"
+  ],
+  "year": 2023,
+  "venue": "",
+  "doi": "10.2139/ssrn.4541376",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "deep learning",
+   "string metric"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "In this study, we introduce a novel entity matching (EM) framework. It com-bines state-of-the-art EM approaches based on Artiﬁcial Neural Networks (ANN) with a new similarity encoding derived from matching techniques that are preva-lent in ﬁnance and economics. Our framework is on-par or outperforms alternative end-to-end frameworks in standard benchmark cases. Because similarity encod-ing is constructed using (edit) distances instead of semantic similarities, it avoids out-of-vocabulary problems when matching dirty data. We highlight this property by applying an EM application to dirty ﬁnancial ﬁrm-level data extracted from historical archives.",
+  "focus": "The paper proposes an entity matching framework that encodes record pairs by edit-distance-based similarities — a similarity encoding imported from matching techniques prevalent in finance and economics — and feeds the encoding to artificial neural networks, performing on par with or better than alternative end-to-end frameworks on standard benchmarks. Because the encoding is built from string distances rather than semantic similarities, it avoids out-of-vocabulary problems on dirty data, which the authors highlight by applying the framework to dirty financial firm-level data extracted from historical archives.",
+  "borrow": "Similarity encoding is directly usable in ERBOT: a fixed vector of string-distance features per pair is a robust, vocabulary-free input for our classifier stage, especially on dirty historical data.",
+  "fill": "The demonstration centers on firm records from financial archives; testing similarity encoding as the feature basis for person linkage, and for the blocking stage rather than classification only, is left for us.",
+  "correct": "The evidence comes from an unreviewed SSRN preprint, and 'on par or better' on standard benchmarks plus one application leaves open how the encoding compares with modern pretrained-embedding matchers on current public benchmarks.",
+  "verified": true
+ },
+ {
+  "n": 356,
+  "id": "er-356",
   "title": "Entity alignment for temporal knowledge graphs via adaptive graph networks",
   "authors": [
    "Jia Li",
@@ -6956,8 +10710,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 231,
-  "id": "er-231",
+  "n": 357,
+  "id": "er-357",
   "title": "Evaluation of Deep Learning Techniques for Entity Matching",
   "authors": [
    "Paulo Lima",
@@ -6987,8 +10741,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 232,
-  "id": "er-232",
+  "n": 358,
+  "id": "er-358",
+  "title": "Graph Neural Networks for Entity Matching",
+  "authors": [
+   "Evgeny Krivosheev",
+   "Katsiaryna Mirylenka",
+   "Mattia Atzeni",
+   "Paolo Scotton"
+  ],
+  "year": 2023,
+  "venue": "2023 IEEE International Conference on Big Data (BigData)",
+  "doi": "10.1109/bigdata59044.2023.10386187",
+  "citations": 0,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper applies graph neural networks to entity matching, representing records and their relationships as a graph so that neighborhood information can inform whether two records match. It presents the GNN approach as the matching model in a big-data conference setting.",
+  "borrow": "ERBOT can borrow the graph formulation for domains where records come with relations — co-authorship, shared addresses, firm networks — letting neighborhood evidence supplement attribute similarity.",
+  "fill": "The approach presupposes a usable graph over the records; constructing such graphs for flat administrative files, and the cost of GNN inference at our target scale, are left for us to solve.",
+  "correct": "GNN matchers inherit the errors of the graph they are built on: spurious edges present in the data itself can propagate into confident false matches, a risk attribute-only baselines do not carry.",
+  "verified": true
+ },
+ {
+  "n": 359,
+  "id": "er-359",
   "title": "Heterogeneous Entity Matching with Complex Attribute Associations using BERT and Neural Networks",
   "authors": [
    "Shitao Wang",
@@ -7015,8 +10800,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 233,
-  "id": "er-233",
+  "n": 360,
+  "id": "er-360",
   "title": "KAER: A Knowledge Augmented Pre-Trained Language Model for Entity Resolution",
   "authors": [
    "Liri Fang",
@@ -7046,8 +10831,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 234,
-  "id": "er-234",
+  "n": 361,
+  "id": "er-361",
   "title": "LinkTransformer: A Unified Package for Record Linkage with Transformer Language Models",
   "authors": [
    "Abhishek Arora",
@@ -7077,8 +10862,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 235,
-  "id": "er-235",
+  "n": 362,
+  "id": "er-362",
   "title": "Soft Target-Enhanced Matching Framework for Deep Entity Matching",
   "authors": [
    "Wenzhou Dou",
@@ -7110,8 +10895,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 236,
-  "id": "er-236",
+  "n": 363,
+  "id": "er-363",
   "title": "Sudowoodo: Contrastive Self-supervised Learning for Multi-purpose Data Integration and Preparation",
   "authors": [
    "Runhui Wang",
@@ -7141,8 +10926,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 237,
-  "id": "er-237",
+  "n": 364,
+  "id": "er-364",
   "title": "The Battleship Approach to the Low Resource Entity Matching Problem",
   "authors": [
    "Bar Genossar",
@@ -7170,8 +10955,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 238,
-  "id": "er-238",
+  "n": 365,
+  "id": "er-365",
   "title": "A survey: knowledge graph entity alignment research based on graph embedding",
   "authors": [
    "Beibei Zhu",
@@ -7202,8 +10987,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 239,
-  "id": "er-239",
+  "n": 366,
+  "id": "er-366",
   "title": "ANDez: An open-source tool for author name disambiguation using machine learning",
   "authors": [
    "Jinseok Kim",
@@ -7232,8 +11017,72 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 240,
-  "id": "er-240",
+  "n": 367,
+  "id": "er-367",
+  "title": "Adaptive Target-Consistency Entity Matching Algorithm Based on Semi-Supervised Learning",
+  "authors": [
+   "Yuedanni"
+  ],
+  "year": 2024,
+  "venue": "2024 10th International Conference on Big Data and Information Analytics (BigDIA)",
+  "doi": "10.1109/bigdia63733.2024.10808744",
+  "citations": 0,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper proposes an entity matching algorithm built on semi-supervised learning, using an adaptive target-consistency mechanism to exploit unlabeled pairs while keeping the model's predictions consistent with the target distribution. It aims to reduce the labeled-data requirement of supervised matching.",
+  "borrow": "Target consistency on unlabeled pairs is a concrete regularizer ERBOT could add when labeled pairs are scarce, which is our usual situation at the start of a new linkage project.",
+  "fill": "The record gives no abstract, so the datasets used and the size of the labeling saving are not visible; reproducing the consistency mechanism inside ERBOT and measuring its benefit on our benchmarks is left for us.",
+  "correct": "Semi-supervised consistency methods can silently reinforce a model's early errors on unlabeled data; without per-dataset results visible in the record, the claimed adaptivity is hard to assess.",
+  "verified": true
+ },
+ {
+  "n": 368,
+  "id": "er-368",
+  "title": "An Incremental Entity Resolution Approach based on Deep Metric Learning",
+  "authors": [
+   "Yaoli Xu",
+   "Chenglin Li",
+   "Pu Li",
+   "Xiaoyu Duan",
+   "Yanyan Wang",
+   "Wanhua Qi",
+   "Yanbu Guo",
+   "Yuhua Li",
+   "xiayang Shi",
+   "Suzhi Zhang"
+  ],
+  "year": 2024,
+  "venue": "",
+  "doi": "10.21203/rs.3.rs-4982747/v1",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Abstract\n        Entity resolution (ER), a crucial component of data fusion, aims to identify and aggregate disparate entity descriptions describing the same real-world object. While existing approaches have achieved good performance in ER tasks, they fall short in scenarios with dynamic data sources. The inherent dynamism of these data sources requires ER models to progressively resolve entities with incoming data while maintaining high accuracy. To address such issue, we propose a novel dynamic data processing framework that leverages the matching model from the previous time step to parse incoming incremental data, and implement an Incremental Entity Resolution Approach based on Deep Metric Learning (IER-DML), developed to handle dynamic data and enhance matching capability. an uncertainty metric-based data augmentation mechanism is proposed to mitigate calibration issues caused by suboptimal training data, and to generate high-confidence labeled entity pairs. These labeled data are then used for the iterative optimization of IER-DML, enhancing ER capabilities of IER-DML. For modeling dynamic changes in the distributions of clustering structure among entity pairs, we propose a deep metric learning-based multi-center matcher. This matcher learns metric relationships between the deep semantic features of entity pairs, and models intrinsic structures using \"soft centers\". These centers capture multiple information clusters among entities, and flexibly represent clustering structures. By integrating deep metric learning with a multi-center strategy, it can dynamically adjust classification boundaries and metric standards in complex scenarios. Comprehensive experiments demonstrate that our approach outperforms state-of-the-art methods across all four dynamic benchmark datasets.",
+  "focus": "This preprint proposes IER-DML, an incremental entity resolution framework for dynamic data sources: the previous time step's matching model processes incoming records, an uncertainty-based augmentation mechanism generates high-confidence labeled pairs for iterative optimization, and a deep metric learning matcher with multiple soft centers models shifting cluster structure among entity pairs. The authors report outperforming state-of-the-art methods on four dynamic benchmark datasets.",
+  "borrow": "The uncertainty-driven self-labeling loop — use the current model to mint high-confidence training pairs from the stream — is a practical recipe ERBOT can adopt to keep a matcher current without fresh manual labels.",
+  "fill": "The framework assumes cluster structure drifts in ways soft centers can track; blocking for the incremental setting, abrupt schema changes, and newly appearing entity types are not addressed, leaving ERBOT's incremental blocking still to design.",
+  "correct": "This is an unreviewed Research Square preprint: the claim of beating state-of-the-art methods on all four datasets is the authors' own, the datasets are not named in the abstract, and self-training on model-generated labels risks quietly reinforcing the model's own errors.",
+  "verified": true
+ },
+ {
+  "n": 369,
+  "id": "er-369",
   "title": "Author Name Disambiguation via Paper Association Refinement and Compositional Contrastive Embedding",
   "authors": [
    "Dezhi Liu",
@@ -7264,8 +11113,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 241,
-  "id": "er-241",
+  "n": 370,
+  "id": "er-370",
   "title": "Better entity matching with transformers through ensembles",
   "authors": [
    "Jwen Fai Low",
@@ -7293,8 +11142,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 242,
-  "id": "er-242",
+  "n": 371,
+  "id": "er-371",
   "title": "Data Augmentation for Entity Resolution: A Comparative Evaluation",
   "authors": [
    "Tobias Rettenmeier",
@@ -7323,8 +11172,42 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 243,
-  "id": "er-243",
+  "n": 372,
+  "id": "er-372",
+  "title": "Efficient Entity Resolution via Hierarchical Graph Attention and Semantic Blocking",
+  "authors": [
+   "Yaoli Xu",
+   "Chenglin Li",
+   "Zhilei Yin",
+   "Haibin Lu",
+   "Tong Han",
+   "Zheran Yang"
+  ],
+  "year": 2024,
+  "venue": "2024 5th International Conference on Big Data &amp;amp; Artificial Intelligence &amp;amp; Software Engineering (ICBASE)",
+  "doi": "10.1109/icbase63199.2024.10762137",
+  "citations": 1,
+  "themes": [
+   "ml-deep",
+   "blocking"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This conference paper proposes combining a hierarchical graph attention network with a semantic blocking stage to make entity resolution more efficient. The record carries no abstract, so the description rests on the title alone.",
+  "borrow": "The architectural pairing — a semantic blocking front end feeding a graph-attention matcher — is a useful efficiency pattern to prototype in ERBOT's deep-matching experiments.",
+  "fill": "With no datasets, baselines, or figures in the record, independent replication is left open: whether hierarchical graph attention plus semantic blocking beats a standard deep matcher at equal labelling cost is a benchmark we can run.",
+  "correct": "The efficiency claim cannot be verified from the record, and graph-attention matchers normally require labelled pairs, so the supervision cost behind the claimed efficiency is undocumented here.",
+  "verified": true
+ },
+ {
+  "n": 373,
+  "id": "er-373",
   "title": "Efficient Model Repository for Entity Resolution: Construction, Search, and Integration",
   "authors": [
    "Victor Christen",
@@ -7352,8 +11235,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 244,
-  "id": "er-244",
+  "n": 374,
+  "id": "er-374",
   "title": "Enhancing Entity Resolution with a hybrid Active Machine Learning framework: Strategies for optimal learning in sparse datasets",
   "authors": [
    "Mourad Jabrane",
@@ -7382,8 +11265,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 245,
-  "id": "er-245",
+  "n": 375,
+  "id": "er-375",
   "title": "Enhancing Semantic Web Entity Matching Process Using Transformer Neural Networks and Pre-Trained Language Models",
   "authors": [
    "Mourad Jabrane",
@@ -7412,8 +11295,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 246,
-  "id": "er-246",
+  "n": 376,
+  "id": "er-376",
   "title": "Entity Matching by Pool-Based Active Learning",
   "authors": [
    "Youfang Han",
@@ -7441,8 +11324,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 247,
-  "id": "er-247",
+  "n": 377,
+  "id": "er-377",
+  "title": "HGEN-ER: A HYBRID GRAPH-ENHANCED NEURAL FRAMEWORK FOR ROBUST ENTITY RESOLUTION WITH SEMANTIC TYPE SYNTHESIS",
+  "authors": [
+   "Ramachandra Reddy Vangala"
+  ],
+  "year": 2024,
+  "venue": "INTERNATIONAL JOURNAL OF INFORMATION TECHNOLOGY AND MANAGEMENT INFORMATION SYSTEMS",
+  "doi": "10.34218/ijitmis_15_01_008",
+  "citations": 4,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper presents a hybrid framework for entity resolution that combines graph-enhanced neural matching with semantic type synthesis, i.e. generated semantic type information used as an additional signal, with the stated goal of making resolution more robust. No abstract is available in the record, so the description rests on the title and venue.",
+  "borrow": "The borrowable idea is semantic type synthesis: augmenting records with generated semantic type labels and feeding them to the matcher as auxiliary evidence, a cheap way to add context that ERBOT's similarity stage could exploit.",
+  "fill": "The record carries no benchmark evidence for the framework, so testing whether type synthesis actually improves matching on standard ER benchmarks — inside a conventional blocking-to-clustering pipeline — remains open for us to do.",
+  "correct": "Robustness is asserted in the title, but the record provides no abstract, datasets, or results with which to check it; as a single-author paper in a low-visibility venue, its claims should be treated as unverified until independently reproduced.",
+  "verified": true
+ },
+ {
+  "n": 378,
+  "id": "er-378",
   "title": "Leveraging large language models for efficient representation learning for entity resolution",
   "authors": [
    "Xiaowei Xu",
@@ -7474,8 +11385,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 248,
-  "id": "er-248",
+  "n": 379,
+  "id": "er-379",
   "title": "Matching Feature Separation Network for Domain Adaptation in Entity Matching",
   "authors": [
    "Chenchen Sun",
@@ -7504,8 +11415,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 249,
-  "id": "er-249",
+  "n": 380,
+  "id": "er-380",
+  "title": "Research on Chinese-English Author Name Disambiguation Based on Semantic Fingerprint",
+  "authors": [
+   "Yifei Li"
+  ],
+  "year": 2024,
+  "venue": "2024 4th International Conference on Computer Science and Blockchain (CCSB)",
+  "doi": "10.1109/ccsb63463.2024.10735509",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "similarity"
+  ],
+  "method": [
+   "embedding/ANN"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper studies Chinese–English author name disambiguation using semantic fingerprints — compact semantic profiles derived from an author's publications. The cross-lingual setting addresses authors who publish under both Chinese and romanized name forms.",
+  "borrow": "A semantic fingerprint is a reusable representation we can compute in ERBOT for comparing entities whose names vary across languages or scripts.",
+  "fill": "The record does not address how fingerprints are maintained as authors change topics over a career, or how the method scales to millions of authors; both are open for us.",
+  "correct": "Semantic profiles blur together researchers working in the same field — exactly the namesakes hardest to separate — so fingerprint similarity alone will tend to over-merge same-topic authors.",
+  "verified": true
+ },
+ {
+  "n": 381,
+  "id": "er-381",
   "title": "SETEM: Self-ensemble training with Pre-trained Language Models for Entity Matching",
   "authors": [
    "Huahua Ding",
@@ -7535,8 +11474,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 250,
-  "id": "er-250",
+  "n": 382,
+  "id": "er-382",
   "title": "T-KAER: Transparency-enhanced Knowledge-Augmented Entity Resolution Framework",
   "authors": [
    "Lan Li",
@@ -7567,8 +11506,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 251,
-  "id": "er-251",
+  "n": 383,
+  "id": "er-383",
   "title": "When GDD meets GNN: A Knowledge-driven Neural Connection for Effective Entity Resolution in Property Graphs",
   "authors": [
    "Junwei Hu",
@@ -7602,8 +11541,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 252,
-  "id": "er-252",
+  "n": 384,
+  "id": "er-384",
   "title": "Author name disambiguation based on heterogeneous graph neural network",
   "authors": [
    "Ge Wang",
@@ -7634,8 +11573,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 253,
-  "id": "er-253",
+  "n": 385,
+  "id": "er-385",
+  "title": "Automated Graph Attention Network for Heterogeneous Entity Resolution",
+  "authors": [
+   "Chen Liu",
+   "Xiaohui Rong"
+  ],
+  "year": 2025,
+  "venue": "ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
+  "doi": "10.1109/icassp49660.2025.10890537",
+  "citations": 3,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper applies graph attention networks to heterogeneous entity resolution, where records come with differing types and relations, and automates aspects of the graph attention model's configuration. It aims to let attention over a record graph replace hand-engineered matching features.",
+  "borrow": "Graph attention over a heterogeneous record graph is borrowable as a matching model for ERBOT's relational inputs, and the automation of the model's configuration addresses the hand-tuning burden that usually comes with graph neural matchers.",
+  "fill": "The heterogeneous-graph setting is the paper's home ground; what the approach costs and delivers on flat, very large record files — ERBOT's main case — is untested in the record and open for us.",
+  "correct": "Graph attention matchers need labeled pairs and a constructed graph whose design choices drive results, and a short conference paper's evaluation is necessarily narrow, so broad accuracy claims should be read with that scope in mind.",
+  "verified": true
+ },
+ {
+  "n": 386,
+  "id": "er-386",
   "title": "Contextual semantics graph attention network model for entity resolution",
   "authors": [
    "Xiaojun Li",
@@ -7665,8 +11633,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 254,
-  "id": "er-254",
+  "n": 387,
+  "id": "er-387",
   "title": "Deep Learning Approaches to Author Name Disambiguation: A Survey",
   "authors": [
    "Francesca Cappelli",
@@ -7696,8 +11664,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 255,
-  "id": "er-255",
+  "n": 388,
+  "id": "er-388",
+  "title": "Enhanced Entity Matching Between PubMed Authors and Research Institute’s Employees Using Machine Learning",
+  "authors": [
+   "Sifei Han",
+   "Lingyun Shi",
+   "Paul Kingsbury",
+   "Fuchiang Rich Tsui"
+  ],
+  "year": 2025,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2025.3642124",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "evaluation"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This IEEE Access paper tackles a concrete matching problem: linking PubMed author records to a research institute's own employee roster using machine learning. The record has no abstract, so the features, model, and measured improvement are not documented here.",
+  "borrow": "The setup is a useful template for ERBOT's name-matching components: an authoritative roster serves as ground truth for evaluating matches of noisy bibliographic name strings, an evaluation pattern we can reuse whenever a trusted registry exists.",
+  "fill": "The study is a single-institution, two-source pairing; it leaves open author disambiguation across institutions, across time (name changes, mobility), and without a clean roster to match against. Generalizing the approach beyond one institute's employees is left for others, including us.",
+  "correct": "The word 'Enhanced' in the title is unquantified in the record, and accuracy achieved against one institute's roster, where the candidate space is small and names are comparatively clean, will likely overstate performance on open bibliographic disambiguation.",
+  "verified": true
+ },
+ {
+  "n": 389,
+  "id": "er-389",
   "title": "Enhancing Entity Resolution Through Graph-Based Data Augmentation and Label Noise Identification",
   "authors": [
    "Tobias Rettenmeier",
@@ -7726,8 +11725,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 256,
-  "id": "er-256",
+  "n": 390,
+  "id": "er-390",
   "title": "On the Asymmetrical Nature of Entity Matching Using Pre-Trained Transformers",
   "authors": [
    "Andrei Olar"
@@ -7754,8 +11753,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 257,
-  "id": "er-257",
+  "n": 391,
+  "id": "er-391",
+  "title": "Optimization of Domain Adaptation Entity Matching Algorithms Based on Transfer Learning",
+  "authors": [
+   "Danni Yue",
+   "Guocheng Wu"
+  ],
+  "year": 2025,
+  "venue": "2025 International Conference on Artificial Intelligence, Business Intelligence and E-Commerce (AIBIEC)",
+  "doi": "10.1109/aibiec68052.2025.11473417",
+  "citations": 0,
+  "themes": [
+   "ml-deep"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This conference paper (AIBIEC 2025) addresses entity matching across domains, using transfer learning to adapt matching algorithms from a source domain to a target domain. The record has no abstract, so the specific architecture and results are not documented here.",
+  "borrow": "The transfer-learning framing is directly relevant to ERBOT: a matcher trained on one labelled dataset could be adapted to a new dataset with few or no new labels, reducing the annotation cost each time the pipeline moves to a new source.",
+  "fill": "The paper leaves open how transfer interacts with the rest of the pipeline: whether adapted matchers remain reliable after blocking has filtered candidate pairs, and how cluster-level quality (not just pairwise accuracy) behaves under domain shift. Those end-to-end questions are ours to answer.",
+  "correct": "With no abstract in the record, the claimed optimization cannot be assessed; transfer-learning gains in entity matching are known to depend heavily on source-target similarity, and a single conference study rarely establishes when adaptation beats simply training on target-domain data.",
+  "verified": true
+ },
+ {
+  "n": 392,
+  "id": "er-392",
+  "title": "A Comprehensive Survey of Deep Learning for Entity Resolution",
+  "authors": [
+   "Dimitrios Karapiperis",
+   "Christos Tjortjis",
+   "Vassilios Verykios"
+  ],
+  "year": 2026,
+  "venue": "ACM Computing Surveys",
+  "doi": "10.1145/3828660",
+  "citations": 2,
+  "themes": [
+   "ml-deep",
+   "llm",
+   "blocking"
+  ],
+  "method": [
+   "survey",
+   "deep learning"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "Entity Resolution (ER) is a fundamental data integration task aimed at identifying records that refer to the same real-world entity. While traditional methods relied on brittle, handcrafted features, the recent shift to Deep Learning (DL) enables automatic feature learning via semantic embeddings, dramatically improving performance, particularly on noisy and unstructured textual data. This survey provides a structured overview of this rapidly advancing field. We chart the evolution of the embedding models that underpin modern ER, from static word vectors to context-aware Transformers. Following the canonical blocking and matching pipeline, we analyze state-of-the-art DL techniques for both stages, categorizing them by their learning paradigms and architectures. We also examine the emerging frontier of using Large Language Models (LLMs) in few-shot and chain-of-thought settings. Finally, we synthesize our findings, evaluate the limitations and inherent difficulty of existing benchmark datasets, discuss critical challenges like fairness and explainability, and outline key directions for future research.",
+  "focus": "This ACM Computing Surveys article reviews deep learning for entity resolution, charting the evolution from static word vectors to context-aware Transformers and analysing state-of-the-art DL techniques for both blocking and matching by learning paradigm and architecture. It also examines LLMs in few-shot and chain-of-thought settings, and synthesises open problems including the limitations of existing benchmark datasets, fairness, and explainability.",
+  "borrow": "The survey's stage-by-stage map of DL techniques for blocking and matching, together with its critique of benchmark datasets, is a ready checklist for ERBOT's design choices and for how honestly its evaluation should be conducted.",
+  "fill": "The survey itself names fairness and explainability of entity resolution as unresolved; turning those from survey topics into working, measurable features of a production pipeline is left to implementers, including us.",
+  "correct": "As the survey itself acknowledges, reported DL gains rest on benchmark datasets with known limitations in size and label quality, so the field's headline improvements — and any survey summary of them — inherit that inflation risk.",
+  "verified": true
+ },
+ {
+  "n": 393,
+  "id": "er-393",
   "title": "A Tight Expressivity Hierarchy for GNN-Based Entity Resolution in Master Data Management",
   "authors": [
    "Ashwin Ganesan"
@@ -7782,8 +11841,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 258,
-  "id": "er-258",
+  "n": 394,
+  "id": "er-394",
   "title": "ALER: An Active Learning Hybrid System for Efficient Entity Resolution",
   "authors": [
    "Dimitrios Karapiperis",
@@ -7814,8 +11873,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 259,
-  "id": "er-259",
+  "n": 395,
+  "id": "er-395",
+  "title": "Author Name Disambiguation in Digital Libraries via Hybrid VAE-DNN for Imbalanced Pairwise Matching",
+  "authors": [
+   "Hamid Rahman",
+   "Usman Ependi"
+  ],
+  "year": 2026,
+  "venue": "2026 Ninth International Conference on Vocational Education and Electrical Engineering (ICVEE)",
+  "doi": "10.1109/icvee71133.2026.11766315",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper combines a variational autoencoder with a deep neural network for author name disambiguation, framed as pairwise matching under severe class imbalance, where true matches are vastly outnumbered by non-matches. The hybrid is intended to learn representations that keep the minority match class separable.",
+  "borrow": "The imbalance framing is directly relevant to ERBOT: pairwise match classification is always heavily imbalanced, and representation learning aimed at the minority class is a design option for our classifier stage.",
+  "fill": "The record gives no evaluation details; whether the VAE-DNN hybrid beats simpler imbalance remedies such as resampling, class weighting, or threshold tuning on standard benchmarks remains for us to test.",
+  "correct": "VAE-based hybrids add training complexity and instability, and with no baselines reported in the record there is no evidence the added machinery outperforms a plain classifier with class weighting.",
+  "verified": true
+ },
+ {
+  "n": 396,
+  "id": "er-396",
   "title": "BEACON: Budget-Aware Entity Matching Across Domains (Extended Technical Report)",
   "authors": [
    "Nicholas Pulsone",
@@ -7844,8 +11932,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 260,
-  "id": "er-260",
+  "n": 397,
+  "id": "er-397",
   "title": "Beyond Scale and Generation: Understanding Language Model-based Entity Matching",
   "authors": [
    "Zeyu Zhang",
@@ -7878,8 +11966,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 261,
-  "id": "er-261",
+  "n": 398,
+  "id": "er-398",
   "title": "Beyond Symmetry: Asymmetric Matching with Transformers for Collective Entity Resolution",
   "authors": [
    "Andrei Olar"
@@ -7906,8 +11994,95 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 262,
-  "id": "er-262",
+  "n": 399,
+  "id": "er-399",
+  "title": "Contrastive Learning for Cross-Modal Entity Matching: An Experimental Study",
+  "authors": [
+   "Paulo Lima",
+   "Leonardo Ribeiro"
+  ],
+  "year": 2026,
+  "venue": "Proceedings of the 28th International Conference on Enterprise Information Systems",
+  "doi": "10.5220/0015052500004018",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "evaluation"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This experimental study examines contrastive learning as the training principle for cross-modal entity matching, where the records describing an entity come in more than one modality. It compares contrastive approaches for deciding whether cross-modal record pairs refer to the same entity.",
+  "borrow": "The study's comparison protocol for contrastive objectives is a template ERBOT can reuse when testing embedding-based matchers, even where our own inputs remain text-only.",
+  "fill": "Cross-modal matching is studied in isolation; how contrastive cross-modal scores should be combined with blocking and with structured-field evidence inside a full pipeline is left open for us.",
+  "correct": "As an experimental study of a single training principle, its conclusions depend on the chosen cross-modal benchmarks; contrastive gains there need not transfer to noisy structured records with missing fields.",
+  "verified": true
+ },
+ {
+  "n": 400,
+  "id": "er-400",
+  "title": "Joint Multi-Dimensional Features and Academic Network Embedding for Author Name Disambiguation",
+  "authors": [
+   "Xiulong Ma",
+   "Zhijie Ban"
+  ],
+  "year": 2026,
+  "venue": "ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
+  "doi": "10.1109/icassp55912.2026.11461579",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "clustering"
+  ],
+  "method": [
+   "embedding/ANN",
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This ICASSP paper combines multi-dimensional bibliographic features with academic network embedding for author name disambiguation, so that both record attributes and an author's position in the collaboration network inform the matching decision.",
+  "borrow": "Jointly embedding the co-authorship network alongside attribute features is a concrete recipe we can adapt for ERBOT whenever the data carries a natural graph, such as citations or co-occurrence.",
+  "fill": "Network embeddings go stale as the graph grows; the paper leaves open how to update them incrementally and how the approach behaves for authors at the sparse fringe of the network.",
+  "correct": "Authors with few collaborations — often the hardest disambiguation cases — receive the least informative embeddings, so the method's advantage concentrates exactly where the problem is already easiest.",
+  "verified": true
+ },
+ {
+  "n": 401,
+  "id": "er-401",
+  "title": "NEREUS: Numeric Entity Resolution Encoder of Unsorted Sets",
+  "authors": [
+   "Eric Livingston"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.2139/ssrn.7544404",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "evaluation"
+  ],
+  "method": [
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "&lt;div&gt;\n This study introduces the Numeric Entity Resolution Encoder of Unsorted Sets&amp;nbsp;&lt;span&gt;(NEREUS), an encoder-based classification model that addresses a historical limitation in record&amp;nbsp;&lt;/span&gt;&lt;span&gt;linkage: independently evaluating individual pairs of candidate matches without considering the&amp;nbsp;&lt;/span&gt;&lt;span&gt;broader context of other available alternatives. This pairwise focus has persisted from the&amp;nbsp;&lt;/span&gt;&lt;span&gt;classical framework of Fellegi and Sunter (1969) through modern machine learning approaches&amp;nbsp;&lt;/span&gt;&lt;span&gt;(Getoor &amp;amp; Machanavajjhala, 2012; Köpcke &amp;amp; Rahm, 2010). NEREUS overcomes this limitation&amp;nbsp;&lt;/span&gt;&lt;span&gt;by applying the principles of Transformer encoders (Vaswani et al., 2017; Devlin et al., 2019) and&amp;nbsp;&lt;/span&gt;&lt;span&gt;their attention mechanism to the record linkage domain.&lt;/span&gt;\n&lt;/div&gt;\n&lt;div&gt;\n Unlike other Transformer-based systems that serialize structured data to text (Arora &amp;amp;&amp;nbsp;&lt;span&gt;Dell, 2024; Y. Li et al., 2020), NEREUS’s input sequence represents the set of numeric&amp;nbsp;&lt;/span&gt;&lt;span&gt;comparison vectors for all potential matches of a source record, enabling its multi-head attention&amp;nbsp;&lt;/span&gt;&lt;span&gt;mechanism to learn inter-candidate contextual relationships directly.&lt;/span&gt;\n&lt;/div&gt;\n&lt;div&gt;\n In this study linking the Survey of Doctorate Recipients (SDR) and Scopus databases,&amp;nbsp;&lt;span&gt;NEREUS is evaluated against a Random Forest baseline (Breiman, 2001), a model that early deep&amp;nbsp;&lt;/span&gt;&lt;span&gt;learning models consistently failed to outperform (Mudgal et al., 2018). The results demonstrate&amp;nbsp;&lt;/span&gt;&lt;span&gt;improved performance: NEREUS links 82% of survey respondents to at least one author profile,&amp;nbsp;&lt;/span&gt;&lt;span&gt;compared to 41% achieved by the baseline. NEREUS also performs consistently across varied&amp;nbsp;&lt;/span&gt;&lt;span&gt;subgroups, addressing the challenge of differential linkage error (Harron et al., 2017), achieving&amp;nbsp;&lt;/span&gt;&lt;span&gt;more equitable matching results across under-represented populations.&lt;/span&gt;\n&lt;/div&gt;",
+  "focus": "NEREUS is a Transformer-encoder classifier that scores a source record against its whole set of candidate matches at once, feeding the numeric comparison vectors of all candidates as an input set so multi-head attention can learn inter-candidate context — breaking with the Fellegi–Sunter tradition of scoring pairs independently. Linking the Survey of Doctorate Recipients to Scopus, it links 82% of respondents to at least one author profile versus 41% for a random forest baseline, with more consistent performance across subgroups.",
+  "borrow": "The set-based scoring idea is directly borrowable: after ERBOT's pairwise classification, a context-aware re-ranking step that scores each record's candidate set jointly could resolve competing candidates better than independent pair scores.",
+  "fill": "The paper evaluates one linkage task (survey-to-bibliographic author records) using numeric comparison vectors only; it leaves open text-heavy records, integration with blocking for very large files, and clustering of the resulting links — all of which ERBOT's pipeline would need to supply and test.",
+  "correct": "This is an unreviewed SSRN preprint, and its headline figure is a linkage rate (82% vs 41%) rather than precision/recall against verified ground truth, so part of the gain could reflect over-linking rather than more correct links; the single-dataset evaluation limits generalization.",
+  "verified": true
+ },
+ {
+  "n": 402,
+  "id": "er-402",
   "title": "The impact of fine-tuning on entity resolution: An experimental evaluation",
   "authors": [
    "Dimitrios Karapiperis",
@@ -7936,8 +12111,42 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 263,
-  "id": "er-263",
+  "n": 403,
+  "id": "er-403",
+  "title": "Towards Entity-Discriminative Large Vision-Language Models for Multimodal Entity Matching",
+  "authors": [
+   "Yupeng Cao",
+   "Hanbo Liang",
+   "Chenchen Sun",
+   "Jieqiong Song",
+   "Yaxian Wang",
+   "Yisheng An"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.2139/ssrn.6478518",
+  "citations": 0,
+  "themes": [
+   "ml-deep",
+   "llm"
+  ],
+  "method": [
+   "deep learning",
+   "LLM"
+  ],
+  "supervision": "supervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "With the rapid growth of multimodal data on e-commerce platforms and social media, accurately determining whether different text-image records refer to the same real-world entity has become a key research problem. However, existing work predominantly focuses on text-only entity matching, leaving multimodal entity matching (MEM) relatively underexplored. While recent large vision-language models (VLMs) provide strong cross-modal understanding, they are not directly suitable for MEM because they are trained for generation rather than discriminative matching, and they are sensitive to noisy or incomplete text-image records. To address these limitations, we propose VLM-Match, a discriminative VLM-based framework for MEM. First, we introduce a high-confidence positive-pair data augmentation strategy with dual consistency constraints to alleviate positive-pair scarcity. Second, we extract verifiable entity evidence for semantic completion and propose a Region Localization and Semantic Alignment (RLSA) module for text-region alignment while suppressing background noise. Finally, we introduce a unified discriminative training objective that combines classification and contrastive learning for fine-grained multimodal matching. Experiments on eight real-world datasets demonstrate the effectiveness of VLM-Match, achieving an average F1 improvement of 10.4% over the best baseline.",
+  "focus": "The paper proposes VLM-Match, a framework that adapts large vision-language models — trained for generation rather than discrimination, and sensitive to noisy or incomplete records — to multimodal entity matching over text-image records from e-commerce platforms and social media. It combines a high-confidence positive-pair augmentation strategy with dual consistency constraints, a region localization and semantic alignment module that extracts verifiable entity evidence while suppressing background noise, and a unified objective combining classification and contrastive learning; on eight real-world datasets it reports an average F1 improvement of 10.4% over the best baseline.",
+  "borrow": "Two ideas transfer to ERBOT's text setting: mining high-confidence positive pairs to relieve positive-pair scarcity, and extracting checkable evidence for a match instead of relying on a bare similarity score.",
+  "fill": "The framework is built for image-text product and social records; whether evidence extraction and discriminative fine-tuning of large models pay off for structured person or firm records — ERBOT's home ground — is left for us to test.",
+  "correct": "The results appear in an unreviewed SSRN preprint and are self-reported against the authors' chosen baselines, so the 10.4% average gain should be treated as provisional until independently reproduced.",
+  "verified": true
+ },
+ {
+  "n": 404,
+  "id": "er-404",
   "title": "Understanding Domain-Aware Distribution Alignment in Budgeted Entity Matching",
   "authors": [
    "Nicholas Pulsone",
@@ -7966,8 +12175,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 264,
-  "id": "er-264",
+  "n": 405,
+  "id": "er-405",
   "title": "An expert system for quality control and duplicate detection in bibliographic databases",
   "authors": [
    "M.J. Ridley"
@@ -7993,8 +12202,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 265,
-  "id": "er-265",
+  "n": 406,
+  "id": "er-406",
   "title": "Duplicate detection and record consolidation in large bibliographic databases: the COPAC database experience",
   "authors": [
    "Shirley Anne Cousins"
@@ -8020,8 +12229,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 266,
-  "id": "er-266",
+  "n": 407,
+  "id": "er-407",
   "title": "Correlation clustering",
   "authors": [
    "N. Bansal",
@@ -8049,8 +12258,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 267,
-  "id": "er-267",
+  "n": 408,
+  "id": "er-408",
   "title": "Relational clustering for multi-type entity resolution",
   "authors": [
    "Indrajit Bhattacharya",
@@ -8078,8 +12287,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 268,
-  "id": "er-268",
+  "n": 409,
+  "id": "er-409",
+  "title": "D-Dupe: An Interactive Tool for Entity Resolution in Social Networks",
+  "authors": [
+   "Mustafa Bilgic",
+   "Louis Licamele",
+   "Lise Getoor",
+   "Ben Shneiderman"
+  ],
+  "year": 2006,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/11618058_46",
+  "citations": 5,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based",
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "D-Dupe is an interactive tool for entity resolution in social networks: it visualizes the network around candidate duplicates so that a human user can inspect the relational context and guide the resolution decisions (2006).",
+  "borrow": "Showing reviewers the neighborhood around a candidate pair, not just the pair itself, is a model for ERBOT's clerical-review interface, particularly when relational evidence decides the case.",
+  "fill": "Built for exploratory, human-driven resolution of modest networks, it leaves open how interactive review scales to millions of records and how reviewer decisions feed back into automated matching.",
+  "correct": "Human-in-the-loop resolution does not scale and its outcomes depend on the individual reviewer; as a tool paper it offers a workflow rather than evidence about matching accuracy.",
+  "verified": true
+ },
+ {
+  "n": 410,
+  "id": "er-410",
   "title": "Effective Incremental Clustering for Duplicate Detection in Large Databases",
   "authors": [
    "Francesco Folino",
@@ -8108,8 +12348,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 269,
-  "id": "er-269",
+  "n": 411,
+  "id": "er-411",
   "title": "Entity Resolution in Graphs",
   "authors": [
    "Indrajit Bhattacharya",
@@ -8136,8 +12376,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 270,
-  "id": "er-270",
+  "n": 412,
+  "id": "er-412",
   "title": "Collective entity resolution in relational data",
   "authors": [
    "Indrajit Bhattacharya",
@@ -8165,8 +12405,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 271,
-  "id": "er-271",
+  "n": 413,
+  "id": "er-413",
   "title": "D-Swoosh: A Family of Algorithms for Generic, Distributed Entity Resolution",
   "authors": [
    "Omar Benjelloun",
@@ -8199,8 +12439,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 272,
-  "id": "er-272",
+  "n": 414,
+  "id": "er-414",
+  "title": "A Generalized Joint Inference Approach for Citation Matching",
+  "authors": [
+   "Zhihua Liao",
+   "Zili Zhang"
+  ],
+  "year": 2008,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-540-89378-3_61",
+  "citations": 3,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based",
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper presents a generalized joint inference approach for citation matching, the task of deciding which bibliographic citations refer to the same publication. Instead of deciding each citation pair independently, joint inference lets the decisions constrain and reinforce one another.",
+  "borrow": "Joint inference is the borrowable core: making match decisions collectively rather than pair-by-pair maps directly onto ERBOT's clustering stage, where transitivity and relational consistency should override isolated pairwise scores.",
+  "fill": "The approach is developed for bibliographic citations; transferring joint inference to general record files and controlling its computational cost inside a large-scale pipeline is left open for us.",
+  "correct": "The gains from joint inference depend on the relational structure present in citation data; on flat record files with weak relational signal the benefit may shrink while the inference cost remains.",
+  "verified": true
+ },
+ {
+  "n": 415,
+  "id": "er-415",
   "title": "Author name disambiguation",
   "authors": [
    "Neil R. Smalheiser",
@@ -8228,8 +12497,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 273,
-  "id": "er-273",
+  "n": 416,
+  "id": "er-416",
   "title": "Entity resolution with iterative blocking",
   "authors": [
    "Steven Euijong Whang",
@@ -8260,8 +12529,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 274,
-  "id": "er-274",
+  "n": 417,
+  "id": "er-417",
   "title": "Framework for evaluating clustering algorithms in duplicate detection",
   "authors": [
    "Oktie Hassanzadeh",
@@ -8291,8 +12560,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 275,
-  "id": "er-275",
+  "n": 418,
+  "id": "er-418",
   "title": "Swoosh: a generic approach to entity resolution",
   "authors": [
    "Omar Benjelloun",
@@ -8324,8 +12593,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 276,
-  "id": "er-276",
+  "n": 419,
+  "id": "er-419",
   "title": "Effective self-training author name disambiguation in scholarly digital libraries",
   "authors": [
    "Anderson A. Ferreira",
@@ -8355,8 +12624,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 277,
-  "id": "er-277",
+  "n": 420,
+  "id": "er-420",
   "title": "Entity Resolution Models",
   "authors": [
    "John R. Talburt"
@@ -8382,8 +12651,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 278,
-  "id": "er-278",
+  "n": 421,
+  "id": "er-421",
+  "title": "Entity Resolution with Attribute and Connection Graph",
+  "authors": [
+   "Lingfeng Niu",
+   "Jianmin Wu",
+   "Yong Shi"
+  ],
+  "year": 2011,
+  "venue": "2011 IEEE 11th International Conference on Data Mining Workshops",
+  "doi": "10.1109/icdmw.2011.75",
+  "citations": 1,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper proposes an entity resolution approach that combines two sources of evidence: the attributes of the records themselves and the connection graph describing how the entities are related. The aim is to let relational connections support or override purely attribute-based match decisions.",
+  "borrow": "ERBOT can borrow the dual-evidence design: after attribute-based classification, use the connection structure between candidate entities as an additional signal before final clustering.",
+  "fill": "The record does not show how the approach scales, or how connection evidence should be weighted when the graph is sparse or noisy — both of which we would need to settle for large bibliographic or administrative graphs.",
+  "correct": "Relying on a connection graph assumes the relational structure is itself reliable; in deduplication settings where the links are part of what is being cleaned, graph evidence can reinforce existing errors instead of correcting them.",
+  "verified": true
+ },
+ {
+  "n": 422,
+  "id": "er-422",
   "title": "Large-scale collective entity matching",
   "authors": [
    "Vibhor Rastogi",
@@ -8413,8 +12711,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 279,
-  "id": "er-279",
+  "n": 423,
+  "id": "er-423",
   "title": "A brief survey of automatic methods for author name disambiguation",
   "authors": [
    "Anderson A. Ferreira",
@@ -8442,8 +12740,69 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 280,
-  "id": "er-280",
+  "n": 424,
+  "id": "er-424",
+  "title": "Breaking the Deadlock: Simultaneously Discovering Attribute Matching and Cluster Matching with Multi-Objective Metaheuristics",
+  "authors": [
+   "Haishan Liu",
+   "Dejing Dou",
+   "Hao Wang"
+  ],
+  "year": 2012,
+  "venue": "Journal on Data Semantics",
+  "doi": "10.1007/s13740-012-0010-0",
+  "citations": 2,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper addresses a circular dependency in entity resolution over heterogeneous sources: attribute matching (aligning which attributes correspond) seems to require knowing the entity clusters, while cluster matching requires the attribute alignment. It proposes discovering both simultaneously using multi-objective metaheuristics.",
+  "borrow": "The joint-optimisation framing is borrowable: ERBOT normally aligns schemas first and clusters second, but where schemas are heterogeneous, co-optimising attribute alignment and clustering instead of fixing one before the other is an idea worth taking.",
+  "fill": "Metaheuristic search over matching configurations is expensive; making simultaneous discovery practical at very large scale, and integrating it with a blocking-first pipeline, is left open for us.",
+  "correct": "Metaheuristics carry no optimality guarantee and their runtime grows quickly with the candidate space, so the approach's value hinges on the chosen objective functions and on problem sizes well below web scale.",
+  "verified": true
+ },
+ {
+  "n": 425,
+  "id": "er-425",
+  "title": "Citation‐based bootstrapping for large‐scale author disambiguation",
+  "authors": [
+   "Michael Levin",
+   "Stefan Krawczyk",
+   "Steven Bethard",
+   "Dan Jurafsky"
+  ],
+  "year": 2012,
+  "venue": "Journal of the American Society for Information Science and Technology",
+  "doi": "10.1002/asi.22621",
+  "citations": 79,
+  "themes": [
+   "clustering",
+   "scalable"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "relational",
+  "scale": "web scale (>1M)",
+  "abstract": "We present a new, two‐stage, self‐supervised algorithm for author disambiguation in large bibliographic databases. In the first “bootstrap” stage, a collection of high‐precision features is used to bootstrap a training set with positive and negative examples of coreferring authors. A supervised feature‐based classifier is then trained on the bootstrap clusters and used to cluster the authors in a larger unlabeled dataset. Our self‐supervised approach shares the advantages of unsupervised approaches (no need for expensive hand labels) as well as supervised approaches (a rich set of features that can be discriminatively trained). The algorithm disambiguates 54,000,000 author instances in Thomson Reuters' Web of Knowledge with B3 F1 of.807. We analyze parameters and features, particularly those from citation networks, which have not been deeply investigated in author disambiguation. The most important citation feature is self‐citation, which can be approximated without expensive extraction of the full network. For the supervised stage, the minor improvement due to other citation features (increasing F1 from.748 to.767) suggests they may not be worth the trouble of extracting from databases that don't already have them. A lean feature set without expensive abstract and title features performs 130 times faster with about equal F1.",
+  "focus": "This paper presents a two-stage, self-supervised algorithm for author disambiguation in large bibliographic databases: high-precision features first bootstrap a training set of coreferring and non-coreferring author mentions, then a supervised classifier trained on the bootstrap clusters disambiguates a much larger unlabelled collection. Applied to 54 million author instances in Thomson Reuters' Web of Knowledge it reaches B3 F1 of 0.807; citation features help modestly, with self-citation the most valuable, and a lean feature set without abstract and title features runs 130 times faster at about equal F1.",
+  "borrow": "The bootstrap-then-train design, and the finding that a lean feature set loses almost nothing while running 130 times faster, are directly actionable for ERBOT: spend labelling effort on a high-precision seed, then scale with cheap features.",
+  "fill": "The study shows citation features beyond self-citation add little, but does not resolve how to bootstrap when even high-precision seed features are unreliable — the cold-start regime many ERBOT datasets live in.",
+  "correct": "Results come from a single, unusually rich bibliographic database with citation networks already extracted; the reported F1 may not transfer to databases lacking citation structure, and a single B3 figure over 54 million instances hides failure modes for rare or ambiguous names.",
+  "verified": true
+ },
+ {
+  "n": 426,
+  "id": "er-426",
   "title": "Graph-Based Hierarchical Record Clustering for Unsupervised Entity Resolution",
   "authors": [
    "Islam Akef Ebeid",
@@ -8472,8 +12831,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 281,
-  "id": "er-281",
+  "n": 427,
+  "id": "er-427",
+  "title": "Review of Author Name Disambiguation Techniques for Citation Analysis",
+  "authors": [
+   "Hyun-Jung Kim"
+  ],
+  "year": 2012,
+  "venue": "Journal of the Korean BIBLIA Society for library and Information Science",
+  "doi": "10.14699/kbiblia.2012.23.3.005",
+  "citations": 0,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A review of author name disambiguation techniques as used in citation analysis, organizing the methods available up to 2012 for separating the publications of same-named authors. It was published in the Journal of the Korean BIBLIA Society for Library and Information Science.",
+  "borrow": "Its organization of disambiguation techniques by the evidence they exploit (co-authors, venues, topics) is a handy feature checklist for ERBOT's bibliographic disambiguation mode.",
+  "fill": "The review predates deep-learning and LLM-based disambiguation entirely; updating its taxonomy with learned representations, and testing which classical evidence types still matter, is work left to us.",
+  "correct": "As a 2012 review in a regional journal, its coverage is dated and its technique comparisons are narrative rather than benchmarked, so it cannot settle which method is best today.",
+  "verified": true
+ },
+ {
+  "n": 428,
+  "id": "er-428",
   "title": "Adaptive Temporal Entity Resolution on Dynamic Databases",
   "authors": [
    "Peter Christen",
@@ -8500,8 +12886,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 282,
-  "id": "er-282",
+  "n": 429,
+  "id": "er-429",
+  "title": "CLUSTER BASED DUPLICATE DETECTION",
+  "authors": [
+   "Kumar"
+  ],
+  "year": 2013,
+  "venue": "Journal of Computer Science",
+  "doi": "10.3844/jcssp.2013.1514.1518",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper applies a cluster-based approach to duplicate detection, grouping records so that duplicates are found within clusters rather than by exhaustive pairwise comparison.",
+  "borrow": "Cluster-first detection aligns with ERBOT's final clustering stage and offers an alternative when pairwise scores are noisy: decide membership at the group level rather than pair by pair.",
+  "fill": "The record provides no abstract or evaluation details; how the clustering approach compares with pairwise classification plus transitive closure on standard benchmarks remains for us to establish.",
+  "correct": "Cluster-based detection inherits clustering's classic failure mode — one bad merge can chain many records into a single false entity — and the record gives no evidence on how that risk is controlled.",
+  "verified": true
+ },
+ {
+  "n": 430,
+  "id": "er-430",
   "title": "Pay-As-You-Go Entity Resolution",
   "authors": [
    "Steven Euijong Whang",
@@ -8530,8 +12944,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 283,
-  "id": "er-283",
+  "n": 431,
+  "id": "er-431",
   "title": "A Graph Matching Method for Historical Census Household Linkage",
   "authors": [
    "Zhichun Fu",
@@ -8560,8 +12974,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 284,
-  "id": "er-284",
+  "n": 432,
+  "id": "er-432",
   "title": "Exploiting citation networks for large-scale author name disambiguation",
   "authors": [
    "Christian Schulz",
@@ -8592,8 +13006,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 285,
-  "id": "er-285",
+  "n": 433,
+  "id": "er-433",
+  "title": "Disambiguation in Citation Network Analysis",
+  "authors": [
+   "Dangzhi Zhao",
+   "Andreas Strotmann"
+  ],
+  "year": 2015,
+  "venue": "Synthesis Lectures on Information Concepts, Retrieval, and Services",
+  "doi": "10.1007/978-3-031-02291-3_4",
+  "citations": 0,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Synthesis Lectures chapter surveys the disambiguation problems that arise in citation network analysis — above all telling apart authors and works that share names or titles — and the methods used to resolve them. It frames disambiguation as a precondition for trustworthy bibliometric network analysis.",
+  "borrow": "Its organization of disambiguation targets and error types in citation data gives ERBOT a checklist for the bibliographic use case: which ambiguities (author, venue, work) a matcher must handle separately.",
+  "fill": "As a survey chapter it catalogues approaches rather than benchmarking them on shared data; a head-to-head evaluation of citation-network disambiguation inside a modern blocking-to-clustering pipeline remains for us to run.",
+  "correct": "The survey's coverage reflects the literature up to the mid-2010s, so learned-representation and LLM-based disambiguation fall outside its scope; recommendations drawn from it need re-checking against current methods.",
+  "verified": true
+ },
+ {
+  "n": 434,
+  "id": "er-434",
+  "title": "Dynamic author name disambiguation for growing digital libraries",
+  "authors": [
+   "Yanan Qian",
+   "Qinghua Zheng",
+   "Tetsuya Sakai",
+   "Junting Ye",
+   "Jun Liu"
+  ],
+  "year": 2015,
+  "venue": "Information Retrieval Journal",
+  "doi": "10.1007/s10791-015-9261-3",
+  "citations": 45,
+  "themes": [
+   "clustering",
+   "scalable"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Qian and colleagues study author name disambiguation in digital libraries that keep growing, where new publications arrive continuously and disambiguation must be updated rather than recomputed from scratch. The paper frames disambiguation as a dynamic problem over an evolving collection.",
+  "borrow": "Incremental updating is exactly what a production ER pipeline needs between full runs; the paper's framing gives ERBOT a model for maintaining clusters as new records stream in.",
+  "fill": "Dynamic methods are usually validated on library-scale bibliographic data; incremental ER for non-bibliographic records, including how cluster quality decays between refreshes, remains open for us.",
+  "correct": "Incremental schemes trade global consistency for speed: early clustering mistakes get locked in and can compound as the library grows, a risk that periodic batch re-runs avoid.",
+  "verified": true
+ },
+ {
+  "n": 435,
+  "id": "er-435",
   "title": "Holistic entity matching across knowledge graphs",
   "authors": [
    "Maria Pershina",
@@ -8621,8 +13095,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 286,
-  "id": "er-286",
+  "n": 436,
+  "id": "er-436",
+  "title": "Mixed Attributes Two-Stage-Clustering Entity Resolution",
+  "authors": [
+   "LEI Gang"
+  ],
+  "year": 2015,
+  "venue": "Journal of Communication and Computer",
+  "doi": "10.17265/1548-7709/2015.06.003",
+  "citations": 0,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper presents an entity resolution approach for records whose attributes are of mixed types, organized as a two-stage clustering procedure. It appeared in the Journal of Communication and Computer (2015).",
+  "borrow": "The two-stage design — a first pass that forms candidate groups and a second, more careful pass that finalizes clusters — maps directly onto ERBOT's blocking-then-clustering flow and is a useful template when attribute types are mixed.",
+  "fill": "The paper works on mixed attributes at the clustering stage; it leaves open how blocking and pairwise similarity should treat mixed-type fields before clustering begins, which is exactly the upstream half ERBOT still has to engineer.",
+  "correct": "With no abstract or evaluation visible in the record, the clustering quality cannot be checked; two-stage clustering also inherits error propagation, since mistakes frozen in stage one cannot be repaired in stage two.",
+  "verified": true
+ },
+ {
+  "n": 437,
+  "id": "er-437",
+  "title": "A Similarity Graph Matching Approach for Instance Disambiguation",
+  "authors": [
+   "Haojian Zhong",
+   "Lida Xu",
+   "Cheng Xie",
+   "Boyi Xu",
+   "Fenglin Bu",
+   "Hongming Cai"
+  ],
+  "year": 2016,
+  "venue": "2016 4th International Conference on Enterprise Systems (ES)",
+  "doi": "10.1109/es.2016.9",
+  "citations": 1,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes a similarity graph matching approach for instance disambiguation: instances and their pairwise similarities form a graph, and disambiguation is performed by matching over that graph. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "The graph-matching formulation is a candidate algorithm for ERBOT's clustering stage, where transitive and structural evidence should override individual pairwise decisions.",
+  "fill": "The record leaves open the approach's runtime behaviour and a head-to-head comparison with the correlation-clustering methods ERBOT already uses — both straightforward for us to benchmark.",
+  "correct": "No evaluation detail is available in the record, and graph matching formulations are typically computationally expensive, so scalability is the obvious unverified point.",
+  "verified": true
+ },
+ {
+  "n": 438,
+  "id": "er-438",
   "title": "Efficient Record Linkage Algorithms Using Complete Linkage Clustering",
   "authors": [
    "Abdullah-Al Mamun",
@@ -8651,8 +13185,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 287,
-  "id": "er-287",
+  "n": 439,
+  "id": "er-439",
+  "title": "Query-Driven Sampling for Collective Entity Resolution",
+  "authors": [
+   "Christan Grant",
+   "Daisy Zhe Wang",
+   "Michael Wick"
+  ],
+  "year": 2016,
+  "venue": "2016 IEEE 17th International Conference on Information Reuse and Integration (IRI)",
+  "doi": "10.1109/iri.2016.34",
+  "citations": 1,
+  "themes": [
+   "clustering",
+   "scalable"
+  ],
+  "method": [
+   "probabilistic",
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes query-driven sampling for collective entity resolution: instead of resolving an entire dataset, sampling focuses the collective inference effort on the entities that matter for answering queries. The record carries no abstract, so the description rests on the title and the authors' known line of work only.",
+  "borrow": "Query-driven prioritisation is a cost-control idea for ERBOT: when full collective resolution is too expensive, spend the comparison and clustering budget where downstream queries actually look.",
+  "fill": "The record leaves open how much cluster quality is lost for entities outside the query focus; measuring that recall loss, and correcting for the sampling bias in evaluation, is work we can take up.",
+  "correct": "No empirical detail is available in the record, and sampling-based collective ER inherently risks missing matches in unsampled regions of the data.",
+  "verified": true
+ },
+ {
+  "n": 440,
+  "id": "er-440",
   "title": "Using Co-authorship Networks for Author Name Disambiguation",
   "authors": [
    "Fakhri Momeni",
@@ -8679,8 +13244,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 288,
-  "id": "er-288",
+  "n": 441,
+  "id": "er-441",
   "title": "A survey of author name disambiguation techniques: 2010–2016",
   "authors": [
    "Ijaz Hussain",
@@ -8708,8 +13273,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 289,
-  "id": "er-289",
+  "n": 442,
+  "id": "er-442",
+  "title": "Clink - A Novel Record Linkage Methodology based on Graph Interactions",
+  "authors": [
+   "Mahmoud Boghdady",
+   "Neamat El-Tazi"
+  ],
+  "year": 2017,
+  "venue": "Proceedings of the 6th International Conference on Data Science, Technology and Applications",
+  "doi": "10.5220/0006416001650171",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This conference paper proposes Clink, a record linkage methodology based on graph interactions — using the interactions and relationships among records, represented as a graph, as evidence for deciding which records refer to the same entity. The record carries no abstract, so the algorithm's details and evaluation cannot be summarized further.",
+  "borrow": "Graph-interaction evidence is a borrowable complement to attribute similarity: where ERBOT's records carry relational structure, interaction patterns can confirm or break candidate matches that attributes alone leave ambiguous.",
+  "fill": "The methodology presupposes interaction data; its behavior on purely attribute-based files, and its scaling to very large graphs, are left open — ERBOT could test graph-interaction signals as an optional stage and measure when they actually help.",
+  "correct": "With no abstract in the record there is no visible evaluation to weigh, and graph-based linkage inherits the quality problems of the interaction data itself — sparse or noisy interactions can mislead as easily as they can help.",
+  "verified": true
+ },
+ {
+  "n": 443,
+  "id": "er-443",
+  "title": "Collective Entity Resolution in Familial Networks",
+  "authors": [
+   "Pigi Kouki",
+   "Jay Pujara",
+   "Christopher Marcum",
+   "Laura Koehly",
+   "Lise Getoor"
+  ],
+  "year": 2017,
+  "venue": "2017 IEEE International Conference on Data Mining (ICDM)",
+  "doi": "10.1109/icdm.2017.32",
+  "citations": 22,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Applies collective entity resolution to familial networks, where records about people are resolved jointly using not only their own attributes but also the family relationships among them, so relational evidence informs each match decision (ICDM 2017).",
+  "borrow": "Exploiting explicit relational structure as collective evidence is directly relevant to ERBOT's clustering stage: when records carry known group or family structure, joint resolution can correct pairwise decisions that look ambiguous in isolation.",
+  "fill": "The work is scoped to familial networks, a domain with unusually strong and reliable relational structure; how collective resolution behaves when the relations themselves are noisy or must be inferred first — ERBOT's usual setting — is left open.",
+  "correct": "Collective methods can propagate errors through the relation graph, so one wrong merge may pull in an entire family; results on familial data, where ties are comparatively clean, may flatter the approach relative to messier relational data.",
+  "verified": true
+ },
+ {
+  "n": 444,
+  "id": "er-444",
   "title": "Incremental Author Name Disambiguation for Scientific Citation Data",
   "authors": [
    "Zhengqiao Zhao",
@@ -8739,8 +13364,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 290,
-  "id": "er-290",
+  "n": 445,
+  "id": "er-445",
+  "title": "A Graph-Theoretic Fusion Framework for Unsupervised Entity Resolution",
+  "authors": [
+   "Dongxiang Zhang",
+   "Long Guo",
+   "Xiangnan He",
+   "Jie Shao",
+   "Sai Wu",
+   "Heng Tao Shen"
+  ],
+  "year": 2018,
+  "venue": "2018 IEEE 34th International Conference on Data Engineering (ICDE)",
+  "doi": "10.1109/icde.2018.00070",
+  "citations": 20,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Proposes an unsupervised entity resolution framework that casts the problem in graph-theoretic terms and fuses multiple sources of similarity evidence over a graph of candidate record pairs to produce the final grouping, without labeled training data (ICDE 2018).",
+  "borrow": "Fusing several similarity signals through a graph formulation is directly usable at ERBOT's similarity-to-clustering handoff, as an alternative to thresholding a single combined score.",
+  "fill": "The framework is unsupervised and similarity-centric; how learned or embedding-based similarity signals plug into the fusion graph, and how the graph step behaves at tens of millions of records, are left open.",
+  "correct": "Graph-based fusion inherits the chaining problem: paths through intermediate records can merge distinct entities, and an unsupervised method has no labeled signal to reveal when its fusion behaviour is mis-set for a new domain.",
+  "verified": true
+ },
+ {
+  "n": 446,
+  "id": "er-446",
   "title": "Generating automatically labeled data for author name disambiguation: an iterative clustering method",
   "authors": [
    "Jinseok Kim",
@@ -8769,8 +13427,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 291,
-  "id": "er-291",
+  "n": 447,
+  "id": "er-447",
   "title": "A Multi-Level Author Name Disambiguation Algorithm",
   "authors": [
    "Siyang Zhang",
@@ -8798,8 +13456,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 292,
-  "id": "er-292",
+  "n": 448,
+  "id": "er-448",
   "title": "An incremental graph-partitioning algorithm for entity resolution",
   "authors": [
    "Gregory Tauer",
@@ -8829,8 +13487,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 293,
-  "id": "er-293",
+  "n": 449,
+  "id": "er-449",
   "title": "Author Name Disambiguation Using Graph Node Embedding Method",
   "authors": [
    "Wenjing Zhang",
@@ -8860,8 +13518,72 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 294,
-  "id": "er-294",
+  "n": 450,
+  "id": "er-450",
+  "title": "Entity resolution for media metadata based on structural clustering",
+  "authors": [
+   "Qi Gu",
+   "Jian Cao",
+   "Yancen Liu"
+  ],
+  "year": 2019,
+  "venue": "Multimedia Tools and Applications",
+  "doi": "10.1007/s11042-019-08062-6",
+  "citations": 0,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper applies entity resolution to media metadata, using structural clustering — grouping records by the structure of their relationships — to decide which metadata records describe the same media entity. It was published in Multimedia Tools and Applications (2019).",
+  "borrow": "Structural clustering is a reminder that ERBOT's clustering stage can exploit relational structure between records, not only attribute similarity, when records arrive with links or shared context.",
+  "fill": "The work is framed for media metadata; it leaves open whether structural clustering helps on the plain tabular records ERBOT targets, where explicit structure is thin — adapting structural signals to ordinary relational tables is left to us.",
+  "correct": "Media metadata has rich, regular structure that most record collections lack, so the method's advantage may shrink on sparsely linked data; the record provides no abstract-level evidence of evaluation breadth.",
+  "verified": true
+ },
+ {
+  "n": 451,
+  "id": "er-451",
+  "title": "Technical Report: Optimizing Human Involvement for Entity Matching and Consolidation",
+  "authors": [
+   "Ji Sun",
+   "Dong Deng",
+   "Ihab Ilyas",
+   "Guoliang Li",
+   "Samuel Madden",
+   "Mourad Ouzzani",
+   "Michael Stonebraker",
+   "Nan Tang"
+  ],
+  "year": 2019,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.1906.06574",
+  "citations": null,
+  "themes": [
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "An end-to-end data integration system requires human feedback in several phases, including collecting training data for entity matching, debugging the resulting clusters, confirming transformations applied on these clusters for data standardization, and finally, reducing each cluster to a single, canonical representation (or \"golden record\"). The traditional wisdom is to sequentially apply the human feedback, obtained by asking specific questions, within some budget in each phase. However, these questions are highly correlated; the answer to one can influence the outcome of any of the phases of the pipeline. Hence, interleaving them has the potential to offer significant benefits. In this paper, we propose a human-in-the-loop framework that interleaves different types of questions to optimize human involvement. We propose benefit models to measure the quality improvement from asking a question, and cost models to measure the human time it takes to answer a question. We develop a question scheduling framework that judiciously selects questions to maximize the accuracy of the final golden records. Experimental results on three real-world datasets show that our holistic method significantly improves the quality of golden records from 70% to 90%, compared with the state-of-the-art approaches.",
+  "focus": "This technical report proposes a human-in-the-loop framework for an end-to-end integration pipeline — training-data collection for matching, cluster debugging, transformation confirmation, and consolidation into golden records. Instead of spending separate question budgets per phase, it interleaves question types using benefit and cost models and a scheduling framework; on three real-world datasets the holistic approach is reported to raise golden-record quality from 70% to 90% over state-of-the-art approaches.",
+  "borrow": "The benefit/cost question-scheduling idea is borrowable for ERBOT's clerical-review step: review questions should be chosen across pipeline phases by expected quality gain per minute of human time, not phase by phase.",
+  "fill": "The framework is demonstrated within the authors' own system context; an open implementation coupled to an R-based pipeline, and integration with modern active learning for the matching model itself, is left open for us.",
+  "correct": "Benefit and cost models must estimate a question's value before it is asked, which is itself uncertain; the headline improvement is reported on three datasets in a technical report and may not transfer to other domains or reviewer pools.",
+  "verified": true
+ },
+ {
+  "n": 452,
+  "id": "er-452",
   "title": "A Graph-Based Author Name Disambiguation Method and Analysis via Information Theory",
   "authors": [
    "Yingying Ma",
@@ -8891,8 +13613,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 295,
-  "id": "er-295",
+  "n": 453,
+  "id": "er-453",
+  "title": "Additional Methods for Author Name Disambiguation",
+  "authors": [
+   "Anderson A. Ferreira",
+   "Marcos André Gonçalves",
+   "Alberto H. F. Laender"
+  ],
+  "year": 2020,
+  "venue": "Synthesis Lectures on Information Concepts, Retrieval, and Services",
+  "doi": "10.1007/978-3-031-02322-4_7",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This chapter surveys additional methods for author name disambiguation beyond the main approaches covered elsewhere in the same Synthesis Lectures volume, cataloguing further techniques proposed in the literature for grouping publications by their true authors.",
+  "borrow": "It gives us a checklist of alternative disambiguation techniques to benchmark ERBOT's clustering stage against when we work on bibliographic data.",
+  "fill": "As a survey chapter it implements and compares nothing itself; a head-to-head evaluation of these methods on a shared, large-scale dataset is left for us to run.",
+  "correct": "A catalogue of methods without new comparative evidence cannot support ranking them, since which method wins depends on dataset properties the chapter does not test.",
+  "verified": true
+ },
+ {
+  "n": 454,
+  "id": "er-454",
   "title": "Crowdsourced Collective Entity Resolution with Relational Match Propagation",
   "authors": [
    "Jiacheng Huang",
@@ -8921,8 +13673,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 296,
-  "id": "er-296",
+  "n": 455,
+  "id": "er-455",
   "title": "Entity Resolution in Dynamic Heterogeneous Networks",
   "authors": [
    "Shubhranshu Shekhar",
@@ -8950,8 +13702,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 297,
-  "id": "er-297",
+  "n": 456,
+  "id": "er-456",
+  "title": "Incremental Author Name Disambiguation",
+  "authors": [
+   "Ana Paula de Carvalho",
+   "Alan Filipe Santana"
+  ],
+  "year": 2020,
+  "venue": "Synthesis Lectures on Information Concepts, Retrieval, and Services",
+  "doi": "10.1007/978-3-031-02322-4_6",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book chapter presents an incremental approach to author name disambiguation, in which newly arriving publications are assigned to existing author identities instead of re-clustering the whole collection. It addresses growing digital libraries, where author profiles must be updated as new records appear.",
+  "borrow": "ERBOT can borrow the incremental assignment idea for periodically updated sources: classify new records against existing clusters instead of re-running the full pipeline on every refresh.",
+  "fill": "The chapter works in a bibliographic setting with rich metadata; it leaves open how incremental assignment behaves when metadata is sparse and when entirely new authors with no prior profile appear — the cold-start case we would still have to handle.",
+  "correct": "Incremental assignment locks in early mistakes: once a record is attached to the wrong author, later decisions inherit the error, so its accuracy depends heavily on the quality of the initial clusters it starts from.",
+  "verified": true
+ },
+ {
+  "n": 457,
+  "id": "er-457",
   "title": "Incremental Multi-source Entity Resolution for Knowledge Graph Completion",
   "authors": [
    "Alieh Saeedi",
@@ -8980,8 +13761,189 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 298,
-  "id": "er-298",
+  "n": 458,
+  "id": "er-458",
+  "title": "SAND: Self-Training Author Name Disambiguator",
+  "authors": [
+   "Anderson A. Ferreira",
+   "Marcos André Gonçalves",
+   "Alberto H. F. Laender"
+  ],
+  "year": 2020,
+  "venue": "Synthesis Lectures on Information Concepts, Retrieval, and Services",
+  "doi": "10.1007/978-3-031-02322-4_5",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "ml-deep"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "self-supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This chapter presents SAND, a self-training author name disambiguator that bootstraps from a small amount of labeled data and iteratively labels additional publication records to expand its own training set. It targets the chronic shortage of labeled data in author name disambiguation.",
+  "borrow": "Self-training is a practical label-economy strategy for ERBOT: start from a small hand-labeled seed and grow the training data iteratively instead of waiting for a large labeled corpus.",
+  "fill": "Self-training is demonstrated here in a bibliographic setting; validating the same loop inside a general entity-resolution pipeline, with drift monitoring across iterations, is work we still have to do.",
+  "correct": "Self-training amplifies its own early errors, since mislabeled records become training evidence, so reported gains depend on seed quality and stopping criteria that the approach cannot itself guarantee.",
+  "verified": true
+ },
+ {
+  "n": 459,
+  "id": "er-459",
+  "title": "A Genetic-based Approach for Author Name Disambiguation Problem",
+  "authors": [
+   "Niloofar Mozafari"
+  ],
+  "year": 2021,
+  "venue": "Iranian Journal of Information Processing and Management",
+  "doi": "10.52547/jipm.36.3.791",
+  "citations": 0,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper tackles author name disambiguation with a genetic algorithm, using evolutionary search to find a good grouping of publications among same-named authors. It appeared in the Iranian Journal of Information Processing and Management (2021).",
+  "borrow": "A genetic search over clusterings is a useful alternative optimizer for ERBOT's clustering stage when the objective is not differentiable and greedy agglomerative merging stalls in a local optimum.",
+  "fill": "The genetic approach is demonstrated for author names in bibliographic data; wiring evolutionary clustering into a full pipeline — with blocking upstream and principled runtime and stopping criteria at large scale — remains undone.",
+  "correct": "Genetic algorithms are stochastic and sensitive to fitness-function design and population parameters; without evaluation details in the record, reproducibility and runtime at scale are open questions.",
+  "verified": true
+ },
+ {
+  "n": 460,
+  "id": "er-460",
+  "title": "AuthCrowd: Author Name Disambiguation and Entity Matching using Crowdsourcing",
+  "authors": [
+   "Antonio Correia",
+   "Diogo Guimaraes",
+   "Dennis Paulino",
+   "Shoaib Jameel",
+   "Daniel Schneider",
+   "Benjamim Fonseca",
+   "Hugo Paredes"
+  ],
+  "year": 2021,
+  "venue": "2021 IEEE 24th International Conference on Computer Supported Cooperative Work in Design (CSCWD)",
+  "doi": "10.1109/cscwd49262.2021.9437769",
+  "citations": 6,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "AuthCrowd addresses author name disambiguation in scholarly data by combining entity matching with crowdsourcing, routing ambiguous author cases to human judgments as part of the disambiguation process (CSCWD 2021).",
+  "borrow": "Routing only the ambiguous cases to human reviewers, rather than whole datasets, is a cost-effective clerical-review design that ERBOT can copy for its own uncertain pairs.",
+  "fill": "Presented as a conference system paper, it leaves open how crowd accuracy is quality-controlled at scale and how the approach compares with modern LLM-based adjudication of ambiguous pairs.",
+  "correct": "Crowd judgments about author identity can be noisy and inconsistent, especially for common names with sparse context; without strong gold-standard checks, the quality of crowd labels caps the accuracy of the whole system.",
+  "verified": true
+ },
+ {
+  "n": 461,
+  "id": "er-461",
+  "title": "When owl:sameAs is the Same: Experimenting Online Resolution of Identity with SPARQL Queries to Linked Open Data Sources",
+  "authors": [
+   "Raphaël Gazzotti",
+   "Fabien Gandon"
+  ],
+  "year": 2021,
+  "venue": "Proceedings of the 17th International Conference on Web Information Systems and Technologies",
+  "doi": "10.5220/0010654400003058",
+  "citations": 1,
+  "themes": [
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper experiments with resolving identity across Linked Open Data sources online, using SPARQL queries over published owl:sameAs links. It examines when such declared identity links can actually be treated as asserting that two URIs denote the same entity.",
+  "borrow": "For ERBOT's multi-source settings, the paper's stance — treat published sameAs links as evidence to be checked rather than as ground truth — is directly usable when consuming external linked-data identifiers.",
+  "fill": "The work stays within SPARQL-accessible linked data; turning declared sameAs links into scored, auditable match evidence inside a record-level pipeline like ERBOT's is left open for us.",
+  "correct": "Identity resolution that leans on published sameAs links inherits their known quality problems, since the links are asserted by third parties without verification, so query-based resolution cannot by itself guarantee correct identity.",
+  "verified": true
+ },
+ {
+  "n": 462,
+  "id": "er-462",
+  "title": "LACE: A Logical Approach to Collective Entity Resolution",
+  "authors": [
+   "Meghyn Bienvenu",
+   "Gianluca Cima",
+   "Víctor Gutiérrez-Basulto"
+  ],
+  "year": 2022,
+  "venue": "Proceedings of the 41st ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems",
+  "doi": "10.1145/3517804.3526233",
+  "citations": 2,
+  "themes": [
+   "clustering"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "LACE is a logical framework for collective entity resolution, presented at the PODS theory symposium, in which merge decisions are derived from declarative logical rules over the records and their relationships. It gives collective resolution a formal semantics, so that what the resolved entities are is defined by the rules rather than by an ad hoc procedure.",
+  "borrow": "Declarative merge rules with formal semantics are borrowable for ERBOT's clustering stage: explicit, auditable rules for when records merge are easier to debug and defend than opaque thresholded transitivity.",
+  "fill": "LACE is a formal framework, not a scalable implementation; engineering rule-based collective resolution to run over very large files, behind a blocking stage, is the leftover work for us.",
+  "correct": "Logical collective inference is computationally hard in general, and tractability holds only for restricted classes of rules, so in practice the framework's guarantees narrow to the fragments that can actually be executed.",
+  "verified": true
+ },
+ {
+  "n": 463,
+  "id": "er-463",
+  "title": "Name Disambiguation Based on Author Profile Entity Association Relation",
+  "authors": [
+   "Lei Zhang",
+   "Yu Pan",
+   "Qibin Zheng",
+   "Hongmei Li",
+   "Yuling Shang",
+   "Yi Liu"
+  ],
+  "year": 2022,
+  "venue": "",
+  "doi": "10.2139/ssrn.4048871",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "Aiming at the problem of inadequate utilization of author information and low accuracy of the existing method of eponymous disambiguation, a method of eponymous disambiguation based on commonly used author information entity association relationship is proposed. The entity association diagram is constructed according to the information of the co-authors, and the author&amp;apos;s subordinate institution, year of birth, gender and degree information, and the edge in the graph is divided into two categories: the vertex of the first type edge has only the author, and the vertex of the second type edge must include any of the subordinate institution, year of birth, gender and degree. The connection strength of the author is defined, and the length of the path is limited by hard constraint. Then, the author&amp;apos;s path containing only the first type of edge and the path containing only the second type of edge are searched respectively in the figure. The connection strength between two authors of the same name is calculated and normalized according to the number of paths and the length of paths. Then the connection strength of different types of paths is weighted sum and compared with the threshold to realize the eponymous disambiguation. Experimental results show that the proposed method has higher accuracy.",
+  "focus": "The paper builds an entity-association graph for authors sharing a name, using co-authors as one edge type and institution, birth year, gender, and degree as another. It defines a path-based connection strength between same-name authors, normalizes it by path count and length, and thresholds a weighted sum of the two path types to decide identity; the authors report higher accuracy than existing methods.",
+  "borrow": "The two-tier graph — co-author paths kept separate from attribute paths, with path length capped by a hard constraint — is a concrete way to build relational features for ERBOT's clustering stage on bibliographic or personnel data.",
+  "fill": "The method leans on attributes such as birth year, gender, and degree that most bibliographic databases do not carry; making the graph approach work with only co-authors, venues, and titles — the fields actually available — is left open for us.",
+  "correct": "The abstract claims higher accuracy without naming datasets, baselines, or metrics, and as an unreviewed SSRN preprint the result should be treated as unverified; the threshold and hard path-length constraints are also likely to be dataset-specific.",
+  "verified": true
+ },
+ {
+  "n": 464,
+  "id": "er-464",
   "title": "A Benchmarking Study of Matching Algorithms for Knowledge Graph Entity Alignment",
   "authors": [
    "Nhat-Minh Dao",
@@ -9010,8 +13972,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 299,
-  "id": "er-299",
+  "n": 465,
+  "id": "er-465",
   "title": "A Framework for Combining Entity Resolution and Query Answering in Knowledge Bases",
   "authors": [
    "Ronald Fagin",
@@ -9041,8 +14003,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 300,
-  "id": "er-300",
+  "n": 466,
+  "id": "er-466",
   "title": "Another Generic Setting for Entity Resolution: Basic Theory",
   "authors": [
    "Xiuzhan Guo",
@@ -9072,8 +14034,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 301,
-  "id": "er-301",
+  "n": 467,
+  "id": "er-467",
   "title": "Combining Global and Local Merges in Logic-based Entity Resolution",
   "authors": [
    "Meghyn Bienvenu",
@@ -9102,8 +14064,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 302,
-  "id": "er-302",
+  "n": 468,
+  "id": "er-468",
   "title": "Deep author name disambiguation using DBLP data",
   "authors": [
    "Zeyd Boukhers",
@@ -9132,8 +14094,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 303,
-  "id": "er-303",
+  "n": 469,
+  "id": "er-469",
   "title": "Graph-based methods for Author Name Disambiguation: a survey",
   "authors": [
    "Michele De Bonis",
@@ -9162,8 +14124,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 304,
-  "id": "er-304",
+  "n": 470,
+  "id": "er-470",
   "title": "MultiEM: Efficient and Effective Unsupervised Multi-Table Entity Matching",
   "authors": [
    "Xiaocan Zeng",
@@ -9194,8 +14156,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 305,
-  "id": "er-305",
+  "n": 471,
+  "id": "er-471",
   "title": "Unsupervised Graph-Based Entity Resolution for Complex Entities",
   "authors": [
    "Nishadi Kirielle",
@@ -9223,8 +14185,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 306,
-  "id": "er-306",
+  "n": 472,
+  "id": "er-472",
   "title": "ASPEN: ASP-Based System for Collective Entity Resolution",
   "authors": [
    "Zhiliang Xiang",
@@ -9254,8 +14216,73 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 307,
-  "id": "er-307",
+  "n": 473,
+  "id": "er-473",
+  "title": "GraLMatch: Matching Groups of Entities with Graphs and Language Models",
+  "authors": [
+   "Fernando De Meer Pardo",
+   "Claude Lehmann",
+   "Dennis Gehrig",
+   "Andrea Nagy",
+   "Stefano Nicoli",
+   "Branka Hadji Misheva",
+   "Martin Braschler",
+   "Kurt Stockinger"
+  ],
+  "year": 2024,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2406.15015",
+  "citations": null,
+  "themes": [
+   "clustering",
+   "ml-deep"
+  ],
+  "method": [
+   "graph-based",
+   "deep learning"
+  ],
+  "supervision": "supervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "In this paper, we present an end-to-end multi-source Entity Matching problem, which we call entity group matching, where the goal is to assign to the same group, records originating from multiple data sources but representing the same real-world entity. We focus on the effects of transitively matched records, i.e. the records connected by paths in the graph G = (V,E) whose nodes and edges represent the records and whether they are a match or not. We present a real-world instance of this problem, where the challenge is to match records of companies and financial securities originating from different data providers. We also introduce two new multi-source benchmark datasets that present similar matching challenges as real-world records. A distinctive characteristic of these records is that they are regularly updated following real-world events, but updates are not applied uniformly across data sources. This phenomenon makes the matching of certain groups of records only possible through the use of transitive information. In our experiments, we illustrate how considering transitively matched records is challenging since a limited amount of false positive pairwise match predictions can throw off the group assignment of large quantities of records. Thus, we propose GraLMatch, a method that can partially detect and remove false positive pairwise predictions through graph-based properties. Finally, we showcase how fine-tuning a Transformer-based model (DistilBERT) on a reduced number of labeled samples yields a better final entity group matching than training on more samples and/or incorporating fine-tuning optimizations, illustrating how precision becomes the deciding factor in the entity group matching of large volumes of records.",
+  "focus": "GraLMatch addresses entity group matching: assigning records from multiple sources to groups representing the same entity, where some groups can only be resolved through transitive matches. Using company and financial-security records as the motivating case, plus two new multi-source benchmarks, the authors show that a few false-positive pairwise predictions can corrupt many group assignments, and propose graph-based checks that partially detect and remove such false positives before grouping; they also report that fine-tuning a DistilBERT matcher on fewer labelled samples can beat training on more, because precision dominates at scale.",
+  "borrow": "Two borrowables for ERBOT: graph-property screening of pairwise predictions before clustering, and the precision-first lesson — for group matching, a smaller, cleaner training set can beat a larger one.",
+  "fill": "The problem is instantiated in financial data with regularly but non-uniformly updated sources; group matching for other domains, and fuller handling of source-update divergence, remain open for us.",
+  "correct": "By the abstract's own wording the graph method only partially detects false positives, and the evidence comes from the authors' own benchmarks in one domain; this is an unreviewed preprint.",
+  "verified": true
+ },
+ {
+  "n": 474,
+  "id": "er-474",
+  "title": "Graph-partitioning entity resolution for resolving noisy product names in OCR scans of retail receipts",
+  "authors": [
+   "Jose Ramon Ilagan",
+   "Joseph Benjamin Ilagan"
+  ],
+  "year": 2024,
+  "venue": "Procedia Computer Science",
+  "doi": "10.1016/j.procs.2024.06.180",
+  "citations": 3,
+  "themes": [
+   "clustering",
+   "similarity"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "small benchmark",
+  "abstract": "",
+  "focus": "The paper applies graph partitioning to entity resolution over product names extracted by OCR from retail receipts, where the names are noisy and abbreviated. Records become graph nodes linked by similarity, and partitioning the graph yields the resolved product entities.",
+  "borrow": "Graph partitioning as the clustering step for noisy short strings is directly borrowable for ERBOT's clustering stage when fields are OCR-corrupted, a noise regime where plain transitive closure over-merges.",
+  "fill": "The work is confined to one narrow domain — receipt product names; transferring the partitioning approach to general record files, other languages and scripts, and larger scales is left open for us.",
+  "correct": "Receipt product names are short and drawn from a limited vocabulary, so the reported behaviour may not carry to person or organization records with richer attribute structure and heavier name variation.",
+  "verified": true
+ },
+ {
+  "n": 475,
+  "id": "er-475",
   "title": "Advances in Logic-Based Entity Resolution: Enhancing ASPEN with Local Merges and Optimality Criteria",
   "authors": [
    "Zhliang Xiang",
@@ -9285,8 +14312,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 308,
-  "id": "er-308",
+  "n": 476,
+  "id": "er-476",
+  "title": "Chinese Author Name Disambiguation Based on Graph Structure Reconstruction",
+  "authors": [
+   "Xiaotong Sun",
+   "Xinhua E"
+  ],
+  "year": 2025,
+  "venue": "2025 7th International Conference on Electronic Engineering and Informatics (EEI)",
+  "doi": "10.1109/eei67650.2025.11334750",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "ml-deep"
+  ],
+  "method": [
+   "graph-based"
+  ],
+  "supervision": "supervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper applies graph structure reconstruction to Chinese author name disambiguation, a setting made harder by the high concentration of common Chinese surnames and given names. It rebuilds the author–publication graph structure to improve the separation of namesakes.",
+  "borrow": "Graph reconstruction as a preprocessing step — repairing the co-authorship graph before clustering — is transferable to ERBOT's clustering stage for high-collision name populations.",
+  "fill": "The work is scoped to Chinese names in a conference-paper evaluation; whether reconstruction helps for other high-collision naming systems, and how it interacts with blocking at scale, is left open for us.",
+  "correct": "The record reports no dataset details, so the size and difficulty of the evaluation cannot be judged; graph reconstruction also risks manufacturing structure that reflects the algorithm's assumptions rather than the data.",
+  "verified": true
+ },
+ {
+  "n": 477,
+  "id": "er-477",
   "title": "TransClean: Finding False Positives in Multi-Source Entity Matching under Real-World Conditions via Transitive Consistency",
   "authors": [
    "Fernando de Meer Pardo",
@@ -9317,8 +14373,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 309,
-  "id": "er-309",
+  "n": 478,
+  "id": "er-478",
+  "title": "A Cooperative Multi-Agent Framework for Author Name Disambiguation",
+  "authors": [
+   "Natan de Souza Rodrigues",
+   "Samuel Gomes dos Santos",
+   "Vitória Maria Diniz Pereira",
+   "Célia Ghedini Ralha"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.21203/rs.3.rs-10420931/v1",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "evaluation",
+   "scalable"
+  ],
+  "method": [
+   "system",
+   "ML classifier"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Abstract\n                Author Name Disambiguation (AND) is an important task in digital libraries, since ambiguous names may lead to incorrect publication attribution, fragmented author profiles, and distorted bibliometric indicators. This article presents AIDA-AND, a cooperative multi-agent framework for AND that combines semantic representations with interpretable metadata-based evidence. The framework decomposes the disambiguation process into specialist agents that evaluate nominal, semantic, social, temporal, and institutional evidence. Each agent produces configurable evidence scores, which are combined by a decision agent using weights, confidence values, merge thresholds, and conflict rules. An orchestrator coordinates the communication among agents over SPADE/XMPP and updates the predicted clusters. Experiments were conducted on AMiner12 and DBLP datasets, including comparison with baselines, threshold sensitivity analysis, ablation study, and runtime evaluation. On AMiner12, AIDA-AND achieved the highest pF1 among the compared methods, outperforming the second-best pF1 result by a relative improvement of 6.4%. On DBLP, AIDA-AND reached a K value close to the multidimensional similarity baseline, although ComMAND obtained the highest values across the evaluated metrics. The ablation results showed that nominal, semantic, and social agents were the most influential components. Under the adopted parallel execution settings, AIDA-AND reduced execution time by 50.1% on AMiner12 and 87.4% on DBLP compared with ComMAND. These results indicate that AIDA-AND is a competitive, modular, and interpretable alternative for combining semantic and heuristic evidence in AND.",
+  "focus": "AIDA-AND is a cooperative multi-agent framework for author name disambiguation in which specialist agents score nominal, semantic, social, temporal, and institutional evidence, and a decision agent combines the scores using weights, confidence values, thresholds, and conflict rules. On AMiner12 it achieved the best pairwise F1 among the compared methods (a 6.4% relative improvement over the second best), while on DBLP the ComMAND baseline scored higher; parallel execution cut runtime by 50.1% on AMiner12 and 87.4% on DBLP relative to ComMAND.",
+  "borrow": "The decomposition into per-evidence-type scorers with an explicit, configurable combination layer maps directly onto ERBOT's comparison stage and would make our matching decisions more interpretable and tunable.",
+  "fill": "The framework is demonstrated only on bibliographic data and depends on hand-set weights and thresholds; learning those combination parameters from data, and porting the design to non-bibliographic linkage, is left for us.",
+  "correct": "It is an unreviewed Research Square preprint, and on DBLP it did not beat the strongest baseline, so the headline claim is dataset-dependent; the SPADE/XMPP agent infrastructure is also heavy machinery for what is fundamentally a scoring pipeline.",
+  "verified": true
+ },
+ {
+  "n": 479,
+  "id": "er-479",
   "title": "Adaptive Graph Refinement and Label Propagation with LLMs for Cost-Effective Entity Resolution",
   "authors": [
    "Hongtao Wang",
@@ -9349,8 +14438,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 310,
-  "id": "er-310",
+  "n": 480,
+  "id": "er-480",
+  "title": "Author Name Disambiguation Under Sparse-Data Conditions",
+  "authors": [
+   "Beibarys Kozgambek"
+  ],
+  "year": 2026,
+  "venue": "2026 IEEE 6th International Conference on Smart Information Systems and Technologies (SIST)",
+  "doi": "10.1109/sist61674.2026.11595969",
+  "citations": 0,
+  "themes": [
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This conference paper addresses author name disambiguation under sparse-data conditions, where few attributes or publications per author are available to separate namesakes — the regime in which most disambiguation methods lose accuracy.",
+  "borrow": "Its sparse-regime framing is a useful stress test: we can evaluate ERBOT's matcher on deliberately thinned data to find where it breaks.",
+  "fill": "Sparse-data disambiguation is usually demonstrated on small slices of bibliographic data; showing whether such an approach holds at production scale, and how it interacts with blocking, remains open for us.",
+  "correct": "The record carries no abstract, so no specific claim can be checked; more generally, methods tuned for sparse data often sacrifice accuracy on dense, well-populated author profiles.",
+  "verified": true
+ },
+ {
+  "n": 481,
+  "id": "er-481",
   "title": "Probabilistic linkage with graphs: leveraging cluster structure to improve the accuracy of entity resolution at scale",
   "authors": [
    "Evelyn Lauren",
@@ -9380,8 +14497,65 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 311,
-  "id": "er-311",
+  "n": 482,
+  "id": "er-482",
+  "title": "Probabilistic Data Generation for Deduplication and Data Linkage",
+  "authors": [
+   "Peter Christen"
+  ],
+  "year": 2005,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/11508069_15",
+  "citations": 33,
+  "themes": [
+   "evaluation",
+   "probabilistic"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Christen's 2005 paper presents probabilistic data generation for deduplication and data linkage: synthetic datasets with controlled duplicates and errors, so that linkage algorithms can be evaluated against known truth. It is the data-generation work associated with the Febrl linkage project.",
+  "borrow": "A controllable generator is the only way to measure recall honestly at scale; ERBOT can adopt its error model — typos, missing values, duplicate variants — to build regression tests with known match status.",
+  "fill": "The generator's error processes reflect 2005-era assumptions; modern error sources such as OCR pipelines and transliteration are not modelled, and extending the generator is open work.",
+  "correct": "Synthetic benchmarks risk flattering algorithms whose assumptions match the generator's; performance on generated data is evidence about the generator as much as about the linker.",
+  "verified": true
+ },
+ {
+  "n": 483,
+  "id": "er-483",
+  "title": "Quality and Complexity Measures for Data Linkage and Deduplication",
+  "authors": [
+   "Peter Christen",
+   "Karl Goiser"
+  ],
+  "year": 2007,
+  "venue": "Studies in Computational Intelligence",
+  "doi": "10.1007/978-3-540-44918-8_6",
+  "citations": 113,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "survey",
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Christen and Goiser propose quality and complexity measures for data linkage and deduplication: ways to quantify how difficult a dataset is to link and how good a linkage result is, beyond a single accuracy figure. The chapter appears in Studies in Computational Intelligence (2007).",
+  "borrow": "Dataset-complexity measures give ERBOT a pre-flight diagnostic: estimate linkage difficulty from the data itself and use it to choose blocking keys and thresholds, and to decide whether clerical review is worth its cost.",
+  "fill": "The measures were designed for classical linkage on structured records; complexity diagnostics for learned and LLM-based matchers — where difficulty lives in semantics rather than string variation — are left to develop.",
+  "correct": "Quality measures that require no ground truth are necessarily proxies; a dataset can score as easy on string-complexity measures while being hard for semantic reasons the measures never see.",
+  "verified": true
+ },
+ {
+  "n": 484,
+  "id": "er-484",
   "title": "Comparative evaluation of entity resolution approaches with FEVER",
   "authors": [
    "Hanna Köpcke",
@@ -9409,8 +14583,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 312,
-  "id": "er-312",
+  "n": 485,
+  "id": "er-485",
   "title": "Evaluating entity resolution results",
   "authors": [
    "David Menestrina",
@@ -9438,8 +14612,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 313,
-  "id": "er-313",
+  "n": 486,
+  "id": "er-486",
   "title": "Evaluation of entity resolution approaches on real-world match problems",
   "authors": [
    "Hanna Köpcke",
@@ -9467,8 +14641,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 314,
-  "id": "er-314",
+  "n": 487,
+  "id": "er-487",
   "title": "Frameworks for entity matching: A comparison",
   "authors": [
    "Hanna Köpcke",
@@ -9495,8 +14669,41 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 315,
-  "id": "er-315",
+  "n": 488,
+  "id": "er-488",
+  "title": "Effects of Unpopular Citation Fields in Citation Matching Performance",
+  "authors": [
+   "Hee-Kwan Koo",
+   "Taehong Kim",
+   "Hong-Woo Chun",
+   "Dongmin Seo",
+   "Hanmin Jung",
+   "Sungin Lee"
+  ],
+  "year": 2011,
+  "venue": "2011 International Conference on Information Science and Applications",
+  "doi": "10.1109/icisa.2011.5772372",
+  "citations": 1,
+  "themes": [
+   "evaluation",
+   "similarity"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper examines how 'unpopular' citation fields — fields that are rarely populated in citation records — affect the performance of citation matching. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "Field-utility analysis is a transferable evaluation practice: before ERBOT adds a sparsely populated attribute to a comparison model, measure whether it actually helps or hurts matching, as this paper does for citation fields.",
+  "fill": "The record documents no findings, leaving open whether the field effects it studied replicate on current bibliographic sources and on non-citation record types — an ablation we can run within ERBOT's evaluation stage.",
+  "correct": "No results are visible in the record, and field effects are inherently dataset-specific; 2011 citation data may not reflect the field completeness of today's bibliographic databases.",
+  "verified": true
+ },
+ {
+  "n": 489,
+  "id": "er-489",
   "title": "Entity Resolution Systems",
   "authors": [
    "John R. Talburt"
@@ -9522,8 +14729,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 316,
-  "id": "er-316",
+  "n": 490,
+  "id": "er-490",
   "title": "Entity Resolution and Information Quality",
   "authors": [],
   "year": 2011,
@@ -9547,8 +14754,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 317,
-  "id": "er-317",
+  "n": 491,
+  "id": "er-491",
   "title": "Principles of Entity Resolution",
   "authors": [
    "John R. Talburt"
@@ -9575,8 +14782,62 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 318,
-  "id": "er-318",
+  "n": 492,
+  "id": "er-492",
+  "title": "Trends in Entity Resolution Research and Applications",
+  "authors": [
+   "John R. Talburt"
+  ],
+  "year": 2011,
+  "venue": "Entity Resolution and Information Quality",
+  "doi": "10.1016/b978-0-12-381972-7.00007-5",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Written by one of the field's founders, this chapter reviews trends in entity resolution research and applications as of 2011, in the book Entity Resolution and Information Quality. It surveys where the field was heading in methods and application domains, with information quality as a framing concern.",
+  "borrow": "The chapter's information-quality framing is worth borrowing for ERBOT's reporting: linkage output should be presented with its quality dimensions, not only with its match decisions.",
+  "fill": "The trends assessment predates deep-learning and LLM-based matching entirely; updating its research agenda against the current method landscape is a gap we can fill.",
+  "correct": "A 2011 trends chapter cannot speak to the empirical questions that dominate current practice — learned blocking, embedding matchers, privacy-preserving linkage — so its forward-looking claims should be read historically.",
+  "verified": true
+ },
+ {
+  "n": 493,
+  "id": "er-493",
+  "title": "Evaluation of Matching Quality and Complexity",
+  "authors": [
+   "Peter Christen"
+  ],
+  "year": 2012,
+  "venue": "Data Matching",
+  "doi": "10.1007/978-3-642-31164-2_7",
+  "citations": 3,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book chapter from Peter Christen's Data Matching treats two questions systematically: how the quality of a matching result should be measured, and what the computational complexity of the matching process is. It is a reference treatment of the evaluation side of data matching rather than a new matching algorithm.",
+  "borrow": "The chapter's quality-and-complexity framework — pair-level quality measures alongside the cost of generating and comparing candidate pairs — is the standard yardstick ERBOT's evaluation stage should report against.",
+  "fill": "Written before learned blocking, embedding-based candidate generation, and LLM matching became common, the chapter leaves the complexity accounting for those modern stages open; extending its quality/complexity treatment to them is work we can pick up.",
+  "correct": "The quality measures are defined largely at the level of record pairs, but ER pipelines deliver clusters, and pair-level scores can look good while the resulting clusters are poor — the chapter's frame needs cluster-level care when applied end-to-end.",
+  "verified": true
+ },
+ {
+  "n": 494,
+  "id": "er-494",
   "title": "The Data Matching Process",
   "authors": [
    "Peter Christen"
@@ -9604,8 +14865,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 319,
-  "id": "er-319",
+  "n": 495,
+  "id": "er-495",
   "title": "Tractable Cases of Clean Query Answering under Entity Resolution via Matching Dependencies",
   "authors": [
    "Jaffer Gardezi",
@@ -9632,8 +14893,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 320,
-  "id": "er-320",
+  "n": 496,
+  "id": "er-496",
   "title": "Accuracy of simple, initials-based methods for author name disambiguation",
   "authors": [
    "Staša Milojević"
@@ -9660,8 +14921,69 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 321,
-  "id": "er-321",
+  "n": 497,
+  "id": "er-497",
+  "title": "Evaluating bias due to data linkage error in electronic healthcare records",
+  "authors": [
+   "Katie Harron",
+   "Angie Wade",
+   "Ruth Gilbert",
+   "Berit Muller-Pebody",
+   "Harvey Goldstein"
+  ],
+  "year": 2014,
+  "venue": "BMC Medical Research Methodology",
+  "doi": "10.1186/1471-2288-14-36",
+  "citations": 84,
+  "themes": [
+   "evaluation",
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper examines how data linkage error in electronic healthcare records translates into bias in study results, and how that bias can be evaluated. It belongs to the methodological literature that treats linkage error as a quantifiable source of bias rather than a minor data-quality nuisance.",
+  "borrow": "Its bias-evaluation perspective is borrowable for ERBOT's evaluation stage: beyond precision and recall, we should ask how the estimated false-link and missed-link rates would move a downstream effect estimate.",
+  "fill": "The treatment is framed around healthcare-record studies; a general-purpose error-impact simulation that plugs into an arbitrary ERBOT linkage output, whatever the downstream analysis, is left for us to build.",
+  "correct": "Bias evaluation of this kind typically presupposes error rates obtained from a validation sample or assumed in simulation; where no gold-standard check exists, the size of the bias remains uncertain — the paper's setting supplies such checks more readily than most ER applications.",
+  "verified": true
+ },
+ {
+  "n": 498,
+  "id": "er-498",
+  "title": "A framework of identity resolution: evaluating identity attributes and matching algorithms",
+  "authors": [
+   "Jiexun Li",
+   "Alan G. Wang"
+  ],
+  "year": 2015,
+  "venue": "Security Informatics",
+  "doi": "10.1186/s13388-015-0021-0",
+  "citations": 14,
+  "themes": [
+   "evaluation",
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Proposes a framework for identity resolution that evaluates both sides of the problem — the quality of the identity attributes available and the performance of the matching algorithms applied to them — in a security informatics context (Security Informatics, 2015).",
+  "borrow": "Evaluating attribute quality alongside algorithm quality is a useful diagnostic split for ERBOT: when matches are poor, it indicates whether to fix the input data or the matcher.",
+  "fill": "Framed for security and intelligence identity data, the framework leaves open how its attribute evaluation translates to general-purpose pipelines and to automated attribute-quality scoring at large scale.",
+  "correct": "Framework categories risk being too coarse to predict failure on a specific dataset: an attribute judged high-quality in the abstract may discriminate poorly in a particular population, so the framework's assessments need empirical grounding per dataset.",
+  "verified": true
+ },
+ {
+  "n": 499,
+  "id": "er-499",
   "title": "Better duplicate detection for systematic reviewers: evaluation of Systematic Review Assistant-Deduplication Module",
   "authors": [
    "John Rathbone",
@@ -9691,8 +15013,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 322,
-  "id": "er-322",
+  "n": 500,
+  "id": "er-500",
   "title": "Bias in data linkage studies",
   "authors": [
    "Megan Bohensky"
@@ -9719,8 +15041,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 323,
-  "id": "er-323",
+  "n": 501,
+  "id": "er-501",
   "title": "Cost-Effective Crowdsourced Entity Resolution",
   "authors": [
    "Chengliang Chai",
@@ -9750,8 +15072,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 324,
-  "id": "er-324",
+  "n": 502,
+  "id": "er-502",
+  "title": "Towards a Synthetic Data Generator for Matching Decision Trees",
+  "authors": [
+   "Taoxin Peng",
+   "Florian Hanke"
+  ],
+  "year": 2016,
+  "venue": "Proceedings of the 18th International Conference on Enterprise Information Systems",
+  "doi": "10.5220/0005829001350141",
+  "citations": 3,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark",
+   "ML classifier"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper works towards a synthetic data generator whose purpose is to produce test data for matching decision trees — the learned decision-tree matchers used to classify record pairs as matches or non-matches. The generator is meant to supply controlled data where real labeled matching data is unavailable.",
+  "borrow": "Synthetic data generation with controlled error patterns is directly borrowable for stress-testing ERBOT's classification stage, especially for error types and match rates that scarce labeled real data cannot supply.",
+  "fill": "The generator is aimed at decision-tree matchers specifically; generating realistic synthetic data to benchmark a full modern pipeline — blocking, embeddings, clustering — end to end remains open, and is a natural extension for us.",
+  "correct": "Synthetic data is only as realistic as the generator's error model, so matchers tuned or ranked on its output can look better than they will on real dirty data; conclusions from synthetic benchmarks need that caveat.",
+  "verified": true
+ },
+ {
+  "n": 503,
+  "id": "er-503",
   "title": "A Theoretical Analysis of First Heuristics of Crowdsourced Entity Resolution",
   "authors": [
    "Arya Mazumdar",
@@ -9778,8 +15129,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 325,
-  "id": "er-325",
+  "n": 504,
+  "id": "er-504",
   "title": "Data sets for author name disambiguation: an empirical analysis and a new resource",
   "authors": [
    "Mark-Christoph Müller",
@@ -9807,8 +15158,74 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 326,
-  "id": "er-326",
+  "n": 505,
+  "id": "er-505",
+  "title": "GUILD: GUidance for Information about Linking Data sets†",
+  "authors": [
+   "Ruth Gilbert",
+   "Rosemary Lafferty",
+   "Gareth Hagger-Johnson",
+   "Katie Harron",
+   "Li-Chun Zhang",
+   "Peter Smith",
+   "Chris Dibben",
+   "Harvey Goldstein"
+  ],
+  "year": 2017,
+  "venue": "Journal of Public Health",
+  "doi": "10.1093/pubmed/fdx037",
+  "citations": 96,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "GUILD is guidance, produced by a group of linkage methodologists, on what information studies that link data sets should report — covering the linkage process and its quality — so that readers can judge how linkage error might affect the findings. It functions as a reporting standard for data linkage studies, analogous to reporting guidelines in epidemiology.",
+  "borrow": "We can borrow GUILD's reporting items as a documentation template for ERBOT runs: data sources, linkage methods, blocking and comparison choices, and how linkage quality was assessed should accompany every delivered linkage.",
+  "fill": "GUILD targets human-written study reports in health and social research; turning its items into machine-readable provenance automatically emitted by a linkage pipeline is left open for us.",
+  "correct": "Reporting guidance does not itself measure or reduce linkage error — a fully GUILD-compliant report can still describe a poor linkage, so the checklist must not be mistaken for a quality guarantee.",
+  "verified": true
+ },
+ {
+  "n": 506,
+  "id": "er-506",
+  "title": "Measuring precision for deterministic and probabilistic record linkage",
+  "authors": [
+   "Bindi Kindermann",
+   "James Chipperfield",
+   "Noel Hansen",
+   "Peter Rossiter",
+   "Jeffrey Wright"
+  ],
+  "year": 2017,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v1i1.110",
+  "citations": 1,
+  "themes": [
+   "evaluation",
+   "probabilistic"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "ABSTRACT&#x0D;\nObjectivesVarious organisations are increasingly linking administrative, survey, and census data to enhance dimensions such as time and breadth or depth of detail. Because a unique person identifier is often not available, records belonging to two different people may be incorrectly linked. Estimating the proportion of links that are correct, called precision, is difficult because, even after clerical review, there will remain some uncertainty about whether a link is in fact correct or incorrect.&#x0D;\nThis presentation proposes some methods for estimating precision when using either deterministic (rules-based) or probabilistic linkage. These methods are model-based and do not require clerical review. The main uses of these methods are to estimate:&#x0D;\n1. Precision during the linking process. This is useful to refine how linkage is carried out, such as the choice of linking variables and weight thresholds.&#x0D;\n2. Precision after the files are linked. This provides a useful \"quality indicator\" of the linked data.&#x0D;\nApproachTwo methods of estimating precision are described:&#x0D;\n1. Simulation – the linking process is simulated many times, whether it is probabilistic or deterministic. The key step being the simulation of the agreement pattern between data sets, based on underlying probabilities.&#x0D;\n2. An algebraic estimator – this is applicable for deterministic linking only, and provides a quicker way of estimating precision.&#x0D;\nBoth methods are investigated using two studies: (i) synthetic data (ii) real data (death registrations linked to census data).&#x0D;\nResultsThe estimators perform very well using both the synthetic and real data, even when assumptions about the independence of linking variables are violated. This suggests that the estimators are robust against moderate violations of these assumptions.&#x0D;\nConclusionThe proposed estimators of precision are a very useful addition to the record linkage tool kit, providing methodical, faster, and cheaper alternatives to many present strategies that rely on clerical review. Estimates of precision are useful in the planning, process, and analysis of record linkage activities.",
+  "focus": "The paper tackles a practical evaluation problem: after administrative, survey, or census files are linked, the precision of the links is hard to estimate because even clerical review leaves uncertainty about whether a link is correct. It proposes two model-based estimators that need no clerical review — a simulation of the agreement patterns under the linkage model, and a quicker algebraic estimator applicable to deterministic linkage — and investigates them on synthetic data and on death registrations linked to census data, where they perform well even under moderate violations of the independence assumptions.",
+  "borrow": "The simulation-based precision estimator gives ERBOT a way to report linkage quality on unlabeled production data, where no clerical review budget exists, and to guide choices of linking variables and weight thresholds while linking is still in progress.",
+  "fill": "The estimators are developed and tested for two-file linkage of person records; extending precision estimation to multi-file linkage and to entity-level quality after transitive clustering is left for us to add.",
+  "correct": "The evidence comes from one synthetic and one real study, and the algebraic shortcut covers deterministic linkage only, so the robustness claim should be read as limited to settings close to those tested.",
+  "verified": true
+ },
+ {
+  "n": 507,
+  "id": "er-507",
   "title": "Estimating Precision and Recall for Deterministic and Probabilistic Record Linkage",
   "authors": [
    "James Chipperfield",
@@ -9837,8 +15254,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 327,
-  "id": "er-327",
+  "n": 508,
+  "id": "er-508",
   "title": "Evaluating author name disambiguation for digital libraries: a case of DBLP",
   "authors": [
    "Jinseok Kim"
@@ -9865,8 +15282,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 328,
-  "id": "er-328",
+  "n": 509,
+  "id": "er-509",
   "title": "Predicting Matching Quality of Record Linkage Algorithms on Growing Data Sets",
   "authors": [
    "Schuster Martin",
@@ -9895,8 +15312,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 329,
-  "id": "er-329",
+  "n": 510,
+  "id": "er-510",
+  "title": "Entity Matching with Quality and Error Guarantees",
+  "authors": [
+   "Yufei Tao"
+  ],
+  "year": 2019,
+  "venue": "ACM SIGMOD Record",
+  "doi": "10.1145/3371316.3371323",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Given two sets of entities X and Y , entity matching aims to decide whether x and y represent the same entity for each pair (x, y) ∈ X × Y . In many scenarios, the only way to ensure perfect accuracy is to launch a costly inspection procedure on every (x, y), whereas performing the procedure |X| · |Y | times is prohibitively expensive. It is, therefore, important to design an algorithm that carries out the procedure on only some pairs, and renders the verdicts on the other pairs automatically with as few mistakes as possible. This article describes an algorithm that achieves the purpose using the methodology of active monotone classification. The algorithm ensures an asymptotically optimal tradeoff between the number of pairs inspected and the number of mistakes made.",
+  "focus": "The article studies entity matching when the only way to be certain about a pair is a costly inspection procedure, and inspecting all cross pairs is prohibitively expensive. Using the methodology of active monotone classification, the proposed algorithm inspects only some pairs and renders verdicts on the rest automatically, achieving an asymptotically optimal tradeoff between the number of pairs inspected and the number of mistakes made.",
+  "borrow": "The inspection-budget framing maps onto ERBOT's clerical review: spend human checks where they reduce mistakes most, with an explicit error guarantee attached to the automatic decisions.",
+  "fill": "The guarantee is asymptotic and framed for two entity sets under a monotone classification structure; turning it into finite-sample guarantees for multi-source, clustered ERBOT output is left for us.",
+  "correct": "Asymptotic optimality can hide large constant factors, and the monotonicity assumption may fail on real attributes whose agreement patterns are not monotone in match likelihood.",
+  "verified": true
+ },
+ {
+  "n": 511,
+  "id": "er-511",
   "title": "Quality Management of Workers in an In-House Crowdsourcing-Based Framework for Deduplication of Organizations’ Databases",
   "authors": [
    "Morteza Saberi",
@@ -9924,8 +15368,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 330,
-  "id": "er-330",
+  "n": 512,
+  "id": "er-512",
+  "title": "Reflections on modern methods: linkage error bias",
+  "authors": [
+   "James C Doidge",
+   "Katie L Harron"
+  ],
+  "year": 2019,
+  "venue": "International Journal of Epidemiology",
+  "doi": "10.1093/ije/dyz203",
+  "citations": 17,
+  "themes": [
+   "evaluation",
+   "probabilistic"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Abstract\n               Linked data are increasingly being used for epidemiological research, to enhance primary research, and in planning, monitoring and evaluating public policy and services. Linkage error (missed links between records that relate to the same person or false links between unrelated records) can manifest in many ways: as missing data, measurement error and misclassification, unrepresentative sampling, or as a special combination of these that is specific to analysis of linked data: the merging and splitting of people that can occur when two hospital admission records are counted as one person admitted twice if linked and two people admitted once if not. Through these mechanisms, linkage error can ultimately lead to information bias and selection bias; so identifying relevant mechanisms is key in quantitative bias analysis. In this article we introduce five key concepts and a study classification system for identifying which mechanisms are relevant to any given analysis. We provide examples and discuss options for estimating parameters for bias analysis. This conceptual framework provides the ‘links’ between linkage error, information bias and selection bias, and lays the groundwork for quantitative bias analysis for linkage error.",
+  "focus": "This conceptual paper explains how linkage error — missed links and false links — biases analyses of linked data, acting through missing data, measurement error, misclassification and unrepresentative sampling, including the merging and splitting of individuals. It introduces five key concepts and a study classification system for identifying which bias mechanisms apply to a given analysis, and discusses how to estimate parameters for quantitative bias analysis.",
+  "borrow": "We can borrow its mechanism checklist and classification system for ERBOT's evaluation stage: before reporting results, classify which bias mechanisms a linkage run plausibly triggers and what error parameters a bias analysis would need.",
+  "fill": "The framework is diagnostic, not computational: it does not estimate linkage error rates from a pipeline's own outputs or clerical samples, so implementing quantitative bias analysis on top of ERBOT's match weights and error estimates remains open for us.",
+  "correct": "The framework was developed for epidemiological and public-policy linkage, and identifying the relevant mechanism still depends on analyst judgement; it offers no guarantee that the parameters needed for bias analysis can be estimated when no validation data exist.",
+  "verified": true
+ },
+ {
+  "n": 513,
+  "id": "er-513",
   "title": "The WDC Training Dataset and Gold Standard for Large-Scale Product Matching",
   "authors": [
    "Anna Primpeli",
@@ -9953,8 +15426,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 331,
-  "id": "er-331",
+  "n": 514,
+  "id": "er-514",
   "title": "A Comprehensive Benchmark Framework for Active Learning Methods in Entity Matching",
   "authors": [
    "Venkata Vamsikrishna Meduri",
@@ -9985,8 +15458,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 332,
-  "id": "er-332",
+  "n": 515,
+  "id": "er-515",
   "title": "Author name disambiguation of bibliometric data: A comparison of several unsupervised approaches",
   "authors": [
    "Alexander Tekles",
@@ -10014,8 +15487,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 333,
-  "id": "er-333",
+  "n": 516,
+  "id": "er-516",
   "title": "Profiling Entity Matching Benchmark Tasks",
   "authors": [
    "Anna Primpeli",
@@ -10042,8 +15515,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 334,
-  "id": "er-334",
+  "n": 517,
+  "id": "er-517",
   "title": "Tailoring Entity Matching for Industrial Settings",
   "authors": [
    "Nils Barlaug"
@@ -10069,8 +15542,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 335,
-  "id": "er-335",
+  "n": 518,
+  "id": "er-518",
   "title": "ORCID-linked labeled data for evaluating author name disambiguation at scale",
   "authors": [
    "Jinseok Kim",
@@ -10098,8 +15571,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 336,
-  "id": "er-336",
+  "n": 519,
+  "id": "er-519",
   "title": "Resources for Entity Resolution",
   "authors": [
    "George Papadakis",
@@ -10129,8 +15602,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 337,
-  "id": "er-337",
+  "n": 520,
+  "id": "er-520",
   "title": "S2AND: A Benchmark and Evaluation System for Author Name Disambiguation",
   "authors": [
    "Shivashankar Subramanian",
@@ -10160,8 +15633,44 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 338,
-  "id": "er-338",
+  "n": 521,
+  "id": "er-521",
+  "title": "Bridging the Gap between Reality and Ideality of Entity Matching: A Revisiting and Benchmark Re-Construction",
+  "authors": [
+   "Tianshu Wang",
+   "Hongyu Lin",
+   "Cheng Fu",
+   "Xianpei Han",
+   "Le Sun",
+   "Feiyu Xiong",
+   "Hui Chen",
+   "Minlong Lu",
+   "Xiuwen Zhu"
+  ],
+  "year": 2022,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.2205.05889",
+  "citations": null,
+  "themes": [
+   "evaluation",
+   "ml-deep"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "small benchmark",
+  "abstract": "Entity matching (EM) is the most critical step for entity resolution (ER). While current deep learningbased methods achieve very impressive performance on standard EM benchmarks, their realworld application performance is much frustrating. In this paper, we highlight that such the gap between reality and ideality stems from the unreasonable benchmark construction process, which is inconsistent with the nature of entity matching and therefore leads to biased evaluations of current EM approaches. To this end, we build a new EM corpus and re-construct EM benchmarks to challenge critical assumptions implicit in the previous benchmark construction process by step-wisely changing the restricted entities, balanced labels, and single-modal records in previous benchmarks into open entities, imbalanced labels, and multimodal records in an open environment. Experimental results demonstrate that the assumptions made in the previous benchmark construction process are not coincidental with the open environment, which conceal the main challenges of the task and therefore significantly overestimate the current progress of entity matching. The constructed benchmarks and code are publicly released",
+  "focus": "The authors argue that standard entity matching benchmarks are built unrealistically — restricted entities, balanced labels, single-modal records — so deep learning methods' benchmark scores overstate their real-world performance. They construct a new EM corpus and rebuild benchmarks step by step towards open entities, imbalanced labels and multimodal records, and show experimentally that the old construction assumptions conceal the task's main challenges.",
+  "borrow": "We can borrow their benchmark-construction principles for ERBOT's evaluation: test sets should use open entity populations and realistic, imbalanced match ratios rather than balanced samples.",
+  "fill": "The paper diagnoses and re-measures the problem; designing matchers that actually close the reality gap it exposes — robust under imbalance and multimodality — is left open for us and the field.",
+  "correct": "As a preprint, its 'reality' is itself one constructed corpus; how far its rebuilt benchmarks generalise beyond its own data choices is not yet settled by independent replication.",
+  "verified": true
+ },
+ {
+  "n": 522,
+  "id": "er-522",
   "title": "Entity Matching with AUC-Based Fairness",
   "authors": [
    "Soudeh Nilforoushan",
@@ -10190,8 +15699,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 339,
-  "id": "er-339",
+  "n": 523,
+  "id": "er-523",
+  "title": "Entity Resolution in graph databases: comparison study",
+  "authors": [
+   "Nour Mekki",
+   "Djamel Berrabah"
+  ],
+  "year": 2022,
+  "venue": "2022 3rd International Conference on Embedded &amp; Distributed Systems (EDiS)",
+  "doi": "10.1109/edis57230.2022.9996480",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "graph-based",
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This study compares entity resolution approaches in graph databases, where records and their relationships are stored and processed as a graph. It was presented at the 2022 International Conference on Embedded & Distributed Systems (EDiS).",
+  "borrow": "A side-by-side of graph-database ER implementations is useful when ERBOT's clustering stage outgrows in-memory processing: it indicates which graph operations the resolution logic actually depends on.",
+  "fill": "The comparison is confined to graph-database platforms; how graph-native resolution compares in quality and cost against a conventional pipeline like ERBOT's on the same data is left open.",
+  "correct": "Conference comparison studies of this kind typically use small, self-selected workloads; without datasets and metrics in the record, the conclusions should be treated as platform anecdotes rather than general rankings.",
+  "verified": true
+ },
+ {
+  "n": 524,
+  "id": "er-524",
   "title": "Benchmarking Filtering Techniques for Entity Resolution",
   "authors": [
    "George Papadakis",
@@ -10224,8 +15762,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 340,
-  "id": "er-340",
+  "n": 525,
+  "id": "er-525",
   "title": "Retail-786k: a Large-Scale Dataset for Visual Entity Matching",
   "authors": [
    "Bianca Lamm",
@@ -10252,8 +15790,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 341,
-  "id": "er-341",
+  "n": 526,
+  "id": "er-526",
   "title": "Through the Fairness Lens: Experimental Analysis and Evaluation of Entity Matching",
   "authors": [
    "Nima Shahbazi",
@@ -10283,8 +15821,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 342,
-  "id": "er-342",
+  "n": 527,
+  "id": "er-527",
   "title": "WDC Products: A Multi-Dimensional Entity Matching Benchmark",
   "authors": [
    "Ralph Peeters",
@@ -10312,8 +15850,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 343,
-  "id": "er-343",
+  "n": 528,
+  "id": "er-528",
   "title": "A Critical Re-evaluation of Record Linkage Benchmarks for Learning-Based Matching Algorithms",
   "authors": [
    "George Papadakis",
@@ -10343,8 +15881,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 344,
-  "id": "er-344",
+  "n": 529,
+  "id": "er-529",
   "title": "Explaining Entity Matching with Clusters of Words",
   "authors": [
    "Riccardo Benassi",
@@ -10373,8 +15911,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 345,
-  "id": "er-345",
+  "n": 530,
+  "id": "er-530",
   "title": "FairEM360: A Suite for Responsible Entity Matching",
   "authors": [
    "Nima Shahbazi",
@@ -10404,8 +15942,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 346,
-  "id": "er-346",
+  "n": 531,
+  "id": "er-531",
   "title": "Fairness-Aware Data Preparation for Entity Matching",
   "authors": [
    "Nima Shahbazi",
@@ -10435,8 +15973,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 347,
-  "id": "er-347",
+  "n": 532,
+  "id": "er-532",
   "title": "How to Evaluate Entity Resolution Systems: An Entity-Centric Framework with Application to Inventor Name Disambiguation",
   "authors": [
    "Olivier Binette",
@@ -10468,8 +16006,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 348,
-  "id": "er-348",
+  "n": 533,
+  "id": "er-533",
   "title": "PyResolveMetrics: A Standards-Compliant and Efficient Approach to Entity Resolution Metrics",
   "authors": [
    "Andrei Olar",
@@ -10496,8 +16034,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 349,
-  "id": "er-349",
+  "n": 534,
+  "id": "er-534",
   "title": "Auto-Configuring Entity Resolution Pipelines",
   "authors": [
    "Konstantinos Nikoletos",
@@ -10527,8 +16065,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 350,
-  "id": "er-350",
+  "n": 535,
+  "id": "er-535",
+  "title": "Comparative Analysis of Entity Matching Approaches for Product Taxonomy Integration",
+  "authors": [
+   "Michel Hagenah",
+   "Michaela Kümpel"
+  ],
+  "year": 2025,
+  "venue": "Proceedings of the 17th International Joint Conference on Knowledge Discovery, Knowledge Engineering and Knowledge Management",
+  "doi": "10.5220/0013711700004000",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper compares entity matching approaches on the task of product taxonomy integration, where product and category structures from different sources must be aligned. It evaluates how the compared approaches handle this hierarchical, product-domain matching problem.",
+  "borrow": "Its comparison setup for taxonomy-style data is a reminder for ERBOT to test matchers on hierarchical attribute structures, not only on the flat benchmark tables the field usually reports.",
+  "fill": "The study is confined to product taxonomy integration; a comparison of the same approaches on person and organization records at pipeline scale is left for us to run.",
+  "correct": "Conclusions drawn from one domain with curated commercial taxonomies may not carry over to dirty operational data, where most matching errors originate in missing and corrupted fields.",
+  "verified": true
+ },
+ {
+  "n": 536,
+  "id": "er-536",
   "title": "Confidence Calibration in Large Language Model-Based Entity Matching",
   "authors": [
    "Iris Kamsteeg",
@@ -10560,8 +16126,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 351,
-  "id": "er-351",
+  "n": 537,
+  "id": "er-537",
   "title": "Heterogeneity in Entity Matching: A Survey and Experimental Analysis",
   "authors": [
    "Mohammad Hossein Moslemi",
@@ -10590,8 +16156,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 352,
-  "id": "er-352",
+  "n": 538,
+  "id": "er-538",
   "title": "Unsupervised Evaluation of Entity Resolution",
   "authors": [
    "Charini Nanayakkara",
@@ -10620,8 +16186,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 353,
-  "id": "er-353",
+  "n": 539,
+  "id": "er-539",
+  "title": "Author Name Disambiguation in Portuguese Scientific Publications: The SBC-AND dataset",
+  "authors": [
+   "Natan de S. Rodrigues",
+   "Samuel Gomes dos Santos",
+   "Vitória Maria Diniz",
+   "Sirlene A. Rodrigues Costa"
+  ],
+  "year": 2026,
+  "venue": "",
+  "doi": "10.21203/rs.3.rs-10284834/v1",
+  "citations": 0,
+  "themes": [
+   "evaluation",
+   "clustering"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "small benchmark",
+  "abstract": "Abstract\n                Author Name Disambiguation (AND) contributes to data quality in bibliographic repositories. Despite recent advances, most public AND datasets focus on English publications, leaving Portuguese underrepresented. This study presents SBC-AND, a curated and standardized dataset for AND in Portuguese scientific publications. The dataset contains 442 records from journals of the Brazilian Computer Society, organized into 21 ambiguous blocks and 232 real author clusters. The records include title, authors, coauthors, abstract, keywords, venue, and publication year. SBC-AND was evaluated using a configurable framework for AND, considering multilingual embeddings, Graph Convolutional Network layers, and training epochs. The results indicate that the dataset is a demanding benchmark, especially in blocks with frequent surnames and low record recurrence per author. SBC-AND is available in an online repository to support reproducibility and future research on AND.",
+  "focus": "This paper introduces SBC-AND, a curated dataset for author name disambiguation in Portuguese scientific publications, a language underrepresented in disambiguation benchmarks. It contains 442 records from Brazilian Computer Society journals, organized into 21 ambiguous blocks and 232 real author clusters, and baseline experiments with multilingual embeddings and graph convolutional networks show it is a demanding benchmark, especially in blocks with frequent surnames and low record recurrence per author.",
+  "borrow": "SBC-AND gives us a small, fully labeled non-English test set for checking that ERBOT's blocking and clustering do not silently assume English name structure.",
+  "fill": "At 442 records the dataset is a seed rather than a benchmark suite; larger Portuguese and other underrepresented-language gold sets still need to be built, and we could extend the same curation protocol to new languages.",
+  "correct": "Results on 442 records cannot support broad conclusions about disambiguation methods, and the hardest blocks may make the dataset unrepresentatively difficult in places.",
+  "verified": true
+ },
+ {
+  "n": 540,
+  "id": "er-540",
   "title": "Billiger.de Products: A Bilingual Entity Matching Benchmark",
   "authors": [
    "Aaron Steiner",
@@ -10651,8 +16248,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 354,
-  "id": "er-354",
+  "n": 541,
+  "id": "er-541",
   "title": "Case Count Metric for Comparative Analysis of Entity Resolution Results",
   "authors": [
    "John R. Talburt",
@@ -10685,8 +16282,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 355,
-  "id": "er-355",
+  "n": 542,
+  "id": "er-542",
+  "title": "Consistently Evaluating Record Linkage Classifiers",
+  "authors": [
+   "Peter Christen",
+   "Sumayya Ziyad",
+   "Charini Nanayakkara"
+  ],
+  "year": 2026,
+  "venue": "Journal of Data and Information Quality",
+  "doi": "10.1145/3786768",
+  "citations": 1,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "supervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Record linkage is the process of identifying records that refer to the same real-world entity within or across databases. If training data in the form of true matches (two records referring to the same entity) and true non-matches (two records referring to different entities) are available, then record linkage can be viewed as a supervised classification problem. Performance measures such as precision, recall, and the F-measure, are commonly used to evaluate the linkage quality obtained with a trained classifier. However, as we show in this article, comparing multiple classifiers using such measures can lead to inconsistent evaluation because for a given measure the same result can be obtained from different classification outcomes. This can cause a suboptimal classifier being selected, which can result in linked data sets of poor quality and possibly wrong decisions being made. To overcome this problem, we propose the\n                    Consistent Record Linkage\n                    (CRL) measure, an application focused evaluation method that ensures record linkage classifiers are assessed in a fair and transparent way. The CRL-measure allows a user to define the maximum error rates that are acceptable for their linkage application, and it provides practically useful information about the robustness of a classifier with respect to the range of classification thresholds obtained with these error rates. We evaluate the CRL-measure on both synthetic and real-world data sets using multiple classifiers to show its advantage over standard performance measures.",
+  "focus": "The paper shows that standard measures such as precision, recall, and the F-measure can evaluate record linkage classifiers inconsistently, because the same measure value can arise from different classification outcomes and a suboptimal classifier can end up selected. It proposes the Consistent Record Linkage (CRL) measure, which lets a user define the maximum error rates acceptable for their application and reports how robust a classifier is across the classification thresholds compatible with those rates, evaluated on synthetic and real-world data sets with multiple classifiers.",
+  "borrow": "ERBOT's evaluation stage can adopt the CRL idea: fix application-level error tolerances first, then compare classifiers by their robustness across the admissible threshold range instead of by a single F-measure number.",
+  "fill": "CRL evaluates pairwise classifier outcomes; how to fold cluster-level consequences — entities wrongly merged or split after transitive closure — into a consistent evaluation is left for us to add.",
+  "correct": "The measure shifts the burden to the user to specify acceptable error rates up front; for exploratory linkage where those tolerances are not yet known, CRL's advantage over standard measures is less clear.",
+  "verified": true
+ },
+ {
+  "n": 543,
+  "id": "er-543",
   "title": "Designing Ambiguity-Aware Clerical Review: A Stratified Sampling Framework for Record Linkage and Deduplication",
   "authors": [
    "Joseph Lam",
@@ -10721,8 +16347,71 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 356,
-  "id": "er-356",
+  "n": 544,
+  "id": "er-544",
+  "title": "MelonBench: A Benchmark for Coded Entity Resolution over Noisy Web Evidence",
+  "authors": [
+   "Zhishan Lin",
+   "Jingxiao Li",
+   "Yanbing Zhang",
+   "Ziyan Liu",
+   "Yuqing Shao",
+   "Yunfei Tong",
+   "Ganghao Liu",
+   "Qian Zhang",
+   "Zhe Wang"
+  ],
+  "year": 2026,
+  "venue": "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+  "doi": "10.18653/2026.emnlp-main.660",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "MelonBench is a benchmark for coded entity resolution — matching entities that are identified by codes — over noisy web evidence, presented in the EMNLP 2026 proceedings. It is offered as an evaluation resource for a setting where the evidence about an entity is scattered and unreliable.",
+  "borrow": "A benchmark built around noisy, web-sourced evidence gives ERBOT an out-of-distribution test bed: performance on clean curated benchmarks says little about matching when the evidence itself is corrupted.",
+  "fill": "The benchmark defines the coded-entity task but, as a benchmark resource, leaves the method side open: a strong, reproducible baseline pipeline tuned to noisy web evidence remains to be built and measured.",
+  "correct": "With no abstract in the record, the benchmark's size, construction, and leakage controls cannot be assessed here; scores on web-evidence benchmarks also age quickly as the underlying web content changes.",
+  "verified": true
+ },
+ {
+  "n": 545,
+  "id": "er-545",
+  "title": "Named Entity Resolution: Benchmarking and Entity Matching Strategies",
+  "authors": [
+   "Rafael Omiya",
+   "Ruben Interian"
+  ],
+  "year": 2026,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-032-39904-5_6",
+  "citations": 0,
+  "themes": [
+   "evaluation"
+  ],
+  "method": [
+   "benchmark"
+  ],
+  "supervision": "n/a",
+  "dataType": "textual",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper benchmarks entity matching strategies for named entity resolution, comparing alternative strategies for deciding when named entities referred to in different sources are the same. As a benchmarking study, its contribution is comparative evidence rather than a single new matcher.",
+  "borrow": "Its benchmark design is a template for ERBOT's own comparisons: fix the entity sets and vary only the matching strategy, so differences are attributable to the strategy rather than to data preparation.",
+  "fill": "The benchmarking is confined to named entities; extending the same strategy comparison to full person and firm records with structured fields is left for us.",
+  "correct": "Benchmark rankings are sensitive to the chosen entity collections and gold standards, so the ordering of strategies should not be assumed to hold on differently constructed data.",
+  "verified": true
+ },
+ {
+  "n": 546,
+  "id": "er-546",
   "title": "OpenSanctions Pairs: Large-Scale Entity Matching with LLMs",
   "authors": [
    "Chandler Smith",
@@ -10753,8 +16442,71 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 357,
-  "id": "er-357",
+  "n": 547,
+  "id": "er-547",
+  "title": "Data Partitioning for Parallel Entity Matching",
+  "authors": [
+   "Toralf Kirsten",
+   "Lars Kolb",
+   "Michael Hartung",
+   "Anika Groß",
+   "Hanna Köpcke",
+   "Erhard Rahm"
+  ],
+  "year": 2010,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.1006.5309",
+  "citations": null,
+  "themes": [
+   "scalable",
+   "blocking"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Entity matching is an important and difficult step for integrating web data. To reduce the typically high execution time for matching we investigate how we can perform entity matching in parallel on a distributed infrastructure. We propose different strategies to partition the input data and generate multiple match tasks that can be independently executed. One of our strategies supports both, blocking to reduce the search space for matching and parallel matching to improve efficiency. Special attention is given to the number and size of data partitions as they impact the overall communication overhead and memory requirements of individual match tasks. We have developed a service-based distributed infrastructure for the parallel execution of match workflows. We evaluate our approach in detail for different match strategies for matching real-world product data of different web shops. We also consider caching of in-put entities and affinity-based scheduling of match tasks.",
+  "focus": "This paper studies how to execute entity matching in parallel on a distributed infrastructure by partitioning the input data into independently processable match tasks. It proposes several partitioning strategies — including one that combines blocking with parallel matching — analyses how partition number and size drive communication and memory costs, and evaluates the approach on real-world product data from web shops using a service-based infrastructure with caching and affinity-based scheduling.",
+  "borrow": "The blocking-aware partitioning strategies, and the explicit accounting of partition size against communication overhead, are borrowable for parallelising ERBOT over large files.",
+  "fill": "The 2010 service-based infrastructure predates today's data-parallel frameworks; re-implementing the partitioning logic on modern backends, and handling skewed blocks at web scale, is left open for us.",
+  "correct": "This is a preprint whose evaluation rests on product data from web shops; partitioning benefits will differ for person or bibliographic records with different block-size distributions.",
+  "verified": true
+ },
+ {
+  "n": 548,
+  "id": "er-548",
+  "title": "LinkDB",
+  "authors": [
+   "Ekaterini Ioannou",
+   "Wolfgang Nejdl",
+   "Claudia Niederée",
+   "Yannis Velegrakis"
+  ],
+  "year": 2011,
+  "venue": "Proceedings of the 2011 ACM SIGMOD International Conference on Management of data",
+  "doi": "10.1145/1989323.1989483",
+  "citations": 3,
+  "themes": [
+   "scalable"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "LinkDB, presented at SIGMOD, is a database system for managing links between entities: the links produced by entity resolution are stored as first-class objects that can be queried and managed, rather than being discarded once clusters are formed.",
+  "borrow": "Treating links as first-class stored objects with their evidence is borrowable for ERBOT: persisting match decisions and the comparisons behind them, not just final clusters, makes resolution results auditable and revisable.",
+  "fill": "LinkDB manages links once they exist; producing them — blocking, comparison, classification at very large scale — is outside its scope, so integrating a link store with a full ER pipeline remains work for us.",
+  "correct": "A storage and query layer says nothing about the quality of the links it holds, so the system's claims should not be read as evidence about matching accuracy.",
+  "verified": true
+ },
+ {
+  "n": 549,
+  "id": "er-549",
   "title": "Data Matching Systems",
   "authors": [
    "Peter Christen"
@@ -10780,8 +16532,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 358,
-  "id": "er-358",
+  "n": 550,
+  "id": "er-550",
   "title": "Dedoop: efficient deduplication with Hadoop",
   "authors": [
    "Lars Kolb",
@@ -10809,8 +16561,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 359,
-  "id": "er-359",
+  "n": 551,
+  "id": "er-551",
   "title": "Fast and accurate incremental entity resolution relative to an entity knowledge base",
   "authors": [
    "Michael J. Welch",
@@ -10838,8 +16590,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 360,
-  "id": "er-360",
+  "n": 552,
+  "id": "er-552",
   "title": "Scalable and distributed methods for entity matching, consolidation and disambiguation over linked data corpora",
   "authors": [
    "Aidan Hogan",
@@ -10870,8 +16622,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 361,
-  "id": "er-361",
+  "n": 553,
+  "id": "er-553",
   "title": "Entity resolution for big data",
   "authors": [
    "Lise Getoor",
@@ -10899,8 +16651,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 362,
-  "id": "er-362",
+  "n": 554,
+  "id": "er-554",
   "title": "Incremental entity resolution on rules and data",
   "authors": [
    "Steven Euijong Whang",
@@ -10927,8 +16679,39 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 363,
-  "id": "er-363",
+  "n": 555,
+  "id": "er-555",
+  "title": "Large Scale Citation Matching Using Apache Hadoop",
+  "authors": [
+   "Mateusz Fedoryszak",
+   "Dominika Tkaczyk",
+   "Łukasz Bolikowski"
+  ],
+  "year": 2013,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-642-40501-3_37",
+  "citations": 18,
+  "themes": [
+   "scalable",
+   "similarity"
+  ],
+  "method": [
+   "system",
+   "token-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "Tackles citation matching — deciding which bibliographic citation strings refer to the same publication — at large scale by implementing the matching workflow on Apache Hadoop (2013).",
+  "borrow": "Its MapReduce decomposition of a matching pipeline, with candidate generation and pairwise comparison expressed as distributed jobs, maps directly onto the design of ERBOT's scalable blocking and comparison stages.",
+  "fill": "The system is built on Hadoop-era batch processing and only for citation strings; incremental or streaming matching, non-bibliographic records, and modern embedding-based candidate generation are all left for later work, including ours.",
+  "correct": "Citation strings are unusually structured (authors, title, year, venue), so scalability results may not transfer to messier entity data, and Hadoop batch latency makes the design a poor fit for interactive or incremental linkage.",
+  "verified": true
+ },
+ {
+  "n": 556,
+  "id": "er-556",
   "title": "Parallel Entity Resolution with Dedoop",
   "authors": [
    "Lars Kolb",
@@ -10956,8 +16739,65 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 364,
-  "id": "er-364",
+  "n": 557,
+  "id": "er-557",
+  "title": "Context-Aware Duplicate Detection in Semi-structured Data Streams",
+  "authors": [
+   "Parijat Shukla",
+   "Arun K. Somani"
+  ],
+  "year": 2014,
+  "venue": "2014 IEEE World Congress on Services",
+  "doi": "10.1109/services.2014.46",
+  "citations": 1,
+  "themes": [
+   "scalable",
+   "similarity"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper addresses duplicate detection in semi-structured data streams, using context around the streamed records to decide duplicates. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "Context-aware comparison for streaming input is a design idea for ERBOT's incremental mode, where records arrive continuously and decisions cannot wait for a full batch.",
+  "fill": "The record leaves open how the context features are defined and whether the approach retains recall for duplicates that fall far apart in the stream — both measurable in an incremental ERBOT prototype.",
+  "correct": "With no abstract or results in the record, the method's accuracy is unverifiable, and stream-window duplicate detection typically sacrifices matches that fall outside the active window.",
+  "verified": true
+ },
+ {
+  "n": 558,
+  "id": "er-558",
+  "title": "Decoupling Identity Resolution from the Maintenance of Identity Information",
+  "authors": [
+   "Fumiko Kobayashi",
+   "John R. Talburt"
+  ],
+  "year": 2014,
+  "venue": "2014 11th International Conference on Information Technology: New Generations",
+  "doi": "10.1109/itng.2014.88",
+  "citations": 4,
+  "themes": [
+   "scalable"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "The paper proposes an architectural separation for identity resolution: the process that decides which records refer to the same identity is decoupled from the maintenance (storage and updating) of the identity information itself. The aim is to let resolution logic and identity-information management evolve and be governed independently.",
+  "borrow": "The separation-of-concerns design is directly borrowable: ERBOT's matching engine can be decoupled from the store of resolved identity profiles, so matching logic can be revised or replaced without migrating the identity data it produced.",
+  "fill": "The paper states the decoupling as an architectural position; building the decoupled design into a working pipeline and measuring its cost and matching quality at scale is left undone, and we can carry out that implementation and evaluation in ERBOT.",
+  "correct": "Decoupling adds indirection: if maintained identity information goes stale, resolution decisions made against it can degrade, so the architectural claim alone does not show that matching quality is preserved once the two concerns are separated.",
+  "verified": true
+ },
+ {
+  "n": 559,
+  "id": "er-559",
   "title": "Distributed Entity Resolution Based on Similarity Join for Large-Scale Data Clustering",
   "authors": [
    "Tiezheng Nie",
@@ -10989,8 +16829,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 365,
-  "id": "er-365",
+  "n": 560,
+  "id": "er-560",
   "title": "Efficient entity matching using materialized lists",
   "authors": [
    "Sanghoon Lee",
@@ -11019,8 +16859,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 366,
-  "id": "er-366",
+  "n": 561,
+  "id": "er-561",
   "title": "Incremental record linkage",
   "authors": [
    "Anja Gruenheid",
@@ -11049,8 +16889,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 367,
-  "id": "er-367",
+  "n": 562,
+  "id": "er-562",
   "title": "Large scale author name disambiguation in digital libraries",
   "authors": [
    "Madian Khabsa",
@@ -11079,8 +16919,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 368,
-  "id": "er-368",
+  "n": 563,
+  "id": "er-563",
   "title": "BigDansing: A System for Big Data Cleansing",
   "authors": [
    "Zuhair Khayyat",
@@ -11114,8 +16954,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 369,
-  "id": "er-369",
+  "n": 564,
+  "id": "er-564",
   "title": "Exploring author name disambiguation on PubMed-scale",
   "authors": [
    "Min Song",
@@ -11144,8 +16984,35 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 370,
-  "id": "er-370",
+  "n": 565,
+  "id": "er-565",
+  "title": "A STUDY AND SURVEY ON VARIOUS PROGRESSIVE DUPLICATE DETECTION MECHANISMS",
+  "authors": [
+   "Ashwini.V. Lakote ."
+  ],
+  "year": 2016,
+  "venue": "International Journal of Research in Engineering and Technology",
+  "doi": "10.15623/ijret.2016.0503082",
+  "citations": 1,
+  "themes": [
+   "scalable"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2016 paper surveys progressive duplicate detection mechanisms — algorithms that return likely duplicates early and refine the result as computation continues, rather than waiting for a complete all-pairs analysis. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "The progressive, pay-as-you-go framing is worth borrowing for ERBOT's large runs: ordering pair comparisons so that usable duplicate sets are available early, before the full job finishes.",
+  "fill": "The survey offers no empirical comparison of the mechanisms it covers; benchmarking progressive duplicate detection inside a modern blocking-to-clustering pipeline, and measuring result quality as a function of elapsed time, is left for us to do.",
+  "correct": "It is a survey in a minor venue with no visible evaluation, and its 2016 coverage predates learned blocking and embedding-based methods that change what 'progressive' should mean.",
+  "verified": true
+ },
+ {
+  "n": 566,
+  "id": "er-566",
   "title": "JedAI: The Force Behind Entity Resolution",
   "authors": [
    "George Papadakis",
@@ -11178,8 +17045,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 371,
-  "id": "er-371",
+  "n": 567,
+  "id": "er-567",
   "title": "A partial-order-based framework for cost-effective crowdsourced entity resolution",
   "authors": [
    "Chengliang Chai",
@@ -11210,8 +17077,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 372,
-  "id": "er-372",
+  "n": 568,
+  "id": "er-568",
+  "title": "Parallel and Multiple E-Data Distributed Process with Progressive Duplicate Detection Model",
+  "authors": [
+   "Yasvanthkumaar V.",
+   "Sabitha S.",
+   "Nithya Kalyani S."
+  ],
+  "year": 2018,
+  "venue": "Bonfring International Journal of Software Engineering and Soft Computing",
+  "doi": "10.9756/bijsesc.8384",
+  "citations": 0,
+  "themes": [
+   "scalable",
+   "blocking"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper describes a parallel, distributed processing model for progressive duplicate detection over multiple electronic datasets, aiming to produce duplicate candidates early while spreading the computation across machines.",
+  "borrow": "Combining progressiveness with distribution is the natural scaling path for ERBOT: partition the data, and let each partition stream its most likely duplicates first.",
+  "fill": "The record contains no evaluation; how progressive guarantees survive data partitioning — a global pair ordering is lost when data is split — is an open problem we would have to solve.",
+  "correct": "Progressive detection's value rests on comparison ordering, which naive parallelization destroys; without reported results there is no evidence this model preserves the benefit it claims.",
+  "verified": true
+ },
+ {
+  "n": 569,
+  "id": "er-569",
+  "title": "Integrating Information About Entities Progressively",
+  "authors": [
+   "Ben McCamish",
+   "Christopher Buss",
+   "Arash Termehchy",
+   "David Maier"
+  ],
+  "year": 2019,
+  "venue": "arXiv preprint",
+  "doi": "10.48550/arxiv.1910.10263",
+  "citations": null,
+  "themes": [
+   "scalable"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Users often have to integrate information about entities from multiple data sources. This task is challenging as each data source may represent information about the same entity in a distinct form, e.g., each data source may use a different name for the same person. Currently, data from different representations are translated into a unified one via lengthy and costly expert attention and tuning. Such methods cannot scale to the rapidly increasing number and variety of available data sources. We demonstrate ProgMap, a entity-matching framework in which data sources learn to collaborate and integrate information about entities on-demand and with minimal expert intervention. The data sources leverage user feedback to improve the accuracy of their collaboration and results. ProgMap also has techniques to reduce the amount of required user feedback to achieve effective matchings.",
+  "focus": "ProgMap is a demonstrated entity-matching framework in which data sources integrate information about entities progressively and on demand, with minimal expert intervention. Sources learn to collaborate, user feedback improves the accuracy of the collaboration, and the framework includes techniques to reduce how much feedback is needed.",
+  "borrow": "The progressive, feedback-driven design is borrowable for ERBOT deployments over many sources: start matching on demand and let targeted user feedback steer subsequent integration, instead of requiring full expert tuning up front.",
+  "fill": "ProgMap is a demonstration framework; a complete implementation with ERBOT's blocking, classification and clustering at very large scale, and controlled benchmark evaluation of the progressive approach, is left open for us.",
+  "correct": "As a demo paper, its claims rest on the demonstrated scenario rather than head-to-head benchmark comparisons, so the accuracy and feedback savings achievable elsewhere are unproven; it is an unreviewed preprint.",
+  "verified": true
+ },
+ {
+  "n": 570,
+  "id": "er-570",
   "title": "An Overview of End-to-End Entity Resolution for Big Data",
   "authors": [
    "Vassilis Christophides",
@@ -11242,8 +17169,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 373,
-  "id": "er-373",
+  "n": 571,
+  "id": "er-571",
   "title": "Efficient Record Linkage in Data Streams",
   "authors": [
    "Dimitrios Karapiperis",
@@ -11272,8 +17199,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 374,
-  "id": "er-374",
+  "n": 572,
+  "id": "er-572",
   "title": "Scalable entity resolution for Web product descriptions",
   "authors": [
    "Damir Vandic",
@@ -11303,8 +17230,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 375,
-  "id": "er-375",
+  "n": 573,
+  "id": "er-573",
   "title": "Three-dimensional Entity Resolution with JedAI",
   "authors": [
    "George Papadakis",
@@ -11340,8 +17267,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 376,
-  "id": "er-376",
+  "n": 574,
+  "id": "er-574",
   "title": "End-to-end Task Based Parallelization for Entity Resolution on Dynamic Data",
   "authors": [
    "Leonardo Gazzarri",
@@ -11368,8 +17295,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 377,
-  "id": "er-377",
+  "n": 575,
+  "id": "er-575",
+  "title": "Entity Resolution in Large Patent Databases: An Optimization Approach",
+  "authors": [
+   "Emiel Caron",
+   "Ekaterini Ioannou"
+  ],
+  "year": 2021,
+  "venue": "Proceedings of the 23rd International Conference on Enterprise Information Systems",
+  "doi": "10.5220/0010527501480156",
+  "citations": 0,
+  "themes": [
+   "scalable",
+   "clustering"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This paper addresses entity resolution in large patent databases, framing the matching problem as an optimization problem rather than a purely rule- or classifier-based task. The record carries no abstract, so the specific formulation and results cannot be summarized beyond the optimization framing and the patent-data setting.",
+  "borrow": "The optimization formulation of the matching decision is worth borrowing: ERBOT's classification-to-clustering stage could adopt an explicit objective (e.g., assignment-style optimization over candidate pairs) instead of relying only on thresholds and transitive closure.",
+  "fill": "The work is scoped to patent databases; it leaves open whether the optimization approach transfers to person, bibliographic, or product records, and how it composes with blocking and end-to-end evaluation in a general pipeline — both are things we can test in ERBOT.",
+  "correct": "With no abstract in the record, neither the optimization model's assumptions nor its empirical support can be assessed; an optimization framing tuned on patent data may also encode patent-specific regularities (assignees, citations) that do not generalize to other record types.",
+  "verified": true
+ },
+ {
+  "n": 576,
+  "id": "er-576",
+  "title": "The Four Generations of Entity Resolution",
+  "authors": [
+   "George Papadakis",
+   "Ekaterini Ioannou",
+   "Emanouil Thanos",
+   "Themis Palpanas"
+  ],
+  "year": 2021,
+  "venue": "Synthesis Lectures on Data Management",
+  "doi": "10.1007/978-3-031-01878-7",
+  "citations": 71,
+  "themes": [
+   "scalable",
+   "evaluation"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "Papadakis and co-authors organize the history of entity resolution into four generations, from early rule- and similarity-based systems to modern learning- and scale-oriented approaches, in a Synthesis Lectures monograph. The survey covers the full pipeline — blocking, matching, and clustering — through that generational lens.",
+  "borrow": "The generational map is a positioning tool: it lets us state precisely which generation each ERBOT component belongs to and which later-generation techniques, such as learned blocking and progressive processing, are still missing.",
+  "fill": "Published in 2021, the monograph predates the LLM era of entity resolution; a fifth-generation account — LLM matchers, in-context clustering, and their cost structure — is left for others to write and for us to test.",
+  "correct": "Generational histories impose a tidier progression than the field actually followed; many 'old-generation' techniques such as Fellegi–Sunter weights and sorted neighborhood remain state of practice, so the framing can mislead technology choices.",
+  "verified": true
+ },
+ {
+  "n": 577,
+  "id": "er-577",
   "title": "Cost-effective crowdsourced join queries for entity resolution without prior knowledge",
   "authors": [
    "Bo Yin",
@@ -11397,8 +17384,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 378,
-  "id": "er-378",
+  "n": 578,
+  "id": "er-578",
   "title": "Incremental Entity Blocking over Heterogeneous Streaming Data",
   "authors": [
    "Tiago Brasileiro Araújo",
@@ -11429,8 +17416,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 379,
-  "id": "er-379",
+  "n": 579,
+  "id": "er-579",
   "title": "A scalable MapReduce-based design of an unsupervised entity resolution system",
   "authors": [
    "Nicholas Kofi Akortia Hagan",
@@ -11460,8 +17447,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 380,
-  "id": "er-380",
+  "n": 580,
+  "id": "er-580",
   "title": "An Effective Author Name Disambiguation Framework for Large-Scale Publications",
   "authors": [
    "Anji Zhou",
@@ -11490,8 +17477,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 381,
-  "id": "er-381",
+  "n": 581,
+  "id": "er-581",
   "title": "Distributed Record Linkage in Healthcare Data with Apache Spark",
   "authors": [
    "Mohammad Heydari",
@@ -11520,8 +17507,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 382,
-  "id": "er-382",
+  "n": 582,
+  "id": "er-582",
   "title": "A Robust and Efficient Pipeline for Enterprise-Level Large-Scale Entity Resolution",
   "authors": [
    "Sandeepa Kannangara",
@@ -11554,8 +17541,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 383,
-  "id": "er-383",
+  "n": 583,
+  "id": "er-583",
   "title": "An Advanced Entity Resolution in Data Lakes: First Steps",
   "authors": [
    "Lamisse Bouabdelli",
@@ -11584,8 +17571,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 384,
-  "id": "er-384",
+  "n": 584,
+  "id": "er-584",
+  "title": "From Data Entry to ML Inference: End-to-End Pipelines for Duplicate Detection",
+  "authors": [
+   "Srinivasarao Daruna"
+  ],
+  "year": 2025,
+  "venue": "The American Journal of Applied Sciences",
+  "doi": "10.37547/tajas/volume07issue10-05",
+  "citations": 0,
+  "themes": [
+   "scalable",
+   "ml-deep"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "supervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "The study systematically presents the fundamental principles for constructing end-to-end pipelines for duplicate detection using machine learning methods. The objective is to analyze and subsequently formalize an architectural schema that unifies stream processing, adaptive ML mechanisms, and scalable cloud components. The methodological foundation is based on a review of existing entity resolution approaches and the design of an integrated architectural solution derived with consideration of the key concepts embedded in patent US11995054B2. The technological core comprises the following components: Apache Kafka for stream orchestration, Apache Spark for distributed processing, Amazon SageMaker for model development and management, and NoSQL stores for flexible and scalable persistence of intermediate and final data. As a result, a fault-tolerant, horizontally scalable architecture is proposed, intended for operation in near real-time conditions. The central mechanism is a machine learning system with a continuous feedback loop, in which user verdicts on ambiguous duplicate cases are employed for dynamic retraining and improvement of detection quality. The findings of the study offer practical value for data architects, machine learning engineers, and researchers focused on data quality management in the design of high-throughput analytical systems.",
+  "focus": "This paper proposes an end-to-end architecture for duplicate detection spanning data entry to ML inference, built on Kafka for stream orchestration, Spark for distributed processing, SageMaker for model management, and NoSQL storage, drawing on concepts from patent US11995054B2. Its central mechanism is a feedback loop in which user verdicts on ambiguous pairs are used for dynamic retraining, aimed at fault-tolerant, horizontally scalable, near-real-time operation.",
+  "borrow": "The human-verdict feedback loop — routing ambiguous pairs to reviewers and feeding their decisions back into training — is a pattern ERBOT can adopt for its clerical-review stage regardless of the surrounding technology stack.",
+  "fill": "The paper reports no empirical evaluation, so the actual benefit of the feedback loop and the architecture's detection quality are unmeasured; implementing and measuring a comparable loop in an open pipeline is left for us.",
+  "correct": "The design is bound to one vendor's stack and a single patent's concepts, and its scalability and near-real-time claims are asserted rather than demonstrated.",
+  "verified": true
+ },
+ {
+  "n": 585,
+  "id": "er-585",
   "title": "Progressive Entity Resolution: A Design Space Exploration",
   "authors": [
    "Jakub Maciejewski",
@@ -11616,8 +17631,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 385,
-  "id": "er-385",
+  "n": 586,
+  "id": "er-586",
   "title": "Resolvi: A Reference Architecture for Extensible, Scalable and Interoperable Entity Resolution",
   "authors": [
    "Andrei Olar"
@@ -11644,8 +17659,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 386,
-  "id": "er-386",
+  "n": 587,
+  "id": "er-587",
   "title": "SPER: Accelerating Progressive Entity Resolution via Stochastic Bipartite Maximization",
   "authors": [
    "Dimitrios Karapiperis",
@@ -11674,8 +17689,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 387,
-  "id": "er-387",
+  "n": 588,
+  "id": "er-588",
   "title": "Entity Resolution for Streaming Data with Embeddings",
   "authors": [
    "Zhongwei Ma",
@@ -11704,8 +17719,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 388,
-  "id": "er-388",
+  "n": 589,
+  "id": "er-589",
   "title": "Privacy-preserving electronic health record linkage using pseudonym identifiers",
   "authors": [
    "Bandar Alhaqbani",
@@ -11732,8 +17747,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 389,
-  "id": "er-389",
+  "n": 590,
+  "id": "er-590",
   "title": "Privacy Preserving Record Linkage Using Phonetic Codes",
   "authors": [
    "Alexandros Karakasidis",
@@ -11761,8 +17776,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 390,
-  "id": "er-390",
+  "n": 591,
+  "id": "er-591",
   "title": "Privacy preserving record linkage approaches",
   "authors": [
    "Vassilios S. Verykios",
@@ -11790,8 +17805,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 391,
-  "id": "er-391",
+  "n": 592,
+  "id": "er-592",
   "title": "Privacy-preserving record linkage using Bloom filters",
   "authors": [
    "Rainer Schnell",
@@ -11819,8 +17834,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 392,
-  "id": "er-392",
+  "n": 593,
+  "id": "er-593",
+  "title": "Research issues in Privacy-preserving Record Linkage",
+  "authors": [
+   "Rahul Shukla",
+   "Le Gruenwald"
+  ],
+  "year": 2010,
+  "venue": "2010 International Symposium on Collaborative Technologies and Systems",
+  "doi": "10.1109/cts.2010.5478472",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2010 symposium paper sets out open research issues in privacy-preserving record linkage. The record carries no abstract, so the description rests on the title and venue only.",
+  "borrow": "Its issue list works as a design-risk checklist for ERBOT's PPRL work: scalability, encoding security, and quality loss are the points to address explicitly in any design we ship.",
+  "fill": "Written in 2010, before Bloom-filter PPRL became the de facto standard, the paper leaves the now-central questions — frequency attacks on encodings and PPRL quality at very large scale — for later work, including ours, to answer empirically.",
+  "correct": "It is a research-agenda paper without empirical evaluation, and parts of its framing predate the encoding techniques that later came to dominate PPRL practice.",
+  "verified": true
+ },
+ {
+  "n": 594,
+  "id": "er-594",
   "title": "A hierarchical Bayesian approach to record linkage and population size problems",
   "authors": [
    "Andrea Tancredi",
@@ -11848,8 +17891,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 393,
-  "id": "er-393",
+  "n": 595,
+  "id": "er-595",
+  "title": "Decoupled Data for Privacy Preserving Record Linkage with Error Management",
+  "authors": [
+   "Hye-chung Kum",
+   "Stanley Ahalt"
+  ],
+  "year": 2011,
+  "venue": "2011 IEEE Third Int'l Conference on Privacy, Security, Risk and Trust and 2011 IEEE Third Int'l Conference on Social Computing",
+  "doi": "10.1109/passat/socialcom.2011.97",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2011 paper proposes working with decoupled data — separating identifying information from content data — as the basis for privacy-preserving record linkage, with explicit management of linkage errors. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "The decoupled-data architecture and its explicit error-management framing are reusable design principles for ERBOT deployments where identifiers and payload data must be held by different parties.",
+  "fill": "The 2011 design predates the published cryptanalysis of common encodings; quantifying linkage error rates under the decoupled scheme at large scale, with modern encodings, is left open for us to measure.",
+  "correct": "The record documents an architecture proposal without visible empirical evaluation, so the claimed error-management benefits are asserted rather than demonstrated here.",
+  "verified": true
+ },
+ {
+  "n": 596,
+  "id": "er-596",
   "title": "Privacy Aspects of Data Matching",
   "authors": [
    "Peter Christen"
@@ -11875,8 +17946,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 394,
-  "id": "er-394",
+  "n": 597,
+  "id": "er-597",
   "title": "A distributed framework for scaling Up LSH-based computations in privacy preserving record linkage",
   "authors": [
    "Dimitrios Karapiperis",
@@ -11904,8 +17975,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 395,
-  "id": "er-395",
+  "n": 598,
+  "id": "er-598",
   "title": "A taxonomy of privacy-preserving record linkage techniques",
   "authors": [
    "Dinusha Vatsalan",
@@ -11934,8 +18005,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 396,
-  "id": "er-396",
+  "n": 599,
+  "id": "er-599",
   "title": "Approximate Two-Party Privacy-Preserving String Matching with Linear Complexity",
   "authors": [
    "Martin Beck",
@@ -11963,8 +18034,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 397,
-  "id": "er-397",
+  "n": 600,
+  "id": "er-600",
   "title": "An Evaluation Framework for Privacy-Preserving Record Linkage",
   "authors": [
    "Dinusha Vatsalan",
@@ -11994,8 +18065,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 398,
-  "id": "er-398",
+  "n": 601,
+  "id": "er-601",
   "title": "Cryptanalysis of Basic Bloom Filters Used for Privacy Preserving Record Linkage",
   "authors": [
    "Frank Niedermeyer",
@@ -12025,8 +18096,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 399,
-  "id": "er-399",
+  "n": 602,
+  "id": "er-602",
   "title": "Scalable Privacy-Preserving Record Linkage for Multiple Databases",
   "authors": [
    "Dinusha Vatsalan",
@@ -12055,8 +18126,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 400,
-  "id": "er-400",
+  "n": 603,
+  "id": "er-603",
+  "title": "A Review of Privacy Preserving Mechanisms for Record Linkage",
+  "authors": [
+   "Luca Bonomi",
+   "Liyue Fan",
+   "Li Xiong"
+  ],
+  "year": 2015,
+  "venue": "Medical Data Privacy Handbook",
+  "doi": "10.1007/978-3-319-23633-9_10",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This handbook chapter reviews the mechanisms available for privacy-preserving record linkage, in the context of medical data privacy. The record carries no abstract, so the description rests on the title and venue only.",
+  "borrow": "The review's organisation of PPRL mechanisms gives ERBOT a taxonomy for its privacy mode: which encoding or secure-computation family to offer for which threat model.",
+  "fill": "A 2015 review predates the published attacks on Bloom-filter encodings and the newer MPC- and TEE-based linkage protocols; an updated mechanism-by-mechanism threat and accuracy comparison is left for us to compile.",
+  "correct": "It is a handbook review chapter rather than an empirical benchmark, so its comparisons between mechanisms are qualitative and reflect the state of the field in 2015.",
+  "verified": true
+ },
+ {
+  "n": 604,
+  "id": "er-604",
   "title": "A hybrid private record linkage scheme: Separating differentially private synopses from matching records",
   "authors": [
    "Jianneng Cao",
@@ -12086,8 +18186,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 401,
-  "id": "er-401",
+  "n": 605,
+  "id": "er-605",
   "title": "An LSH-Based Blocking Approach with a Homomorphic Matching Technique for Privacy-Preserving Record Linkage",
   "authors": [
    "Dimitrios Karapiperis",
@@ -12116,8 +18216,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 402,
-  "id": "er-402",
+  "n": 606,
+  "id": "er-606",
   "title": "Application of Privacy-Preserving Techniques in Operational Record Linkage Centres",
   "authors": [
    "James H. Boyd",
@@ -12145,8 +18245,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 403,
-  "id": "er-403",
+  "n": 607,
+  "id": "er-607",
   "title": "MERLIN -- A Tool for Multi-party Privacy-Preserving Record Linkage",
   "authors": [
    "Thilina Ranbaduge",
@@ -12174,8 +18274,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 404,
-  "id": "er-404",
+  "n": 608,
+  "id": "er-608",
   "title": "Randomized Response and Balanced Bloom Filters for Privacy Preserving Record Linkage",
   "authors": [
    "Rainer Schnell",
@@ -12202,8 +18302,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 405,
-  "id": "er-405",
+  "n": 609,
+  "id": "er-609",
   "title": "Speeding up Privacy Preserving Record Linkage for Metric Space Similarity Measures",
   "authors": [
    "Ziad Sehili",
@@ -12232,8 +18332,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 406,
-  "id": "er-406",
+  "n": 610,
+  "id": "er-610",
   "title": "XOR-Folding for Bloom Filter-based Encryptions for Privacy-preserving Record Linkage",
   "authors": [
    "Rainer Schnell",
@@ -12260,8 +18360,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 407,
-  "id": "er-407",
+  "n": 611,
+  "id": "er-611",
   "title": "A Comparison of Statistical Linkage Keys with Bloom Filter-based Encryptions for Privacy-preserving Record Linkage using Real-world Mammography Data",
   "authors": [
    "Rainer Schnell",
@@ -12290,8 +18390,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 408,
-  "id": "er-408",
+  "n": 612,
+  "id": "er-612",
   "title": "Distance-Aware Encoding of Numerical Values for Privacy-Preserving Record Linkage",
   "authors": [
    "Dimitrios Karapiperis",
@@ -12320,8 +18420,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 409,
-  "id": "er-409",
+  "n": 613,
+  "id": "er-613",
   "title": "Privacy Preserving Record Linkage Using MetaSoundex Algorithm",
   "authors": [
    "Keerthi Koneru",
@@ -12349,8 +18449,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 410,
-  "id": "er-410",
+  "n": 614,
+  "id": "er-614",
   "title": "Privacy preserving record linkage in the presence of missing values",
   "authors": [
    "Yuan Chi",
@@ -12381,8 +18481,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 411,
-  "id": "er-411",
+  "n": 615,
+  "id": "er-615",
   "title": "Privacy-Preserving Record Linkage for Big Data: Current Approaches and Research Challenges",
   "authors": [
    "Dinusha Vatsalan",
@@ -12412,8 +18512,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 412,
-  "id": "er-412",
+  "n": 616,
+  "id": "er-616",
   "title": "Secure pseudonymisation for privacy-preserving probabilistic record linkage",
   "authors": [
    "D. Smith"
@@ -12440,8 +18540,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 413,
-  "id": "er-413",
+  "n": 617,
+  "id": "er-617",
   "title": "PPRL: Privacy Preserving Record Linkage",
   "authors": [
    "Rainer Schnell",
@@ -12468,8 +18568,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 414,
-  "id": "er-414",
+  "n": 618,
+  "id": "er-618",
   "title": "Parallel Privacy-preserving Record Linkage using LSH-based Blocking",
   "authors": [
    "Martin Franke",
@@ -12499,8 +18599,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 415,
-  "id": "er-415",
+  "n": 619,
+  "id": "er-619",
   "title": "Privacy Preserving Probabilistic Record Linkage Without Trusted Third Party",
   "authors": [
    "Ibrahim Lazrig",
@@ -12532,8 +18632,64 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 416,
-  "id": "er-416",
+  "n": 620,
+  "id": "er-620",
+  "title": "Privacy preserving record linkage meets record linkage using unencrypted data",
+  "authors": [
+   "Hesam Izakian"
+  ],
+  "year": 2018,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v3i4.651",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "similarity"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "textual",
+  "scale": "small benchmark",
+  "abstract": "IntroductionPrivacy preserving record linkage (PPRL) resolves privacy concerns because of its capabilities to link encrypted identifiers. It encrypts identifiers using bloom filters and performs record matching based on encrypted data using dice coefficient similarity. Matching data based on hashed identifiers impacts the performance of linkage due to loss of information.&#x0D;\nObjectives and ApproachWe propose a technique to optimize the bloom filter parameters and examine if the optimal parameters increase the performance of the linkage in terms of precision, recall, and f-measure. Let us consider a set of string values and calculate the similarity between any two of them using the Jaro-Winkler method. Now let us encrypt the string values using bloom filters and calculate the similarity between any two of them using the dice coefficient technique. Optimal parameters of bloom filters are those that minimize the difference between the calculated similarities using Jaro-Winkler vs. the calculated similarities using the dice coefficient technique.&#x0D;\nResultsUsing publically available data, several first name and last name datasets each comprising 1000 unique values were generated. The following values for bloom filter parameters were considered: q in q-grams (q=1,2,3), bit array length (l=50,100,200,500,1000), number of hash functions (k=5,10,20,50). The following five setups of bloom filters were able to minimize the difference between the calculated similarities on encrypted data using the dice coefficient technique, and the calculated similarities on unencrypted data using the Jaro-Winkler method: q=1,l=1000,k=50/q=1,l=500,k=20/ q=2,l=1000,k=50/ q=3,l=500,k=50. These setups were considered to perform data linkage over 10 synthetically-generated datasets. Results show that PPRL was able to achieve similar performance compared to data linkage over unencrypted data.&#x0D;\nConclusion/ImplicationsThis study showed that optimal parameters of bloom filters minimized loss of information resulting from data encryption. Experimental findings indicated that PPRL using optimal parameters of bloom filters achieves almost the same performance as data linkage on unencrypted data in terms of precision, recall, and f-measure.",
+  "focus": "This study tunes Bloom filter parameters for privacy-preserving record linkage so that Dice-coefficient similarity computed on encrypted values tracks Jaro–Winkler similarity on plaintext as closely as possible. Testing parameter grids (q-grams q=1–3, filter lengths 50–1000, hash counts 5–50) on name datasets and ten synthetic datasets, it finds parameter settings under which PPRL achieves precision, recall, and F-measure close to linkage on unencrypted data.",
+  "borrow": "The tuning recipe is directly borrowable if ERBOT adds a privacy-preserving mode: choose Bloom filter (q, length, hash count) by similarity fidelity to the plaintext metric rather than by convention, using the paper's identified settings as starting points.",
+  "fill": "Tuning and evaluation use first/last name strings (datasets of 1,000 unique values) and synthetic data only; multi-field real records, linkage at scale, and the tuned filters' resistance to frequency-based attacks are left open for us to test.",
+  "correct": "The 'optimal' parameters are optimal for imitating Jaro–Winkler on names, which is a proxy objective — it does not follow that they are optimal for linkage quality on other fields or for privacy, and the small, synthetic evaluation limits how far the near-parity conclusion generalizes.",
+  "verified": true
+ },
+ {
+  "n": 621,
+  "id": "er-621",
+  "title": "Privacy-Preserving Record Linkage via Bilinear Pairing Approach",
+  "authors": [
+   "Chih-Hsun Lin",
+   "Chia-Mu Yu"
+  ],
+  "year": 2018,
+  "venue": "2018 IEEE International Conference on Consumer Electronics-Taiwan (ICCE-TW)",
+  "doi": "10.1109/icce-china.2018.8448454",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2018 IEEE conference paper proposes a privacy-preserving record linkage protocol built on bilinear pairings, a cryptographic primitive from pairing-based cryptography. The record has no abstract, so the protocol details and evaluation are not documented here.",
+  "borrow": "A pairing-based construction is an alternative cryptographic route to secure comparison for ERBOT's privacy stage, worth contrasting with encoding-based (Bloom filter) approaches when the threat model involves an actively curious linkage unit.",
+  "fill": "The paper leaves open scalability to realistic dataset sizes and linkage-quality evaluation on dirty real-world data, the two questions that decide whether pairing-based PPRL is practical. Answering them is left for us and others.",
+  "correct": "Pairing operations are computationally expensive, and this short conference paper's record contains no performance or quality evidence; without benchmarks, the approach remains a cryptographic proposal rather than a demonstrated linkage method.",
+  "verified": true
+ },
+ {
+  "n": 622,
+  "id": "er-622",
   "title": "Privacy-Preserving Temporal Record Linkage",
   "authors": [
    "Thilina Ranbaduge",
@@ -12560,8 +18716,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 417,
-  "id": "er-417",
+  "n": 623,
+  "id": "er-623",
   "title": "Privacy-preserving record linkage in large databases using secure multiparty computation",
   "authors": [
    "Peeter Laud",
@@ -12589,8 +18745,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 418,
-  "id": "er-418",
+  "n": 624,
+  "id": "er-624",
   "title": "Semantic privacy-preserving framework for electronic health record linkage",
   "authors": [
    "Yang Lu",
@@ -12617,8 +18773,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 419,
-  "id": "er-419",
+  "n": 625,
+  "id": "er-625",
   "title": "A scalable privacy-preserving framework for temporal record linkage",
   "authors": [
    "Thilina Ranbaduge",
@@ -12646,8 +18802,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 420,
-  "id": "er-420",
+  "n": 626,
+  "id": "er-626",
   "title": "Efficient Pattern Mining Based Cryptanalysis for Privacy-Preserving Record Linkage",
   "authors": [
    "Anushka Vidanage",
@@ -12677,8 +18833,96 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 421,
-  "id": "er-421",
+  "n": 627,
+  "id": "er-627",
+  "title": "Evaluation of approximate comparison methods on Bloom filters for probabilistic linkage",
+  "authors": [
+   "Adrian P Brown",
+   "Sean M Randall",
+   "James H Boyd",
+   "Anna M Ferrante"
+  ],
+  "year": 2019,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v4i1.1095",
+  "citations": 3,
+  "themes": [
+   "privacy-bayesian",
+   "similarity",
+   "probabilistic"
+  ],
+  "method": [
+   "hashing/LSH",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "Introduction The need for increased privacy protection in data linkage has driven the development of privacy-preserving record linkage (PPRL) techniques. A popular technique using Bloom filters with cryptographic analyses, modifications, and hashing variations to optimise privacy has been the focus of much research in this area. With few applications of Bloom filters within a probabilistic framework, there is limited information on whether approximate matches between Bloom filtered fields can improve linkage quality.&#x0D;\nObjectives In this study, we evaluate the effectiveness of three approximate comparison methods for Bloom filters within the context of the Fellegi-Sunter model of recording linkage: Sørensen–Dice coefficient, Jaccard similarity and Hamming distance.&#x0D;\nMethods Using synthetic datasets with introduced errors to simulate datasets with a range of data quality and a large real-world administrative health dataset, the research estimated partial weight curves for converting similarity scores (for each approximate comparison method) to partial weights at both field and dataset level. Deduplication linkages were run on each dataset using these partial weight curves. This was to compare the resulting quality of the approximate comparison techniques with linkages using simple cut-off similarity values and only exact matching.&#x0D;\nResults Linkages using approximate comparisons produced significantly better quality results than those using exact comparisons only. Field level partial weight curves for a specific dataset produced the best quality results. The Sørensen-Dice coefficient and Jaccard similarity produced the most consistent results across a spectrum of synthetic and real-world datasets.&#x0D;\nConclusion The use of Bloom filter similarity comparisons for probabilistic record linkage can produce linkage quality results which are comparable to Jaro-Winkler string similarities with unencrypted linkages. Probabilistic linkages using Bloom filters benefit significantly from the use of similarity comparisons, with partial weight curves producing the best results, even when not optimised for that particular dataset.",
+  "focus": "The study evaluates three approximate comparison methods for Bloom-filter-encoded fields — Sørensen–Dice, Jaccard, and Hamming distance — inside the Fellegi–Sunter probabilistic linkage model. Using synthetic datasets of varying quality and a large real-world administrative health dataset, it estimates partial weight curves that convert similarity scores into field weights, and finds approximate comparisons significantly outperform exact-only comparison, with field-level weight curves giving the best quality and Dice and Jaccard the most consistent results.",
+  "borrow": "The partial weight curves are directly borrowable if ERBOT gains a privacy-preserving mode: converting Bloom-filter similarity into Fellegi–Sunter field weights, estimated at field level, is a concrete, tested recipe rather than a heuristic cut-off.",
+  "fill": "The evaluation is for deduplication linkages on the studied datasets; cross-dataset linkage between separate custodians, and integration of encoded-field comparison into a full blocking-to-clustering pipeline, remain open for us.",
+  "correct": "The best results depend on field-level weight curves estimated for a specific dataset, which presumes comparison data a strict privacy-preserving setting may not be able to supply; and the claim of quality comparable to unencrypted Jaro–Winkler linkage rests on the datasets studied.",
+  "verified": true
+ },
+ {
+  "n": 628,
+  "id": "er-628",
+  "title": "Privacy-Preserving Record Linkage with Spark",
+  "authors": [
+   "Onno Valkering",
+   "Adam Belloum"
+  ],
+  "year": 2019,
+  "venue": "2019 19th IEEE/ACM International Symposium on Cluster, Cloud and Grid Computing (CCGRID)",
+  "doi": "10.1109/ccgrid.2019.00058",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "scalable"
+  ],
+  "method": [
+   "hashing/LSH",
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This CCGRID 2019 paper implements privacy-preserving record linkage on Apache Spark, distributing the encoded-linkage computation across a cluster. The record has no abstract, so the encoding used and the measured performance are not documented here.",
+  "borrow": "A Spark-based execution pattern for encoded linkage shows how ERBOT's privacy stage could scale out when a single machine is insufficient; the distribution strategy for comparisons is the transferable part.",
+  "fill": "The paper leaves open linkage-quality comparisons against clear-text linkage and against newer encodings on shared benchmarks, as well as behavior when data skew concentrates comparisons on few executors. Those evaluations remain for us.",
+  "correct": "With no abstract in the record, neither the dataset sizes nor the quality numbers can be checked; distributed frameworks also carry fixed overheads, so Spark-based PPRL gains may vanish at the moderate scales where many linkages actually run.",
+  "verified": true
+ },
+ {
+  "n": 629,
+  "id": "er-629",
+  "title": "Private Data Matching",
+  "authors": [],
+  "year": 2019,
+  "venue": "Encyclopedia of Big Data Technologies",
+  "doi": "10.1007/978-3-319-77525-8_100260",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This encyclopedia entry overviews private data matching: techniques that let parties determine which of their records refer to the same entities without revealing the underlying data to each other. It covers the problem setting that privacy-preserving record linkage addresses.",
+  "borrow": "It is a concise orientation to the privacy-preserving linkage problem space — the parties involved, the disclosure risks, and the main technique families — useful when we scope a privacy-preserving mode for ERBOT.",
+  "fill": "As a 2019 overview it predates several published attacks on common PPRL encodings and newer cryptographic approaches; a current risk assessment for our own PPRL design is still ours to write.",
+  "correct": "An encyclopedia entry summarizes rather than evaluates, and its snapshot of which techniques are safe has aged as cryptanalysis of Bloom-filter-based encodings has advanced.",
+  "verified": true
+ },
+ {
+  "n": 630,
+  "id": "er-630",
   "title": "Secure Approximate String Matching for Privacy-Preserving Record Linkage",
   "authors": [
    "Aleksander Essex"
@@ -12705,8 +18949,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 422,
-  "id": "er-422",
+  "n": 631,
+  "id": "er-631",
   "title": "An Enhanced Approach for Privacy Preserving Record Linkage during Data Integration",
   "authors": [
    "Narendra Shekokar",
@@ -12733,8 +18977,102 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 423,
-  "id": "er-423",
+  "n": 632,
+  "id": "er-632",
+  "title": "Encoding Diagnostic Codes for Privacy-Preserving Record Linkage",
+  "authors": [
+   "Rainer Schnell",
+   "Christian Borgs"
+  ],
+  "year": 2020,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v5i5.1461",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "similarity"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "IntroductionDiagnostic codes, such as the ICD-10, may be considered as sensitive information. If such codes have to be encoded using current methods for data linkage, all hierarchical information given by the code positions will be lost. We present a technique (HPBFs) for preserving the hierarchical information of the codes while protecting privacy. The new method modifies a widely used Privacy-preserving Record Linkage (PPRL) technique based on Bloom filters for the use with hierarchical codes.&#x0D;\nObjectives and ApproachAssessing the similarities of hierarchical codes requires considering the code positions of two codes in a given diagnostic hierarchy. The hierarchical similarities of the original diagnostic code pairs should correspond closely to the similarity of the encoded pairs of the same code.&#x0D;\nFurthermore, to assess the hierarchy-preserving properties of an encoding, the impact on similarity measures from differing code positions at all levels of the code hierarchy can be evaluated. A full match of codes should yield a higher similarity than partial matches.&#x0D;\nFinally, the new method is tested against ad-hoc solutions as an addition to a standard PPRL setup. This is done using real-world mortality data with a known link status of two databases.&#x0D;\nResultsIn all applications for encoded ICD codes where either categorical discrimination, relational similarity or linkage quality in a PPRL setting is required, HPBFs outperform other known methods. Lower mean differences and smaller confidence intervals between clear-text codes and encrypted code pairs were observed, indicating better preservation of hierarchical similarities. Finally, using these techniques allows for much better hierarchical discrimination for partial matches.&#x0D;\nConclusionThe new technique yields better linkage results than all other known methods to encrypt hierarchical codes. In all tests, comparing categorical discrimination, relational similarity and PPRL linkage quality, HPBFs outperformed methods currently used.",
+  "focus": "The paper presents HPBFs, a modification of Bloom-filter encoding that preserves the hierarchical information in diagnostic codes such as ICD-10, so that encoded-code similarity tracks matches at each level of the code hierarchy. Tested on real-world mortality data with known link status, HPBFs outperform ad-hoc alternatives on categorical discrimination, relational similarity, and PPRL linkage quality.",
+  "borrow": "Hierarchy-preserving encoding is directly reusable: any coded ERBOT attribute with a hierarchy (diagnosis, occupation, geography) can be encoded so that partial matches at higher levels score above unrelated codes instead of being lost.",
+  "fill": "The method is demonstrated on ICD-10 codes in one mortality linkage; generalising HPBF-style encodings to other hierarchies and combining them with name and address encodings in a full PPRL pipeline is left open for us to build and measure.",
+  "correct": "The evaluation rests on a single real-world dataset, and preserving hierarchy necessarily preserves more structure in the encoding, so the privacy cost of that extra structure deserves more scrutiny than the paper's quality-focused comparison gives it.",
+  "verified": true
+ },
+ {
+  "n": 633,
+  "id": "er-633",
+  "title": "Evaluating Binary Encoding Techniques in The Presence of Missing Values in Privacy-Preserving Record Linkage",
+  "authors": [
+   "Thilina Ranbaduge",
+   "Peter Christen"
+  ],
+  "year": 2020,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v5i5.1445",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "evaluation"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "IntroductionApplications in domains ranging from healthcare to national security increasingly require records about individuals in sensitive databases to be linked in privacy-preserving ways. Missing values make the linkage process challenging because they can affect the encoding of attribute values. No study has systematically investigated how missing values affect the outcomes of different encoding techniques used in privacy-preserving linkage applications.&#x0D;\nObjectives and ApproachBinary encodings, such as Bloom filters, are popular for linking sensitive databases. They are now employed in real-world linkage applications. However, existing encoding techniques assume the quasi-identifying attributes used for encoding to be complete. Missing values can lead to incomplete encodings which can result in decreased or increased similarities and therefore to false non-matches or false matches. In this study we empirically evaluate three binary encoding techniques using real voter databases, where pairs of records that correspond to the same voter (with name or address changes) resulted in files of 100,000 and 500,000 records containing from 0% to 50% missing values.&#x0D;\nResultsWe encoded between two and four of the attributes first and last name, street, and city into three record-level binary encodings: Cryptographic long-term key (CLK) [Schnell et al. 2009], record-level Bloom filter (RBF) [Durham et al. 2014], and tabulation Min-hashing (TBH) [Smith 2017]. Experiments showed a 10% to 25% drop on average in both precision and recall for all encoding techniques when missing values are increasing. CLK resulted in the highest decrease in precision, while TBH resulted in the highest decrease in recall compared to the other encoding techniques.&#x0D;\nConclusionBinary encodings such as Bloom filters are now used in practical applications for linking sensitive databases. Our evaluation shows that such encoding techniques can result in lower linkage quality if there are missing values in quasi-identifying attributes. This highlights the need for novel encoding techniques that can overcome the challenge of missing values.",
+  "focus": "This study empirically evaluates three record-level binary encodings for PPRL — cryptographic long-term keys (CLK), record-level Bloom filters (RBF), and tabulation MinHashing (TBH) — on real voter databases of 100,000 and 500,000 records with 0% to 50% missing values in the encoded attributes. Precision and recall drop by 10% to 25% on average as missingness increases for all three techniques; CLK loses the most precision and TBH the most recall.",
+  "borrow": "The missing-value stress test — sweeping missingness from 0% to 50% and tracking each encoding's precision/recall degradation — is an evaluation protocol ERBOT's PPRL mode should adopt, and the CLK/RBF/TBH ranking under missingness informs our default encoding choice.",
+  "fill": "The paper diagnoses the degradation and explicitly calls for novel encodings that overcome missing values; designing and testing a missingness-aware encoding (for example per-attribute encodings with missingness-adjusted similarity) is precisely the work it leaves for us.",
+  "correct": "The experiments encode only two to four attributes from voter registers, so the degradation rates may not carry over to richer attribute sets or to missing-not-at-random patterns typical of health and administrative data.",
+  "verified": true
+ },
+ {
+  "n": 634,
+  "id": "er-634",
+  "title": "How Are Linkage Results Using Privacy-Preserving Record Linkage Different?",
+  "authors": [
+   "Michael Jarrett",
+   "Brent Hills",
+   "Yinshan Zhao",
+   "Adrian Brown",
+   "Sean Randall",
+   "James Boyd",
+   "Anna Ferrante",
+   "Kimberlyn McGrail"
+  ],
+  "year": 2020,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v5i5.1541",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "evaluation"
+  ],
+  "method": [
+   "hashing/LSH",
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "web scale (>1M)",
+  "abstract": "IntroductionPrivacy-Preserving Record Linkage (PPRL) presents opportunities to improve privacy protection when performing record linkage on the most sensitive data. Currently our linkage agency performs all linkages in clear text, but expansion of data sources is now including extremely sensitive data, such as justice data. Understanding that specific circumstances may demand different approaches to linkage, we evaluated a PPRL algorithm implemented through the LinXmart software. This is the first real-world evaluation of PPRL in British Columbia and among the first in Canada.\r\nObjectives and ApproachOur standard linkage method is probabilistic and relies on rules established by analysts to determine accepted links. Datasets are linked to a population spine (N=8,440,442) containing all current and past residents of the province. LinXmart was configured to link to the top weighted candidate above a predetermined confidence threshold. We evaluated performance by comparing the standard method to PPRL for three increasingly complex (messy) datasets. Initial results on the simplest/cleanest dataset informed an iterative process to improve implementation of PPRL.\r\nResultsOverall linkage rates were lower for standard linkage (81%) compared to PPRL (90%). Records with a unique ID linked at similarly high rates in clear-text and PPRL, while the performance of PPRL with records without the unique ID varied depending on the exact parameters chosen for the match threshold and field comparisons.\r\nConclusion / ImplicationsThis work suggests that for datasets that include a well-populated unique identifier, PPRL can be implemented in real-world linkages without a substantial drop-off in linkage quality. Messier data require careful tuning of linkage parameters to match the performance of clear linkage. PPRL may best be used in cases where clear text identifiers cannot be shared, and where some degradation in linkage rates is acceptable.",
+  "focus": "This IJPDS study is a real-world evaluation comparing LinXmart PPRL against the agency's standard clear-text probabilistic linkage to a British Columbia population spine (N=8,440,442), across three datasets of increasing messiness. Overall linkage rates were higher for PPRL (90%) than for standard linkage (81%); records with a unique ID linked similarly under both, while PPRL performance on records without the ID depended on threshold and field-comparison parameters.",
+  "borrow": "The evaluation protocol is the borrowable asset: link the same datasets both ways, stratify by data messiness, and tune PPRL parameters iteratively. ERBOT's privacy stage should be evaluated exactly this way before any deployment claim is made.",
+  "fill": "The study covers one software package and one jurisdiction, and reports linkage rates rather than false-match rates; it leaves open cross-encoding comparisons and full error analysis of PPRL links. Extending the comparison to error rates and other encodings is work for us.",
+  "correct": "A higher linkage rate is not the same as higher accuracy: PPRL's 90% versus 81% could partly reflect looser effective thresholds rather than better matching, and without false-match rates the headline comparison cannot show PPRL matched standard linkage's correctness.",
+  "verified": true
+ },
+ {
+  "n": 635,
+  "id": "er-635",
   "title": "Incremental clustering techniques for multi-party Privacy-Preserving Record Linkage",
   "authors": [
    "Dinusha Vatsalan",
@@ -12763,8 +19101,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 424,
-  "id": "er-424",
+  "n": 636,
+  "id": "er-636",
   "title": "Privacy Attack on Multiple Dynamic Match-key based Privacy-Preserving Record Linkage",
   "authors": [
    "Anushka Vidanage",
@@ -12793,8 +19131,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 425,
-  "id": "er-425",
+  "n": 637,
+  "id": "er-637",
+  "title": "SMSPPRL: A Similarity Matching Strategy for Privacy Preserving Record Linkage",
+  "authors": [
+   "Vijay Maruti Shelake",
+   "Narendra M. Shekokar"
+  ],
+  "year": 2020,
+  "venue": "2020 Sixth International Conference on Parallel, Distributed and Grid Computing (PDGC)",
+  "doi": "10.1109/pdgc50313.2020.9315828",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "similarity"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This paper proposes SMSPPRL, a similarity matching strategy intended for privacy-preserving record linkage. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "Its similarity strategy is a candidate comparison rule for encoded records to test against the standard Bloom-filter Dice similarity in ERBOT's PPRL mode.",
+  "fill": "No abstract or results are available in the record, so benchmarking this strategy against established PPRL similarity measures on shared data is left for us to do.",
+  "correct": "The contribution cannot be verified from the record, and the venue is a general parallel and distributed computing conference rather than a data-management or linkage venue, which weakens the presumption of domain peer review.",
+  "verified": true
+ },
+ {
+  "n": 638,
+  "id": "er-638",
   "title": "Secure Record Linkage of Large Health Data Sets: Evaluation of a Hybrid Cloud Model",
   "authors": [
    "Adrian Paul Brown",
@@ -12822,8 +19189,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 426,
-  "id": "er-426",
+  "n": 639,
+  "id": "er-639",
   "title": "Securing Bloom Filters for Privacy-preserving Record Linkage",
   "authors": [
    "Thilina Ranbaduge",
@@ -12850,8 +19217,63 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 427,
-  "id": "er-427",
+  "n": 640,
+  "id": "er-640",
+  "title": "A Data Protection Approach to Data Matching Operations Among Public Bodies",
+  "authors": [
+   "Vagelis Papakonstantinou"
+  ],
+  "year": 2021,
+  "venue": "",
+  "doi": "10.2139/ssrn.3447123",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Data matching operations have been promoted as an administrative panacea that helps to reduce costs while maximising efficiency and combating fraud. Nevertheless, they may constitute at the same time a brutal invasion into individuals' privacy. After an extensive effort to define precisely data matching and distinguish such processing from similar filing operations, a data protection approach will be attempted through a given axis of analysis in order to demonstrate the strengths and weaknesses of this legislative approach.",
+  "focus": "This paper analyzes data matching operations among public bodies from a data-protection-law perspective, first defining data matching precisely and distinguishing it from similar filing operations, then examining the strengths and weaknesses of the legislative approach to governing it. It warns that matching promoted as an administrative efficiency tool can at the same time amount to a serious invasion of individuals' privacy.",
+  "borrow": "Its legal framing gives us concrete governance constraints — purpose limitation, proportionality, definitional precision — to design against when ERBOT is used for linkage across organizations.",
+  "fill": "The paper is a legal analysis without technical counterparts: it does not say which privacy-preserving linkage techniques would satisfy its data-protection criteria, leaving the mapping from law to engineering requirements for us to produce.",
+  "correct": "Legal analysis alone cannot settle technical feasibility — some operations it problematizes may be achievable with privacy-preserving techniques it does not evaluate, so its conclusions should not be read as technical verdicts.",
+  "verified": true
+ },
+ {
+  "n": 641,
+  "id": "er-641",
+  "title": "An Ensemble Approach for Privacy-Preserving Record Linkage",
+  "authors": [
+   "Vijay Maruti Shelake",
+   "Narendra M. Shekokar"
+  ],
+  "year": 2021,
+  "venue": "International Journal of Engineering Trends and Technology",
+  "doi": "10.14445/22315381/ijett-v69i9p218",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "ML classifier"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2021 paper proposes an ensemble approach to privacy-preserving record linkage, combining multiple matchers or encodings to decide links. The record has no abstract, so the ensemble members and evaluation are not documented here.",
+  "borrow": "Ensembling is a plausible way to stabilize PPRL decisions when any single encoding is noisy; ERBOT could combine several encoded similarity signals the way it already combines string metrics in clear-text matching.",
+  "fill": "The paper leaves open the privacy accounting of the ensemble itself: releasing or combining multiple encodings of the same records can compound disclosure risk, and analyzing that interaction is unfinished work we can take up.",
+  "correct": "The venue is a low-tier journal and the record contains no abstract or results; the ensemble's benefit is unverifiable here, and ensembling encodings without a leakage analysis could easily make privacy worse while improving accuracy.",
+  "verified": true
+ },
+ {
+  "n": 642,
+  "id": "er-642",
   "title": "An Improved Chinese String Comparator for Bloom Filter Based Privacy-Preserving Record Linkage",
   "authors": [
    "Siqi Sun",
@@ -12883,8 +19305,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 428,
-  "id": "er-428",
+  "n": 643,
+  "id": "er-643",
   "title": "Blockchain-based Privacy-Preserving Record Linkage: enhancing data privacy in an untrusted environment",
   "authors": [
    "Thiago Nóbrega",
@@ -12912,8 +19334,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 429,
-  "id": "er-429",
+  "n": 644,
+  "id": "er-644",
   "title": "A critique and attack on “Blockchain-based privacy-preserving record linkage”",
   "authors": [
    "Peter Christen",
@@ -12942,8 +19364,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 430,
-  "id": "er-430",
+  "n": 645,
+  "id": "er-645",
   "title": "Accurate privacy-preserving record linkage for databases with missing values",
   "authors": [
    "Sirintra Vaiwsri",
@@ -12973,8 +19395,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 431,
-  "id": "er-431",
+  "n": 646,
+  "id": "er-646",
+  "title": "Efficient Privacy Preserving Record Linkage at Scale using Apache Spark",
+  "authors": [
+   "Alexandros Karakasidis",
+   "Georgia Koloniari"
+  ],
+  "year": 2022,
+  "venue": "2022 IEEE International Conference on Big Data (Big Data)",
+  "doi": "10.1109/bigdata55660.2022.10020832",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "scalable"
+  ],
+  "method": [
+   "system",
+   "hashing/LSH"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This IEEE Big Data paper presents a privacy-preserving record linkage approach implemented on Apache Spark to achieve efficiency at scale. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "The distributed PPRL architecture — parallel encoding, blocking, and comparison on a cluster engine — is a scalability reference design whose partitioning lessons transfer to ERBOT's chunking strategy for very large files.",
+  "fill": "The record gives no datasets or results, leaving open a controlled comparison of Spark-based PPRL against single-node and alternative parallel implementations on identical encodings and data — a benchmark we can run.",
+  "correct": "With no abstract in the record, the efficiency claims cannot be checked, and PPRL runtimes depend heavily on encoding and blocking choices that are not visible here.",
+  "verified": true
+ },
+ {
+  "n": 647,
+  "id": "er-647",
   "title": "Privacy-Preserving Record Linkage",
   "authors": [
    "Dinusha Vatsalan",
@@ -13002,8 +19454,94 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 432,
-  "id": "er-432",
+  "n": 648,
+  "id": "er-648",
+  "title": "Private record linkage with linkage maps",
+  "authors": [
+   "Shreya Patel",
+   "Rinku Dewri"
+  ],
+  "year": 2022,
+  "venue": "SECURITY AND PRIVACY",
+  "doi": "10.1002/spy2.265",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "scalable"
+  ],
+  "method": [
+   "key-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "AbstractPrivate record linkage is an actively pursued research area to facilitate the linkage of database records under the constraints of regulations that do not allow linkage agents to learn sensitive identities of record owners. Recent works have shown that linkage using commutative ciphers, which were discarded earlier for efficiency concerns, can be made feasible by leveraging precomputations, data parallelism, and probabilistic key reuse approaches. In this work, we propose further optimizations that can be performed to improve the runtime efficiency of such an approach. We transition from modular exponentiation ciphers to elliptic curve operations to improve precomputation time, eliminate memory intensive comparisons of encrypted values, and introduce data structures to detect negative comparisons. We benchmark the proposed approach using real world demographics data, and provide an extensive study of the parametric aspects of the approach. We also supplement our execution time results with an assessment of the residual privacy risk left by the approach. The approach can perform a linkage of two datasets with 105 records each in 20 minutes in a commodity laptop. This is achieved by eliminating the need to compare more than 70% of the record pairs. By design, the linkage accuracy is also retained at the same level as a nonprivate record linkage procedure.",
+  "focus": "This paper improves commutative-cipher private record linkage — earlier dismissed as too slow — with further optimizations: switching from modular exponentiation to elliptic-curve operations to cut precomputation, eliminating memory-intensive comparisons of encrypted values, and adding data structures that detect negative comparisons early. On real-world demographic data it links two datasets of 10^5 records each in 20 minutes on a commodity laptop, avoids comparing over 70% of record pairs, retains the accuracy of non-private linkage, and is supplemented with an assessment of residual privacy risk.",
+  "borrow": "The engineering tricks are borrowable for any exact-match private linkage in ERBOT: precomputation, early negative-comparison detection, and elliptic-curve operations; equally borrowable is the practice of reporting residual privacy risk alongside runtime and accuracy.",
+  "fill": "The method is demonstrated for exact (cipher-based) matching on demographic data at 10^5-record scale; fuzzy matching under encryption, more than two parties, and substantially larger files are left open — extensions a privacy mode in ERBOT would need.",
+  "correct": "Twenty minutes for 10^5 records is far from web-scale throughput, the retained-accuracy claim holds for the exact-match setting tested rather than fuzzy linkage, and the authors' own residual-risk assessment concedes the privacy guarantee is incomplete.",
+  "verified": true
+ },
+ {
+  "n": 649,
+  "id": "er-649",
+  "title": "Secure Approximate String Matching using Homomorphic Encryption for Privacy-preserving Record Linkage",
+  "authors": [
+   "Shahidul Islam Khan",
+   "Rakib Hosen",
+   "Iqbal Hossain"
+  ],
+  "year": 2022,
+  "venue": "",
+  "doi": "10.20944/preprints202210.0064.v1",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "similarity"
+  ],
+  "method": [
+   "string metric"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "String matching is an important part in many real world applications. It must robust against variations in string field. In record linkage for two different datasets matching should detect two patients in common in spite of small variations. But it becomes difficult in case of confidential data because sometimes data sharing between organizations become restricted for privacy purposes. Several techniques have been proposed on privacy-preserving approximate string matching such as Secure Hash Encoding etc. Relative to other techniques for approximate string matching Homomorphic encryption is very new.&#x0D;\n&#x0D;\nIn this paper we have proposed a Homomorphic Encryption based approximate string matching technique for matching multiple attributes. There is no solution currently available for multiple attributes matching using Homomorphic encryption. We have proposed two different methods for multiple attributes matching. Compare to other existing approaches our proposed method offers security guarantees and greater matching accuracy.",
+  "focus": "This paper proposes homomorphic-encryption-based approximate string matching for privacy-preserving record linkage, presenting two methods for matching across multiple attributes, which the authors state no prior HE-based solution handled. It claims security guarantees and greater matching accuracy than existing approaches.",
+  "borrow": "Multi-attribute encrypted string comparison is a concrete design for an ERBOT privacy stage: name and address fields could be compared under encryption when clear-text sharing is impossible, and the two proposed constructions are starting points.",
+  "fill": "The paper leaves open performance at scale and integration with blocking: homomorphically encrypted comparisons are expensive, so a practical system must first reduce candidate pairs by other means. Testing HE matching inside a blocked pipeline, with honest cost accounting, is left for us.",
+  "correct": "This is an unreviewed preprint (Preprints.org, 2022). Its claim of 'greater matching accuracy' names no baselines in the abstract, and the abstract quantifies neither the HE computation cost nor the dataset sizes, which are precisely the factors that decide whether such schemes are usable.",
+  "verified": true
+ },
+ {
+  "n": 650,
+  "id": "er-650",
+  "title": "Semantic-based Privacy-preserving Record Linkage.",
+  "authors": [
+   "Yang Lu"
+  ],
+  "year": 2022,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v7i3.1956",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "IntroductionSharing aggregated electronic health records (EHRs) for integrated health care and public health studies is increasingly demanded. Patient privacy demands that anonymisation procedures are in place for data sharing.\r\nObjectiveTraditional methods such as k-anonymity and its derivations are often overgeneralising resulting in lower data accuracy. To tackle this issue, we proposed the Semantic Linkage K-Anonymity (SLKA) approach to balance the privacy and utility preservation through detecting risky combinations hidden in the record linkage releases.\r\nApproachK-anonymity processing quasi-identifiers of data may lead to ‘over generalisation’ when dealing with linkage data sets. As most linkage cases do not include all local patients and thus not all modifying data for privacy-preserving purposes needs to be used, we proposed the linkage k-anonymity (LKA) by which only obfuscated individuals in a released linkage set are required to be indistinguishable from at least k-1 other individuals in the local dataset. Considering the inference disclosure issue, we further designed the semantic-based linkage k-anonymity (SLKA) method through extending with a semantic-rule base for automatic detection of (and ruling out) risky associations from previous linked data releases. Specially, associations identified from the “previous releases” of the linkage dataset can become the input of semantic reasoning for the “next release”.\r\nResultsThe approach is evaluated based on a linkage scenario where researchers apply to link data from an Australia-wide national type-1 diabetes platform with survey results from 25,000+ Victorians about their health and wellbeing. In comparing the information loss of three methods, we find that extra cost can be incurred in SLKA for dealing with risky individuals, e.g., 13.7% vs 5.9% (LKA, k=4) however it performs much better than k-anonymity, which can cause 24% information loss (k=4). Besides, the k values can affect the level of distortion in SLKA, such as 11.5% (k=2) vs 12.9% (k=3).\r\nConclusionThe SLKA framework provides dynamic protection for repeated linkage releases while preserving data utility by avoiding unnecessary generalisation as typified by k-anonymity.",
+  "focus": "This IJPDS paper proposes Semantic Linkage K-Anonymity (SLKA) for privacy-preserving release of linked health data: it extends linkage k-anonymity with a semantic rule base that detects risky associations carried over from previous linkage releases. In an Australian diabetes-platform linkage scenario, SLKA's information loss (13.7% at k=4) sat between plain linkage k-anonymity (5.9%) and standard k-anonymity (24%).",
+  "borrow": "The cross-release audit idea is worth borrowing for ERBOT's privacy practice: before releasing a new linked dataset, check it against previous releases for inference disclosures created by combining them, rather than anonymizing each release in isolation.",
+  "fill": "SLKA protects the released linked data, not the linkage process itself; it leaves open combining release-time anonymization with encoded linkage (e.g. Bloom filters) in one workflow, and measuring how its generalization distorts downstream analysis. Building that combined pipeline is left for us.",
+  "correct": "Protection rests on a semantic rule base whose completeness cannot be guaranteed: associations the rules fail to anticipate remain disclosive. The single-scenario evaluation also shows SLKA costs more than twice the information loss of plain linkage k-anonymity, so the privacy gain is real but not cheap.",
+  "verified": true
+ },
+ {
+  "n": 651,
+  "id": "er-651",
   "title": "Taxonomy of Attacks on Privacy-Preserving Record Linkage",
   "authors": [
    "Anushka Vidanage",
@@ -13032,8 +19570,38 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 433,
-  "id": "er-433",
+  "n": 652,
+  "id": "er-652",
+  "title": "A Bayesian record linkage model incorporating relational data",
+  "authors": [
+   "Juan Sosa",
+   "Abel Rodríguez"
+  ],
+  "year": 2023,
+  "venue": "Applied Stochastic Models in Business and Industry",
+  "doi": "10.1002/asmb.2792",
+  "citations": 2,
+  "themes": [
+   "privacy-bayesian",
+   "probabilistic"
+  ],
+  "method": [
+   "Bayesian",
+   "graph-based"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "relational",
+  "scale": "n/a",
+  "abstract": "AbstractIn this article, we introduce a novel Bayesian approach for linking multiple social networks in order to discover the same real world person having different accounts across networks. In particular, we develop a latent model that allows us to jointly characterize the network and linkage structures relying on both relational and profile data. In contrast to other existing approaches in the machine learning literature, our Bayesian implementation naturally provides uncertainty quantification via posterior probabilities for the linkage structure itself or any function of it. Our findings clearly suggest that our methodology can produce accurate point estimates of the linkage structure even in the absence of profile information, and also, in an identity resolution setting, our results confirm that including relational data into the matching process improves the linkage accuracy. We illustrate our methodology using real data from popular social networks such as Twitter, Facebook, and YouTube.",
+  "focus": "The paper introduces a Bayesian approach for linking multiple social networks to discover the same real-world person behind different accounts. A latent model jointly characterises the network and linkage structures using both relational and profile data, yielding posterior probabilities for the linkage itself; the authors show accurate linkage estimates even without profile information, and that adding relational data improves accuracy, illustrated on Twitter, Facebook, and YouTube data.",
+  "borrow": "Jointly modelling linkage and relational structure, with posterior probabilities attached to the linkage, is borrowable for ERBOT's clustering stage: exposing match uncertainty as probabilities instead of only hard clusters makes downstream use of the links safer.",
+  "fill": "The demonstration is on social-network accounts; scaling the joint Bayesian model to very large record files and integrating it with a blocking stage are left open, and are the steps we would need to take.",
+  "correct": "Posterior linkage probabilities are only as trustworthy as the latent network model behind them — a misspecified model can return confident but wrong links — and Bayesian inference of this kind rarely scales to millions of records without approximation.",
+  "verified": true
+ },
+ {
+  "n": 653,
+  "id": "er-653",
   "title": "A Vulnerability Assessment Framework for Privacy-preserving Record Linkage",
   "authors": [
    "Anushka Vidanage",
@@ -13063,8 +19631,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 434,
-  "id": "er-434",
+  "n": 654,
+  "id": "er-654",
   "title": "A fast privacy-preserving patient record linkage of time series data",
   "authors": [
    "Ahmed Soliman",
@@ -13094,8 +19662,40 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 435,
-  "id": "er-435",
+  "n": 655,
+  "id": "er-655",
+  "title": "De-identified Bayesian personal identity matching for privacy-preserving record linkage despite errors: development and validation",
+  "authors": [
+   "Rudolf N. Cardinal",
+   "Anna Moore",
+   "Martin Burchell",
+   "Jonathan R. Lewis"
+  ],
+  "year": 2023,
+  "venue": "BMC Medical Informatics and Decision Making",
+  "doi": "10.1186/s12911-023-02176-6",
+  "citations": 2,
+  "themes": [
+   "privacy-bayesian",
+   "probabilistic"
+  ],
+  "method": [
+   "Bayesian",
+   "probabilistic"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Abstract\n                  \n                    Background\n                    Epidemiological research may require linkage of information from multiple organizations. This can bring two problems: (1) the information governance desirability of linkage without sharing direct identifiers, and (2) a requirement to link databases without a common person-unique identifier.\n                  \n                  \n                    Methods\n                    We develop a Bayesian matching technique to solve both. We provide an open-source software implementation capable of de-identified probabilistic matching despite discrepancies, via fuzzy representations and complete mismatches, plus de-identified deterministic matching if required. We validate the technique by testing linkage between multiple medical records systems in a UK National Health Service Trust, examining the effects of decision thresholds on linkage accuracy. We report demographic factors associated with correct linkage.\n                  \n                  \n                    Results\n                    \n                      The system supports dates of birth (DOBs), forenames, surnames, three-state gender, and UK postcodes. Fuzzy representations are supported for all except gender, and there is support for additional transformations, such as accent misrepresentation, variation for multi-part surnames, and name re-ordering. Calculated log odds predicted a proband’s presence in the sample database with an area under the receiver operating curve of 0.997–0.999 for non-self database comparisons. Log odds were converted to a decision via a consideration threshold\n                      θ\n                      and a leader advantage threshold\n                      δ\n                      . Defaults were chosen to penalize misidentification 20-fold versus linkage failure. By default, complete DOB mismatches were disallowed for computational efficiency. At these settings, for non-self database comparisons, the mean probability of a proband being correctly declared to be in the sample was 0.965 (range 0.931–0.994), and the misidentification rate was 0.00249 (range 0.00123–0.00429). Correct linkage was positively associated with male gender, Black or mixed ethnicity, and the presence of diagnostic codes for severe mental illnesses or other mental disorders, and negatively associated with birth year, unknown ethnicity, residential area deprivation, and presence of a pseudopostcode (e.g. indicating homelessness). Accuracy rates would be improved further if person-unique identifiers were also used, as supported by the software. Our two largest databases were linked in 44 min via an interpreted programming language.\n                    \n                  \n                  \n                    Conclusions\n                    Fully de-identified matching with high accuracy is feasible without a person-unique identifier and appropriate software is freely available.",
+  "focus": "The authors develop a Bayesian matching technique that links records across organisations without sharing direct identifiers and without a common person-unique identifier, using fuzzy representations that tolerate discrepancies and even complete mismatches on some fields, with an open-source implementation. Validated across medical record systems in a UK NHS Trust, log-odds scores achieved AUC 0.997–0.999, with mean correct-linkage probability 0.965 and misidentification rate 0.00249 at default thresholds that penalise misidentification 20-fold over missed linkage.",
+  "borrow": "Two design elements are directly borrowable: the two-threshold decision rule (a consideration threshold plus a leader-advantage threshold) with an explicit cost ratio between misidentification and missed linkage, which gives ERBOT a principled clerical-review band; and fuzzy field representations that survive complete mismatches on individual fields.",
+  "fill": "The system is built around a small fixed field set — date of birth, forenames, surnames, gender, UK postcodes — and validated on NHS data; extending de-identified Bayesian matching to richer schemas and non-health domains is left open for us.",
+  "correct": "Complete date-of-birth mismatches were disallowed by default for computational efficiency, so the reported accuracy excludes a real error class; and correct linkage varied by demographic group, so the headline rates conceal subgroup disparities that matter for deployment.",
+  "verified": true
+ },
+ {
+  "n": 656,
+  "id": "er-656",
   "title": "Labeling without Seeing? Blind Annotation for Privacy-Preserving Entity Resolution",
   "authors": [
    "Yixiang Yao",
@@ -13123,8 +19723,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 436,
-  "id": "er-436",
+  "n": 657,
+  "id": "er-657",
   "title": "MedLink: De-Identified Patient Health Record Linkage",
   "authors": [
    "Zhenbang Wu",
@@ -13153,8 +19753,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 437,
-  "id": "er-437",
+  "n": 658,
+  "id": "er-658",
   "title": "Privacy-Preserving Linkage of Distributed Datasets using the Personal Health Train",
   "authors": [
    "Maximilian Jugl",
@@ -13187,8 +19787,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 438,
-  "id": "er-438",
+  "n": 659,
+  "id": "er-659",
   "title": "Privacy-Preserving Record Linkage for Cardinality Counting",
   "authors": [
    "Nan Wu",
@@ -13218,8 +19818,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 439,
-  "id": "er-439",
+  "n": 660,
+  "id": "er-660",
+  "title": "Privacy-Preserving Record Linkage for Real-World Data",
+  "authors": [
+   "Tianyu Zhan",
+   "Yixin Fang",
+   "Weili He"
+  ],
+  "year": 2023,
+  "venue": "Real-World Evidence in Medical Product Development",
+  "doi": "10.1007/978-3-031-26328-6_7",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This chapter, in a Springer volume on real-world evidence in medical product development, presents privacy-preserving record linkage as applied to real-world (health) data. The record has no abstract, so its specific guidance is not documented here.",
+  "borrow": "A practitioner-oriented account of PPRL in regulated medical settings is useful to ERBOT as a requirements checklist: consent, governance, and data-sharing constraints that a privacy stage must satisfy outside a research prototype.",
+  "fill": "A practice chapter leaves open reproducible benchmarks and open implementations of the workflows it describes; turning its guidance into tested, runnable PPRL configurations is work we can pick up.",
+  "correct": "Book-chapter guidance can lag the research frontier, in particular the cryptanalysis literature on Bloom-filter encodings; with no abstract in the record, the chapter's currency and evidentiary basis cannot be assessed here.",
+  "verified": true
+ },
+ {
+  "n": 661,
+  "id": "er-661",
   "title": "Strengthening Privacy-Preserving Record Linkage using Diffusion",
   "authors": [
    "Frederik Armknecht",
@@ -13247,8 +19876,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 440,
-  "id": "er-440",
+  "n": 662,
+  "id": "er-662",
   "title": "A Parallel Multi-Party Privacy-Preserving Record Linkage Method Based on a Consortium Blockchain",
   "authors": [
    "Shumin Han",
@@ -13279,8 +19908,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 441,
-  "id": "er-441",
+  "n": 663,
+  "id": "er-663",
   "title": "Accuracy of privacy preserving record linkage for real world data in the United States: a systemic review",
   "authors": [
    "Khushi Tyagi",
@@ -13308,8 +19937,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 442,
-  "id": "er-442",
+  "n": 664,
+  "id": "er-664",
+  "title": "Data Privacy for Record Linkage and Beyond",
+  "authors": [
+   "Shurong Lin",
+   "Eric Kolaczyk"
+  ],
+  "year": 2024,
+  "venue": "",
+  "doi": "10.3386/w32940",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "An NBER working paper (2024) on data privacy for record linkage and beyond, bringing a formal statistical-privacy perspective to the disclosure problems created by linking records across datasets. The record carries no abstract, so the paper's specific framework and results are not summarized here.",
+  "borrow": "The formal-privacy viewpoint is borrowable for ERBOT's governance layer: it can inform how we quantify and report the disclosure risk of linked outputs rather than treating privacy as an informal checklist.",
+  "fill": "As a framework-oriented working paper, it leaves open implementation inside production-scale ER pipelines and empirical privacy–utility measurements on real linkage tasks — the applied side we can develop and test in ERBOT.",
+  "correct": "This is an unreviewed working paper and the record carries no abstract, so its claims and evidence cannot be assessed here; formal privacy guarantees also typically protect specific release mechanisms, not the whole linkage workflow, which limits how directly they apply.",
+  "verified": true
+ },
+ {
+  "n": 665,
+  "id": "er-665",
   "title": "Enhanced Multi-Party Privacy-Preserving Record Linkage Using Trusted Execution Environments",
   "authors": [
    "Shumin Han",
@@ -13339,8 +19996,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 443,
-  "id": "er-443",
+  "n": 666,
+  "id": "er-666",
   "title": "Feasibility of Privacy-Preserving Entity Resolution on Confidential Healthcare Datasets Using Homomorphic Encryption",
   "authors": [
    "Yixiang Yao",
@@ -13370,8 +20027,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 444,
-  "id": "er-444",
+  "n": 667,
+  "id": "er-667",
   "title": "Linkage Deanonymization Risks, Data-Matching and Privacy: A Case Study",
   "authors": [
    "William Wong",
@@ -13401,8 +20058,67 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 445,
-  "id": "er-445",
+  "n": 668,
+  "id": "er-668",
+  "title": "Linkage for risk-sensitive environments: Australian examples of privacy-preserving record linkage using Bloom filters",
+  "authors": [
+   "Anna Ferrante",
+   "Adrian Brown",
+   "Sean Randall",
+   "James Boyd"
+  ],
+  "year": 2024,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v9i5.2636",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "Introduction Organisations are increasingly aware of the risks and responsibilities of handling personally identifying information (PII). These factors not only influence internal data management practices but also impact on data linkage arrangements with other parties. Some linkage environments are particularly sensitive to the release or use of PII. Advances in privacy-preserving record linkage methods such as PPRL-using-Bloom make it possible to undertake highly accurate data linkage without release or disclosure of PII. Such methods play a role in enabling data linkage in risk-sensitive environments. \r\nObjectives and ApproachWe present and describe several Australian case studies where the PPRL-using-Bloom method has been used to enable data linkage between organisations. We report on the defining elements of each case, the associated risks and solutions, as well as quality and performance issues. We also reflect on challenges and opportunities for future improvement.\r\nResultsAustralian use cases utilising privacy preserving linkage (PPRL-using-Bloom) include projects linking state-based datasets to Commonwealth datasets, some linking primary care data to state-based secondary healthcare data, and others linking healthcare data to non-health datasets such as police and criminal justice datasets.\r\nConclusion / ImplicationsMethods such as PPRL-using-Bloom play a critical role in enabling data linkage in highly risk-sensitive environments. However, in an ever evolving world where risks and requirements are constantly changing, linkage methodologies and technologies must remain adaptable to meet evolving demands.",
+  "focus": "This IJPDS paper presents Australian case studies of Bloom-filter PPRL in risk-sensitive settings, including state-to-Commonwealth linkages, primary-care to hospital data, and health data linked to police and criminal-justice data. It reports the defining risks, solutions, and quality/performance issues of each case, and reflects on future improvements.",
+  "borrow": "Production deployment lessons are the value here for ERBOT: how a linkage unit frames risk, tunes Bloom-filter parameters, and handles quality problems in real PPRL, which informs our own privacy-stage parameter choices far better than synthetic benchmarks alone.",
+  "fill": "Case studies report experience rather than controlled comparison; they leave open head-to-head benchmarks of encodings for accuracy and attack resistance under identical conditions. Running those comparisons is a concrete gap we can fill.",
+  "correct": "The paper's framing that Bloom-filter PPRL enables 'highly accurate linkage without release or disclosure of PII' understates the known frequency-based cryptanalysis of Bloom filters; the authors' own emphasis on evolving risks partly concedes this, but readers should not take the encodings as disclosure-proof.",
+  "verified": true
+ },
+ {
+  "n": 669,
+  "id": "er-669",
+  "title": "Linkja: Open Source Privacy-Preserving Record Linkage Tool",
+  "authors": [
+   "Kruti Doshi",
+   "William Trick",
+   "Keiki Hinami"
+  ],
+  "year": 2024,
+  "venue": "International Journal of Population Data Science",
+  "doi": "10.23889/ijpds.v9i5.2852",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "ObjectiveTo introduce Linkja, an open-source, certified, Privacy-Preserving Record Linkage (PPRL) tool with the primary objective of facilitating secure and efficient record linkage across diverse datasets, while preserving individual privacy, providing a comprehensive and privacy-centric approach to program assessments.\r\nApproachLinkja has been used to evaluate Chicago’s Flexible Housing Pool program by securely linking various datasets, including Homeless Management Information Systems (HMIS), Electronic Health Records, Jail records, Medical Examiner reports, and Public Health data. Data contributors used separate honest brokers for record linkage, and generation of salt and cryptography keys.\r\nResultsLinkja enabled this multi-sector linkage by facilitating legal and data sharing agreements, avoided licensing fees and procurement processes for all parties, and provided a de-identified for analysis. The insights gleaned from the analysis motivated the FHP program to plan a follow-up evaluation that will add emergency serviced records from a separate City of Chicago department. The successful linkage provided a nuanced understanding of the association between stable housing and reduced healthcare utilization.\r\nConclusionsLinkja's cryptographic certification ensures the highest standards of security during data linkage, safeguarding sensitive information. The matching rules, validated on hard-to-match populations, prove essential in maintaining accuracy and reliability in the linkage process.\r\nImplicationsThe open-source nature of Linkja promotes transparency and collaboration in the development and enhancement of privacy-preserving record linkage techniques. This tool has broad implications for sectors dealing with sensitive data, fostering responsible data-sharing practices, and enabling secure collaborative research initiatives without compromising individual privacy.",
+  "focus": "Linkja is an open-source, certified privacy-preserving record linkage tool, introduced through its use in evaluating Chicago's Flexible Housing Pool: data contributors linked Homeless Management Information System, electronic health record, jail, medical examiner, and public health data using separate honest brokers who generated the salts and cryptographic keys. The linkage avoided licensing fees, produced a de-identified analysis file, and informed a planned follow-up evaluation.",
+  "borrow": "The honest-broker workflow — separate parties holding salts and keys, validated matching rules for hard-to-match populations, and the surrounding data-sharing agreements — is a deployment template ERBOT's PPRL mode can mirror, not just an algorithm.",
+  "fill": "The evidence comes from one city's multi-sector programme; independent accuracy benchmarking of Linkja against other PPRL tools on shared ground-truth data, and its behaviour outside health and housing data, are left open for us to test.",
+  "correct": "The abstract reports programme outcomes — linkage achieved, insights gained — rather than controlled precision and recall figures against ground truth, and the security 'certification' is the tool's own process rather than an independent audit reported here.",
+  "verified": true
+ },
+ {
+  "n": 670,
+  "id": "er-670",
   "title": "Multi-Layer Privacy-Preserving Record Linkage with Clerical Review based on gradual information disclosure",
   "authors": [
    "Florens Rohde",
@@ -13431,8 +20147,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 446,
-  "id": "er-446",
+  "n": 671,
+  "id": "er-671",
   "title": "R+R: Revisiting Graph Matching Attacks on Privacy-Preserving Record Linkage",
   "authors": [
    "Jochen Schäfer",
@@ -13461,8 +20177,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 447,
-  "id": "er-447",
+  "n": 672,
+  "id": "er-672",
   "title": "Towards Split Learning-based Privacy-Preserving Record Linkage",
   "authors": [
    "Michail Zervas",
@@ -13491,8 +20207,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 448,
-  "id": "er-448",
+  "n": 673,
+  "id": "er-673",
   "title": "A Framework for the Design of Privacy-Preserving Record Linkage Systems",
   "authors": [
    "Zixin Nie",
@@ -13523,8 +20239,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 449,
-  "id": "er-449",
+  "n": 674,
+  "id": "er-674",
   "title": "Accelerating Probabilistic Privacy-Preserving Medical Record Linkage: A Three-Party Mpc Approach",
   "authors": [
    "Şeyma Selcan Mağara",
@@ -13555,8 +20271,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 450,
-  "id": "er-450",
+  "n": 675,
+  "id": "er-675",
   "title": "Embedding based Encoding Scheme for Privacy Preserving Record Linkage",
   "authors": [
    "Sirintra Vaiwsri",
@@ -13585,8 +20301,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 451,
-  "id": "er-451",
+  "n": 676,
+  "id": "er-676",
   "title": "Information Leakage in Data Linkage",
   "authors": [
    "Peter Christen",
@@ -13615,8 +20331,68 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 452,
-  "id": "er-452",
+  "n": 677,
+  "id": "er-677",
+  "title": "Privacy-Preserving Record Linkage Over Big Data Platforms",
+  "authors": [
+   "Elias Dritsas",
+   "Maria Trigka",
+   "Phivos Mylonas"
+  ],
+  "year": 2025,
+  "venue": "2025 International Conference on INnovations in Intelligent SysTems and Applications (INISTA)",
+  "doi": "10.1109/inista68122.2025.11249628",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "scalable"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "large (100K-1M)",
+  "abstract": "",
+  "focus": "This 2025 conference paper addresses privacy-preserving record linkage carried out over big data platforms. The record carries no abstract, so the description rests on the title only.",
+  "borrow": "Its platform-level perspective is a reference point when ERBOT's PPRL stage has to be mapped onto distributed infrastructure rather than a single machine.",
+  "fill": "The record supplies no methods or measurements, so a cross-platform empirical comparison — same encodings, same data, different engines — remains for us to produce.",
+  "correct": "With no abstract in the record, the paper's actual contribution and evaluation cannot be verified from the record itself.",
+  "verified": true
+ },
+ {
+  "n": 678,
+  "id": "er-678",
+  "title": "SecUREmatch: Integrating Clerical Review in Privacy-Preserving Record Linkage",
+  "authors": [
+   "Florens Rohde",
+   "Victor Christen",
+   "Erhard Rahm"
+  ],
+  "year": 2025,
+  "venue": "Companion of the 2025 International Conference on Management of Data",
+  "doi": "10.1145/3722212.3725131",
+  "citations": 1,
+  "themes": [
+   "privacy-bayesian",
+   "evaluation"
+  ],
+  "method": [
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "SecUREmatch integrates a clerical review step into privacy-preserving record linkage, so that uncertain candidate pairs can be inspected by human reviewers despite the privacy constraints of encoded data. The record carries no abstract, so the description rests on the title and the SIGMOD companion venue.",
+  "borrow": "A privacy-aware clerical-review queue — showing reviewers only what they may see, and capturing their decisions as labels — is a concrete design ERBOT can adopt for its evaluation stage in PPRL projects.",
+  "fill": "The record documents no evaluation, leaving open the key design questions we would need to answer: how review decisions should feed back into matching thresholds, and how much information the review interface itself leaks about the encoded records.",
+  "correct": "Clerical review in PPRL inherently trades privacy for linkage quality, and this record gives no measurements of either side of that trade-off.",
+  "verified": true
+ },
+ {
+  "n": 679,
+  "id": "er-679",
   "title": "Secure privacy-preserving record linkage system from re-identification attack",
   "authors": [
    "Sejong Lee",
@@ -13645,8 +20421,36 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 453,
-  "id": "er-453",
+  "n": 680,
+  "id": "er-680",
+  "title": "Using Identification Codes in the Two-Party Privacy-Preserving Record Linkage (PPRL)",
+  "authors": [
+   "Yanling Chen"
+  ],
+  "year": 2025,
+  "venue": "JUCS - Journal of Universal Computer Science",
+  "doi": "10.3897/jucs.167412",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian",
+   "evaluation"
+  ],
+  "method": [
+   "probabilistic"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "In this paper, we show the problem of two-party privacy-preserving record linkage (PPRL) can be seen as an identification problem in Information Theory. We propose to apply the identification codes that are designed for identification via channels to the problem of PPRL, due to their advantage in the performance analysis, especially on a quantitative evaluation of the privacy. Note that for the PPRL, linkage quality is typically evaluated experimentally, whilst for privacy, there are so far no commonly accepted privacy measures available that allow an objective evaluation. Our approach of identification code provides an objective evaluation on both linkage quality and privacy based on parameters of employed identification codes.",
+  "focus": "This JUCS paper reframes two-party PPRL as an identification problem in information theory and applies identification codes to it. The payoff claimed is an objective, parameter-based evaluation of both linkage quality and privacy, in a field where privacy is usually only assessed experimentally and no commonly accepted privacy measures exist.",
+  "borrow": "An objective privacy metric is something ERBOT's privacy stage badly needs: reporting privacy as a computable parameter alongside precision/recall would make our PPRL configurations comparable instead of anecdotal.",
+  "fill": "The paper leaves open empirical validation: whether identification-code parameters predict actual attack success on real linkage tasks, and how the framework compares with attack-based privacy evaluation. Running that validation is a concrete task for us.",
+  "correct": "Information-theoretic guarantees hold under the model's channel and adversary assumptions, which may not match real attackers who exploit auxiliary data; the abstract reports no empirical linkage results, so the framework's practical calibration remains unproven.",
+  "verified": true
+ },
+ {
+  "n": 681,
+  "id": "er-681",
   "title": "A Comprehensive Bayesian Approach to Entity Resolution for Data with Multiple Truths",
   "authors": [
    "Hyungjoon Kim",
@@ -13675,8 +20479,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 454,
-  "id": "er-454",
+  "n": 682,
+  "id": "er-682",
   "title": "Multimodal Privacy-Preserving Entity Resolution with Fully Homomorphic Encryption",
   "authors": [
    "Susim Roy",
@@ -13703,8 +20507,37 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 455,
-  "id": "er-455",
+  "n": 683,
+  "id": "er-683",
+  "title": "Privacy Implications on Record Linkage",
+  "authors": [
+   "Dinusha Vatsalan",
+   "Hassan Asghar",
+   "Dali Kaafar"
+  ],
+  "year": 2026,
+  "venue": "Advances in Information Security",
+  "doi": "10.1007/978-3-032-21932-9_7",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "mixed",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "A book chapter (in Advances in Information Security, 2026) examining the privacy implications of record linkage itself — the disclosure risks created when records are linked and what privacy-preserving linkage must defend against. The record carries no abstract, so the chapter's specific arguments are characterized only at this level.",
+  "borrow": "A structured account of linkage-specific privacy risks gives ERBOT a threat checklist: if linked outputs are ever shared, the chapter's risk framing can structure our privacy review of what linkage reveals beyond the input files.",
+  "fill": "An implications analysis identifies risks rather than delivering evaluated defenses inside a working pipeline; implementing concrete protections in ERBOT and measuring their privacy–utility trade-off remains open work for us.",
+  "correct": "Without an abstract or visible empirical content, the chapter's risk claims cannot be weighed from this record; privacy-implication discussions can either overstate hypothetical attacks or understate practical ones when they are not tied to demonstrated attack evaluations.",
+  "verified": true
+ },
+ {
+  "n": 684,
+  "id": "er-684",
   "title": "Privacy-Preserving Screening for Record Linkage",
   "authors": [
    "Chenyu Huang",
@@ -13737,8 +20570,95 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 456,
-  "id": "er-456",
+  "n": 685,
+  "id": "er-685",
+  "title": "Salt-Hashed Bloom Filter Encoding for Privacy-Preserving Patient Record Linkage in Distributed Healthcare Systems",
+  "authors": [
+   "Saiteja Jonnalagadda"
+  ],
+  "year": 2026,
+  "venue": "2026 Interdisciplinary Conference on Electrics and Computer (INTCEC)",
+  "doi": "10.1109/intcec70253.2026.11764741",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "hashing/LSH"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This 2026 conference paper proposes a salt-hashed Bloom filter encoding for privacy-preserving patient record linkage across distributed healthcare systems. The record has no abstract, so the encoding parameters and evaluation are not documented here.",
+  "borrow": "Salting is a cheap hardening step for Bloom-filter encodings that ERBOT's privacy stage can adopt, and the distributed-healthcare framing matches the multi-site setting where PPRL is most often required.",
+  "fill": "The paper leaves open measured resistance of the salted encoding to known Bloom-filter attacks, and the linkage-quality cost of the extra hashing, both of which need empirical quantification we can supply.",
+  "correct": "A single-author conference paper with no abstract in the record offers no verifiable evidence; moreover, salting protects only as long as salts and parameters stay secret and well chosen, a condition the record does not address.",
+  "verified": true
+ },
+ {
+  "n": 686,
+  "id": "er-686",
+  "title": "The Pressing Need for Privacy-Preservation in Modern Data Linkage",
+  "authors": [
+   "Dinusha Vatsalan",
+   "Hassan Asghar",
+   "Dali Kaafar"
+  ],
+  "year": 2026,
+  "venue": "Advances in Information Security",
+  "doi": "10.1007/978-3-032-21932-9_1",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "multi-source",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This book chapter (Advances in Information Security, 2026), by authors known for PPRL research, argues that privacy preservation is a pressing requirement in modern data linkage practice. The record has no abstract, so its specific arguments are not documented here.",
+  "borrow": "The chapter's threat-and-requirements framing is useful background for ERBOT: it articulates why a privacy stage belongs in a modern linkage pipeline and what risks it must answer, which helps justify design choices to collaborators.",
+  "fill": "An advocacy/overview chapter leaves open the constructive question: benchmarked, per-threat-model guidance on which PPRL technique to choose and at what quality cost. Producing that comparative evidence is a gap we can fill.",
+  "correct": "A 'pressing need' argument is a position statement, not evidence about any particular method's privacy-utility trade-off; with no abstract in the record, none of its claims can be checked from the record itself.",
+  "verified": true
+ },
+ {
+  "n": 687,
+  "id": "er-687",
+  "title": "The use of differential privacy for privacy-preserving record linkage: Protecting the bits but not the people",
+  "authors": [
+   "Sumayya Ziyad",
+   "Peter Christen",
+   "Rainer Schnell",
+   "Lucas Lange",
+   "Anushka Vidanage"
+  ],
+  "year": 2026,
+  "venue": "Information Systems",
+  "doi": "10.1016/j.is.2026.102726",
+  "citations": 0,
+  "themes": [
+   "privacy-bayesian"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This Information Systems paper (2026) critically examines applying differential privacy to privacy-preserving record linkage; its title states its thesis, that DP-style guarantees protect the encoded bits rather than the people behind the records. The record has no abstract, so the argument's details are not documented here.",
+  "borrow": "The critique is a discipline for ERBOT's privacy claims: a formal guarantee on an encoding does not automatically equal protection for individuals, so our privacy stage should state precisely what is protected, against whom, instead of borrowing DP's vocabulary loosely.",
+  "fill": "A critique leaves the constructive side open: person-level, measurable privacy criteria for linkage outputs that practitioners can actually compute and report. Helping define and test such criteria is a gap we can pick up.",
+  "correct": "With no abstract in the record, the strength of the critique cannot be assessed here; it also targets the specific project of DP-for-PPRL rather than mainstream encoding practice, so its conclusions should not be read as an indictment of PPRL in general.",
+  "verified": true
+ },
+ {
+  "n": 688,
+  "id": "er-688",
   "title": "Towards a Privacy-Preserving Reliability-Aware Entity Resolution for Attributed Graphs [Vision] (Technical Report)",
   "authors": [
    "Abdessamad Imine",
@@ -13766,8 +20686,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 457,
-  "id": "er-457",
+  "n": 689,
+  "id": "er-689",
   "title": "Cost-Effective In-Context Learning for Entity Resolution: A Design Space Exploration",
   "authors": [
    "Meihao Fan",
@@ -13799,8 +20719,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 458,
-  "id": "er-458",
+  "n": 690,
+  "id": "er-690",
   "title": "Cost-Efficient Prompt Engineering for Unsupervised Entity Resolution",
   "authors": [
    "Navapat Nananukul",
@@ -13828,8 +20748,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 459,
-  "id": "er-459",
+  "n": 691,
+  "id": "er-691",
   "title": "Entity Matching using Large Language Models",
   "authors": [
    "Ralph Peeters",
@@ -13857,8 +20777,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 460,
-  "id": "er-460",
+  "n": 692,
+  "id": "er-692",
   "title": "Using ChatGPT for Entity Matching",
   "authors": [
    "Ralph Peeters",
@@ -13885,8 +20805,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 461,
-  "id": "er-461",
+  "n": 693,
+  "id": "er-693",
   "title": "A Novel Approach to Optimize Large Language Models for Named Entity Matching with Monte Carlo Tree Search",
   "authors": [
    "Teon Volkova",
@@ -13914,8 +20834,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 462,
-  "id": "er-462",
+  "n": 694,
+  "id": "er-694",
   "title": "APE: Active Learning-based Tooling for Finding Informative Few-shot Examples for LLM-based Entity Matching",
   "authors": [
    "Kun Qian",
@@ -13954,8 +20874,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 463,
-  "id": "er-463",
+  "n": 695,
+  "id": "er-695",
   "title": "APrompt4EM: Augmented Prompt Tuning for Generalized Entity Matching",
   "authors": [
    "Yikuan Xia",
@@ -13986,8 +20906,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 464,
-  "id": "er-464",
+  "n": 696,
+  "id": "er-696",
   "title": "AnyMatch -- Efficient Zero-Shot Entity Matching with a Small Language Model",
   "authors": [
    "Zeyu Zhang",
@@ -14018,8 +20938,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 465,
-  "id": "er-465",
+  "n": 697,
+  "id": "er-697",
   "title": "BoostER: Leveraging Large Language Models for Enhancing Entity Resolution",
   "authors": [
    "Huahang Li",
@@ -14051,8 +20971,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 466,
-  "id": "er-466",
+  "n": 698,
+  "id": "er-698",
   "title": "Disambiguate Entity Matching using Large Language Models through Relation Discovery",
   "authors": [
    "Zezhou Huang"
@@ -14078,8 +20998,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 467,
-  "id": "er-467",
+  "n": 699,
+  "id": "er-699",
   "title": "Duplicate Detection with GenAI",
   "authors": [
    "Ian Ormesher"
@@ -14105,8 +21025,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 468,
-  "id": "er-468",
+  "n": 700,
+  "id": "er-700",
   "title": "Entity Alignment with Noisy Annotations from Large Language Models",
   "authors": [
    "Shengyuan Chen",
@@ -14139,8 +21059,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 469,
-  "id": "er-469",
+  "n": 701,
+  "id": "er-701",
   "title": "KcMF: A Knowledge-compliant Framework for Schema and Entity Matching with Fine-tuning-free LLMs",
   "authors": [
    "Yongqin Xu",
@@ -14169,8 +21089,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 470,
-  "id": "er-470",
+  "n": 702,
+  "id": "er-702",
   "title": "Learning from Natural Language Explanations for Generalizable Entity Matching",
   "authors": [
    "Somin Wadhwa",
@@ -14202,8 +21122,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 471,
-  "id": "er-471",
+  "n": 703,
+  "id": "er-703",
   "title": "Leveraging Large Language Models for Entity Matching",
   "authors": [
    "Qianyu Huang",
@@ -14231,8 +21151,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 472,
-  "id": "er-472",
+  "n": 704,
+  "id": "er-704",
   "title": "Leveraging Pretrained Language Models for Enhanced Entity Matching: A Comprehensive Study of Fine-Tuning and Prompt Learning Paradigms",
   "authors": [
    "Yu Wang",
@@ -14263,8 +21183,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 473,
-  "id": "er-473",
+  "n": 705,
+  "id": "er-705",
   "title": "Liberal Entity Matching as a Compound AI Toolchain",
   "authors": [
    "Silvery D. Fu",
@@ -14294,8 +21214,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 474,
-  "id": "er-474",
+  "n": 706,
+  "id": "er-706",
   "title": "Llm-Align: Utilizing Large Language Models for Entity Alignment in Knowledge Graphs",
   "authors": [
    "Xuan Chen",
@@ -14324,8 +21244,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 475,
-  "id": "er-475",
+  "n": 707,
+  "id": "er-707",
   "title": "Match, Compare, or Select? An Investigation of Large Language Models for Entity Matching",
   "authors": [
    "Tianshu Wang",
@@ -14359,8 +21279,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 476,
-  "id": "er-476",
+  "n": 708,
+  "id": "er-708",
   "title": "On Leveraging Large Language Models for Enhancing Entity Resolution: A Cost-efficient Approach",
   "authors": [
    "Huahang Li",
@@ -14394,8 +21314,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 477,
-  "id": "er-477",
+  "n": 709,
+  "id": "er-709",
   "title": "Active in-context learning for cross-domain entity resolution",
   "authors": [
    "Ziheng Zhang",
@@ -14426,8 +21346,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 478,
-  "id": "er-478",
+  "n": 710,
+  "id": "er-710",
   "title": "Efficient Record Linkage in the Age of Large Language Models: The Critical Role of Blocking",
   "authors": [
    "Nidhibahen Shah",
@@ -14460,8 +21380,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 479,
-  "id": "er-479",
+  "n": 711,
+  "id": "er-711",
   "title": "Entity Matching in the Era of Language Models: A Structured Literature Review",
   "authors": [
    "Jan-Philipp Awick",
@@ -14488,8 +21408,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 480,
-  "id": "er-480",
+  "n": 712,
+  "id": "er-712",
   "title": "Fine-Tuning Large Language Models for Entity Matching",
   "authors": [
    "Aaron Steiner",
@@ -14518,8 +21438,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 481,
-  "id": "er-481",
+  "n": 713,
+  "id": "er-713",
   "title": "Fine-tuning large language models with contrastive margin ranking loss for selective entity matching in product data integration",
   "authors": [
    "Qian Ruan",
@@ -14549,8 +21469,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 482,
-  "id": "er-482",
+  "n": 714,
+  "id": "er-714",
   "title": "How to Talk to Language Models: Serialization Strategies for Structured Entity Matching",
   "authors": [
    "Haoteng Yin",
@@ -14580,8 +21500,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 483,
-  "id": "er-483",
+  "n": 715,
+  "id": "er-715",
   "title": "In-context Clustering-based Entity Resolution with Large Language Models: A Design Space Exploration",
   "authors": [
    "Jiajie Fu",
@@ -14613,8 +21533,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 484,
-  "id": "er-484",
+  "n": 716,
+  "id": "er-716",
   "title": "Leveraging Language Models for Automated Patient Record Linkage",
   "authors": [
    "Mohammad Beheshti",
@@ -14644,8 +21564,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 485,
-  "id": "er-485",
+  "n": 717,
+  "id": "er-717",
   "title": "Structured Multi-Step Reasoning for Entity Matching Using Large Language Model",
   "authors": [
    "Rohan Bopardikar",
@@ -14673,8 +21593,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 486,
-  "id": "er-486",
+  "n": 718,
+  "id": "er-718",
   "title": "AgenticER: the next frontier in Entity Resolution",
   "authors": [
    "George Papadakis",
@@ -14704,8 +21624,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 487,
-  "id": "er-487",
+  "n": 719,
+  "id": "er-719",
   "title": "CaRL-EM: Cost-Aware Reinforcement Learning for Entity Matching with LLMs",
   "authors": [
    "Chaohui Guo",
@@ -14734,8 +21654,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 488,
-  "id": "er-488",
+  "n": 720,
+  "id": "er-720",
   "title": "Can we trust LLM Self-Explanations for Entity Resolution?",
   "authors": [
    "Tommaso Teofili",
@@ -14766,8 +21686,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 489,
-  "id": "er-489",
+  "n": 721,
+  "id": "er-721",
   "title": "Cost-Efficient RAG for Entity Matching with LLMs: A Blocking-based Batch Processing Framework",
   "authors": [
    "Chuangtao Ma",
@@ -14798,8 +21718,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 490,
-  "id": "er-490",
+  "n": 722,
+  "id": "er-722",
   "title": "DistillER: Knowledge Distillation in Entity Resolution with Large Language Models",
   "authors": [
    "Alexandros Zeakis",
@@ -14830,8 +21750,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 491,
-  "id": "er-491",
+  "n": 723,
+  "id": "er-723",
   "title": "EnsembleLink: Accurate Record Linkage Without Training Data",
   "authors": [
    "Noah Dasanaike"
@@ -14857,8 +21777,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 492,
-  "id": "er-492",
+  "n": 724,
+  "id": "er-724",
   "title": "Entity Matching using Decision Models",
   "authors": [
    "Aaron Steiner",
@@ -14887,8 +21807,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 493,
-  "id": "er-493",
+  "n": 725,
+  "id": "er-725",
   "title": "Entity Resolution in Practice: Lessons from a Self-Serve Pipeline",
   "authors": [
    "Kaushik Pavani",
@@ -14919,8 +21839,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 494,
-  "id": "er-494",
+  "n": 726,
+  "id": "er-726",
   "title": "Entity Resolution via Batched Oracle Queries",
   "authors": [
    "Lorenzo Balzotti",
@@ -14950,8 +21870,77 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 495,
-  "id": "er-495",
+  "n": 727,
+  "id": "er-727",
+  "title": "LLM-CER: An Interactive System for In-Context Clustering-Based Entity Resolution with Large Language Models",
+  "authors": [
+   "Haoyu Wang",
+   "Haitong Tang",
+   "Jiajie Fu",
+   "Arijit Khan",
+   "Sharad Mehrotra",
+   "Xiangyu Ke",
+   "Yunjun Gao"
+  ],
+  "year": 2026,
+  "venue": "Proceedings of the VLDB Endowment",
+  "doi": "10.14778/3827998.3828112",
+  "citations": 0,
+  "themes": [
+   "llm",
+   "clustering",
+   "evaluation"
+  ],
+  "method": [
+   "LLM",
+   "system"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "Entity Resolution (ER) identifies and links records that refer to the same real-world entity. Rule-based approaches rely on explicit similarity functions, while deep learning and pre-trained language model (PLM)-based methods require large amounts of task-specific labeled data, both of which are often difficult to obtain. Large Language Models (LLMs) provide a promising alternative via zero-shot or few-shot prompting. However, existing LLM-based ER methods still adopt the pairwise matching paradigm, leading to poor scalability and high API costs on large datasets. We introduce LLM-CER (LLM-powered Clustering-based ER), an interactive, end-to-end system that instructs LLMs to perform in-context clustering of records, that is,\n                    converting ER from pairwise matching into a clustering problem\n                    , to reduce the number of costly LLM interactions while preserving high matching quality. LLM-CER contributes three elements. First, a novel\n                    in-context clustering paradigm\n                    and a systematic design-space study of factors that affect LLMs' clustering behavior (set size, within-set diversity, record variation, and ordering). Second, an\n                    extensible pipeline and UI\n                    that let users select dataset subsets, tune clustering hyperparameters, and switch LLM models before execution. Third, an\n                    interactive visualization and monitoring suite\n                    that shows hierarchical clustering steps, flag potential misclusters, log every LLM API call, and report clustering quality and efficiency metrics across models and parameter settings. In the demo, attendees will (1) run end-to-end ER on representative datasets, (2) compare metric and cost trade-offs across configurations and LLMs, and (3) inspect and correct ambiguous clusters via the visualization tools.",
+  "focus": "LLM-CER is an interactive, end-to-end system that has LLMs perform in-context clustering of records, converting ER from pairwise matching into a clustering problem to reduce costly LLM interactions while preserving matching quality. It includes a systematic design-space study of factors affecting LLM clustering behavior (set size, within-set diversity, record variation, and ordering), plus a pipeline and UI for configuring runs and a visualization suite that flags potential misclusters and logs every LLM API call with quality and cost metrics.",
+  "borrow": "Two things transfer directly: the design-space findings on set size, diversity, and ordering for in-context clustering, and the practice of logging every LLM call with cost and quality metrics — an accounting discipline ERBOT should adopt for any LLM stage.",
+  "fill": "LLM-CER is an interactive demo system exercised on representative datasets; running in-context clustering as an unattended batch stage inside an automated pipeline over very large collections, with blocking feeding it and no human correcting clusters, is precisely the part left for us to build.",
+  "correct": "As a demo paper, the evidence is a guided tour rather than a controlled benchmark, and the clustering paradigm still presupposes that some earlier step has already grouped the right records into a set — the recall problem is moved, not solved.",
+  "verified": true
+ },
+ {
+  "n": 728,
+  "id": "er-728",
+  "title": "LLM-powered clustering for entity resolution",
+  "authors": [
+   "Jiajie Fu",
+   "Haitong Tang",
+   "Arijit Khan",
+   "Sharad Mehrotra",
+   "Xiangyu Ke",
+   "Yunjun Gao"
+  ],
+  "year": 2026,
+  "venue": "The VLDB Journal",
+  "doi": "10.1007/s00778-026-01006-1",
+  "citations": 0,
+  "themes": [
+   "llm",
+   "clustering"
+  ],
+  "method": [
+   "LLM"
+  ],
+  "supervision": "unsupervised",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This VLDB Journal paper studies entity resolution performed by large language models acting as clusterers: records are presented to the LLM in sets and grouped directly, rather than being matched pairwise. It comes from the same group behind the LLM-CER system and develops the in-context clustering line of work for ER.",
+  "borrow": "The set-wise prompting pattern — handing the model a block of records and asking for clusters — is a concrete way for us to use an LLM as ERBOT's clustering stage on hard blocks instead of paying for all pairwise comparisons.",
+  "fill": "The approach still depends on a prior step that forms the record sets the LLM sees; how blocking recall bounds LLM clustering quality, and how to compose sets at very large scale, remain open for us to work out in ERBOT.",
+  "correct": "Clustering quality from a prompted LLM is sensitive to set size, ordering, and record variation, so headline results may not transfer across datasets or model versions; the method also inherits LLM cost and nondeterminism that a deterministic pipeline avoids.",
+  "verified": true
+ },
+ {
+  "n": 729,
+  "id": "er-729",
   "title": "Labeling Training Data for Entity Matching Using Large Language Models",
   "authors": [
    "Aaron Steiner",
@@ -14980,8 +21969,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 496,
-  "id": "er-496",
+  "n": 730,
+  "id": "er-730",
   "title": "Prompt-tuning with Attribute Guidance for Low-resource Entity Matching",
   "authors": [
    "Lihui Liu",
@@ -15009,8 +21998,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 497,
-  "id": "er-497",
+  "n": 731,
+  "id": "er-731",
   "title": "Retrieve, Match, Escalate: Accurate and Scalable Product Linking with VLM-Distilled Cross-Encoders and Agentic VLMs",
   "authors": [
    "Jian Wang",
@@ -15045,8 +22034,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 498,
-  "id": "er-498",
+  "n": 732,
+  "id": "er-732",
   "title": "Same Entity, Different Script: Diagnosing Cross-Script Entity Matching Failures in Language Models",
   "authors": [
    "Athira Gopal",
@@ -15077,8 +22066,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 499,
-  "id": "er-499",
+  "n": 733,
+  "id": "er-733",
   "title": "Structure-Guided Entity Resolution: Fine-Tuning LLMs for Robust Name Matching in Complex Linguistic Contexts",
   "authors": [
    "Shivam Chourasia",
@@ -15107,8 +22096,8 @@ export const PAPERS: Paper[] = [
   "verified": true
  },
  {
-  "n": 500,
-  "id": "er-500",
+  "n": 734,
+  "id": "er-734",
   "title": "Unlocking the Power of Large Language Models for Multi-table Entity Matching",
   "authors": [
    "Yingkai Tang",
@@ -15138,6 +22127,34 @@ export const PAPERS: Paper[] = [
   "borrow": "Two pieces transfer to ERBOT's multi-source work: transitive consensus over embeddings as a pre-matching and clustering device when more than two sources are linked at once, and density-aware pruning to drop noisy entities before they pollute clusters.",
   "fill": "The framework is evaluated on six benchmark datasets; it leaves open how the LLM attribute-coordination step's cost grows as the number of sources and records reaches production scale, and how the modules behave when sources arrive incrementally rather than as a fixed set of tables — the scaling and streaming tests are left for us.",
   "correct": "This is an unreviewed preprint; the 5.1% average F1 gain is reported against a baseline the abstract does not name, and multi-table benchmarks are small and curated compared with real multi-source feeds, so the efficiency claims for surging entity counts are not demonstrated at genuinely large scale.",
+  "verified": true
+ },
+ {
+  "n": 735,
+  "id": "er-735",
+  "title": "Record linkage and entity matching using statistical, machine learning and LLM based models",
+  "authors": [
+   "Murat Sariyar"
+  ],
+  "year": 2027,
+  "venue": "Encyclopedia of Measurement in Social Sciences",
+  "doi": "10.1016/b978-0-443-26629-4.00057-5",
+  "citations": 0,
+  "themes": [
+   "llm",
+   "probabilistic"
+  ],
+  "method": [
+   "survey"
+  ],
+  "supervision": "n/a",
+  "dataType": "structured",
+  "scale": "n/a",
+  "abstract": "",
+  "focus": "This encyclopedia chapter surveys record linkage and entity matching models across three generations of technique: classical statistical models, machine learning models, and LLM-based models. It organizes the field by modeling paradigm for a measurement-in-the-social-sciences readership.",
+  "borrow": "The three-paradigm map is a useful checklist for ERBOT: it lets us state explicitly which paradigm each pipeline stage belongs to, and where an LLM component would actually replace a statistical one.",
+  "fill": "As a survey chapter it reports the state of the art rather than extending it; head-to-head evidence on when LLM-based models beat Fellegi–Sunter or boosted-tree matchers at scale remains for us to produce.",
+  "correct": "Encyclopedia surveys age quickly in their LLM segment and necessarily compress evaluation detail, so any specific performance impressions should be verified against the primary studies.",
   "verified": true
  }
 ];
