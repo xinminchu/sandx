@@ -161,7 +161,7 @@ export default function LibraryClient() {
     <div className="max-w-6xl mx-auto px-5 py-10">
       <h1 className="text-3xl font-bold tracking-tight">Literature Library</h1>
       <p className="mt-2 text-slate-500 text-sm leading-relaxed max-w-3xl">
-        A working library of entity resolution and record linkage research, organised by theme and
+        A working library of entity resolution and record linkage research, organized by theme and
         searchable from several angles. Every entry carries a short focus note and a preliminary
         three-lens reading — <strong>Borrow</strong> (what we can take from it), <strong>Fill</strong>{" "}
         (the gap it leaves for us — what it did not do that we can), <strong>Correct</strong> (what in

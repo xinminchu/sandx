@@ -117,7 +117,7 @@ export default function ExperimentsPage() {
         a fixed pair budget <em>B</em>, the only question that matters is{" "}
         <strong>which pairs you buy</strong>. ERBOT&apos;s blocking experiments
         (E1, E2) test two ways of spending that budget against the standard
-        fixed-<em>k</em> nearest-neighbour baseline — under a protocol designed
+        fixed-<em>k</em> nearest-neighbor baseline — under a protocol designed
         to keep us honest: budgets aligned to the pair, kill lines registered
         before the runs, and a permutation test that decides whether an
         apparent mechanism is real or a mirage.
@@ -166,7 +166,7 @@ export default function ExperimentsPage() {
         <ul className="mt-3 space-y-1.5 text-sm text-slate-600 leading-relaxed list-disc pl-5">
           <li>
             <strong>Shared pool.</strong> All arms draw from one candidate pool:
-            the union of per-record top-200 neighbours by character-3-gram
+            the union of per-record top-200 neighbors by character-3-gram
             bag-of-words cosine.
           </li>
           <li>
@@ -241,7 +241,7 @@ export default function ExperimentsPage() {
                   E1-R, 2026-11-22), perm p = 0.005{" "}
                   <Chip kind="ok">established</Chip>
                   <div className="text-xs text-slate-400 mt-1">
-                    October&apos;s +0.2835 was a pool-padding artefact of a
+                    October&apos;s +0.2835 was a pool-padding artifact of a
                     degenerate partition — see the E1 section.
                   </div>
                 </td>
@@ -294,9 +294,9 @@ export default function ExperimentsPage() {
         </h2>
         <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
           E2 replaces the uniform per-record budget with a learned allocation:
-          records whose next neighbours are still likely to be true matches
+          records whose next neighbors are still likely to be true matches
           receive more pairs; records that have run dry receive fewer. Two
-          calibration variants — A (Platt-calibrated model fitted on labelled
+          calibration variants — A (Platt-calibrated model fitted on labeled
           train pairs) and B (an unlabeled mixture model of the similarity
           profile) — land on exactly the same test result.
         </p>
@@ -593,10 +593,10 @@ export default function ExperimentsPage() {
           same pool, same budget? We re-ran five of them: <strong>global
           top-B</strong> (the whole pool ranked by cosine — the degenerate
           allocation with no per-record structure), <strong>adaptive-k</strong>{" "}
-          (each record keeps neighbours within a relative threshold of its own
+          (each record keeps neighbors within a relative threshold of its own
           best cosine, α tuned on train), <strong>meta-blocking</strong>{" "}
           (token blocks with block purging; edges weighted by common-block
-          count or Jaccard, plus weight-based neighbourhood pruning),{" "}
+          count or Jaccard, plus weight-based neighborhood pruning),{" "}
           <strong>sorted neighborhood</strong> (one lexicographic key, sliding
           window), and <strong>canopy</strong> (two-threshold greedy
           clustering). This comparison is descriptive — no permutation tests
@@ -900,7 +900,7 @@ permutation (R=999):  null +0.169 ± 0.016 · observed +0.3227 · p = 0.001`}
           <code className="font-mono text-[13px]">exp-e2-waterfill-v4.R</code>; the
           v3 diagnostic first reproduced the archived v2 numbers exactly. Every
           number on this page is taken from the archived run outputs without
-          modification. Dataset identities, gold construction and licences:{" "}
+          modification. Dataset identities, gold construction and licenses:{" "}
           <Link className="underline" href="/datasets">Datasets</Link>.
         </p>
         <p className="mt-2">

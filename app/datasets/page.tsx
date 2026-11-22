@@ -42,7 +42,7 @@ const DATASETS: Ds[] = [
     scale: "1,879 citation records, 182 gold clusters (verified against our copy).",
     fields:
       "16 segmented citation fields: title, booktitle, authors, address, date, year, editor, journal, volume, pages, publisher, institution, type, tech, note — plus the gold label.",
-    gold: "Hand-labelled citation clusters shipped with the RIDDLE distribution; ERBOT stores them as a duplicate-pair list (id1, id2).",
+    gold: "Hand-labeled citation clusters shipped with the RIDDLE distribution; ERBOT stores them as a duplicate-pair list (id1, id2).",
     usedBy: (
       <>
         A benchmark since Bilenko &amp; Mooney (KDD 2003, &ldquo;Adaptive Duplicate
@@ -94,7 +94,7 @@ const DATASETS: Ds[] = [
     gold: "Known by construction (Febrl generation). Our copy carries it as a pair file (10Kduplicates.csv, Entity1|Entity2) of generation links; clusters are the connected components of those pairs. A task-type note, because the name misleads: Febrl is a record-linkage system, but its generator emits a single originals-plus-duplicates table, and JedAI benchmarks these sets as Dirty ER — deduplication within one collection. Our copy has exactly that layout: one table, one id space, no source column.",
     usedBy: (
       <>
-        The JedAI experimental programme (Papadakis et al. 2020 and the
+        The JedAI experimental program (Papadakis et al. 2020 and the
         blocking/filtering evaluations around it) uses D10K as the smallest
         of a synthetic scale ladder (D10K&ndash;D2M). In ERBOT it is the ceiling
         case of the E1/E2 full-protocol matrix (2026), below.
@@ -127,7 +127,7 @@ const DATASETS: Ds[] = [
           Benchmark datasets for entity resolution
         </a>
         ; introduced with the FAMER multi-source matching framework (Saeedi,
-        Peukert &amp; Rahm). Distributed under a Creative Commons licence
+        Peukert &amp; Rahm). Distributed under a Creative Commons license
         (Leipzig DB Group, June 2019).
       </>
     ),
@@ -174,7 +174,7 @@ const DATASETS: Ds[] = [
         <a className="underline" href={LEIPZIG}>
           Leipzig benchmark page
         </a>{" "}
-        under a Creative Commons licence (Leipzig DB Group, Jan 2019).
+        under a Creative Commons license (Leipzig DB Group, Jan 2019).
       </>
     ),
     scale: "2,173 records (1,081 Abt + 1,092 Buy), 1,076 entities in our Studio copy, 1,097 gold matches.",
@@ -205,7 +205,7 @@ const DATASETS: Ds[] = [
         <a className="underline" href={LEIPZIG}>
           Benchmark datasets for entity resolution
         </a>
-        , under a Creative Commons licence (June 2019). The strings were
+        , under a Creative Commons license (June 2019). The strings were
         extracted from the PDFs of database publications that appeared
         between 2000 and 2009.
       </>
@@ -246,7 +246,7 @@ const DATASETS: Ds[] = [
         benchmark&rsquo;s.
       </>
     ),
-    scale: "864 source records with 112 duplicates (RIDDLE distribution); DeepMatcher packaging: 946 labelled pairs, 110 positives. ERBOT Studio ships a 35-record toy sample.",
+    scale: "864 source records with 112 duplicates (RIDDLE distribution); DeepMatcher packaging: 946 labeled pairs, 110 positives. ERBOT Studio ships a 35-record toy sample.",
     fields: "ERBOT keeps id, source, name, addr, city, phone, type.",
     gold: "The duplicate labels shipped with the RIDDLE Restaurant distribution; ERBOT&rsquo;s builder turns the DeepMatcher matches file into (id, cluster_id) gold.",
     usedBy: (
@@ -271,7 +271,7 @@ const DATASETS: Ds[] = [
       <>
         Bibliographic records from DBLP and the ACM Digital Library, first
         presented by Köpcke &amp; Rahm (2008); the Leipzig distribution is
-        Creative Commons (Jan 2019). Labelled train/validation/test
+        Creative Commons (Jan 2019). Labeled train/validation/test
         splits packaged by{" "}
         <a className="underline" href="https://github.com/anhaidgroup/deepmatcher">
           DeepMatcher
@@ -329,12 +329,12 @@ const DATASETS: Ds[] = [
       </>
     ),
     scale:
-      "Christen&rsquo;s merge: ~8.26M records over ~8.1M voters — ~98% of voters have one record, ~145,000 have two, ~3,500 have three to six. Panse et al. generated >120M labelled records from 45 snapshots. Raw records carry ~90 attributes (incl. the NCID).",
-    fields: "Names, addresses, age, gender, driver&rsquo;s licence and telephone numbers, race, ethnicity, party affiliation (~70 attributes in Christen&rsquo;s files; ~90 incl. district/election fields in the raw snapshots).",
+      "Christen&rsquo;s merge: ~8.26M records over ~8.1M voters — ~98% of voters have one record, ~145,000 have two, ~3,500 have three to six. Panse et al. generated >120M labeled records from 45 snapshots. Raw records carry ~90 attributes (incl. the NCID).",
+    fields: "Names, addresses, age, gender, driver&rsquo;s license and telephone numbers, race, ethnicity, party affiliation (~70 attributes in Christen&rsquo;s files; ~90 incl. district/election fields in the raw snapshots).",
     gold: "The voter registration number (NCID/VRN) identifies the voter — with Christen&rsquo;s explicit caveat that it is “not 100% correct”.",
     usedBy: (
       <>
-        Christen&rsquo;s record-linkage research programme; Panse et al.&rsquo;s
+        Christen&rsquo;s record-linkage research program; Panse et al.&rsquo;s
         large-scale duplicate-detection testbed; a ~100K Leipzig NC sample in
         Databricks&rsquo; Autolinker evaluation. In ERBOT it is the designated
         scale track: the design samples whole NCID clusters up a
@@ -402,9 +402,9 @@ export default function Datasets() {
         Every dataset ERBOT runs on &mdash; where it comes from, how it is
         structured, how its gold standard was built, who else has used it, and
         what analysing the data itself showed. Provenance is stated per
-        dataset; where a source or a licence is not established, the page says
+        dataset; where a source or a license is not established, the page says
         so instead of smoothing it over. ERBOT links to the original sources
-        rather than redistributing data it has no licence to share.
+        rather than redistributing data it has no license to share.
       </p>
       <p className="mt-3 text-slate-600 text-sm leading-relaxed">
         Short on time? The three experiment datasets tell the story:{" "}

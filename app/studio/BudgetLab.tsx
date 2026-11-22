@@ -183,7 +183,7 @@ export default function BudgetLab() {
         entity-disjoint 70/30 split, and five ways to spend exactly the same
         budget — <strong>fixed-k</strong>, <strong>global top-B</strong>{" "}
         (the whole pool ranked by cosine, no per-record structure),{" "}
-        <strong>adaptive-k</strong> (each record keeps neighbours within a
+        <strong>adaptive-k</strong> (each record keeps neighbors within a
         relative threshold of its own best match), <strong>E1 collective</strong>{" "}
         (community pairs + cross-community insurance), and{" "}
         <strong>E2 marginal allocation</strong> (water-filling by calibrated
