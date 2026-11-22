@@ -123,6 +123,43 @@ export default function ExperimentsPage() {
         apparent mechanism is real or a mirage.
       </p>
 
+      {/* plain-language guide */}
+      <section className="mt-6 border border-teal-200 bg-teal-50 rounded-xl p-6">
+        <h2 className="text-base font-semibold text-teal-900">
+          Reading this page — start here
+        </h2>
+        <p className="mt-2 text-sm text-teal-900/80 leading-relaxed max-w-3xl">
+          Blocking decides which record pairs a matcher ever gets to see, so a
+          blocking method&apos;s whole job is choosing pairs well. Every method
+          on this page spends the <em>same</em> fixed budget of pairs — the
+          only difference is which pairs it buys.
+        </p>
+        <ul className="mt-3 space-y-1.5 text-sm text-teal-900/80 leading-relaxed list-disc pl-5 max-w-3xl">
+          <li>
+            <strong>E2</strong> asks whether it helps to give more pairs to the
+            records that still look promising and fewer to the easy ones.{" "}
+            <strong>Yes — certified by permutation (p = 0.001)</strong> — but
+            only where the baseline leaves room: the gain tracks the
+            baseline&apos;s headroom, and on a saturated split it is exactly
+            zero.
+          </li>
+          <li>
+            <strong>E1</strong> asks whether communities in the similarity
+            graph concentrate the budget where duplicates live. The October run
+            never actually tested that — its communities had silently collapsed
+            to singletons. A corrected rerun on 2026-11-22 says{" "}
+            <strong>yes, dPC +0.1744, also certified (p = 0.005)</strong>.
+          </li>
+          <li>
+            <strong>How to read the page:</strong> the 3 × 2 matrix first, then
+            the Cora sections for the two effects; D10K and MusicBrainz-20K are
+            the ceiling cases that bound both claims. Numbers are archived run
+            outputs; where a figure was later corrected, the correction is
+            stated where it happens.
+          </li>
+        </ul>
+      </section>
+
       {/* protocol */}
       <section className="mt-10 border border-slate-200 rounded-xl p-6 bg-slate-50">
         <h2 className="text-lg font-semibold text-slate-800">The protocol (v2)</h2>
@@ -133,8 +170,14 @@ export default function ExperimentsPage() {
             bag-of-words cosine.
           </li>
           <li>
-            <strong>Entity-disjoint split.</strong> 70/30 train/test by gold
-            cluster (seed 20261012); all tuning and calibration on train only.
+            <strong>Entity-disjoint split.</strong> Split by entity: floor(0.7 ×
+            number of entities) to train, the rest to test, so no entity
+            appears on both sides — and because entities differ greatly in
+            size, the record counts are not 70/30. The two experiments use
+            their own seeds: E1, 20261012 (Cora test: 729 records); E2,
+            20261016 (Cora test: 604 records). All tuning and calibration on
+            train only. (20261020, once quoted here as the split seed, is the
+            MusicBrainz sample-construction seed — corrected 2026-11-22.)
           </li>
           <li>
             <strong>Exact budget alignment.</strong> Treatments are trimmed or
@@ -147,9 +190,19 @@ export default function ExperimentsPage() {
             permutation p &lt; 0.05.
           </li>
           <li>
-            <strong>Permutation attribution.</strong> R = 199 permutations of
-            the allocation profile (E2) or the community labels (E1);
-            p = 0.005 is the floor at this R.
+            <strong>Permutation attribution.</strong> E2 on Cora: R = 999
+            permutations of the allocation profile (p = 0.001, rerun
+            2026-11-22); E1-R: R = 199 permutations of the community labels
+            (p = 0.005); E2 multi-seed: R = 199 per split. The floor of the
+            empirical p is 1/(R + 1).
+          </li>
+          <li>
+            <strong>November 22 amendments.</strong> A partition health gate
+            (a community partition with singleton rate &gt; 0.90 is degenerate
+            and disqualified from tuning) and native-pair logging
+            (pre-alignment pair count and PC, plus the retained/padded split
+            of the aligned set) — both added after the E1 diagnosis; see the
+            E1 section.
           </li>
           <li>
             <strong>Metric.</strong> PC = pair completeness (share of true
@@ -163,8 +216,10 @@ export default function ExperimentsPage() {
       <section className="mt-12">
         <h2 className="text-xl font-semibold text-slate-800">The 3 × 2 matrix, closed</h2>
         <p className="mt-2 text-sm text-slate-500">
-          Full-protocol v2 runs, 2026-10-20/21. E1 and E2 use different test
-          splits, hence two Cora baselines.
+          Full-protocol v2 runs, 2026-10-20/21, updated 2026-11-22: E1 is the
+          corrected rerun (E1-R), E2&apos;s permutation is R = 999, and E2
+          has a multi-seed check below. E1 and E2 use different test splits,
+          hence two Cora baselines.
         </p>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-sm border-collapse">
@@ -182,12 +237,21 @@ export default function ExperimentsPage() {
                 <td className="py-3 pr-4 font-medium">Cora</td>
                 <td className="py-3 pr-4 font-mono text-[13px]">0.7050 (E1) · 0.5865 (E2)</td>
                 <td className="py-3 pr-4">
-                  dPC <span className="font-mono text-[13px]">+0.2835</span>, perm p = 1.0{" "}
-                  <Chip kind="no">attribution rejected</Chip>
+                  dPC <span className="font-mono text-[13px]">+0.1744</span> (corrected run
+                  E1-R, 2026-11-22), perm p = 0.005{" "}
+                  <Chip kind="ok">established</Chip>
+                  <div className="text-xs text-slate-400 mt-1">
+                    October&apos;s +0.2835 was a pool-padding artefact of a
+                    degenerate partition — see the E1 section.
+                  </div>
                 </td>
                 <td className="py-3 pr-4">
                   dPC <span className="font-mono text-[13px]">+0.3227</span> (both variants),
-                  perm p = 0.005 <Chip kind="ok">established</Chip>
+                  perm p = 0.001 (R = 999) <Chip kind="ok">established</Chip>
+                  <div className="text-xs text-slate-400 mt-1">
+                    Frozen split; across four splits +0.3227 / +0.2116 /
+                    +0.0126 / +0.0000 — see below.
+                  </div>
                 </td>
                 <td className="py-3">The effect lives here: the baseline cannot saturate.</td>
               </tr>
@@ -249,62 +313,198 @@ export default function ExperimentsPage() {
           A gain of dPC +0.3227 on <em>fewer</em> pairs (−1.5%). The
           permutation test then splits the credit. Shuffling <em>who</em> gets
           the budget — keeping the multiset of per-record budgets fixed —
-          still buys ≈ +0.170: that half is generic pool mechanics (any
+          still buys ≈ +0.169: that half is generic pool mechanics (any
           reallocation beats the rigid grid). The observed allocation adds a
           further ≈ +0.15 on top, and that increment is what the test
-          certifies: it beat all 199 permutations (variant A null mean
-          +0.1704, sd 0.0156; variant B +0.1697, sd 0.0154).
+          certifies: at R = 999 (rerun 2026-11-22), it beat all 999
+          permutations for both variants (variant A null mean +0.1693, sd
+          0.0164; variant B +0.1696, sd 0.0160; p = 0.001, the floor at this R).
         </p>
         <div className="mt-4 border border-slate-200 rounded-xl p-5">
           <PermChart
             min={-0.02}
             max={0.36}
-            nullMean={0.1704}
-            nullSd={0.0156}
+            nullMean={0.1693}
+            nullSd={0.0164}
             observed={0.3227}
             zeroLabel="fixed-k · dPC 0"
-            nullLabel="random allocation · +0.170 ± 0.016"
-            obsLabel="observed · +0.3227 · p = 0.005"
+            nullLabel="random allocation · +0.169 ± 0.016"
+            obsLabel="observed · +0.3227 · p = 0.001"
           />
           <p className="text-xs text-slate-400 mt-1">
-            dPC axis. Teal band: permutation null, mean ± 2 sd (R = 199).
-            Claim, precisely: <em>who gets the budget matters, beyond the
-            shape of the budget profile.</em>
+            dPC axis. Teal band: permutation null, mean ± 2 sd (R = 999,
+            2026-11-22). Claim, precisely: <em>who gets the budget matters,
+            beyond the shape of the budget profile.</em>
           </p>
         </div>
+        <h3 className="mt-8 font-semibold text-slate-800">
+          Multi-seed robustness — the headline is a property of the split (2026-11-22)
+        </h3>
+        <p className="mt-2 text-slate-600 leading-relaxed max-w-3xl">
+          The frozen split is one draw. The full E2 protocol was rerun on three
+          fresh split seeds, each judged independently under the same kill
+          lines, all reported as drawn. The attribution holds on every split —
+          the observed allocation beat all 199 permuted profiles in all eight
+          variant-tests — but the size tracks the headroom the baseline leaves.
+          The honest summary: +0.3227 is the frozen split&apos;s value, not a
+          constant of the dataset.
+        </p>
+        <div className="mt-4 border border-slate-200 rounded-xl divide-y divide-slate-100 max-w-3xl">
+          <div className="p-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-medium text-slate-800">Frozen split · seed 20261016</span>
+              <span className="text-xs text-slate-500">604 test rows</span>
+              <Chip kind="ok">holds</Chip>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
+              <span>Baseline PC <span className="font-mono text-[13px]">0.5865</span></span>
+              <span>Headroom <span className="font-mono text-[13px]">0.4135</span></span>
+              <span>dPC <span className="font-mono text-[13px] font-semibold text-teal-700">+0.3227</span></span>
+              <span>Permutation p = 0.001 (R = 999)</span>
+            </div>
+          </div>
+          <div className="p-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-medium text-slate-800">Seed 20261021</span>
+              <span className="text-xs text-slate-500">738 test rows</span>
+              <Chip kind="ok">holds</Chip>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
+              <span>Baseline PC <span className="font-mono text-[13px]">0.4156</span></span>
+              <span>Headroom <span className="font-mono text-[13px]">0.5844</span></span>
+              <span>dPC <span className="font-mono text-[13px] font-semibold text-teal-700">+0.2116</span></span>
+              <span>Permutation p = 0.005 (R = 199)</span>
+            </div>
+          </div>
+          <div className="p-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-medium text-slate-800">Seed 20261022</span>
+              <span className="text-xs text-slate-500">582 test rows</span>
+              <Chip kind="ok">holds — trivial size</Chip>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
+              <span>Baseline PC <span className="font-mono text-[13px]">0.9872</span></span>
+              <span>Headroom <span className="font-mono text-[13px]">0.0128</span></span>
+              <span>dPC <span className="font-mono text-[13px] font-semibold text-teal-700">+0.0126</span></span>
+              <span>Permutation p = 0.005 (R = 199)</span>
+            </div>
+          </div>
+          <div className="p-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-medium text-slate-800">Seed 20261023</span>
+              <span className="text-xs text-slate-500">289 test rows</span>
+              <Chip kind="dead">kill line — no headroom</Chip>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-600">
+              <span>Baseline PC <span className="font-mono text-[13px]">1.0000</span></span>
+              <span>Headroom <span className="font-mono text-[13px]">0.0000</span></span>
+              <span>dPC <span className="font-mono text-[13px] font-semibold">+0.0000</span></span>
+              <span>Permutation null −0.0170 / −0.0160 (A / B)</span>
+            </div>
+          </div>
+        </div>
+        <p className="mt-3 text-sm text-slate-500 leading-relaxed max-w-3xl">
+          Headroom shares captured: 78% (frozen), 36% (20261021), 98%
+          (20261022) — no fixed capture rate, but the bound holds everywhere:
+          gains appear only inside the headroom. Seed 20261023&apos;s baseline
+          is already perfect, so its kill line fires and the seed does not
+          support the improvement claim; its negative permutation nulls still
+          show the observed profile beating random ones.
+        </p>
       </section>
 
       {/* Cora E1 */}
       <section className="mt-14">
         <h2 className="text-xl font-semibold text-slate-800">
-          Cora · E1 collective blocking — a bigger headline, a rejected explanation
+          Cora · E1 collective blocking — three acts: a headline, a diagnosis, a corrected rerun
         </h2>
         <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
           E1 allocates the budget by community: Leiden communities on the
           similarity graph receive budget shares, on the theory that dense
-          regions hide more duplicates. At an exactly aligned budget
-          (24,267 pairs, deviation +0.00%) the headline is even larger than
-          E2&apos;s — and the permutation test refuses to certify it.
+          regions hide more duplicates. The October run produced the largest
+          headline on this page — and a permutation test that refused to
+          certify it. On 2026-11-22 we found out why, and reran it corrected.
+        </p>
+
+        <h3 className="mt-8 font-semibold text-slate-800">
+          Act 1 — the October run: a bigger headline, a rejected explanation
+        </h3>
+        <p className="mt-2 text-slate-600 leading-relaxed max-w-3xl">
+          At an exactly aligned budget (24,267 pairs, deviation +0.00%) the
+          October v2 treatment reached PC = 0.9885 against the baseline&apos;s
+          0.7050: dPC = +0.2835. But the community-label permutation returned a
+          null PC of 0.9885 with standard deviation 0.0000 — the observed
+          result reproduced <em>exactly</em> when community identity was
+          destroyed, p = 1.0. The October report declined to claim the
+          +0.2835 for community structure, but could not say what had
+          produced it.
+        </p>
+
+        <h3 className="mt-8 font-semibold text-slate-800">
+          Act 2 — the diagnosis (2026-11-22): the community layer never ran
+        </h3>
+        <div className="mt-3 border border-red-200 bg-red-50 rounded-xl p-5 text-sm text-red-900 leading-relaxed max-w-3xl">
+          A diagnostic rerun (v3: the v2 script plus native-pair logging,
+          nothing else changed) reproduced every archived number exactly, then
+          showed what v2 had not recorded. The treatment&apos;s native,
+          pre-alignment pair set contained only <strong>2,543 pairs at PC =
+          0.1180</strong> — far <em>below</em> the baseline — and the aligned
+          set decomposed into 2,543 retained native pairs and 21,724 padded
+          pool pairs: <strong>89.5% of the &ldquo;treatment&rdquo; was global
+          pool padding</strong>. A variant allowed to pad only from
+          within-community candidates added zero pairs (shortfall 21,724).
+          Measured directly, the treatment partition at the tuned resolution
+          (res* = 1) had <strong>729 communities for 729 test records — every
+          record its own community</strong> — so the native set consisted
+          entirely of per-record cross-community &ldquo;insurance&rdquo; pairs.
+          The mechanism: igraph&apos;s <code>cluster_leiden()</code> defaults to
+          a CPM objective, whose optimum at resolution 1.0 with edge weights
+          at most 1 is exactly the all-singleton partition (the similarity
+          graph itself is healthy: 18,095 edges, median weight 1.0). Tuning
+          selected the degenerate setting because, scored by post-alignment
+          PC, the singleton setting wins — it reduces the treatment to
+          insurance pairs plus the pool&apos;s global top-B. This also explains
+          the Act 1 permutation result mechanically: shuffling the labels of
+          an all-singleton partition changes nothing, hence sd = 0.0000.
+        </div>
+
+        <h3 className="mt-8 font-semibold text-slate-800">
+          Act 3 — the corrected rerun (E1-R, 2026-11-22): the effect is real
+        </h3>
+        <p className="mt-2 text-slate-600 leading-relaxed max-w-3xl">
+          The rerun changed only the partition step and the tuning rule:
+          Louvain partitions (a modularity-family method, avoiding the CPM
+          default) and a pre-registered health gate — a partition with
+          singleton rate above 0.90 is degenerate and disqualified from
+          tuning. The test partition at res* = 0.5 has <strong>67 communities,
+          20 singletons (rate 0.027), largest community 153</strong>.
         </p>
         <div className="mt-5">
           <PcBars
             rows={[
               { label: "Fixed-k baseline", pc: 0.705, note: "24,267 pairs" },
-              { label: "E1 · collective", pc: 0.9885, note: "24,267 pairs", strong: true },
+              { label: "E1-R · native (pre-alignment)", pc: 0.7298, note: "21,164 pairs · 12.8% under budget", strong: true },
+              { label: "E1-R · aligned (the treatment)", pc: 0.8794, note: "24,267 pairs · dPC +0.1744", strong: true },
             ]}
           />
         </div>
-        <div className="mt-5 border border-red-200 bg-red-50 rounded-xl p-5 text-sm text-red-900 leading-relaxed max-w-3xl">
-          <strong>Permutation verdict: p = 1.0000, null sd = 0.0000.</strong>{" "}
-          Shuffling the community labels changes nothing — under permutation,
-          the budget-alignment step trims the (now meaningless) native pairs
-          and pads from the label-independent top-200 pool, so all 199
-          permutations reproduce PC = 0.9885 exactly. The pool&apos;s global
-          top-B selection alone explains the gain; community structure adds
-          nothing measurable at this budget. The v2 harness did not log the
-          native-only (pre-alignment) PC, so the credit split inside the
-          observed run is unknown — a v3 attribution check is planned (see
-          below). We report the rejection, not the headline.
+        <div className="mt-5 border border-teal-200 bg-teal-50 rounded-xl p-5 text-sm text-teal-900 leading-relaxed max-w-3xl">
+          <strong>Permutation verdict: p = 0.005, null 0.3613 ± 0.0054.</strong>{" "}
+          The community method&apos;s own pairs — 21,164 pairs, 12.8% under
+          budget — already beat the full-budget baseline (PC 0.7298 vs
+          0.7050). At exact budget alignment the gain is dPC ={" "}
+          <strong>+0.1744</strong>, and the permutation test on the corrected
+          partition is non-degenerate and decisive: shuffled communities
+          nominate almost no true matches (null 0.3613, below even the
+          baseline). The W arm&apos;s shortfall of 3,103 pairs is arithmetic,
+          not degeneracy — native already enumerates every within-community
+          pair, so any exact-budget treatment must import at least 3,103
+          cross-community pairs. The true community effect is smaller than the
+          October headline and, unlike it, is real. (Cross-check, stated as
+          what it is: the corrected native line matches the October 20
+          prototype&apos;s archived treatment line digit for digit, consistent
+          with the prototype having run a genuine modularity-family partition
+          before the igraph default changed.)
         </div>
       </section>
 
@@ -452,6 +652,16 @@ export default function ExperimentsPage() {
             </tbody>
           </table>
         </div>
+        <p className="mt-3 text-xs text-slate-400 leading-relaxed max-w-3xl">
+          Provenance of the D10K and MusicBrainz columns: the D10K figures
+          come from a copy rebuilt from JedAI&apos;s official distribution
+          (k* = 20, B = 40,825, baseline PC 0.9996), while the lab copy used
+          for the §4 runs has k* = 50, B = 101,201, baseline 1.0000 — every
+          verdict is the same on both copies. The MusicBrainz figures come
+          from a rebuilt sample (baseline 0.9946, B = 219,882, 5,891 test rows;
+          the loader dropped 88 duplicate-id rows), against the v2 runs&apos;
+          0.9954 at B = 223,406 with 5,943 test rows.
+        </p>
         <ul className="mt-5 space-y-1.5 text-sm text-slate-600 leading-relaxed list-disc pl-5 max-w-3xl">
           <li>
             <strong>Meta-blocking never wins at equal budget</strong> — on any
@@ -484,9 +694,13 @@ export default function ExperimentsPage() {
           Allocation gains appear exactly where the fixed-k baseline
           cannot saturate — large on Cora (baseline 0.59–0.71), zero at the
           D10K and MusicBrainz ceilings (0.995–1.000). The deliverable of this
-          experiment series is that scope statement plus one certified effect
-          size (Cora E2, dPC +0.3227, permutation p = 0.005, roughly half of
-          it allocation proper) — not a universal improvement claim. The
+          experiment series is that scope statement plus two certified effect
+          sizes on Cora — E2, dPC +0.3227, permutation p = 0.001 (roughly half
+          of it allocation proper), and the corrected E1, dPC +0.1744,
+          p = 0.005 — not a universal improvement claim. And the multi-seed
+          check qualifies the headline: +0.3227 is the frozen split&apos;s
+          value; across four splits E2 ranges +0.3227 / +0.2116 / +0.0126 /
+          +0.0000, tracking the headroom the baseline leaves. The
           related-methods run narrows it once more: within allocation rules,
           the ranking signal matters more than the allocation&apos;s shape.
         </p>
@@ -505,13 +719,16 @@ export default function ExperimentsPage() {
               unaffected (identical in both arms).
             </li>
             <li>
-              E1&apos;s native-only PC was not logged in v2, so its Cora gain
-              cannot be split between native community pairs and pool padding
-              retroactively.
+              The corrected E1 result is one dataset, one split. On D10K and
+              MusicBrainz-20K the E1 figures are still the October v2 runs —
+              their &ldquo;no gain&rdquo; verdicts stand for saturation reasons,
+              but no corrected community measurement exists there (and those
+              datasets offer no headroom to take one in).
             </li>
             <li>
-              One seed, one split per dataset; permutation R = 199 bounds p at
-              0.005.
+              E2 on Cora now has four splits and the flagship permutation at
+              R = 999 (p = 0.001); the other datasets are still single-split,
+              and E1-R&apos;s permutation is R = 199 (p = 0.005).
             </li>
           </ul>
         </div>
@@ -519,18 +736,30 @@ export default function ExperimentsPage() {
           <h3 className="font-semibold text-slate-800">What runs next</h3>
           <ul className="mt-3 space-y-1.5 text-sm text-slate-600 leading-relaxed list-disc pl-5">
             <li>
-              <strong>E1 v3 attribution check</strong> — log native pairs and
-              native-only PC before alignment; pad only from within-community
-              candidates.
+              <strong>E1 v3 attribution check</strong> —{" "}
+              <span className="text-teal-700 font-medium">done 2026-11-22</span>:
+              native logging diagnosed the degenerate partition, and the
+              corrected rerun (E1-R) certified the community effect
+              (+0.1744, p = 0.005).
             </li>
             <li>
-              <strong>E3 exclusion blocking</strong> — recycle budget from
-              pairs the model is sure are non-matches.
+              <strong>E3 exclusion blocking</strong> — a pre-registered design:
+              confidence-controlled exclusion whose freed budget is recycled
+              through allocation; three baselines, two ablations, fixed
+              metrics (Recall@B, AUPC, false-exclusion rate, full cost
+              accounting).
             </li>
             <li>
               <strong>Scale track</strong> — the same protocol on
-              cluster-sampled ladders up to full North Carolina voter data,
-              where saturation is not a given.
+              cluster-sampled ladders (100K → 500K → 1M → full North Carolina
+              voter data, where saturation is not a given), with
+              subgroup-stratified error reporting pre-registered at every
+              step.
+            </li>
+            <li>
+              <strong>E1-R extension</strong> — the corrected community test on
+              a second dataset with headroom, so the community claim does not
+              rest on Cora alone.
             </li>
             <li>
               An interactive budget-allocation demo (the Budget Lab) is live
@@ -552,7 +781,10 @@ export default function ExperimentsPage() {
           source checkout of the ERBOT package. The scripts <em>are</em> the
           protocol — there is no hidden step. If a re-run disagrees with the
           archived numbers, the disagreement is in the data files or the
-          package state, and step 5 below is how you catch it.
+          package state, and step 5 below is how you catch it. The November 22
+          updates used v3/v4 scripts derived from these by the changes stated
+          in the sections above (native logging, the partition health gate, R
+          as a parameter, the split seed as a parameter).
         </p>
 
         <h3 className="mt-6 font-semibold text-slate-800">1 · Environment</h3>
@@ -636,7 +868,7 @@ Rscript experiments/exp-related-baselines-v1.R musicbrainz20k`}
         <pre className="code mt-3">
 {`baseline (fixed-k):   20,898 pairs · PC 0.5865
 waterfill A / B:      20,575 pairs · PC 0.9092
-permutation (R=199):  null +0.170 ± 0.016 · observed +0.3227 · p = 0.005`}
+permutation (R=999):  null +0.169 ± 0.016 · observed +0.3227 · p = 0.001`}
         </pre>
         <p className="mt-3 text-sm text-slate-500 leading-relaxed max-w-3xl">
           State note: the scripts were run on 2026-10-20–22 against the
@@ -660,9 +892,16 @@ permutation (R=199):  null +0.170 ± 0.016 · observed +0.3227 · p = 0.005`}
           <code className="font-mono text-[13px]">exp-e2-waterfill-v2.R</code>{" "}
           (v2.2, including the D10K gold shim and the TID-keyed MusicBrainz-20K
           builder; sample seed 20261020). Runs executed 2026-10-20 and
-          2026-10-21; every number on this page is taken from the archived run
-          outputs without modification. Dataset identities, gold construction
-          and licences: <Link className="underline" href="/datasets">Datasets</Link>.
+          2026-10-21; November 22, 2026 runs (E1 v3 diagnostics, E1-R corrected
+          rerun, E2 permutation at R = 999, E2 multi-seed) used scripts{" "}
+          <code className="font-mono text-[13px]">exp-e1-collective-blocking-v3.R</code>,{" "}
+          <code className="font-mono text-[13px]">exp-e1-collective-blocking-v4.R</code>,{" "}
+          <code className="font-mono text-[13px]">exp-e2-waterfill-v3.R</code> and{" "}
+          <code className="font-mono text-[13px]">exp-e2-waterfill-v4.R</code>; the
+          v3 diagnostic first reproduced the archived v2 numbers exactly. Every
+          number on this page is taken from the archived run outputs without
+          modification. Dataset identities, gold construction and licences:{" "}
+          <Link className="underline" href="/datasets">Datasets</Link>.
         </p>
         <p className="mt-2">
           Related-methods section: script{" "}
