@@ -401,7 +401,7 @@ export default function Datasets() {
       <p className="mt-3 text-slate-600 text-sm leading-relaxed">
         Every dataset ERBOT runs on &mdash; where it comes from, how it is
         structured, how its gold standard was built, who else has used it, and
-        what analysing the data itself showed. Provenance is stated per
+        what analyzing the data itself showed. Provenance is stated per
         dataset; where a source or a license is not established, the page says
         so instead of smoothing it over. ERBOT links to the original sources
         rather than redistributing data it has no license to share.
