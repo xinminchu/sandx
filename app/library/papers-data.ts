@@ -2470,7 +2470,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 81,
   "id": "er-081",
-  "title": "Scoping: Towards Streamlined Entity Collections for Multi-Sourced Entity Resolution with Self-Supervised Agents",
+  "title": "Scoping: Toward Streamlined Entity Collections for Multi-Sourced Entity Resolution with Self-Supervised Agents",
   "authors": [
    "Leonard Traeger",
    "Andreas Behrend",
@@ -2500,7 +2500,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 82,
   "id": "er-082",
-  "title": "Towards Universal Dense Blocking for Entity Resolution",
+  "title": "Toward Universal Dense Blocking for Entity Resolution",
   "authors": [
    "Tianshu Wang",
    "Hongyu Lin",
@@ -2534,7 +2534,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 83,
   "id": "er-083",
-  "title": "Blockingpy: Approximate Nearest Neighbours for Blocking of Records for Entity Resolution",
+  "title": "Blockingpy: Approximate Nearest Neighbors for Blocking of Records for Entity Resolution",
   "authors": [
    "Tymoteusz Strojny",
    "Maciej Beręsewicz"
@@ -2562,7 +2562,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 84,
   "id": "er-084",
-  "title": "Collective Scoping: Streamlining Entity Sets Towards Efficient and Effective Entity Linkages",
+  "title": "Collective Scoping: Streamlining Entity Sets Toward Efficient and Effective Entity Linkages",
   "authors": [
    "Leonard Traeger",
    "Andreas Behrend",
@@ -4883,7 +4883,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 163,
   "id": "er-163",
-  "title": "Towards a unified framework for string similarity joins",
+  "title": "Toward a unified framework for string similarity joins",
   "authors": [
    "Pengfei Xu",
    "Jiaheng Lu"
@@ -10409,7 +10409,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 347,
   "id": "er-347",
-  "title": "Towards deep entity resolution via soft schema matching",
+  "title": "Toward deep entity resolution via soft schema matching",
   "authors": [
    "Chenchen Sun",
    "Derong Shen"
@@ -12113,7 +12113,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 403,
   "id": "er-403",
-  "title": "Towards Entity-Discriminative Large Vision-Language Models for Multimodal Entity Matching",
+  "title": "Toward Entity-Discriminative Large Vision-Language Models for Multimodal Entity Matching",
   "authors": [
    "Yupeng Cao",
    "Hanbo Liang",
@@ -15074,7 +15074,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 502,
   "id": "er-502",
-  "title": "Towards a Synthetic Data Generator for Matching Decision Trees",
+  "title": "Toward a Synthetic Data Generator for Matching Decision Trees",
   "authors": [
    "Taoxin Peng",
    "Florian Hanke"
@@ -18218,7 +18218,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 606,
   "id": "er-606",
-  "title": "Application of Privacy-Preserving Techniques in Operational Record Linkage Centres",
+  "title": "Application of Privacy-Preserving Techniques in Operational Record Linkage Centers",
   "authors": [
    "James H. Boyd",
    "Sean M. Randall",
@@ -18514,7 +18514,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 616,
   "id": "er-616",
-  "title": "Secure pseudonymisation for privacy-preserving probabilistic record linkage",
+  "title": "Secure pseudonymization for privacy-preserving probabilistic record linkage",
   "authors": [
    "D. Smith"
   ],
@@ -20179,7 +20179,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 672,
   "id": "er-672",
-  "title": "Towards Split Learning-based Privacy-Preserving Record Linkage",
+  "title": "Toward Split Learning-based Privacy-Preserving Record Linkage",
   "authors": [
    "Michail Zervas",
    "Alexandros Karakasidis"
@@ -20659,7 +20659,7 @@ export const PAPERS: Paper[] = [
  {
   "n": 688,
   "id": "er-688",
-  "title": "Towards a Privacy-Preserving Reliability-Aware Entity Resolution for Attributed Graphs [Vision] (Technical Report)",
+  "title": "Toward a Privacy-Preserving Reliability-Aware Entity Resolution for Attributed Graphs [Vision] (Technical Report)",
   "authors": [
    "Abdessamad Imine",
    "Xiang Lian",
