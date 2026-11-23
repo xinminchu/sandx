@@ -16002,7 +16002,7 @@ export const PAPERS: Paper[] = [
   "focus": "The paper proposes an entity-centric framework for evaluating entity resolution systems, replacing pair-based sampling schemes — which struggle to find rare matches among vast numbers of non-matches — with a data labeling methodology centered on entities. The framework supports creating representative, reusable benchmark datasets without complex sampling, monitoring summary statistics, estimating cluster and pairwise precision and recall, and analyzing root causes of errors. It is validated on inventor name disambiguation and in simulation studies, with accompanying software.",
   "borrow": "Entity-centric labeling is directly adoptable for ERBOT's evaluation stage: sample and label around entities rather than pairs to build reusable benchmarks and obtain cluster-level precision/recall estimates at a fraction of the usual labeling cost.",
   "fill": "Validation covers one application domain plus simulations; the methodology leaves open how well entity-centric sampling works for within-database deduplication and for entity types whose records are far less name-centered than inventors. We can validate the sampling design on person and product data and compare its estimates against full-truth evaluations.",
-  "correct": "The framework's estimates are only as good as the labeling's representativeness: errors concentrated in strata the entity sample barely touches will be underestimated, which is the same blind-spot risk the method criticises in pair sampling. One application and simulations do not yet establish generality.",
+  "correct": "The framework's estimates are only as good as the labeling's representativeness: errors concentrated in strata the entity sample barely touches will be underestimated, which is the same blind-spot risk the method criticizes in pair sampling. One application and simulations do not yet establish generality.",
   "verified": true
  },
  {
@@ -18240,7 +18240,7 @@ export const PAPERS: Paper[] = [
   "abstract": "",
   "focus": "Boyd, Randall, and Ferrante describe how privacy-preserving techniques are applied inside operational record linkage centers — the units that link health and administrative data as a routine service — as a chapter in the Medical Data Privacy Handbook (2015). The record carries no abstract, so the chapter's specific protocols cannot be detailed from the metadata.",
   "borrow": "The operational perspective is the borrow: SandX can take its PPRL design cues from centers that run linkage under real governance constraints — separation of identifiers from content, audited workflows — rather than from purely cryptographic papers.",
-  "fill": "Center-based practice assumes a trusted linkage unit exists; decentralised settings where no party may see identifiers at all are outside its scope, and adapting center workflows to a no-trusted-third-party design is open work for us.",
+  "fill": "Center-based practice assumes a trusted linkage unit exists; decentralized settings where no party may see identifiers at all are outside its scope, and adapting center workflows to a no-trusted-third-party design is open work for us.",
   "correct": "Operational acceptance is not the same as demonstrated security: techniques adopted because they fit center workflows may carry known attack risks that a deployment-focused account can understate.",
   "verified": true
  },
