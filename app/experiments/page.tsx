@@ -950,9 +950,11 @@ export default function ExperimentsPage() {
           checkout of the ERBOT package. The scripts <em>are</em> the
           protocol — there is no hidden step. The random-split runs reported
           above use the v5 scripts (split mode as a parameter) and, for the
-          native-budget permutation test, the v6 E1 script; the downloads
-          below are the v2 scripts, which run the entity-disjoint protocol
-          behind the sensitivity check and the related-methods comparison.
+          native-budget permutation test, the v6 E1 script — all three are
+          in the downloads below, so the headline random-split results can
+          be rerun as-is. The v2 scripts are in the downloads too: they run
+          the entity-disjoint protocol behind the sensitivity check, and
+          the related-methods comparison above.
           Before any random-split run was trusted, each script first
           reproduced the archived entity-mode numbers exactly, in a
           self-check run.
@@ -973,7 +975,7 @@ export default function ExperimentsPage() {
 
         <h3 className="mt-6 font-semibold text-slate-800">2 · The scripts</h3>
         <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
-          Download the four scripts and place them in{" "}
+          Download the seven scripts and place them in{" "}
           <code className="font-mono text-[13px]">experiments/</code> at the
           package root. Each loads the package from the working tree
           (pkgload::load_all), so always run{" "}
@@ -982,6 +984,9 @@ export default function ExperimentsPage() {
           <code className="font-mono text-[13px]">cora</code>).
         </p>
         <ul className="mt-3 space-y-1.5 text-sm text-slate-600 list-disc pl-5">
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e1-collective-blocking-v5.R">exp-e1-collective-blocking-v5.R</a> — E1 collective blocking, either split protocol (seed and split mode as arguments); the random-split E1 runs above</li>
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e2-waterfill-v5.R">exp-e2-waterfill-v5.R</a> — E2 marginal allocation (variants A/B), either split protocol; the random-split E2 runs above</li>
+          <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e1-collective-blocking-v6.R">exp-e1-collective-blocking-v6.R</a> — E1 v5 plus the native-budget permutation test (the Cora native-arm certification above)</li>
           <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e1-collective-blocking-v2.R">exp-e1-collective-blocking-v2.R</a> — E1 collective blocking + community-label permutation</li>
           <li><a className="underline font-mono text-[13px]" href="/rerun/exp-e2-waterfill-v2.R">exp-e2-waterfill-v2.R</a> — E2 marginal allocation (variants A/B) + allocation-profile permutation</li>
           <li><a className="underline font-mono text-[13px]" href="/rerun/exp-related-baselines-v1.R">exp-related-baselines-v1.R</a> — the related-methods comparison above (global top-B, adaptive-k, meta-blocking, sorted neighborhood, canopy)</li>
@@ -1019,6 +1024,18 @@ Rscript experiments/exp-related-baselines-v1.R d10k
 Rscript experiments/exp-e1-collective-blocking-v2.R musicbrainz20k
 Rscript experiments/exp-e2-waterfill-v2.R musicbrainz20k
 Rscript experiments/exp-related-baselines-v1.R musicbrainz20k`}
+        </pre>
+        <p className="mt-3 text-sm text-slate-600 leading-relaxed max-w-3xl">
+          The headline random-split runs on Cora use the v5/v6 scripts
+          (arguments: dataset, seed, split mode; the E2 script takes the
+          permutation count as its second argument, and the v6 script
+          takes the permutation target — aligned or native — as its
+          fourth):
+        </p>
+        <pre className="code mt-3">
+{`Rscript experiments/exp-e1-collective-blocking-v5.R cora 20261012 random
+Rscript experiments/exp-e2-waterfill-v5.R cora 999 20261016 random
+Rscript experiments/exp-e1-collective-blocking-v6.R cora 20261012 random native`}
         </pre>
         <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">
           Cora finishes in minutes. The E1/E2 permutation sections (R = 199)
