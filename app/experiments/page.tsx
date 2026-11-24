@@ -262,22 +262,22 @@ export default function ExperimentsPage() {
           Both experiments under the primary protocol. E1 and E2 use their
           own split seeds (20261012 and 20261016).
         </p>
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4">
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="text-left text-slate-500 border-b border-slate-200">
                 <th className="py-2 pr-4 font-medium">Dataset</th>
                 <th className="py-2 pr-4 font-medium">Baseline PC</th>
-                <th className="py-2 pr-4 font-medium">E1 (community)</th>
-                <th className="py-2 pr-4 font-medium">E2 (marginal allocation), A / B</th>
+                <th className="py-2 pr-4 font-medium hidden md:table-cell">E1 (community)</th>
+                <th className="py-2 pr-4 font-medium hidden md:table-cell">E2 (marginal allocation), A / B</th>
                 <th className="py-2 font-medium">Verdict</th>
               </tr>
             </thead>
             <tbody className="text-slate-700">
               <tr className="border-b border-slate-100 align-top">
                 <td className="py-3 pr-4 font-medium">Cora</td>
-                <td className="py-3 pr-4 font-mono text-[13px]">0.9203–0.9656</td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 font-mono text-[13px] whitespace-nowrap">0.9203–0.9656</td>
+                <td className="py-3 pr-4 hidden md:table-cell">
                   Native arm certified on 4/4 seeds (p = 0.005){" "}
                   <Chip kind="ok">established</Chip>
                   <div className="text-xs text-slate-400 mt-1">
@@ -285,7 +285,7 @@ export default function ExperimentsPage() {
                     0.7258–0.7668 — see the E1 section.
                   </div>
                 </td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 hidden md:table-cell">
                   dPC <span className="font-mono text-[13px]">+0.0344 to +0.0797</span>;
                   flagship p = 0.001 (R = 999) <Chip kind="ok">established</Chip>
                   <div className="text-xs text-slate-400 mt-1">
@@ -296,8 +296,8 @@ export default function ExperimentsPage() {
               </tr>
               <tr className="border-b border-slate-100 align-top">
                 <td className="py-3 pr-4 font-medium">D10K</td>
-                <td className="py-3 pr-4 font-mono text-[13px]">1.0000</td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 font-mono text-[13px] whitespace-nowrap">1.0000</td>
+                <td className="py-3 pr-4 hidden md:table-cell">
                   dPC <span className="font-mono text-[13px]">−0.9599</span>{" "}
                   <Chip kind="dead">kill line</Chip>
                   <div className="text-xs text-slate-400 mt-1">
@@ -305,7 +305,7 @@ export default function ExperimentsPage() {
                     0.0401.
                   </div>
                 </td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 hidden md:table-cell">
                   dPC <span className="font-mono text-[13px]">+0.0000 / +0.0000</span>{" "}
                   <Chip kind="dead">kill line</Chip>
                 </td>
@@ -313,8 +313,8 @@ export default function ExperimentsPage() {
               </tr>
               <tr className="align-top">
                 <td className="py-3 pr-4 font-medium">MusicBrainz-20K</td>
-                <td className="py-3 pr-4 font-mono text-[13px]">0.9849–0.9960</td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 font-mono text-[13px] whitespace-nowrap">0.9849–0.9960</td>
+                <td className="py-3 pr-4 hidden md:table-cell">
                   dPC <span className="font-mono text-[13px]">−0.9504</span>{" "}
                   <Chip kind="dead">kill line</Chip>
                   <div className="text-xs text-slate-400 mt-1">
@@ -322,7 +322,7 @@ export default function ExperimentsPage() {
                     0.0456.
                   </div>
                 </td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-4 hidden md:table-cell">
                   dPC <span className="font-mono text-[13px]">−0.0026 / −0.0032</span>{" "}
                   <Chip kind="dead">kill line</Chip>
                 </td>
@@ -488,22 +488,22 @@ export default function ExperimentsPage() {
           The community method&apos;s own pairs — the native arm, before any
           budget alignment — are the informative measurement:
         </p>
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4">
           <table className="w-full text-sm border-collapse max-w-3xl">
             <thead>
               <tr className="text-left text-slate-500 border-b border-slate-200">
                 <th className="py-2 pr-4 font-medium">Seed</th>
                 <th className="py-2 pr-4 font-medium">Native pairs / share of budget</th>
                 <th className="py-2 pr-4 font-medium">Native PC</th>
-                <th className="py-2 pr-4 font-medium">Permutation null</th>
+                <th className="py-2 pr-4 font-medium hidden md:table-cell">Permutation null</th>
                 <th className="py-2 font-medium">p (R = 199)</th>
               </tr>
             </thead>
             <tbody className="text-slate-700 font-mono text-[13px]">
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4">20261012</td><td className="py-2 pr-4">7,897 / 42.6%</td><td className="py-2 pr-4">0.7668</td><td className="py-2 pr-4">0.2930 ± 0.0040</td><td className="py-2">0.005</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4">20261021</td><td className="py-2 pr-4">9,080 / 48.6%</td><td className="py-2 pr-4">0.7440</td><td className="py-2 pr-4">0.3233 ± 0.0048</td><td className="py-2">0.005</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4">20261022</td><td className="py-2 pr-4">8,471 / 46.2%</td><td className="py-2 pr-4">0.7258</td><td className="py-2 pr-4">0.2857 ± 0.0042</td><td className="py-2">0.005</td></tr>
-              <tr><td className="py-2 pr-4">20261023</td><td className="py-2 pr-4">9,955 / 53.8%</td><td className="py-2 pr-4">0.7538</td><td className="py-2 pr-4">0.2884 ± 0.0052</td><td className="py-2">0.005</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 whitespace-nowrap">20261012</td><td className="py-2 pr-4 whitespace-nowrap">7,897 / 42.6%</td><td className="py-2 pr-4 whitespace-nowrap">0.7668</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.2930 ± 0.0040</td><td className="py-2 whitespace-nowrap">0.005</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 whitespace-nowrap">20261021</td><td className="py-2 pr-4 whitespace-nowrap">9,080 / 48.6%</td><td className="py-2 pr-4 whitespace-nowrap">0.7440</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.3233 ± 0.0048</td><td className="py-2 whitespace-nowrap">0.005</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 whitespace-nowrap">20261022</td><td className="py-2 pr-4 whitespace-nowrap">8,471 / 46.2%</td><td className="py-2 pr-4 whitespace-nowrap">0.7258</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.2857 ± 0.0042</td><td className="py-2 whitespace-nowrap">0.005</td></tr>
+              <tr><td className="py-2 pr-4 whitespace-nowrap">20261023</td><td className="py-2 pr-4 whitespace-nowrap">9,955 / 53.8%</td><td className="py-2 pr-4 whitespace-nowrap">0.7538</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.2884 ± 0.0052</td><td className="py-2 whitespace-nowrap">0.005</td></tr>
             </tbody>
           </table>
         </div>
@@ -742,27 +742,27 @@ export default function ExperimentsPage() {
           the size of the prize: every allocation-style method gains between
           +0.32 and +0.34 PC over fixed-k on this split.
         </p>
-        <div className="mt-6 overflow-x-auto">
+        <div className="mt-6">
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="text-left text-slate-500 border-b border-slate-200">
                 <th className="py-2 pr-4 font-medium">Method (PC at budget B)</th>
                 <th className="py-2 pr-4 font-medium">Cora</th>
-                <th className="py-2 pr-4 font-medium">D10K</th>
-                <th className="py-2 font-medium">MusicBrainz-20K</th>
+                <th className="py-2 pr-4 font-medium hidden md:table-cell">D10K</th>
+                <th className="py-2 font-medium hidden md:table-cell">MusicBrainz-20K</th>
               </tr>
             </thead>
             <tbody className="text-slate-700 font-mono text-[13px]">
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Fixed-k baseline</td><td className="py-2 pr-4">0.5865</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9946</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Global top-B</td><td className="py-2 pr-4">0.9227</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9924</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Adaptive-k (aligned)</td><td className="py-2 pr-4">0.9173</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9889</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation A (Platt)</td><td className="py-2 pr-4">0.9092</td><td className="py-2 pr-4">0.9996</td><td className="py-2">0.9924</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation B (mixture)</td><td className="py-2 pr-4">0.9092</td><td className="py-2 pr-4">0.9992</td><td className="py-2">0.9920</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking CBS (aligned)</td><td className="py-2 pr-4">0.5135</td><td className="py-2 pr-4">0.9935</td><td className="py-2">0.9899</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking JS (aligned)</td><td className="py-2 pr-4">0.5135</td><td className="py-2 pr-4">0.9906</td><td className="py-2">0.9911</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Sorted neighborhood (aligned)</td><td className="py-2 pr-4">0.5279</td><td className="py-2 pr-4">0.6851</td><td className="py-2">0.2075</td></tr>
-              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Canopy (native pairs)</td><td className="py-2 pr-4">0.2007 · 4,517</td><td className="py-2 pr-4">1.0000 · 5,668</td><td className="py-2">0.9848 · 56,721</td></tr>
-              <tr><td className="py-2 pr-4 font-sans text-sm">Meta-blocking WNP (native pairs)</td><td className="py-2 pr-4">0.1790 · 4,373</td><td className="py-2 pr-4">0.9471 · 7,772</td><td className="py-2">0.9804 · 97,406</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Fixed-k baseline</td><td className="py-2 pr-4 whitespace-nowrap">0.5865</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9996</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9946</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Global top-B</td><td className="py-2 pr-4 whitespace-nowrap">0.9227</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9996</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9924</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Adaptive-k (aligned)</td><td className="py-2 pr-4 whitespace-nowrap">0.9173</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9996</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9889</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation A (Platt)</td><td className="py-2 pr-4 whitespace-nowrap">0.9092</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9996</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9924</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Marginal allocation B (mixture)</td><td className="py-2 pr-4 whitespace-nowrap">0.9092</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9992</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9920</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking CBS (aligned)</td><td className="py-2 pr-4 whitespace-nowrap">0.5135</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9935</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9899</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Meta-blocking JS (aligned)</td><td className="py-2 pr-4 whitespace-nowrap">0.5135</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9906</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9911</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Sorted neighborhood (aligned)</td><td className="py-2 pr-4 whitespace-nowrap">0.5279</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.6851</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.2075</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-4 font-sans text-sm">Canopy (native pairs)</td><td className="py-2 pr-4 whitespace-nowrap">0.2007 · 4,517</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">1.0000 · 5,668</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9848 · 56,721</td></tr>
+              <tr><td className="py-2 pr-4 font-sans text-sm">Meta-blocking WNP (native pairs)</td><td className="py-2 pr-4 whitespace-nowrap">0.1790 · 4,373</td><td className="py-2 pr-4 hidden md:table-cell whitespace-nowrap">0.9471 · 7,772</td><td className="py-2 hidden md:table-cell whitespace-nowrap">0.9804 · 97,406</td></tr>
             </tbody>
           </table>
         </div>
